@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: "Tietorakenteet ja algoritmit, syksy 2019",
-    siteUrl: `https://tietorakenteet-ja-algoritmit-s19.mooc.fi`,
+    title: "Musiikin teoria",
+    siteUrl: `https://musiikin-teoria.mooc.fi`,
   },
   plugins: [
     "gatsby-plugin-react-helmet",

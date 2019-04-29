@@ -52,7 +52,7 @@ const SubHeading = styled.div`
 
 const Banner = () => (
   <BannerWrapper>
-    <Heading>Tietorakenteet ja algoritmit, syksy 2019</Heading>
+    <Heading>Musiikin teoria</Heading>
     <SubHeading>Matka kohti tehokkaita algoritmeja</SubHeading>
   </BannerWrapper>
 )

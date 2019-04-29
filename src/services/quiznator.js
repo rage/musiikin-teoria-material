@@ -18,51 +18,51 @@ export async function fetchquizProgress() {
   const partToTag = [
     {
       part: "osa01",
-      tag: "tietorakenteet-ja-algoritmit-s19-1",
+      tag: "musiikin-teoria-1",
     },
     {
       part: "osa02",
-      tag: "tietorakenteet-ja-algoritmit-s19-2",
+      tag: "musiikin-teoria-2",
     },
     {
       part: "osa03",
-      tag: "tietorakenteet-ja-algoritmit-s19-3",
+      tag: "musiikin-teoria-3",
     },
     {
       part: "osa04",
-      tag: "tietorakenteet-ja-algoritmit-s19-4",
+      tag: "musiikin-teoria-4",
     },
     {
       part: "osa05",
-      tag: "tietorakenteet-ja-algoritmit-s19-5",
+      tag: "musiikin-teoria-5",
     },
     {
       part: "osa06",
-      tag: "tietorakenteet-ja-algoritmit-s19-6",
+      tag: "musiikin-teoria-6",
     },
     {
       part: "osa07",
-      tag: "tietorakenteet-ja-algoritmit-s19-7",
+      tag: "musiikin-teoria-7",
     },
     {
       part: "osa08",
-      tag: "tietorakenteet-ja-algoritmit-s19-8",
+      tag: "musiikin-teoria-8",
     },
     {
       part: "osa09",
-      tag: "tietorakenteet-ja-algoritmit-s19-9",
+      tag: "musiikin-teoria-9",
     },
     {
       part: "osa010",
-      tag: "tietorakenteet-ja-algoritmit-s19-10",
+      tag: "musiikin-teoria-10",
     },
     {
       part: "osa11",
-      tag: "tietorakenteet-ja-algoritmit-s19-11",
+      tag: "musiikin-teoria-11",
     },
     {
       part: "osa12",
-      tag: "tietorakenteet-ja-algoritmit-s19-12",
+      tag: "musiikin-teoria-12",
     },
   ]
   const quizIdInformation = await fetchQuizIds()
@@ -94,7 +94,7 @@ export async function fetchquizProgress() {
 export async function fetchQuizIds() {
   const res = await axios.post(
     `${BASE_URL}/api/v1/tags/quizids`,
-    { tags: ["tietorakenteet-ja-algoritmit-s19"] },
+    { tags: ["musiikin-teoria"] },
     { headers: { Authorization: `Bearer ${accessToken()}` } },
   )
   return res.data
