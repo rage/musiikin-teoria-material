@@ -17,6 +17,11 @@ Content is in the `data` folder.
 
 Custom markdown components are located in `src/partials`
 
+## Team Principles
+
+- [Working principles](https://github.com/rage/musiikin-teoria-material/blob/master/tiimin_kaytanteet.md)
+- [Sprint planning meeting](https://github.com/rage/musiikin-teoria-material/blob/master/Sprint-planning-meeting.md)
+
 ## Authors
 
 Material template created by [Henrik Nygren](https://github.com/nygrenh) and [Antti Leinonen](https://github.com/Redande).
