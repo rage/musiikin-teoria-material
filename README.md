@@ -1,6 +1,6 @@
-# Tietorakenteet ja algoritmit s19
+# Musiikin teorian MOOC-kurssijärjestelmä 
 
-https://tira-s19.now.sh
+First half of summer 2019.
 
 ## Development environment
 
