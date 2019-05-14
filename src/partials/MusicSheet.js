@@ -31,19 +31,12 @@ const variantToColor = {
 
 const id = 'a-random-id';
 
-const notation = 'CDEF GABc|';
-
 const MusicSheet = props => {
   return (
-    <Wrapper style={{ "--color": variantToColor[props.variant] }}>
-      <Header>
-        {props.name}
-      </Header>
-      <Body>
-      <Notation notation={notation} />
-      <Midi notation={notation}/>
-      </Body>
-    </Wrapper>
+    <div>
+      <Notation notation={props.notation} />
+      <Midi notation={props.notation}/>
+    </div>
   )
 }
 
