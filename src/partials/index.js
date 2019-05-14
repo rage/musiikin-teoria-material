@@ -59,6 +59,7 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
+import MusicSheet from "./MusicSheet";
 
 const mapping = {
   test: Test,
@@ -76,6 +77,7 @@ const mapping = {
   "only-for-ab-group": OnlyForAbGroup,
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
+  "music-sheet": MusicSheet,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
