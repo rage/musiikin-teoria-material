@@ -1,18 +1,40 @@
 import React from "react"
-import styled from "styled-components"
-import { Notation, Midi } from 'react-abc';
 
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 
-const id = 'a-random-id';
+class MusicSheet extends React.Component {
+  state = {
+    render: false,
+  }
 
-const MusicSheet = props => {
-  return (
-    <div>
-      <Notation notation={props.notation} />
-      <Midi notation={props.notation}/>
-    </div>
-  )
+  constructor(props) {
+    super(props)
+    this.setState({ notation: props.notation })
+
+    componentDidMount.bind(this)
+    render.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({ render: true })
+  }
+
+  render() {
+    if (!state.render) {
+      return <div />
+    }
+
+    const notation = state.notation
+
+    const react_abc = import("react-abc")
+
+    return (
+      <div>
+        <react_abc.Notation notation={notation} />
+        <react_abc.Midi notation={notation} />
+      </div>
+    )
+  }
 }
 
 export default withSimpleErrorBoundary(MusicSheet)
