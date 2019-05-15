@@ -1,7 +1,5 @@
 import React from "react"
 
-import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-
 class MusicSheet extends React.Component {
   state = {
     render: false,
