@@ -1,32 +1,31 @@
 import React from "react"
-
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 
 class MusicSheet extends React.Component {
-  state = {
-    render: false,
-  }
-
   constructor(props) {
     super(props)
-    this.setState({ notation: props.notation })
-
-    componentDidMount.bind(this)
-    render.bind(this)
+    this.state = { render: false, notation: props.notation }
   }
 
   componentDidMount() {
-    this.setState({ render: true })
+    // react-abc can not be imported directly since it uses
+    // abcjs that is a non react library.
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("react-abc").then(react_abc => {
+      this.setState({ render: true, react_abc: react_abc })
+    })
   }
 
   render() {
-    if (!state.render) {
-      return <div />
+    if (!this.state.render) {
+      return <p>Loading..</p>
     }
 
-    const notation = state.notation
-
-    const react_abc = import("react-abc")
+    const notation = this.state.notation
+    const react_abc = this.state.react_abc
 
     return (
       <div>
