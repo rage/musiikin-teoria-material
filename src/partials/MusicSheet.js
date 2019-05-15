@@ -9,7 +9,9 @@ const id = 'a-random-id';
 const MusicSheet = props => {
   return (
     <div>
-      <Notation notation={props.notation} />
+      {/* adjust scale of notation component in \node_modules\react-abc\dist\defaults\props.js  */}
+      <Notation notation={props.notation}/>
+      {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
       <Midi notation={props.notation}/>
     </div>
   )
