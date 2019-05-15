@@ -59,7 +59,7 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
-import MusicSheet from "./MusicSheet";
+import MusicSheet from "./MusicSheet"
 
 const mapping = {
   test: Test,
