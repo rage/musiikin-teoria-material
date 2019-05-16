@@ -1,0 +1,29 @@
+/* Some basic CSS to make the MIDI controls in abcjs presentable. */
+
+.abcjs-inline-midi {
+  display: none !important;
+  height: 26px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #f4f4f4;
+  background-color: #424242;
+  display: flex;
+}
+
+.abcjs-inline-midi .abcjs-btn {
+  width: 28px;
+  height: 26px;
+  display: inline-block;
+  margin-right: 2px;
+  float: left;
+  padding: 0;
+
+  background: none;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 14px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #f4f4f4;
+  border: 1px solid transparent;
+}

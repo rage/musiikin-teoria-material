@@ -1,5 +1,6 @@
 import React from "react"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
+import Fab from "@material-ui/core/Fab"
 
 class MusicSheet extends React.Component {
   constructor(props) {
@@ -27,14 +28,41 @@ class MusicSheet extends React.Component {
     const notation = this.state.notation
     const react_abc = this.state.react_abc
 
+    const engraverParams = {
+      add_classes: false,
+      editable: false,
+      listener: null,
+      paddingbottom: 30,
+      paddingleft: 50,
+      paddingright: 50,
+      paddingtop: 15,
+      responsive: undefined,
+      scale: 3,
+      staffwidth: 740,
+    }
+
     return (
       <div>
-        {/* adjust scale of notation component in \node_modules\react-abc\dist\defaults\props.js  */}
-        <react_abc.Notation notation={notation} />
+        <react_abc.Notation
+          notation={notation}
+          engraverParams={engraverParams}
+        />
         {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
         <react_abc.Midi notation={notation} />
+        <Fab color="secondary" onClick={this.onPlay}>
+          Soita
+        </Fab>
       </div>
     )
+  }
+
+  onPlay() {
+    const original = document.getElementsByClassName(
+      "abcjs-midi-start abcjs-btn",
+    )[0]
+    if (original) {
+      original.click()
+    }
   }
 }
 

@@ -68,7 +68,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "serve": "gatsby serve",
-    "format": "prettier --write \"rc/**/*.js\"",
+    "format": "prettier --write \"src/**/*.js\"",
     "prettier-check": "prettier  --list-different \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
