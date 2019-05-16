@@ -13,5 +13,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 <music-sheet name="Music Sheet Component" notation='CDEF GABcDF|'></music-sheet>
 
+<drop-down answers="duuri, luonnollinen molli, harmoninen molli, melodinen molli">
+</drop-down>
 </text-box>
 

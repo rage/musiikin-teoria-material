@@ -58,6 +58,7 @@ import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
 import MusicSheet from "./MusicSheet"
+import DropDownForAnswers from "./DropDownForAnswers"
 
 const mapping = {
   test: Test,
@@ -76,6 +77,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
+  "drop-down": DropDownForAnswers,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
