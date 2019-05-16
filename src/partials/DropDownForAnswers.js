@@ -1,12 +1,11 @@
-import React from "react"
+import React, { Fragment } from "react"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-import Menu from "@material-ui/core/Menu"
-import MenuItem from "@material-ui/core/MenuItem"
-import Button from "@material-ui/core/Button"
+import DropDownMenu from "../components/DropDownMenu"
+import styled from "styled-components"
 
 class DropDownForAnswers extends React.Component {
   state = {
-    answer: "Valitse vastaus",
+    answer: "",
     anchorEl: null,
     selectedIndex: 0,
     options: [],
@@ -14,8 +13,10 @@ class DropDownForAnswers extends React.Component {
 
   componentDidMount() {
     const options = this.props.answers.split(", ")
+    const answer = this.props.label
     this.setState({
       options,
+      answer,
     })
   }
 
@@ -43,36 +44,27 @@ class DropDownForAnswers extends React.Component {
 
   render() {
     if (!this.state.options.length) return null
-    const { anchorEl } = this.state
 
     return (
-      <div>
-        <Button
-          aria-owns={anchorEl ? "drop-down-menu" : undefined}
-          aria-haspopup="true"
-          onClick={this.handleClick}
-        >
-          {this.state.answer}
-        </Button>
-        <Menu
-          id="drop-down-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          {this.state.options.map((option, index) => (
-            <MenuItem
-              key={option}
-              selected={index === this.state.selectedIndex}
-              onClick={event => this.handleItemSelection(event, index)}
-            >
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
-      </div>
+      <Wrapper>
+        <Fragment>
+          <DropDownMenu
+            handleClick={this.handleClick}
+            options={this.state.options}
+            handleClose={this.handleClose}
+            handleItemSelection={this.handleItemSelection}
+            selectedIndex={this.state.selectedIndex}
+            answer={this.state.answer}
+            anchorEl={this.state.anchorEl}
+          />
+        </Fragment>
+      </Wrapper>
     )
   }
 }
+
+const Wrapper = styled.div`
+  margin-bottom: 1rem;
+`
 
 export default withSimpleErrorBoundary(DropDownForAnswers)

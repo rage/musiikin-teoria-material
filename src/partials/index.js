@@ -77,7 +77,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
-  "drop-down": DropDownForAnswers,
+  "answer-selection": DropDownForAnswers,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
