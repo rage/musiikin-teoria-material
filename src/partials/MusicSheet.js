@@ -1,20 +1,41 @@
 import React from "react"
-import styled from "styled-components"
-import { Notation, Midi } from 'react-abc';
-
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 
-const id = 'a-random-id';
+class MusicSheet extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { render: false, notation: props.notation }
+  }
 
-const MusicSheet = props => {
-  return (
-    <div>
-      {/* adjust scale of notation component in \node_modules\react-abc\dist\defaults\props.js  */}
-      <Notation notation={props.notation}/>
-      {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
-      <Midi notation={props.notation}/>
-    </div>
-  )
+  componentDidMount() {
+    // react-abc can not be imported directly since it uses
+    // abcjs that is a non react library.
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("react-abc").then(react_abc => {
+      this.setState({ render: true, react_abc: react_abc })
+    })
+  }
+
+  render() {
+    if (!this.state.render) {
+      return <p>Loading..</p>
+    }
+
+    const notation = this.state.notation
+    const react_abc = this.state.react_abc
+
+    return (
+      <div>
+        {/* adjust scale of notation component in \node_modules\react-abc\dist\defaults\props.js  */}
+        <react_abc.Notation notation={notation} />
+        {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
+        <react_abc.Midi notation={notation} />
+      </div>
+    )
+  }
 }
 
 export default withSimpleErrorBoundary(MusicSheet)

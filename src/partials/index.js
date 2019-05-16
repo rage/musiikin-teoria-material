@@ -1,5 +1,3 @@
-// import importAll from 'import-all.macro'
-
 // function getNamedPartials() {
 //   const partials = importAll.sync('./*.js')
 
@@ -59,7 +57,7 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
-import MusicSheet from "./MusicSheet";
+import MusicSheet from "./MusicSheet"
 
 const mapping = {
   test: Test,
