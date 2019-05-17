@@ -27,3 +27,18 @@
   color: #f4f4f4;
   border: 1px solid transparent;
 }
+
+.overall-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.playbutton {
+  margin-left: 117px;
+}
