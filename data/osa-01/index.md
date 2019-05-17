@@ -20,3 +20,4 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 </text-box>
 
+<music-exercise name="Intervalli"></music-exercise>
