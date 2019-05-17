@@ -13,6 +13,14 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 <music-sheet name="Music Sheet Component" notation='CDEF GABcDF|'></music-sheet>
 
+<hr>
+
+<music-sheet name="Only notes" notation='CDEF GABcDF|' only_notes=true></music-sheet>
+
+<hr>
+
+<music-sheet name="Only notes" notation='CDEF GABcDF|' only_sound=true></music-sheet>
+
 </text-box>
 
 <music-exercise name="Intervalli"></music-exercise>
