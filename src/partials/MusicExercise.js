@@ -18,6 +18,8 @@ import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
+import { roots, interval } from "../util/musicUtils"
+import { randomInt } from "../util/random"
 
 const accentColor = "#38b6fa"
 
@@ -197,6 +199,14 @@ class MusicExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const rootNmr = randomInt(0, roots.length)
+    const notation =
+      "L:1/1\n[" +
+      roots[rootNmr].name +
+      interval(roots[rootNmr], 3, "maj") +
+      interval(roots[rootNmr], 5, "perf") +
+      "]"
+
     return (
       <MusicExerciseWrapper
         id={normalizeExerciseId(`programming-exercise-${name}`)}
@@ -264,9 +274,14 @@ class MusicExercise extends React.Component {
                   <Fragment>
                     <p>
                       TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus
-                      opetella intervalleja
+                      opetella sointuja
                     </p>
-                    <MusicSheet notation="[Cc]" />
+                    <div class="overall-container">
+                      <div class="left-container">
+                        <MusicSheet notation={notation} />
+                      </div>
+                      <div class="right-container" />
+                    </div>
                   </Fragment>
                 )}
               </div>

@@ -1,6 +1,8 @@
 import React from "react"
 import { Fragment } from "react"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
+import Fab from "@material-ui/core/Fab"
+import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 
 class MusicSheet extends React.Component {
   /*
@@ -46,17 +48,62 @@ class MusicSheet extends React.Component {
     const notation = this.state.notation
     const react_abc = this.state.react_abc
 
+    const engraverParams = {
+      add_classes: false,
+      editable: false,
+      listener: null,
+      paddingbottom: 1,
+      paddingleft: 50,
+      paddingright: 50,
+      paddingtop: 15,
+      responsive: undefined,
+      scale: 3,
+      staffwidth: 400,
+    }
+
     if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
       return (
-        <Fragment>
-          <react_abc.Notation notation={notation} />
+        <>
+          <react_abc.Notation
+            notation={notation}
+            engraverParams={engraverParams}
+          />
           <react_abc.Midi notation={notation} />
-        </Fragment>
+          <div class="playbutton">
+            <Fab color="primary" onClick={this.onPlay}>
+              <PlayArrowIcon />
+            </Fab>
+          </div>
+        </>
       )
     } else if (onlyNotes) {
-      return <react_abc.Notation notation={notation} />
+      return (
+        <react_abc.Notation
+          notation={notation}
+          engraverParams={engraverParams}
+        />
+      )
     } else if (onlySound) {
-      return <react_abc.Midi notation={notation} />
+      return (
+        <>
+          {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
+          <react_abc.Midi notation={notation} />
+          <div class="playbutton">
+            <Fab color="primary" onClick={this.onPlay}>
+              <PlayArrowIcon />
+            </Fab>
+          </div>
+        </>
+      )
+    }
+  }
+
+  onPlay() {
+    const original = document.getElementsByClassName(
+      "abcjs-midi-start abcjs-btn",
+    )[0]
+    if (original) {
+      original.click()
     }
   }
 }
