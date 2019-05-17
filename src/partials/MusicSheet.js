@@ -21,6 +21,7 @@ class MusicSheet extends React.Component {
     this.state = {
       render: false,
       engraverParams: props.engraverParams,
+      id: "music-midi-" + Math.floor(Math.random() * 10000),
       notation: props.notation,
       onlyNotes: props.only_notes ? true : false,
       onlySound: props.only_sound ? true : false,
@@ -47,63 +48,51 @@ class MusicSheet extends React.Component {
     const onlyNotes = this.state.onlyNotes
     const onlySound = this.state.onlySound
     const notation = this.state.notation
-    const react_abc = this.state.react_abc
-    const engraverParams = this.state.engraverParams
-
-    // const engraverParams = {
-    //   add_classes: false,
-    //   editable: false,
-    //   listener: null,
-    //   paddingbottom: 1,
-    //   paddingleft: 50,
-    //   paddingright: 50,
-    //   paddingtop: 15,
-    //   responsive: undefined,
-    //   scale: 3,
-    //   staffwidth: 400,
-    // }
 
     if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
       return (
         <>
-          <react_abc.Notation
-            notation={notation}
-            engraverParams={engraverParams}
-          />
-          <react_abc.Midi notation={notation} />
-          <div class="playbutton">
-            <Fab color="primary" onClick={this.onPlay}>
-              <PlayArrowIcon />
-            </Fab>
-          </div>
+          {this.renderNotation(notation)}
+          {this.renderPlayButton(notation)}
         </>
       )
     } else if (onlyNotes) {
-      return (
-        <react_abc.Notation
-          notation={notation}
-          engraverParams={engraverParams}
-        />
-      )
+      return this.renderNotation(notation)
     } else if (onlySound) {
-      return (
-        <>
-          {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
-          <react_abc.Midi notation={notation} />
-          <div class="playbutton">
-            <Fab color="primary" onClick={this.onPlay}>
-              <PlayArrowIcon />
-            </Fab>
-          </div>
-        </>
-      )
+      return this.renderPlayButton(notation)
     }
   }
 
+  renderNotation(notation) {
+    const engraverParams = this.state.engraverParams
+    return (
+      <this.state.react_abc.Notation
+        notation={notation}
+        engraverParams={engraverParams}
+      />
+    )
+  }
+
+  renderPlayButton(notation) {
+    return (
+      <>
+        {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
+        <div id={this.state.id}>
+          <this.state.react_abc.Midi notation={notation} />
+        </div>
+        <div class="playbutton">
+          <Fab color="primary" onClick={() => this.onPlay()}>
+            <PlayArrowIcon />
+          </Fab>
+        </div>
+      </>
+    )
+  }
+
   onPlay() {
-    const original = document.getElementsByClassName(
-      "abcjs-midi-start abcjs-btn",
-    )[0]
+    const original = document
+      .querySelector("#" + this.state.id)
+      .querySelector(".abcjs-midi-start.abcjs-btn")
     if (original) {
       original.click()
     }

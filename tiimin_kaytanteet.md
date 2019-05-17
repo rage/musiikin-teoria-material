@@ -59,4 +59,12 @@ Jos myöhästyy Daily Scrumista niin merkataan ylös. *Rangaistus valitaan myöh
 `master` sisältää koodin jonka voi viedä tuotantoon, ei sisällä keskeneräisiä taskeja
 `development` trunk-based-development branch, joka mergetään masteriin kun se on toimiva, kaikki pushaa tänne.
 
+### Myöhemmin
 
+Kun aloitat taskin tee uusi branch `master` -branchistä
+```
+git checkout master
+git pull
+git branch <task-branch>
+git checkout <task-branch>
+```
