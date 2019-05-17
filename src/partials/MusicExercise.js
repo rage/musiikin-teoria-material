@@ -276,7 +276,12 @@ class MusicExercise extends React.Component {
                       TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus
                       opetella sointuja
                     </p>
-                    <MusicSheet notation={notation} />
+                    <div class="overall-container">
+                      <div class="left-container">
+                        <MusicSheet notation={notation} />
+                      </div>
+                      <div class="right-container" />
+                    </div>
                   </Fragment>
                 )}
               </div>

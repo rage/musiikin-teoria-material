@@ -1,12 +1,29 @@
 import React from "react"
+import { Fragment } from "react"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 
 class MusicSheet extends React.Component {
+  /*
+    props need to be all lowercase since this component is used
+    in the .md files
+
+    props: {
+      notation: String, abc format music notation
+      only_notes: Boolean
+      only_sound: Boolean
+    }
+  */
   constructor(props) {
     super(props)
-    this.state = { render: false, notation: props.notation }
+
+    this.state = {
+      render: false,
+      notation: props.notation,
+      onlyNotes: props.only_notes ? true : false,
+      onlySound: props.only_sound ? true : false,
+    }
   }
 
   componentDidMount() {
@@ -26,6 +43,8 @@ class MusicSheet extends React.Component {
       return <p>Loading..</p>
     }
 
+    const onlyNotes = this.state.onlyNotes
+    const onlySound = this.state.onlySound
     const notation = this.state.notation
     const react_abc = this.state.react_abc
 
@@ -42,13 +61,31 @@ class MusicSheet extends React.Component {
       staffwidth: 400,
     }
 
-    return (
-      <div class="overall-container">
-        <div class="left-container">
+    if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
+      return (
+        <>
           <react_abc.Notation
             notation={notation}
             engraverParams={engraverParams}
           />
+          <react_abc.Midi notation={notation} />
+          <div class="playbutton">
+            <Fab color="primary" onClick={this.onPlay}>
+              <PlayArrowIcon />
+            </Fab>
+          </div>
+        </>
+      )
+    } else if (onlyNotes) {
+      return (
+        <react_abc.Notation
+          notation={notation}
+          engraverParams={engraverParams}
+        />
+      )
+    } else if (onlySound) {
+      return (
+        <>
           {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
           <react_abc.Midi notation={notation} />
           <div class="playbutton">
@@ -56,15 +93,9 @@ class MusicSheet extends React.Component {
               <PlayArrowIcon />
             </Fab>
           </div>
-        </div>
-        <div class="right-container">
-          <react_abc.Notation
-            notation={notation}
-            engraverParams={engraverParams}
-          />
-        </div>
-      </div>
-    )
+        </>
+      )
+    }
   }
 
   onPlay() {
