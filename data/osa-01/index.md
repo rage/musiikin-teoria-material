@@ -24,7 +24,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 <answer-selection>
 </answer-selection>
 
-<please-login></please-login>
+<check-answer isCorrect="true"></check-answer>
 
 </text-box>
 
