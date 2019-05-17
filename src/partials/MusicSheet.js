@@ -20,6 +20,7 @@ class MusicSheet extends React.Component {
 
     this.state = {
       render: false,
+      engraverParams: props.engraverParams,
       notation: props.notation,
       onlyNotes: props.only_notes ? true : false,
       onlySound: props.only_sound ? true : false,
@@ -47,19 +48,20 @@ class MusicSheet extends React.Component {
     const onlySound = this.state.onlySound
     const notation = this.state.notation
     const react_abc = this.state.react_abc
+    const engraverParams = this.state.engraverParams
 
-    const engraverParams = {
-      add_classes: false,
-      editable: false,
-      listener: null,
-      paddingbottom: 1,
-      paddingleft: 50,
-      paddingright: 50,
-      paddingtop: 15,
-      responsive: undefined,
-      scale: 3,
-      staffwidth: 400,
-    }
+    // const engraverParams = {
+    //   add_classes: false,
+    //   editable: false,
+    //   listener: null,
+    //   paddingbottom: 1,
+    //   paddingleft: 50,
+    //   paddingright: 50,
+    //   paddingtop: 15,
+    //   responsive: undefined,
+    //   scale: 3,
+    //   staffwidth: 400,
+    // }
 
     if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
       return (

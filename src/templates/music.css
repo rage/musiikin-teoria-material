@@ -39,6 +39,30 @@
   width: 400px;
 }
 
+.right-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.dropdown1 {
+  order: 1;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.dropdown2 {
+  order: 2;
+  margin-left: 50px;
+}
+
+.submitbutton {
+  order: 3;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+
 .playbutton {
   margin-left: 117px;
 }
