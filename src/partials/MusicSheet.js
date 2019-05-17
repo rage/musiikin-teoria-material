@@ -20,6 +20,18 @@ class MusicSheet extends React.Component {
 
     this.state = {
       render: false,
+      engraverParams: props.engraverParams ? props.engraverParams: {
+        add_classes: false,
+        editable: false,
+        listener: null,
+        paddingbottom: 30,
+        paddingleft: 15,
+        paddingright: 50,
+        paddingtop: 15,
+        responsive: undefined,
+        scale: 1,
+        staffwidth: 740
+      },
       id: "music-midi-" + Math.floor(Math.random() * 10000),
       notation: props.notation,
       onlyNotes: props.only_notes ? true : false,
@@ -63,22 +75,10 @@ class MusicSheet extends React.Component {
   }
 
   renderNotation(notation) {
-    const engraverParams = {
-      add_classes: false,
-      editable: false,
-      listener: null,
-      paddingbottom: 1,
-      paddingleft: 50,
-      paddingright: 50,
-      paddingtop: 15,
-      responsive: undefined,
-      scale: 3,
-      staffwidth: 400,
-    }
     return (
       <this.state.react_abc.Notation
         notation={notation}
-        engraverParams={engraverParams}
+        engraverParams={this.state.engraverParams}
       />
     )
   }
