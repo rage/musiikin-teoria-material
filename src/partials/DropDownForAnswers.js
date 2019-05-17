@@ -12,7 +12,7 @@ class DropDownForAnswers extends React.Component {
   }
 
   componentDidMount() {
-    const options = answers.map(answer => answer.label)
+    const options = this.props.answers.map(answer => answer.label)
     const answer = label
     this.setState({
       options,
@@ -66,13 +66,6 @@ class DropDownForAnswers extends React.Component {
 const Wrapper = styled.div`
   margin-bottom: 1rem;
 `
-
-const answers = [
-  { id: 0, label: "duuri" },
-  { id: 1, label: "luonnollinen molli" },
-  { id: 2, label: "harmoninen molli" },
-  { id: 3, label: "melodinen molli" },
-]
 
 const label = "Valitse vastaus"
 
