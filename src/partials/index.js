@@ -59,6 +59,7 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
+import DropDownForAnswers from "./DropDownForAnswers"
 
 const mapping = {
   test: Test,
@@ -77,6 +78,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
+  "answer-selection": DropDownForAnswers,
   "music-exercise": MusicExercise,
   banner: Banner,
   notice: Notice,

@@ -21,6 +21,11 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 <music-sheet name="Only notes" notation='CDEF GABcDF|' only_sound=true></music-sheet>
 
+<answer-selection>
+</answer-selection>
+
+<please-login></please-login>
+
 </text-box>
 
 <music-exercise name="Intervalli"></music-exercise>
