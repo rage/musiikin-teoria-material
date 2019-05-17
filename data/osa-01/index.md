@@ -13,6 +13,11 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 <music-sheet name="Music Sheet Component" notation='D'></music-sheet>
 
+<answer-selection>
+</answer-selection>
+
+<please-login></please-login>
+
 </text-box>
 
 <music-exercise name="Intervalli"></music-exercise>
