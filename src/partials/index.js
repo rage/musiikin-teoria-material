@@ -37,6 +37,8 @@ import ExercisesInThisSection from "./ExercisesInThisSection"
 import AbStudy from "./AbStudy"
 import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
+import MusicSheet from "./MusicSheet"
+import MusicExercise from "./MusicExercise"
 
 import {
   Table,
@@ -57,7 +59,6 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
-import MusicSheet from "./MusicSheet"
 
 const mapping = {
   test: Test,
@@ -76,6 +77,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
+  "music-exercise": MusicExercise,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
