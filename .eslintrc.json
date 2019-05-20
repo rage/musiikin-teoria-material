@@ -1,8 +1,14 @@
 {
   "env": {
+    "browser": true,
     "es6": true
   },
-  "extends": ["prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -12,11 +18,15 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
   "plugins": ["prettier", "react"],
   "rules": {
-    "prettier/prettier": "warn"
+    "eqeqeq": "error",
+    "no-console": "warn",
+    "no-unused-vars": "warn",
+    "prettier/prettier": "error",
+    "react/prop-types": "off"
   }
 }
