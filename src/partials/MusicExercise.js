@@ -198,16 +198,7 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    if (!correctAnswer || !studentsAnswer) return false
-
-    if (correctAnswer.length !== studentsAnswer.length) return false
-
-    let i
-    for (i = 0; i <= correctAnswer.length; i++) {
-      if (correctAnswer[i] !== studentsAnswer[i]) {
-        return false
-      }
-    }
+  //TODO
     return true
   }
 
@@ -372,8 +363,5 @@ class MusicExercise extends React.Component {
     )
   }
 }
-
-const studentsAnswer = [1, 2, 3]
-const correctAnswer = [1, 2, 3]
 
 export default withSimpleErrorBoundary(MusicExercise)
