@@ -131,7 +131,11 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
-    allStudentsAnswers: []
+    allStudentsAnswers: [],
+    answerBaseKey: null,
+    answerChordType: null,
+    answerInterval: null,
+    answerScaleType: null,
   }
 
   async componentDidMount() {
@@ -188,13 +192,28 @@ class MusicExercise extends React.Component {
     await this.fetch()
   }
 
-  setStudentsAnswer = (studentsAnswer, ordinal) => {
-    let allStudentsAnswers = this.state.allStudentsAnswers
-    allStudentsAnswers[ordinal] = studentsAnswer
+  setAnswerBaseKey = studentsAnswer => {
     this.setState({
-      allStudentsAnswers: allStudentsAnswers,
+      answerBaseKey: studentsAnswer,
     })
-    console.log("st", this.state.allStudentsAnswers)
+  }
+
+  setAnswerChordType = studentsAnswer => {
+    this.setState({
+      answerChordType: studentsAnswer,
+    })
+  }
+
+  setAnswerInterval = studentsAnswer => {
+    this.setState({
+      answerInterval: studentsAnswer,
+    })
+  }
+
+  setAnswerScaleType = studentsAnswer => {
+    this.setState({
+      answerScaleType: studentsAnswer,
+    })
   }
 
   render() {
@@ -318,15 +337,13 @@ class MusicExercise extends React.Component {
                       <div className="right-container">
                         <div className="dropdown1">
                           <DropDownForAnswers
-                            ordinal={0}
-                            setStudentsAnswer={this.setStudentsAnswer}
+                            setStudentsAnswer={this.setAnswerBaseKey}
                             answers={answerOptions}
                           />
                         </div>
                         <div className="dropdown2">
                           <DropDownForAnswers
-                            ordinal={1}
-                            setStudentsAnswer={this.setStudentsAnswer}
+                            setStudentsAnswer={this.setAnswerChordType}
                             answers={answerOptions}
                           />
                         </div>

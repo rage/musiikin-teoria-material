@@ -34,7 +34,7 @@ class DropDownForAnswers extends React.Component {
       anchorEl: null,
       answer: this.state.options[index],
     })
-    this.props.setStudentsAnswer(index, this.props.ordinal)
+    this.props.setStudentsAnswer(index)
   }
 
   render() {
