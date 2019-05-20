@@ -198,19 +198,16 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    console.log("a", correctAnswer)
     if (!correctAnswer || !studentsAnswer) return false
 
     if (correctAnswer.length !== studentsAnswer.length) return false
 
-    console.log("t")
     let i
     for (i = 0; i <= correctAnswer.length; i++) {
       if (correctAnswer[i] !== studentsAnswer[i]) {
         return false
       }
     }
-    console.log("jee")
     return true
   }
 
