@@ -141,6 +141,7 @@ class MusicExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
+    nextQuestion: false,
     answerBaseKey: null,
     answerChordType: null,
   }
@@ -181,7 +182,7 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-  //TODO
+    //TODO
     return true
   }
 
@@ -191,6 +192,7 @@ class MusicExercise extends React.Component {
       anchorEl: currentTarget,
       open: state.placement !== placement || !state.open,
       placement,
+      nextQuestion: true,
     }))
   }
 
@@ -349,14 +351,32 @@ class MusicExercise extends React.Component {
                           />
                         </div>
                         <div className="submitbutton">
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleClick("top")}
-                          >
-                            Lähetä vastaukset
-                            <Icon>send</Icon>
-                          </Button>
+                          {this.state.nextQuestion && this.answerIsCorrect() ? (
+                            // once we have submitted the answer and nextQuestion is true
+                            // we also check if answer is correct and if it is we show next question
+                            // button. We then change nextQuestion back to false.
+                            <Button variant="contained" color="primary">
+                              Seuraava kysymys
+                            </Button>
+                          ) : this.state.nextQuestion &&
+                            !this.answerIsCorrect() ? (
+                            // if answer is not correct we show start over button
+                            // We then change nextQuestion back to false.
+                            <Button variant="contained" color="primary">
+                              Aloita alusta
+                            </Button>
+                          ) : (
+                            // nextQuestion is by default false and after submitting answer below
+                            // we change it to true
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={this.handleClick("top")}
+                            >
+                              Lähetä vastaukset &nbsp;
+                              <Icon>send</Icon>
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>
