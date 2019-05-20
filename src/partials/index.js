@@ -38,7 +38,6 @@ import AbStudy from "./AbStudy"
 import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
 import MusicSheet from "./MusicSheet"
-import MusicExercise from "./MusicExercise"
 import MusicMultiExercise from "./MusicMultiExercise"
 
 import {
@@ -80,8 +79,7 @@ const mapping = {
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
   "answer-selection": DropDownForAnswers,
-  "music-exercise": MusicExercise,
-  "music-multi-exercise": MusicMultiExercise,
+  "music-exercise": MusicMultiExercise,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,

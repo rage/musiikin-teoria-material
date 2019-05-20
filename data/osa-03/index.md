@@ -4,4 +4,4 @@ title: 'Osa 3: Soinnut'
 overview: true
 ---
 
-<music-multi-exercise name="Soinnut"></music-multi-exercise>
+<music-exercise name="Soinnut"></music-exercise>

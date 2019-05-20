@@ -98,45 +98,7 @@ const TokenContainer = styled.div`
 class MusicExercise extends React.Component {
   static contextType = LoginStateContext
 
-  // {
-  //   "id": 55219,
-  //   "available_points": [
-  //     {
-  //       "id": 619839,
-  //       "exercise_id": 55219,
-  //       "name": "01-01",
-  //       "requires_review": false
-  //     }
-  //   ],
-  //   "name": "osa01-Osa01_01.Hiekkalaatikko",
-  //   "publish_time": null,
-  //   "deadline": null,
-  //   "soft_deadline": null,
-  //   "expired": false,
-  //   "disabled": false,
-  //   "completed": false
-  // }
   state = {
-    exerciseDetails: {
-      id: 55219,
-      available_points: [
-        {
-          id: 619839,
-          exercise_id: 55219,
-          name: "01-01",
-          requires_review: false,
-        },
-      ],
-      name: "osa01-Osa01_01.Hiekkalaatikko",
-      publish_time: null,
-      deadline: null,
-      soft_deadline: null,
-      expired: false,
-      disabled: false,
-      completed: false,
-    },
-    modelSolutionModalOpen: false,
-    modelSolution: undefined,
     render: false,
     anchorEl: null,
     open: false,
@@ -221,8 +183,6 @@ class MusicExercise extends React.Component {
   }
 
   render() {
-    const { children, name } = this.props
-
     if (!this.state.render) {
       return <div>Loading</div>
     }
@@ -252,138 +212,62 @@ class MusicExercise extends React.Component {
     ]
 
     return (
-      <MusicExerciseWrapper
-        id={normalizeExerciseId(`programming-exercise-${name}`)}
-      >
-        <Header>
-          <StyledIcon icon={icon} size="1x" />
-          <HeaderMuted>Tehtävä: </HeaderMuted>
-          {name}
-        </Header>
-        <Body>
-          <CheckAnswerPopper
-            anchorEl={this.state.anchorEl}
-            open={this.state.open}
-            placement={this.state.placement}
-            isCorrect={this.answerIsCorrect()}
-          />
-          <div>
-            {this.context.loggedIn ? (
-              <div>
-                {children}
-                {this.state.exerciseDetails === null && (
-                  <div>Error loading exercise details</div>
-                )}
-              </div>
-            ) : (
-              <div>
-                <LoginNag>Kirjaudu sisään nähdäksesi tehtävanannon.</LoginNag>
-                <LoginNagWrapper>
-                  <LoginControls />
-                </LoginNagWrapper>
-              </div>
-            )}
+      <Fragment>
+        <p>
+          TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
+          sointuja
+        </p>
+        <div className="overall-container">
+          <div className="left-container">
+            <MusicSheet
+              notation={notation}
+              name={roots[rootNmr].label + triads[triadNmr].label}
+              engraverParams={engraverParams}
+            />
           </div>
-
-          {this.context.loggedIn && (
-            <Loading
-              loading={this.state.exerciseDetails === undefined}
-              heightHint="305px"
-            >
-              <div>
-                {tokenThreshHold && (
-                  <Fragment>
-                    <StyledDivider />
-                    <Modal
-                      open={this.state.modelSolutionModalOpen}
-                      onClose={this.onModelSolutionModalClose}
-                    >
-                      {this.state.modelSolution && (
-                        <ModalContent>
-                          <h1>Mallivastaus</h1>
-                          {this.state.modelSolution.solution.files.map(
-                            fileEntry => {
-                              console.log(fileEntry)
-                              return (
-                                <Card>
-                                  <CardContent>
-                                    <h2>{fileEntry.path}</h2>
-                                    <p>TODO mallivastaus</p>
-                                  </CardContent>
-                                </Card>
-                              )
-                            },
-                          )}
-                        </ModalContent>
-                      )}
-                    </Modal>
-                  </Fragment>
-                )}
-
-                {this.state.exerciseDetails && (
-                  <Fragment>
-                    <p>
-                      TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus
-                      opetella sointuja
-                    </p>
-                    <div className="overall-container">
-                      <div className="left-container">
-                        <MusicSheet
-                          notation={notation}
-                          name={roots[rootNmr].label + triads[triadNmr].label}
-                          engraverParams={engraverParams}
-                        />
-                      </div>
-                      <div className="right-container">
-                        <div className="dropdown1">
-                          <DropDownForAnswers
-                            setStudentsAnswer={this.setAnswerBaseKey}
-                            answers={answerOptions}
-                          />
-                        </div>
-                        <div className="dropdown2">
-                          <DropDownForAnswers
-                            setStudentsAnswer={this.setAnswerChordType}
-                            answers={answerOptions}
-                          />
-                        </div>
-                        <div className="submitbutton">
-                          {this.state.nextQuestion && this.answerIsCorrect() ? (
-                            // once we have submitted the answer and nextQuestion is true
-                            // we also check if answer is correct and if it is we show next question
-                            // button. We then change nextQuestion back to false.
-                            <Button variant="contained" color="primary">
-                              Seuraava kysymys
-                            </Button>
-                          ) : this.state.nextQuestion &&
-                            !this.answerIsCorrect() ? (
-                            // if answer is not correct we show start over button
-                            // We then change nextQuestion back to false.
-                            <Button variant="contained" color="primary">
-                              Aloita alusta
-                            </Button>
-                          ) : (
-                            // nextQuestion is by default false and after submitting answer below
-                            // we change it to true
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={this.handleClick("top")}
-                            >
-                              Lähetä vastaukset &nbsp;
-                              <Icon>send</Icon>
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Fragment>
-                )}
-              </div>
-            </Loading>
-          )}
-        </Body>
-      </MusicExerciseWrapper>
+          <div className="right-container">
+            <div className="dropdown1">
+              <DropDownForAnswers
+                setStudentsAnswer={this.setAnswerBaseKey}
+                answers={answerOptions}
+              />
+            </div>
+            <div className="dropdown2">
+              <DropDownForAnswers
+                setStudentsAnswer={this.setAnswerChordType}
+                answers={answerOptions}
+              />
+            </div>
+            <div className="submitbutton">
+              {this.state.nextQuestion && this.answerIsCorrect() ? (
+                // once we have submitted the answer and nextQuestion is true
+                // we also check if answer is correct and if it is we show next question
+                // button. We then change nextQuestion back to false.
+                <Button variant="contained" color="primary">
+                  Seuraava kysymys
+                </Button>
+              ) : this.state.nextQuestion && !this.answerIsCorrect() ? (
+                // if answer is not correct we show start over button
+                // We then change nextQuestion back to false.
+                <Button variant="contained" color="primary">
+                  Aloita alusta
+                </Button>
+              ) : (
+                // nextQuestion is by default false and after submitting answer below
+                // we change it to true
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleClick("top")}
+                >
+                  Lähetä vastaukset &nbsp;
+                  <Icon>send</Icon>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </Fragment>
     )
   }
 }
