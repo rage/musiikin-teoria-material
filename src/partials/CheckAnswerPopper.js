@@ -4,7 +4,6 @@ import { Popper, Fade, Typography } from "@material-ui/core"
 import styled from "styled-components"
 
 class CheckAnswerPopper extends React.Component {
-
   render() {
     const open = this.props.open
     const anchorEl = this.props.anchorEl
@@ -21,10 +20,9 @@ class CheckAnswerPopper extends React.Component {
           >
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-                  <Typography>
-                    Vastauksesi on oikein!
-                    {/* <CorrectIcon color="#4caf50" style={{ fontSize: 30 }} /> */}
-                  </Typography>
+                <Typography>
+                  Vastauksesi on oikein!
+                </Typography>
               </Fade>
             )}
           </Popper>
@@ -41,14 +39,9 @@ class CheckAnswerPopper extends React.Component {
           >
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-                  <Typography>
-                    Vastauksesi on väärin.
-                    {/* <FontAwesomeIcon
-                      icon={incorrectIcon}
-                      color="#f44336"
-                      style={{ fontSize: 30 }}
-                    /> */}
-                  </Typography>
+                <Typography>
+                  Vastauksesi on väärin.
+                </Typography>
               </Fade>
             )}
           </Popper>
