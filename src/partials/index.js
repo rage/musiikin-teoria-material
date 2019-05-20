@@ -60,7 +60,6 @@ import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
 import DropDownForAnswers from "./DropDownForAnswers"
-import CheckAnswerPopper from "./CheckAnswerPopper"
 
 const mapping = {
   test: Test,
@@ -81,7 +80,6 @@ const mapping = {
   "music-sheet": MusicSheet,
   "answer-selection": DropDownForAnswers,
   "music-exercise": MusicExercise,
-  "check-answer-popper": CheckAnswerPopper,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
