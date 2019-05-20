@@ -131,6 +131,8 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
+    answerBaseKey: null,
+    answerChordType: null,
   }
 
   async componentDidMount() {
@@ -166,6 +168,30 @@ class MusicExercise extends React.Component {
       modelSolution: undefined,
     })
     await this.fetch()
+  }
+
+  setAnswerBaseKey = studentsAnswer => {
+    this.setState({
+      answerBaseKey: studentsAnswer,
+    })
+  }
+
+  setAnswerChordType = studentsAnswer => {
+    this.setState({
+      answerChordType: studentsAnswer,
+    })
+  }
+
+  setAnswerInterval = studentsAnswer => {
+    this.setState({
+      answerInterval: studentsAnswer,
+    })
+  }
+
+  setAnswerScaleType = studentsAnswer => {
+    this.setState({
+      answerScaleType: studentsAnswer,
+    })
   }
 
   render() {
@@ -252,10 +278,16 @@ class MusicExercise extends React.Component {
                       </div>
                       <div className="right-container">
                         <div className="dropdown1">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            setStudentsAnswer={this.setAnswerBaseKey}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="dropdown2">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            setStudentsAnswer={this.setAnswerChordType}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="submitbutton">
                           <Button variant="contained" color="primary">
