@@ -92,11 +92,11 @@ class MusicSheet extends React.Component {
         <div id={this.state.id}>
           <this.state.react_abc.Midi notation={notation} />
         </div>
-        <div className="playbutton">
+        {/* <div className="playbutton">
           <Fab color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon />
           </Fab>
-        </div>
+        </div> */}
       </>
     )
   }

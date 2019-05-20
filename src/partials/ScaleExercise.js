@@ -194,17 +194,18 @@ class MusicExercise extends React.Component {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 50,
-      paddingright: 50,
+      paddingleft: 10,
+      paddingright: 10,
       paddingtop: 15,
       responsive: undefined,
-      scale: 3,
-      staffwidth: 250,
+      scale: 2,
+      staffwidth: 780,
     }
 
     const rootNmr = randomInt(0, roots.length)
     const triadNmr = randomInt(0, triads.length)
-    const notation = triads[triadNmr].notation(roots[rootNmr])
+    // const notation = triads[triadNmr].notation(roots[rootNmr])
+    const notation = "ACGDEAEGFD"
 
     const answerOptions = [
       { id: 0, label: "duuri" },
@@ -225,33 +226,33 @@ class MusicExercise extends React.Component {
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
           sointuja
         </p>
-        <div className="overall-container">
-          <div className="left-container">
+        <div className="overall-container-two">
+          <div className="top-container">
             <MusicSheet
               notation={notation}
               name={roots[rootNmr].label + triads[triadNmr].label}
               engraverParams={engraverParams}
             />
-            <div className="playbutton">
+          </div>
+          <div className="bottom-container">
+            <div className="scalePlayButton">
               <Fab color="primary" onClick={() => this.onPlay()}>
                 <PlayArrowIcon />
               </Fab>
             </div>
-          </div>
-          <div className="right-container">
-            <div className="dropdown1">
+            <div className="scaleDropdown1">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerBaseKey}
                 answers={answerOptions}
               />
             </div>
-            <div className="dropdown2">
+            <div className="scaleDropdown2">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerChordType}
                 answers={answerOptions}
               />
             </div>
-            <div className="submitbutton">
+            <div className="scaleSubmitbutton">
               {this.state.nextQuestion && this.answerIsCorrect() ? (
                 // once we have submitted the answer and nextQuestion is true
                 // we also check if answer is correct and if it is we show next question
