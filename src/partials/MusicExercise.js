@@ -11,7 +11,6 @@ import {
 } from "../services/moocfi"
 import { Button, Paper, Card, CardContent, Divider } from "@material-ui/core"
 import Modal from "@material-ui/core/Modal"
-import Icon from "@material-ui/core/Icon"
 import LoginStateContext from "../contexes/LoginStateContext"
 import LoginControls from "../components/LoginControls"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
@@ -19,8 +18,7 @@ import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
-import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, interval } from "../util/musicUtils"
+import { roots, triads } from "../util/musicUtils"
 import { randomInt } from "../util/random"
 
 const accentColor = "#38b6fa"
@@ -201,33 +199,9 @@ class MusicExercise extends React.Component {
       return <div>Loading</div>
     }
 
-    const engraverParams = {
-      add_classes: false,
-      editable: false,
-      listener: null,
-      paddingbottom: 1,
-      paddingleft: 30,
-      paddingright: 50,
-      paddingtop: 15,
-      responsive: undefined,
-      scale: 3,
-      staffwidth: 250,
-    }
-
     const rootNmr = randomInt(0, roots.length)
-    const notation =
-      "L:1/1\n[" +
-      roots[rootNmr].name +
-      interval(roots[rootNmr], 3, "maj") +
-      interval(roots[rootNmr], 5, "perf") +
-      "]"
-
-    const answerOptions = [
-      { id: 0, label: "duuri" },
-      { id: 1, label: "luonnollinen molli" },
-      { id: 2, label: "harmoninen molli" },
-      { id: 3, label: "melodinen molli" },
-    ]
+    const triadNmr = randomInt(0, triads.length)
+    const notation = triads[triadNmr].notation(roots[rootNmr])
 
     return (
       <MusicExerciseWrapper
@@ -298,27 +272,14 @@ class MusicExercise extends React.Component {
                       TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus
                       opetella sointuja
                     </p>
-                    <div className="overall-container">
-                      <div className="left-container">
+                    <div class="overall-container">
+                      <div class="left-container">
                         <MusicSheet
                           notation={notation}
-                          engraverParams={engraverParams}
+                          name={roots[rootNmr].label + triads[triadNmr].label}
                         />
                       </div>
-                      <div className="right-container">
-                        <div className="dropdown1">
-                          <DropDownForAnswers answers={answerOptions} />
-                        </div>
-                        <div className="dropdown2">
-                          <DropDownForAnswers answers={answerOptions} />
-                        </div>
-                        <div className="submitbutton">
-                          <Button variant="contained" color="primary">
-                            Lähetä vastaukset
-                            <Icon>send</Icon>
-                          </Button>
-                        </div>
-                      </div>
+                      <div class="right-container" />
                     </div>
                   </Fragment>
                 )}
