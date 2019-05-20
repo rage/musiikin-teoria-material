@@ -20,12 +20,6 @@ class DropDownForAnswers extends React.Component {
     })
   }
 
-  handleChange = (event, data) => {
-    this.setState({
-      answer: data.value,
-    })
-  }
-
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget })
   }
@@ -40,6 +34,7 @@ class DropDownForAnswers extends React.Component {
       anchorEl: null,
       answer: this.state.options[index],
     })
+    this.props.setStudentsAnswer(index)
   }
 
   render() {
