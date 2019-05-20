@@ -17,6 +17,9 @@ import Loading from "../components/Loading"
 import { roots, interval } from "../util/musicUtils"
 import { randomInt } from "../util/random"
 
+// Exercises
+import MusicExercise from "./MusicExercise"
+
 const accentColor = "#38b6fa"
 
 const MusicExerciseWrapper = styled.section`
@@ -133,7 +136,7 @@ class MusicMultiExercise extends React.Component {
 
         {this.context.loggedIn && (
           <Loading loading={false} heightHint="305px">
-            <p>TODO Insert Exercise component</p>
+            <MusicExercise />
             <StyledDivider />
             <Grid container spacing={16}>
               <Grid item xs={8}>
