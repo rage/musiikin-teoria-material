@@ -157,25 +157,6 @@ class MusicExercise extends React.Component {
     })
   }
 
-  onShowModelSolution = async () => {
-    try {
-      let modelSolution = this.state.modelSolution
-      if (!modelSolution) {
-        modelSolution = await fetchProgrammingExerciseModelSolution(
-          this.state.exerciseDetails.id,
-        )
-      }
-
-      this.setState({ modelSolutionModalOpen: true, modelSolution })
-    } catch (err) {
-      console.error("Could not fetch model solution", err)
-    }
-  }
-
-  onModelSolutionModalClose = () => {
-    this.setState({ modelSolutionModalOpen: false })
-  }
-
   onUpdate = async () => {
     this.setState({
       exerciseDetails: undefined,
@@ -187,13 +168,6 @@ class MusicExercise extends React.Component {
 
   render() {
     const { children, name } = this.props
-    const tokenThreshHold = this.state?.exerciseDetails?.course
-      ?.grant_model_solution_token_every_nth_completed_exercise
-    //const _totalTokens = this.state?.exerciseDetails?.course?.total_model_solution_tokens
-    const availableTokens = this.state?.exerciseDetails?.course
-      ?.available_model_solution_tokens
-    const modelSolutionTokenUsedOnThisExercise = this.state?.exerciseDetails
-      ?.model_solution_token_used_on_this_exercise
 
     if (!this.state.render) {
       return <div>Loading</div>
@@ -237,35 +211,6 @@ class MusicExercise extends React.Component {
               heightHint="305px"
             >
               <div>
-                {tokenThreshHold && (
-                  <Fragment>
-                    <StyledDivider />
-
-                    <Modal
-                      open={this.state.modelSolutionModalOpen}
-                      onClose={this.onModelSolutionModalClose}
-                    >
-                      {this.state.modelSolution && (
-                        <ModalContent>
-                          <h1>Mallivastaus</h1>
-                          {this.state.modelSolution.solution.files.map(
-                            fileEntry => {
-                              console.log(fileEntry)
-                              return (
-                                <Card>
-                                  <CardContent>
-                                    <h2>{fileEntry.path}</h2>
-                                    <p>TODO mallivastaus</p>
-                                  </CardContent>
-                                </Card>
-                              )
-                            },
-                          )}
-                        </ModalContent>
-                      )}
-                    </Modal>
-                  </Fragment>
-                )}
                 {this.state.exerciseDetails && (
                   <Fragment>
                     <p>
