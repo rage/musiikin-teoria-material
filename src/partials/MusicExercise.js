@@ -131,6 +131,7 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
+    allStudentsAnswers: []
   }
 
   async componentDidMount() {
@@ -185,6 +186,15 @@ class MusicExercise extends React.Component {
       modelSolution: undefined,
     })
     await this.fetch()
+  }
+
+  setStudentsAnswer = (studentsAnswer, ordinal) => {
+    let allStudentsAnswers = this.state.allStudentsAnswers
+    allStudentsAnswers[ordinal] = studentsAnswer
+    this.setState({
+      allStudentsAnswers: allStudentsAnswers,
+    })
+    console.log("st", this.state.allStudentsAnswers)
   }
 
   render() {
@@ -307,10 +317,18 @@ class MusicExercise extends React.Component {
                       </div>
                       <div className="right-container">
                         <div className="dropdown1">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            ordinal={0}
+                            setStudentsAnswer={this.setStudentsAnswer}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="dropdown2">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            ordinal={1}
+                            setStudentsAnswer={this.setStudentsAnswer}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="submitbutton">
                           <Button variant="contained" color="primary">
