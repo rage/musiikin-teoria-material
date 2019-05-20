@@ -1,3 +1,11 @@
+const C = 0,
+  D = 1,
+  E = 2,
+  F = 3,
+  G = 4,
+  A = 5,
+  B = 6
+
 const letters = ["C", "D", "E", "F", "G", "A", "B"]
 
 // grouped by pitch
@@ -16,60 +24,123 @@ const notes = [
   ["B", "_C", "^^A"],
 ]
 
+class Accidental {
+  constructor(symbol, notation) {
+    this.symbol = symbol
+    this.notation = notation
+  }
+}
+
+const DOUBLE_FLAT = 0,
+  FLAT = 1,
+  NATURAL_SIGN = 2,
+  NATURAL = 3,
+  SHARP = 4,
+  DOUBLE_SHARP = 5
+
+const accidentals = [
+  new Accidental("bb", "__"),
+  new Accidental("b", "_"),
+  new Accidental("", "="),
+  new Accidental("", ""),
+  new Accidental("#", "^"),
+  new Accidental("x", "^^"),
+]
+
 class Root {
-  constructor(name, pitch, letter) {
-    this.name = name
+  constructor(pitch, letter, accidental) {
     this.pitch = pitch
     this.letter = letter
+    this.accidental = accidentals[accidental]
+    this.label = (letter === 6 ? "H" : letters[letter]) + this.accidental.symbol
+    this.notation = this.accidental.notation + letters[letter]
   }
 }
 
 // available roots (doesn't include all theoretically possible roots)
 export const roots = [
-  new Root("C", 0, 0),
-  new Root("^C", 1, 0),
-  new Root("_D", 1, 1),
-  new Root("D", 2, 1),
-  new Root("^D", 3, 1),
-  new Root("_E", 3, 2),
-  new Root("E", 4, 2),
-  new Root("F", 5, 3),
-  new Root("^F", 6, 3),
-  new Root("_G", 6, 4),
-  new Root("G", 7, 4),
-  new Root("^G", 8, 4),
-  new Root("_A", 8, 5),
-  new Root("A", 9, 5),
-  new Root("^A", 10, 5),
-  new Root("_B", 10, 6),
-  new Root("B", 11, 6),
+  new Root(0, C, NATURAL), // C
+  new Root(1, C, SHARP), // C#
+  new Root(1, D, FLAT), // Db
+  new Root(2, D, NATURAL), // D
+  new Root(3, D, SHARP), // D#
+  new Root(3, E, FLAT), // Eb
+  new Root(4, E, NATURAL), // E
+  new Root(5, F, NATURAL), // F
+  new Root(6, F, SHARP), // F#
+  new Root(6, G, FLAT), // Gb
+  new Root(7, G, NATURAL), // G
+  new Root(8, G, SHARP), // G#
+  new Root(8, A, FLAT), // Ab
+  new Root(9, A, NATURAL), // A
+  new Root(10, A, SHARP), // A#
+  new Root(10, B, FLAT), // Bb
+  new Root(11, B, NATURAL), // B
 ]
 
 // defaults are major and perfect intervals
 const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
+
+const UNISON = 1,
+  SECOND = 2,
+  THIRD = 3,
+  FOURTH = 4,
+  FIFTH = 5,
+  SIXTH = 6,
+  SEVENTH = 7
+
+const DIMINISHED = "dim",
+  MINOR = "min",
+  MAJOR = "maj",
+  PERFECT = "perf",
+  AUGMENTED = "aug"
 
 /*
   doesn't error check for nonexisting intervals
   (like perfect third or minor fourth)
   for now only 1 -> 7 intervals are supported
 */
-export const interval = (root, number, quality) => {
+export const interval = (root, quality, number) => {
   const letterJump = number - 1
   const letter = letters[(root.letter + letterJump) % letters.length]
   const smallLetter = root.letter + letterJump >= letters.length
 
   let pitchJump = pitchJumps[letterJump]
   switch (quality) {
-    case "min":
+    case MINOR:
       pitchJump -= 1
       break
-    case "dim":
-      pitchJump -= number === 1 || number === 4 || number === 5 ? 1 : 2
+    case DIMINISHED:
+      pitchJump -=
+        number === UNISON || number === FOURTH || number === FIFTH ? 1 : 2
       break
-    case "aug":
+    case AUGMENTED:
       pitchJump += 1
   }
 
   for (const note of notes[(root.pitch + pitchJump) % notes.length])
     if (note.includes(letter)) return smallLetter ? note.toLowerCase() : note
 }
+
+class Chord {
+  constructor(label, intervals) {
+    this.label = label
+    this.intervals = intervals
+  }
+
+  notation(root) {
+    return (
+      "L:1/1\n[" +
+      root.notation +
+      this.intervals.map(i => interval(root, ...i)).join("") +
+      "]"
+    )
+  }
+}
+
+export const triads = [
+  new Chord("alennettu", [[MINOR, THIRD], [DIMINISHED, FIFTH]]),
+  new Chord("molli", [[MINOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("ylennetty", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
+]

@@ -27,7 +27,7 @@ import Loading from "../components/Loading"
 import MusicSheet from "./MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, interval } from "../util/musicUtils"
+import { roots, triads } from "../util/musicUtils"
 import { randomInt } from "../util/random"
 
 const accentColor = "#38b6fa"
@@ -241,12 +241,8 @@ class MusicExercise extends React.Component {
     }
 
     const rootNmr = randomInt(0, roots.length)
-    const notation =
-      "L:1/1\n[" +
-      roots[rootNmr].name +
-      interval(roots[rootNmr], 3, "maj") +
-      interval(roots[rootNmr], 5, "perf") +
-      "]"
+    const triadNmr = randomInt(0, triads.length)
+    const notation = triads[triadNmr].notation(roots[rootNmr])
 
     const answerOptions = [
       { id: 0, label: "duuri" },
@@ -334,6 +330,7 @@ class MusicExercise extends React.Component {
                       <div className="left-container">
                         <MusicSheet
                           notation={notation}
+                          name={roots[rootNmr].label + triads[triadNmr].label}
                           engraverParams={engraverParams}
                         />
                       </div>
