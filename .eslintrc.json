@@ -1,12 +1,14 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
+    "prettier/jest",
     "prettier/react"
   ],
   "globals": {
@@ -21,9 +23,9 @@
     "ecmaVersion": 2019,
     "sourceType": "module"
   },
-  "plugins": ["prettier", "react"],
+  "plugins": ["jest", "prettier", "react"],
   "rules": {
-    "eqeqeq": "error",
+    "eqeqeq": "warn",
     "no-console": "warn",
     "no-unused-vars": "warn",
     "prettier/prettier": "error",
