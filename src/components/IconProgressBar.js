@@ -18,10 +18,14 @@ class IconProgressBar extends React.Component {
   }
 
   render() {
+    // Create array [1, 2, 3, ..., correct] to use
+    // when creating x number of components
     const correctIterator = Array.from(
       { length: this.props.correct },
       (x, i) => i,
     )
+    // Create array [1, 2, 3, ..., total-correct] to use
+    // when creating x number of components
     const totalIterator = Array.from(
       { length: this.props.total - this.props.correct },
       (x, i) => i,
