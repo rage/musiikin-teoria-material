@@ -213,6 +213,12 @@ class MusicExercise extends React.Component {
 
     return (
       <Fragment>
+        <CheckAnswerPopper
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          placement={this.state.placement}
+          isCorrect={this.answerIsCorrect()}
+        />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
           sointuja
