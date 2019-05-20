@@ -25,7 +25,7 @@ import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
-import CheckAnswer from "./CheckAnswerPopper"
+import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, interval } from "../util/musicUtils"
 import { randomInt } from "../util/random"
@@ -275,13 +275,12 @@ class MusicExercise extends React.Component {
           {name}
         </Header>
         <Body>
-          <CheckAnswer
+          <CheckAnswerPopper
             anchorEl={this.state.anchorEl}
             open={this.state.open}
             placement={this.state.placement}
             isCorrect={this.answerIsCorrect()}
           />
-
           <div>
             {this.context.loggedIn ? (
               <div>
@@ -309,7 +308,6 @@ class MusicExercise extends React.Component {
                 {tokenThreshHold && (
                   <Fragment>
                     <StyledDivider />
-
                     <Modal
                       open={this.state.modelSolutionModalOpen}
                       onClose={this.onModelSolutionModalClose}
@@ -359,7 +357,7 @@ class MusicExercise extends React.Component {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={this.handleClick("top-end")}
+                            onClick={this.handleClick("top")}
                           >
                             Lähetä vastaukset
                             <Icon>send</Icon>

@@ -1,13 +1,10 @@
 import React, { Fragment } from "react"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-import CorrectIcon from "@material-ui/icons/Check"
-import { Paper, Popper, Fade, Typography } from "@material-ui/core"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes as incorrectIcon } from "@fortawesome/free-solid-svg-icons"
-import green from "@material-ui/core/colors/green"
+import { Popper, Fade, Typography } from "@material-ui/core"
 import styled from "styled-components"
 
 class CheckAnswerPopper extends React.Component {
+
   render() {
     const open = this.props.open
     const anchorEl = this.props.anchorEl
@@ -24,12 +21,10 @@ class CheckAnswerPopper extends React.Component {
           >
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-                <Paper>
                   <Typography>
-                    Sinun vastauksesi on oikein!
-                    <CorrectIcon color="#4caf50" style={{ fontSize: 30 }} />
+                    Vastauksesi on oikein!
+                    {/* <CorrectIcon color="#4caf50" style={{ fontSize: 30 }} /> */}
                   </Typography>
-                </Paper>
               </Fade>
             )}
           </Popper>
@@ -46,16 +41,14 @@ class CheckAnswerPopper extends React.Component {
           >
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-                <Paper>
                   <Typography>
                     Vastauksesi on väärin.
-                    <FontAwesomeIcon
+                    {/* <FontAwesomeIcon
                       icon={incorrectIcon}
                       color="#f44336"
                       style={{ fontSize: 30 }}
-                    />
+                    /> */}
                   </Typography>
-                </Paper>
               </Fade>
             )}
           </Popper>
@@ -69,4 +62,4 @@ const Wrapper = styled.div`
   margin-bottom: 1rem;
 `
 
-export default withSimpleErrorBoundary(CheckAnswer)
+export default withSimpleErrorBoundary(CheckAnswerPopper)
