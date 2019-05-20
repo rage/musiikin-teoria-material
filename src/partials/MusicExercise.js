@@ -131,11 +131,8 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
-    allStudentsAnswers: [],
     answerBaseKey: null,
     answerChordType: null,
-    answerInterval: null,
-    answerScaleType: null,
   }
 
   async componentDidMount() {
