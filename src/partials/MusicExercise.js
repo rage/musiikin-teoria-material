@@ -192,6 +192,7 @@ class MusicExercise extends React.Component {
       open: state.placement !== placement || !state.open,
       placement,
     }))
+  }
 
   setAnswerBaseKey = studentsAnswer => {
     this.setState({
