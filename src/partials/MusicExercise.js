@@ -16,9 +16,6 @@ import {
   CardContent,
   Divider,
   Icon,
-  Popper,
-  Fade,
-  Typography,
 } from "@material-ui/core"
 import Modal from "@material-ui/core/Modal"
 import CorrectIcon from "@material-ui/icons/Check"
@@ -29,6 +26,7 @@ import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
+import CheckAnswer from "./CheckAnswer"
 import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, interval } from "../util/musicUtils"
 import { randomInt } from "../util/random"
@@ -141,9 +139,9 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
-    // anchorEl: null,
-    // open: false,
-    // placement: null,
+    anchorEl: null,
+    open: false,
+    placement: null,
   }
 
   async componentDidMount() {
@@ -200,14 +198,14 @@ class MusicExercise extends React.Component {
     await this.fetch()
   }
 
-  // handleClick = placement => event => {
-  //   const { currentTarget } = event;
-  //   this.setState(state => ({
-  //     anchorEl: currentTarget,
-  //     open: state.placement !== placement || !state.open,
-  //     placement,
-  //   }));
-  // };
+  handleClick = placement => event => {
+    const { currentTarget } = event;
+    this.setState(state => ({
+      anchorEl: currentTarget,
+      open: state.placement !== placement || !state.open,
+      placement,
+    }));
+  };
 
   render() {
     const { children, name } = this.props
@@ -250,8 +248,8 @@ class MusicExercise extends React.Component {
       { id: 2, label: "harmoninen molli" },
       { id: 3, label: "melodinen molli" },
     ]
-    // const { classes } = this.props;
-    // const { anchorEl, open, placement } = this.state;
+    const { classes } = this.props;
+    const { anchorEl, open, placement } = this.state;
 
     return (
       <MusicExerciseWrapper
@@ -263,6 +261,13 @@ class MusicExercise extends React.Component {
           {name}
         </Header>
         <Body>
+          <CheckAnswer
+            anchorEl={this.state.anchorEl}
+            open={this.state.open}
+            placement={this.state.placement}
+          >
+          </CheckAnswer>
+
           <div>
             {this.context.loggedIn ? (
               <div>
@@ -318,23 +323,6 @@ class MusicExercise extends React.Component {
                 )}
                 {this.state.exerciseDetails && (
                   <Fragment>
-                    {/* <Popper
-                      open={open}
-                      anchorEl={anchorEl}
-                      placement={placement}
-                      transition
-                    >
-                      {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                          <Paper>
-                            <Typography>
-                              Sinun vastauksesi on oikein!
-                              <CorrectIcon color="#4caf50" style={{ fontSize: 30 }} />
-                            </Typography>
-                          </Paper>
-                        </Fade>
-                      )}
-                    </Popper> */}
                     <p>
                       TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus
                       opetella sointuja
@@ -354,8 +342,7 @@ class MusicExercise extends React.Component {
                           <DropDownForAnswers answers={answerOptions} />
                         </div>
                         <div className="submitbutton">
-                          {/* <Button variant="contained" color="primary" onClick={this.handleClick('top-end')}> */}
-                          <Button variant="contained" color="primary">
+                          <Button variant="contained" color="primary" onClick={this.handleClick('top-end')}>
                             Lähetä vastaukset
                             <Icon>send</Icon>
                           </Button>
