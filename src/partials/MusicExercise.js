@@ -142,6 +142,8 @@ class MusicExercise extends React.Component {
     open: false,
     placement: null,
     nextQuestion: false,
+    answerBaseKey: null,
+    answerChordType: null,
   }
 
   async componentDidMount() {
@@ -170,25 +172,6 @@ class MusicExercise extends React.Component {
     })
   }
 
-  onShowModelSolution = async () => {
-    try {
-      let modelSolution = this.state.modelSolution
-      if (!modelSolution) {
-        modelSolution = await fetchProgrammingExerciseModelSolution(
-          this.state.exerciseDetails.id,
-        )
-      }
-
-      this.setState({ modelSolutionModalOpen: true, modelSolution })
-    } catch (err) {
-      console.error("Could not fetch model solution", err)
-    }
-  }
-
-  onModelSolutionModalClose = () => {
-    this.setState({ modelSolutionModalOpen: false })
-  }
-
   onUpdate = async () => {
     this.setState({
       exerciseDetails: undefined,
@@ -199,19 +182,7 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    console.log("a", correctAnswer)
-    if (!correctAnswer || !studentsAnswer) return false
-
-    if (correctAnswer.length !== studentsAnswer.length) return false
-
-    console.log("t")
-    let i
-    for (i = 0; i <= correctAnswer.length; i++) {
-      if (correctAnswer[i] !== studentsAnswer[i]) {
-        return false
-      }
-    }
-    console.log("jee")
+    //TODO
     return true
   }
 
@@ -225,15 +196,32 @@ class MusicExercise extends React.Component {
     }))
   }
 
+  setAnswerBaseKey = studentsAnswer => {
+    this.setState({
+      answerBaseKey: studentsAnswer,
+    })
+  }
+
+  setAnswerChordType = studentsAnswer => {
+    this.setState({
+      answerChordType: studentsAnswer,
+    })
+  }
+
+  setAnswerInterval = studentsAnswer => {
+    this.setState({
+      answerInterval: studentsAnswer,
+    })
+  }
+
+  setAnswerScaleType = studentsAnswer => {
+    this.setState({
+      answerScaleType: studentsAnswer,
+    })
+  }
+
   render() {
     const { children, name } = this.props
-    const tokenThreshHold = this.state?.exerciseDetails?.course
-      ?.grant_model_solution_token_every_nth_completed_exercise
-    //const _totalTokens = this.state?.exerciseDetails?.course?.total_model_solution_tokens
-    const availableTokens = this.state?.exerciseDetails?.course
-      ?.available_model_solution_tokens
-    const modelSolutionTokenUsedOnThisExercise = this.state?.exerciseDetails
-      ?.model_solution_token_used_on_this_exercise
 
     if (!this.state.render) {
       return <div>Loading</div>
@@ -335,6 +323,7 @@ class MusicExercise extends React.Component {
                     </Modal>
                   </Fragment>
                 )}
+
                 {this.state.exerciseDetails && (
                   <Fragment>
                     <p>
@@ -350,10 +339,16 @@ class MusicExercise extends React.Component {
                       </div>
                       <div className="right-container">
                         <div className="dropdown1">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            setStudentsAnswer={this.setAnswerBaseKey}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="dropdown2">
-                          <DropDownForAnswers answers={answerOptions} />
+                          <DropDownForAnswers
+                            setStudentsAnswer={this.setAnswerChordType}
+                            answers={answerOptions}
+                          />
                         </div>
                         <div className="submitbutton">
                           {this.state.nextQuestion && this.answerIsCorrect() ? (
@@ -395,8 +390,5 @@ class MusicExercise extends React.Component {
     )
   }
 }
-
-const studentsAnswer = [1, 2, 3]
-const correctAnswer = [1, 2, 3]
 
 export default withSimpleErrorBoundary(MusicExercise)

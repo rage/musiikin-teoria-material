@@ -39,6 +39,7 @@ import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
 import MusicSheet from "./MusicSheet"
 import MusicExercise from "./MusicExercise"
+import MusicMultiExercise from "./MusicMultiExercise"
 
 import {
   Table,
@@ -60,7 +61,6 @@ import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
 import DropDownForAnswers from "./DropDownForAnswers"
-import CheckAnswerPopper from "./CheckAnswerPopper"
 
 const mapping = {
   test: Test,
@@ -81,7 +81,7 @@ const mapping = {
   "music-sheet": MusicSheet,
   "answer-selection": DropDownForAnswers,
   "music-exercise": MusicExercise,
-  "check-answer-popper": CheckAnswerPopper,
+  "music-multi-exercise": MusicMultiExercise,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
