@@ -10,6 +10,7 @@ import MusicSheet from "./MusicSheet"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
 import { Divider, Grid } from "@material-ui/core"
+import IconProgressBar from "../components/IconProgressBar"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Loading from "../components/Loading"
 
@@ -101,15 +102,19 @@ class MusicMultiExercise extends React.Component {
     )
   }
 
+  onCorrectAnswer = () => {
+    this.setState({ correctAnswers: this.state.correctAnswers + 1 })
+  }
+
+  onIncorrectAnswer = () => {
+    this.setState({ correctAnswers: 0 })
+  }
+
   renderBody() {
-    // TODO Move out of here
-    const rootNmr = randomInt(0, roots.length)
-    const notation =
-      "L:1/1\n[" +
-      roots[rootNmr].name +
-      interval(roots[rootNmr], 3, "maj") +
-      interval(roots[rootNmr], 5, "perf") +
-      "]"
+    // Pass these as props to the exercise so that it can notify of
+    // answers (TODO)
+    const onCorrectAnswerFunction = this.onCorrectAnswer
+    const onIncorrectAnswerFunction = this.onIncorrectAnswer
 
     return (
       <Body>
@@ -128,19 +133,21 @@ class MusicMultiExercise extends React.Component {
 
         {this.context.loggedIn && (
           <Loading loading={false} heightHint="305px">
-            {/* TODO Replace with Exercise component */}
-            <p>Seuraavassa tehtävässä on tarkoitus opetella sointuja</p>
-            <div className="overall-container">
-              <div className="left-container">
-                <MusicSheet notation={notation} />
-              </div>
-              <div className="right-container" />
-            </div>
+            <p>TODO Insert Exercise component</p>
             <StyledDivider />
             <Grid container spacing={16}>
-              <Grid item xs={8} />
+              <Grid item xs={8}>
+                {/* TODO Remove example buttons */}
+                <button onClick={onCorrectAnswerFunction}>Correct</button>
+                <button onClick={onIncorrectAnswerFunction}>Incorrect</button>
+              </Grid>
               <Grid item xs={4}>
                 <p>
+                  <IconProgressBar
+                    style={{ marginTop: "1em", color: "green" }}
+                    correct={this.state.correctAnswers}
+                    total={this.state.requiredAnswers}
+                  />
                   Correct Answers: {this.state.correctAnswers} /{" "}
                   {this.state.requiredAnswers}
                 </p>
