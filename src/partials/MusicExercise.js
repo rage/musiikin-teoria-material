@@ -9,9 +9,15 @@ import {
   fetchProgrammingExerciseDetails,
   fetchProgrammingExerciseModelSolution,
 } from "../services/moocfi"
-import { Button, Paper, Card, CardContent, Divider } from "@material-ui/core"
+import {
+  Button,
+  Paper,
+  Card,
+  CardContent,
+  Divider,
+  Icon,
+} from "@material-ui/core"
 import Modal from "@material-ui/core/Modal"
-import Icon from "@material-ui/core/Icon"
 import LoginStateContext from "../contexes/LoginStateContext"
 import LoginControls from "../components/LoginControls"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
@@ -19,6 +25,7 @@ import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
+import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, interval } from "../util/musicUtils"
 import { randomInt } from "../util/random"
@@ -131,6 +138,9 @@ class MusicExercise extends React.Component {
     modelSolutionModalOpen: false,
     modelSolution: undefined,
     render: false,
+    anchorEl: null,
+    open: false,
+    placement: null,
     answerBaseKey: null,
     answerChordType: null,
   }
@@ -168,6 +178,20 @@ class MusicExercise extends React.Component {
       modelSolution: undefined,
     })
     await this.fetch()
+  }
+
+  answerIsCorrect = () => {
+  //TODO
+    return true
+  }
+
+  handleClick = placement => event => {
+    const { currentTarget } = event
+    this.setState(state => ({
+      anchorEl: currentTarget,
+      open: state.placement !== placement || !state.open,
+      placement,
+    }))
   }
 
   setAnswerBaseKey = studentsAnswer => {
@@ -239,6 +263,12 @@ class MusicExercise extends React.Component {
           {name}
         </Header>
         <Body>
+          <CheckAnswerPopper
+            anchorEl={this.state.anchorEl}
+            open={this.state.open}
+            placement={this.state.placement}
+            isCorrect={this.answerIsCorrect()}
+          />
           <div>
             {this.context.loggedIn ? (
               <div>
@@ -263,6 +293,35 @@ class MusicExercise extends React.Component {
               heightHint="305px"
             >
               <div>
+                {tokenThreshHold && (
+                  <Fragment>
+                    <StyledDivider />
+                    <Modal
+                      open={this.state.modelSolutionModalOpen}
+                      onClose={this.onModelSolutionModalClose}
+                    >
+                      {this.state.modelSolution && (
+                        <ModalContent>
+                          <h1>Mallivastaus</h1>
+                          {this.state.modelSolution.solution.files.map(
+                            fileEntry => {
+                              console.log(fileEntry)
+                              return (
+                                <Card>
+                                  <CardContent>
+                                    <h2>{fileEntry.path}</h2>
+                                    <p>TODO mallivastaus</p>
+                                  </CardContent>
+                                </Card>
+                              )
+                            },
+                          )}
+                        </ModalContent>
+                      )}
+                    </Modal>
+                  </Fragment>
+                )}
+
                 {this.state.exerciseDetails && (
                   <Fragment>
                     <p>
@@ -290,7 +349,11 @@ class MusicExercise extends React.Component {
                           />
                         </div>
                         <div className="submitbutton">
-                          <Button variant="contained" color="primary">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleClick("top")}
+                          >
                             Lähetä vastaukset
                             <Icon>send</Icon>
                           </Button>
