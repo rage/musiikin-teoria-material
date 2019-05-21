@@ -56,18 +56,11 @@ class MusicExercise extends React.Component {
       onIncorrect: undefined, // Function
       notation: "",
     })
+    this.nextExercise()
   }
 
   constructor(props) {
     super(props)
-  }
-
-  async componentDidMount() {
-    this.nextExercise()
-    this.setState({ render: true })
-    if (!this.context.loggedIn) {
-      return
-    }
   }
 
   answerIsCorrect = () => {
@@ -105,18 +98,6 @@ class MusicExercise extends React.Component {
   setAnswerChordType = studentsAnswer => {
     this.setState({
       answerChordType: studentsAnswer,
-    })
-  }
-
-  setAnswerInterval = studentsAnswer => {
-    this.setState({
-      answerInterval: studentsAnswer,
-    })
-  }
-
-  setAnswerScaleType = studentsAnswer => {
-    this.setState({
-      answerScaleType: studentsAnswer,
     })
   }
 
