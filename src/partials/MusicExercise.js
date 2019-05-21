@@ -106,6 +106,16 @@ class MusicExercise extends React.Component {
     toggleSubmitButton: false,
     answerBaseKey: null,
     answerChordType: null,
+    rootNmr: null,
+    triadNmr: null,
+  }
+
+  async componentDidMount() {
+    this.setState({
+      rootNmr: randomInt(0, roots.length),
+      triadNmr: randomInt(0, triads.length),
+      render: true,
+    })
     onCorrect: undefined, // Function
     onIncorrect: undefined, // Function
     notation: "",
@@ -124,8 +134,14 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    //TODO
-    return true
+    if (
+      this.state.rootNmr == this.state.answerBaseKey &&
+      this.state.triadNmr == this.state.answerChordType
+    ) {
+      return true
+    } else {
+      return false
+    }
   }
 
   handleClick = placement => event => {
@@ -226,13 +242,13 @@ class MusicExercise extends React.Component {
             <div className="dropdown1">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerBaseKey}
-                answers={answerOptions}
+                answers={roots}
               />
             </div>
             <div className="dropdown2">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerChordType}
-                answers={answerOptions}
+                answers={triads}
               />
             </div>
             <div className="submitbutton">
