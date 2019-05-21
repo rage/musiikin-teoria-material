@@ -121,14 +121,28 @@ class MusicMultiExercise extends React.Component {
 
     switch (type) {
       case "chords":
-        return <MusicExercise onCorrect={onCorrectAnswerFunction}
-              onIncorrect={onIncorrectAnswerFunction} />
+        return (
+          <MusicExercise
+            onCorrect={this.onCorrectAnswer}
+            onIncorrect={this.onIncorrectAnswer}
+          />
+        )
       case "chords_notes":
-        return <MusicExercise onCorrect={onCorrectAnswerFunction}
-              onIncorrect={onIncorrectAnswerFunction} onlyNotes={true} />
+        return (
+          <MusicExercise
+            onCorrect={this.onCorrectAnswer}
+            onIncorrect={this.onIncorrectAnswer}
+            onlyNotes={true}
+          />
+        )
       case "chords_sound":
-        return <MusicExercise onCorrect={onCorrectAnswerFunction}
-              onIncorrect={onIncorrectAnswerFunction} onlySound={true} />
+        return (
+          <MusicExercise
+            onCorrect={this.onCorrectAnswer}
+            onIncorrect={this.onIncorrectAnswer}
+            onlySound={true}
+          />
+        )
       default:
         return (
           <p>
@@ -140,12 +154,6 @@ class MusicMultiExercise extends React.Component {
   }
 
   renderBody() {
-    // Pass these as props to the exercise so that it can notify of
-    // answers (TODO)
-    const onCorrectAnswerFunction = this.onCorrectAnswer
-    const onIncorrectAnswerFunction = this.onIncorrectAnswer
-    const onNextQuestionFunction = this.onNextQuestion
-
     return (
       <Body>
         <div>
@@ -172,8 +180,8 @@ class MusicMultiExercise extends React.Component {
                 )}
 
                 {/* TODO Remove example buttons */}
-                <button onClick={onCorrectAnswerFunction}>Correct</button>
-                <button onClick={onIncorrectAnswerFunction}>Incorrect</button>
+                <button onClick={this.onCorrectAnswer}>Correct</button>
+                <button onClick={this.onIncorrectAnswer}>Incorrect</button>
               </Grid>
               <Grid item xs={4}>
                 <p>

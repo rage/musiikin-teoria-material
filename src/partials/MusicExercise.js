@@ -32,69 +32,6 @@ import { randomInt } from "../util/random"
 
 const accentColor = "#38b6fa"
 
-const MusicExerciseWrapper = styled.section`
-  padding 1rem;
-  margin-bottom: 2rem;
-  border-left: 0.2rem solid ${accentColor};
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-`
-
-const StyledIcon = styled(FontAwesomeIcon)`
-  vertical-align: middle;
-  margin-right: 1rem;
-  margin-left: 0.5rem;
-  color: ${accentColor};
-`
-
-const Header = styled.h3`
-  font-size: 1.3rem;
-  font-weight: normal;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #f7f7f9;
-`
-
-const HeaderMuted = styled.span`
-  color: #818a91 !important;
-  font-size: 80%;
-  font-weight: 400;
-  margin-right: 0.2rem;
-`
-
-const Body = styled.div`
-  padding-bottom: 0.5rem;
-  min-height: 300px;
-`
-
-const ModalContent = styled(Paper)`
-  padding: 5rem;
-  overflow-y: scroll;
-  max-height: 100vh;
-`
-
-const LoginNag = styled.div`
-  margin-bottom: 1rem;
-`
-
-const LoginNagWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-`
-
-const StyledDivider = styled(Divider)`
-  margin: 1rem 16px !important;
-`
-
-const TokenContainer = styled.div`
-  margin-bottom: 1rem;
-  p {
-    font-size: 1rem;
-    color: #2e3032;
-  }
-`
-
 class MusicExercise extends React.Component {
   static contextType = LoginStateContext
 
@@ -115,10 +52,10 @@ class MusicExercise extends React.Component {
       rootNmr: randomInt(0, roots.length),
       triadNmr: randomInt(0, triads.length),
       render: true,
+      onCorrect: undefined, // Function
+      onIncorrect: undefined, // Function
+      notation: "",
     })
-    onCorrect: undefined, // Function
-    onIncorrect: undefined, // Function
-    notation: "",
   }
 
   constructor(props) {
@@ -232,7 +169,6 @@ class MusicExercise extends React.Component {
           <div className="left-container">
             <MusicSheet
               notation={this.state.notation}
-              name={roots[rootNmr].label + triads[triadNmr].label}
               only_notes={this.props.onlyNotes}
               only_sound={this.props.onlySound}
               engraverParams={engraverParams}
