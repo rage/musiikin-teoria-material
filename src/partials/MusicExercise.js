@@ -64,7 +64,6 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    console.log(this.state.rootNmr, this.state.triadNmr)
     if (
       this.state.rootNmr == this.state.answerBaseKey &&
       this.state.triadNmr == this.state.answerChordType
