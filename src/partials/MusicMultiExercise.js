@@ -113,6 +113,32 @@ class MusicMultiExercise extends React.Component {
     this.setState({ correctAnswers: 0 })
   }
 
+  renderExercise() {
+    let type = "chords"
+    if (this.props.type) {
+      type = this.props.type
+    }
+
+    switch (type) {
+      case "chords":
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} />
+      case "chords_notes":
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} onlyNotes={true} />
+      case "chords_sound":
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} onlySound={true} />
+      default:
+        return (
+          <p>
+            Incorrect exercise type, implemented types: "chords",
+            "chords_notes", "chords_sound"
+          </p>
+        )
+    }
+  }
+
   renderBody() {
     // Pass these as props to the exercise so that it can notify of
     // answers (TODO)
@@ -137,13 +163,14 @@ class MusicMultiExercise extends React.Component {
 
         {this.context.loggedIn && (
           <Loading loading={false} heightHint="305px">
-            <MusicExercise
-              onCorrect={onCorrectAnswerFunction}
-              onIncorrect={onIncorrectAnswerFunction}
-            />
+            {this.renderExercise()}
             <StyledDivider />
             <Grid container spacing={16}>
               <Grid item xs={8}>
+                {this.state.correctAnswers >= this.state.requiredAnswers && (
+                  <p>Well done!</p>
+                )}
+
                 {/* TODO Remove example buttons */}
                 <button onClick={onCorrectAnswerFunction}>Correct</button>
                 <button onClick={onIncorrectAnswerFunction}>Incorrect</button>
@@ -151,7 +178,7 @@ class MusicMultiExercise extends React.Component {
               <Grid item xs={4}>
                 <p>
                   <IconProgressBar
-                    style={{ marginTop: "1em", color: "green" }}
+                    style={{ marginTop: "1em" }}
                     correct={this.state.correctAnswers}
                     total={this.state.requiredAnswers}
                   />

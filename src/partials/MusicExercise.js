@@ -103,11 +103,12 @@ class MusicExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    nextQuestion: false,
+    toggleSubmitButton: false,
     answerBaseKey: null,
     answerChordType: null,
     onCorrect: undefined, // Function
     onIncorrect: undefined, // Function
+    notation: "",
   }
 
   constructor(props) {
@@ -115,6 +116,7 @@ class MusicExercise extends React.Component {
   }
 
   async componentDidMount() {
+    this.nextExercise()
     this.setState({ render: true })
     if (!this.context.loggedIn) {
       return
@@ -132,7 +134,7 @@ class MusicExercise extends React.Component {
       anchorEl: currentTarget,
       open: state.placement !== placement || !state.open,
       placement,
-      nextQuestion: true,
+      toggleSubmitButton: true,
     }))
     if (this.answerIsCorrect()) {
       this.props.onCorrect()
@@ -165,6 +167,14 @@ class MusicExercise extends React.Component {
     })
   }
 
+  nextExercise = () => {
+    const rootNmr = randomInt(0, roots.length)
+    const triadNmr = randomInt(0, triads.length)
+    const notation = triads[triadNmr].notation(roots[rootNmr])
+
+    this.setState({ notation })
+  }
+
   render() {
     if (!this.state.render) {
       return <div>Loading</div>
@@ -183,10 +193,6 @@ class MusicExercise extends React.Component {
       staffwidth: 250,
     }
 
-    const rootNmr = randomInt(0, roots.length)
-    const triadNmr = randomInt(0, triads.length)
-    const notation = triads[triadNmr].notation(roots[rootNmr])
-
     const answerOptions = [
       { id: 0, label: "duuri" },
       { id: 1, label: "luonnollinen molli" },
@@ -196,6 +202,12 @@ class MusicExercise extends React.Component {
 
     return (
       <Fragment>
+        <CheckAnswerPopper
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          placement={this.state.placement}
+          isCorrect={this.answerIsCorrect()}
+        />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
           sointuja
@@ -203,8 +215,10 @@ class MusicExercise extends React.Component {
         <div className="overall-container">
           <div className="left-container">
             <MusicSheet
-              notation={notation}
+              notation={this.state.notation}
               name={roots[rootNmr].label + triads[triadNmr].label}
+              only_notes={this.props.onlyNotes}
+              only_sound={this.props.onlySound}
               engraverParams={engraverParams}
             />
           </div>
@@ -222,21 +236,25 @@ class MusicExercise extends React.Component {
               />
             </div>
             <div className="submitbutton">
-              {this.state.nextQuestion && this.answerIsCorrect() ? (
-                // once we have submitted the answer and nextQuestion is true
+              {this.state.toggleSubmitButton && this.answerIsCorrect() ? (
+                // once we have submitted the answer and toggleSubmitButton is true
                 // we also check if answer is correct and if it is we show next question
-                // button. We then change nextQuestion back to false.
-                <Button variant="contained" color="primary">
+                // button. We then change toggleSubmitButton back to false.
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.nextExercise}
+                >
                   Seuraava kysymys
                 </Button>
-              ) : this.state.nextQuestion && !this.answerIsCorrect() ? (
+              ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
                 // if answer is not correct we show start over button
-                // We then change nextQuestion back to false.
+                // We then change toggleSubmitButton back to false.
                 <Button variant="contained" color="primary">
                   Aloita alusta
                 </Button>
               ) : (
-                // nextQuestion is by default false and after submitting answer below
+                // toggleSubmitButton is by default false and after submitting answer below
                 // we change it to true
                 <Button
                   variant="contained"
