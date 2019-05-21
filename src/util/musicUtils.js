@@ -139,8 +139,8 @@ class Chord {
 }
 
 export const triads = [
-  new Chord("alennettu", [[MINOR, THIRD], [DIMINISHED, FIFTH]]),
-  new Chord("molli", [[MINOR, THIRD], [PERFECT, FIFTH]]),
-  new Chord("duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
-  new Chord("ylennetty", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
+  new Chord("Vähennetty", [[MINOR, THIRD], [DIMINISHED, FIFTH]]),
+  new Chord("Molli", [[MINOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("Duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("Ylinouseva", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
 ]

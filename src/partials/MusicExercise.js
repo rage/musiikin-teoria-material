@@ -34,69 +34,6 @@ import { randomInt } from "../util/random"
 
 const accentColor = "#38b6fa"
 
-const MusicExerciseWrapper = styled.section`
-  padding 1rem;
-  margin-bottom: 2rem;
-  border-left: 0.2rem solid ${accentColor};
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-`
-
-const StyledIcon = styled(FontAwesomeIcon)`
-  vertical-align: middle;
-  margin-right: 1rem;
-  margin-left: 0.5rem;
-  color: ${accentColor};
-`
-
-const Header = styled.h3`
-  font-size: 1.3rem;
-  font-weight: normal;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #f7f7f9;
-`
-
-const HeaderMuted = styled.span`
-  color: #818a91 !important;
-  font-size: 80%;
-  font-weight: 400;
-  margin-right: 0.2rem;
-`
-
-const Body = styled.div`
-  padding-bottom: 0.5rem;
-  min-height: 300px;
-`
-
-const ModalContent = styled(Paper)`
-  padding: 5rem;
-  overflow-y: scroll;
-  max-height: 100vh;
-`
-
-const LoginNag = styled.div`
-  margin-bottom: 1rem;
-`
-
-const LoginNagWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-`
-
-const StyledDivider = styled(Divider)`
-  margin: 1rem 16px !important;
-`
-
-const TokenContainer = styled.div`
-  margin-bottom: 1rem;
-  p {
-    font-size: 1rem;
-    color: #2e3032;
-  }
-`
-
 class MusicExercise extends React.Component {
   static contextType = LoginStateContext
 
@@ -105,59 +42,56 @@ class MusicExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    nextQuestion: false,
+    toggleSubmitButton: false,
     answerBaseKey: null,
     answerChordType: null,
+    rootNmr: null,
+    triadNmr: null,
   }
 
   async componentDidMount() {
-    this.setState({ render: true })
-    if (!this.context.loggedIn) {
-      return
-    }
-    await this.fetch()
+    this.setState({
+      rootNmr: randomInt(0, roots.length),
+      triadNmr: randomInt(0, triads.length),
+      render: true,
+      onCorrect: undefined, // Function
+      onIncorrect: undefined, // Function
+      notation: "",
+    })
+    this.nextExercise()
   }
 
-  fetch = async () => {
-    if (!this.props.tmcname) {
-      return
-    }
-    let exerciseDetails = null
-    try {
-      exerciseDetails = { id: "a7df8dd4-e7fd-4038-8d67-4f8880e160f0" }
-      // await fetchProgrammingExerciseDetails(
-      //   this.props.tmcname,
-      // )
-    } catch (error) {
-      console.error(error)
-    }
-    this.setState({
-      exerciseDetails,
-    })
-  }
-
-  onUpdate = async () => {
-    this.setState({
-      exerciseDetails: undefined,
-      modelSolutionModalOpen: false,
-      modelSolution: undefined,
-    })
-    await this.fetch()
+  constructor(props) {
+    super(props)
   }
 
   answerIsCorrect = () => {
-    //TODO
-    return true
+    if (
+      this.state.rootNmr == this.state.answerBaseKey &&
+      this.state.triadNmr == this.state.answerChordType
+    ) {
+      return true
+    } else {
+      return false
+    }
   }
 
   handleClick = placement => event => {
+    if (!this.state.answerBaseKey || !this.state.answerChordType) {
+      return
+    }
     const { currentTarget } = event
     this.setState(state => ({
       anchorEl: currentTarget,
       open: state.placement !== placement || !state.open,
       placement,
-      nextQuestion: true,
+      toggleSubmitButton: true,
     }))
+    if (this.answerIsCorrect()) {
+      this.props.onCorrect()
+    } else {
+      this.props.onIncorrect()
+    }
   }
 
   setAnswerBaseKey = studentsAnswer => {
@@ -172,15 +106,19 @@ class MusicExercise extends React.Component {
     })
   }
 
-  setAnswerInterval = studentsAnswer => {
-    this.setState({
-      answerInterval: studentsAnswer,
-    })
-  }
+  nextExercise = () => {
+    const rootNmr = randomInt(0, roots.length)
+    const triadNmr = randomInt(0, triads.length)
+    const notation = triads[triadNmr].notation(roots[rootNmr])
 
-  setAnswerScaleType = studentsAnswer => {
     this.setState({
-      answerScaleType: studentsAnswer,
+      notation,
+      toggleSubmitButton: false,
+      open: false,
+      answerBaseKey: null,
+      answerChordType: null,
+      answerInterval: null,
+      answerScaleType: null,
     })
   }
 
@@ -201,10 +139,6 @@ class MusicExercise extends React.Component {
       scale: 3,
       staffwidth: 250,
     }
-
-    const rootNmr = randomInt(0, roots.length)
-    const triadNmr = randomInt(0, triads.length)
-    const notation = triads[triadNmr].notation(roots[rootNmr])
 
     const answerOptions = [
       { id: 0, label: "duuri" },
@@ -228,8 +162,9 @@ class MusicExercise extends React.Component {
         <div className="overall-container">
           <div className="left-container">
             <MusicSheet
-              notation={notation}
-              name={roots[rootNmr].label + triads[triadNmr].label}
+              notation={this.state.notation}
+              only_notes={this.props.onlyNotes}
+              only_sound={this.props.onlySound}
               engraverParams={engraverParams}
             />
             <div className="playbutton">
@@ -242,31 +177,39 @@ class MusicExercise extends React.Component {
             <div className="dropdown1">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerBaseKey}
-                answers={answerOptions}
+                answers={roots}
               />
             </div>
             <div className="dropdown2">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerChordType}
-                answers={answerOptions}
+                answers={triads}
               />
             </div>
             <div className="submitbutton">
-              {this.state.nextQuestion && this.answerIsCorrect() ? (
-                // once we have submitted the answer and nextQuestion is true
+              {this.state.toggleSubmitButton && this.answerIsCorrect() ? (
+                // once we have submitted the answer and toggleSubmitButton is true
                 // we also check if answer is correct and if it is we show next question
-                // button. We then change nextQuestion back to false.
-                <Button variant="contained" color="primary">
+                // button. We then change toggleSubmitButton back to false.
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.nextExercise}
+                >
                   Seuraava kysymys
                 </Button>
-              ) : this.state.nextQuestion && !this.answerIsCorrect() ? (
+              ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
                 // if answer is not correct we show start over button
-                // We then change nextQuestion back to false.
-                <Button variant="contained" color="primary">
+                // We then change toggleSubmitButton back to false.
+                <Button
+                  onClick={this.nextExercise}
+                  variant="contained"
+                  color="primary"
+                >
                   Aloita alusta
                 </Button>
               ) : (
-                // nextQuestion is by default false and after submitting answer below
+                // toggleSubmitButton is by default false and after submitting answer below
                 // we change it to true
                 <Button
                   variant="contained"

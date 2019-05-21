@@ -35,7 +35,6 @@ class MusicSheet extends React.Component {
             staffwidth: 740,
           },
       id: "music-midi-" + Math.floor(Math.random() * 10000),
-      notation: props.notation,
       onlyNotes: props.only_notes ? true : false,
       onlySound: props.only_sound ? true : false,
     }
@@ -60,7 +59,7 @@ class MusicSheet extends React.Component {
 
     const onlyNotes = this.state.onlyNotes
     const onlySound = this.state.onlySound
-    const notation = this.state.notation
+    const notation = this.props.notation
 
     if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
       return (
