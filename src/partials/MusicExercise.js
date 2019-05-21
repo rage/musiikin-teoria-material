@@ -108,6 +108,10 @@ class MusicExercise extends React.Component {
     answerChordType: null,
   }
 
+  constructor(props) {
+    super(props)
+  }
+
   async componentDidMount() {
     this.setState({ render: true })
     if (!this.context.loggedIn) {
@@ -228,6 +232,8 @@ class MusicExercise extends React.Component {
             <MusicSheet
               notation={notation}
               name={roots[rootNmr].label + triads[triadNmr].label}
+              only_notes={this.props.onlyNotes}
+              only_sound={this.props.onlySound}
               engraverParams={engraverParams}
             />
           </div>
