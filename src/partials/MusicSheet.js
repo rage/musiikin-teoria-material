@@ -92,7 +92,8 @@ class MusicSheet extends React.Component {
         <div id={this.state.id}>
           <this.state.react_abc.Midi notation={notation} />
         </div>
-        {/* <div className="playbutton">
+        {/* pass classname through props and have a default setting for the button */}
+        {/* <div className={}>
           <Fab color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon />
           </Fab>
@@ -100,7 +101,7 @@ class MusicSheet extends React.Component {
       </>
     )
   }
-
+  // onplay does not work because playbutton moved to music/scale exercise components
   onPlay() {
     const original = document
       .querySelector("#" + this.state.id)

@@ -205,7 +205,7 @@ class MusicExercise extends React.Component {
     const rootNmr = randomInt(0, roots.length)
     const triadNmr = randomInt(0, triads.length)
     // const notation = triads[triadNmr].notation(roots[rootNmr])
-    const notation = "ACGDEAEGFD"
+    const notation = "ACGDEAEGFDFGADC"
 
     const answerOptions = [
       { id: 0, label: "duuri" },
