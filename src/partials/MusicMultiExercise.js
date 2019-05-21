@@ -118,6 +118,7 @@ class MusicMultiExercise extends React.Component {
     // answers (TODO)
     const onCorrectAnswerFunction = this.onCorrectAnswer
     const onIncorrectAnswerFunction = this.onIncorrectAnswer
+    const onNextQuestionFunction = this.onNextQuestion
 
     return (
       <Body>
@@ -136,7 +137,10 @@ class MusicMultiExercise extends React.Component {
 
         {this.context.loggedIn && (
           <Loading loading={false} heightHint="305px">
-            <MusicExercise />
+            <MusicExercise
+              onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction}
+            />
             <StyledDivider />
             <Grid container spacing={16}>
               <Grid item xs={8}>
