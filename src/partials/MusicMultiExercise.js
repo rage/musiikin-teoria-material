@@ -121,11 +121,14 @@ class MusicMultiExercise extends React.Component {
 
     switch (type) {
       case "chords":
-        return <MusicExercise />
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} />
       case "chords_notes":
-        return <MusicExercise onlyNotes={true} />
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} onlyNotes={true} />
       case "chords_sound":
-        return <MusicExercise onlySound={true} />
+        return <MusicExercise onCorrect={onCorrectAnswerFunction}
+              onIncorrect={onIncorrectAnswerFunction} onlySound={true} />
       default:
         return (
           <p>
@@ -141,6 +144,7 @@ class MusicMultiExercise extends React.Component {
     // answers (TODO)
     const onCorrectAnswerFunction = this.onCorrectAnswer
     const onIncorrectAnswerFunction = this.onIncorrectAnswer
+    const onNextQuestionFunction = this.onNextQuestion
 
     return (
       <Body>

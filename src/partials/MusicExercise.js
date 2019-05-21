@@ -106,6 +106,8 @@ class MusicExercise extends React.Component {
     toggleSubmitButton: false,
     answerBaseKey: null,
     answerChordType: null,
+    onCorrect: undefined, // Function
+    onIncorrect: undefined, // Function
     notation: "",
   }
 
@@ -119,34 +121,6 @@ class MusicExercise extends React.Component {
     if (!this.context.loggedIn) {
       return
     }
-    await this.fetch()
-  }
-
-  fetch = async () => {
-    if (!this.props.tmcname) {
-      return
-    }
-    let exerciseDetails = null
-    try {
-      exerciseDetails = { id: "a7df8dd4-e7fd-4038-8d67-4f8880e160f0" }
-      // await fetchProgrammingExerciseDetails(
-      //   this.props.tmcname,
-      // )
-    } catch (error) {
-      console.error(error)
-    }
-    this.setState({
-      exerciseDetails,
-    })
-  }
-
-  onUpdate = async () => {
-    this.setState({
-      exerciseDetails: undefined,
-      modelSolutionModalOpen: false,
-      modelSolution: undefined,
-    })
-    await this.fetch()
   }
 
   answerIsCorrect = () => {
@@ -162,6 +136,11 @@ class MusicExercise extends React.Component {
       placement,
       toggleSubmitButton: true,
     }))
+    if (this.answerIsCorrect()) {
+      this.props.onCorrect()
+    } else {
+      this.props.onIncorrect()
+    }
   }
 
   setAnswerBaseKey = studentsAnswer => {
