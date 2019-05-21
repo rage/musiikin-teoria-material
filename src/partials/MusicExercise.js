@@ -106,10 +106,16 @@ class MusicExercise extends React.Component {
     nextQuestion: false,
     answerBaseKey: null,
     answerChordType: null,
+    rootNmr: null,
+    triadNmr: null,
   }
 
   async componentDidMount() {
-    this.setState({ render: true })
+    this.setState({
+      rootNmr: randomInt(0, roots.length),
+      triadNmr: randomInt(0, triads.length),
+      render: true,
+    })
     if (!this.context.loggedIn) {
       return
     }
@@ -144,8 +150,14 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    //TODO
-    return true
+    if (
+      this.state.rootNmr == this.state.answerBaseKey &&
+      this.state.triadNmr == this.state.answerChordType
+    ) {
+      return true
+    } else {
+      return false
+    }
   }
 
   handleClick = placement => event => {
@@ -200,9 +212,9 @@ class MusicExercise extends React.Component {
       staffwidth: 250,
     }
 
-    const rootNmr = randomInt(0, roots.length)
-    const triadNmr = randomInt(0, triads.length)
-    const notation = triads[triadNmr].notation(roots[rootNmr])
+    const notation = triads[this.state.triadNmr].notation(
+      roots[this.state.rootNmr],
+    )
 
     const answerOptions = [
       { id: 0, label: "duuri" },
@@ -227,7 +239,10 @@ class MusicExercise extends React.Component {
           <div className="left-container">
             <MusicSheet
               notation={notation}
-              name={roots[rootNmr].label + triads[triadNmr].label}
+              name={
+                roots[this.state.rootNmr].label +
+                triads[this.state.triadNmr].label
+              }
               engraverParams={engraverParams}
             />
           </div>
@@ -235,13 +250,13 @@ class MusicExercise extends React.Component {
             <div className="dropdown1">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerBaseKey}
-                answers={answerOptions}
+                answers={roots}
               />
             </div>
             <div className="dropdown2">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerChordType}
-                answers={answerOptions}
+                answers={triads}
               />
             </div>
             <div className="submitbutton">
