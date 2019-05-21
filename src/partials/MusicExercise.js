@@ -167,11 +167,6 @@ class MusicExercise extends React.Component {
               only_sound={this.props.onlySound}
               engraverParams={engraverParams}
             />
-            <div className="playbutton">
-              <Fab color="primary" onClick={() => this.onPlay()}>
-                <PlayArrowIcon />
-              </Fab>
-            </div>
           </div>
           <div className="right-container">
             <div className="dropdown1">
