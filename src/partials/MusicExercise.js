@@ -56,21 +56,24 @@ class MusicExercise extends React.Component {
       onIncorrect: undefined, // Function
       notation: "",
     })
+    this.nextExercise()
   }
 
   constructor(props) {
     super(props)
   }
 
-  async componentDidMount() {
-    this.nextExercise()
-    this.setState({ render: true })
-    if (!this.context.loggedIn) {
-      return
-    }
-  }
-
   answerIsCorrect = () => {
+    console.log(
+      "sssssssssssssssss",
+      this.state.rootNmr,
+      this.state.answerBaseKey,
+    )
+    console.log(
+      "ddddddddddddddddd",
+      this.state.triadNmr,
+      this.state.answerChordType,
+    )
     if (
       this.state.rootNmr == this.state.answerBaseKey &&
       this.state.triadNmr == this.state.answerChordType
@@ -108,24 +111,13 @@ class MusicExercise extends React.Component {
     })
   }
 
-  setAnswerInterval = studentsAnswer => {
-    this.setState({
-      answerInterval: studentsAnswer,
-    })
-  }
-
-  setAnswerScaleType = studentsAnswer => {
-    this.setState({
-      answerScaleType: studentsAnswer,
-    })
-  }
-
   nextExercise = () => {
     const rootNmr = randomInt(0, roots.length)
     const triadNmr = randomInt(0, triads.length)
     const notation = triads[triadNmr].notation(roots[rootNmr])
 
     this.setState({ notation })
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", rootNmr, triadNmr)
   }
 
   render() {
