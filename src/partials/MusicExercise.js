@@ -75,6 +75,9 @@ class MusicExercise extends React.Component {
   }
 
   handleClick = placement => event => {
+    if (!this.state.answerBaseKey || !this.state.answerChordType) {
+      return
+    }
     const { currentTarget } = event
     this.setState(state => ({
       anchorEl: currentTarget,
