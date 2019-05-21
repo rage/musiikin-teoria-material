@@ -176,7 +176,7 @@ class MusicMultiExercise extends React.Component {
             <Grid container spacing={16}>
               <Grid item xs={8}>
                 {this.state.correctAnswers >= this.state.requiredAnswers && (
-                  <p>Well done!</p>
+                  <p>Tehtävä ratkaistu!</p>
                 )}
 
                 {/* TODO Remove example buttons */}
@@ -190,8 +190,7 @@ class MusicMultiExercise extends React.Component {
                     correct={this.state.correctAnswers}
                     total={this.state.requiredAnswers}
                   />
-                  Correct Answers: {this.state.correctAnswers} /{" "}
-                  {this.state.requiredAnswers}
+                  {this.state.correctAnswers} / {this.state.requiredAnswers}
                 </p>
               </Grid>
             </Grid>

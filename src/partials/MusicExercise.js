@@ -64,16 +64,6 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
-    console.log(
-      "sssssssssssssssss",
-      this.state.rootNmr,
-      this.state.answerBaseKey,
-    )
-    console.log(
-      "ddddddddddddddddd",
-      this.state.triadNmr,
-      this.state.answerChordType,
-    )
     if (
       this.state.rootNmr == this.state.answerBaseKey &&
       this.state.triadNmr == this.state.answerChordType
@@ -116,8 +106,15 @@ class MusicExercise extends React.Component {
     const triadNmr = randomInt(0, triads.length)
     const notation = triads[triadNmr].notation(roots[rootNmr])
 
-    this.setState({ notation })
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", rootNmr, triadNmr)
+    this.setState({
+      notation,
+      toggleSubmitButton: false,
+      open: false,
+      answerBaseKey: null,
+      answerChordType: null,
+      answerInterval: null,
+      answerScaleType: null,
+    })
   }
 
   render() {
@@ -194,7 +191,11 @@ class MusicExercise extends React.Component {
               ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
                 // if answer is not correct we show start over button
                 // We then change toggleSubmitButton back to false.
-                <Button variant="contained" color="primary">
+                <Button
+                  onClick={this.nextExercise}
+                  variant="contained"
+                  color="primary"
+                >
                   Aloita alusta
                 </Button>
               ) : (
