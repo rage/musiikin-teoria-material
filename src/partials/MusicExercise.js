@@ -64,6 +64,7 @@ class MusicExercise extends React.Component {
   }
 
   answerIsCorrect = () => {
+    console.log(this.state.rootNmr, this.state.triadNmr)
     if (
       this.state.rootNmr == this.state.answerBaseKey &&
       this.state.triadNmr == this.state.answerChordType
@@ -75,6 +76,9 @@ class MusicExercise extends React.Component {
   }
 
   handleClick = placement => event => {
+    if (!this.state.answerBaseKey || !this.state.answerChordType) {
+      return
+    }
     const { currentTarget } = event
     this.setState(state => ({
       anchorEl: currentTarget,
