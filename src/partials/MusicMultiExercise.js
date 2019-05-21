@@ -5,17 +5,11 @@ import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 import LoginStateContext from "../contexes/LoginStateContext"
 import LoginControls from "../components/LoginControls"
 
-import MusicSheet from "./MusicSheet"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
-import { Divider, Grid } from "@material-ui/core"
+import { Divider, Grid, Button } from "@material-ui/core"
 import IconProgressBar from "../components/IconProgressBar"
-import LinearProgress from "@material-ui/core/LinearProgress"
 import Loading from "../components/Loading"
-
-import { roots, interval } from "../util/musicUtils"
-import { randomInt } from "../util/random"
 
 // Exercises
 import MusicExercise from "./MusicExercise"
@@ -107,10 +101,19 @@ class MusicMultiExercise extends React.Component {
 
   onCorrectAnswer = () => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
+
+    if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
+      this.setState({ completed: true })
+      // Tähän voi lisätä lähetyskoodin myöhemmin
+    }
   }
 
   onIncorrectAnswer = () => {
     this.setState({ correctAnswers: 0 })
+  }
+
+  onReset = () => {
+    this.setState({ correctAnswers: 0, completed: false })
   }
 
   renderExercise() {
@@ -153,51 +156,75 @@ class MusicMultiExercise extends React.Component {
     }
   }
 
-  renderBody() {
+  renderCompleteScreen() {
     return (
       <Body>
-        <div>
-          {this.context.loggedIn ? (
-            <></>
-          ) : (
-            <div>
-              <LoginNag>Kirjaudu sisään nähdäksesi tehtävanannon.</LoginNag>
-              <LoginNagWrapper>
-                <LoginControls />
-              </LoginNagWrapper>
-            </div>
-          )}
-        </div>
-
-        {this.context.loggedIn && (
-          <Loading loading={false} heightHint="305px">
-            {this.renderExercise()}
-            <StyledDivider />
-            <Grid container spacing={16}>
-              <Grid item xs={8}>
-                {this.state.correctAnswers >= this.state.requiredAnswers && (
-                  <p>Tehtävä ratkaistu!</p>
-                )}
-
-                {/* TODO Remove example buttons */}
-                <button onClick={this.onCorrectAnswer}>Correct</button>
-                <button onClick={this.onIncorrectAnswer}>Incorrect</button>
-              </Grid>
-              <Grid item xs={4}>
-                <p>
-                  <IconProgressBar
-                    style={{ marginTop: "1em" }}
-                    correct={this.state.correctAnswers}
-                    total={this.state.requiredAnswers}
-                  />
-                  {this.state.correctAnswers} / {this.state.requiredAnswers}
-                </p>
-              </Grid>
-            </Grid>
-          </Loading>
-        )}
+        <Grid container spacing={32} direction="column" alignItems="center">
+          <Grid item>
+            <p>Tehtävä suoritettu</p>
+          </Grid>
+          <Grid item>
+            <IconProgressBar
+              style={{ marginTop: "1em" }}
+              correct={this.state.correctAnswers}
+              total={this.state.requiredAnswers}
+            />
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={this.onReset}>
+              Harjoittele lisää
+            </Button>
+          </Grid>
+        </Grid>
       </Body>
     )
+  }
+
+  renderBody() {
+    if (this.state.completed) {
+      return this.renderCompleteScreen()
+    } else {
+      return (
+        <Body>
+          <div>
+            {this.context.loggedIn ? (
+              <></>
+            ) : (
+              <div>
+                <LoginNag>Kirjaudu sisään nähdäksesi tehtävanannon.</LoginNag>
+                <LoginNagWrapper>
+                  <LoginControls />
+                </LoginNagWrapper>
+              </div>
+            )}
+          </div>
+
+          {this.context.loggedIn && (
+            <Loading loading={false} heightHint="305px">
+              {this.renderExercise()}
+              <StyledDivider />
+              <Grid container spacing={16}>
+                <Grid item xs={8}>
+                  {/* TODO Remove example buttons */}
+                  <button onClick={this.onCorrectAnswer}>Correct</button>
+                  <button onClick={this.onIncorrectAnswer}>Incorrect</button>
+                </Grid>
+                <Grid item xs={4}>
+                  <p>
+                    <IconProgressBar
+                      style={{ marginTop: "1em" }}
+                      correct={this.state.correctAnswers}
+                      total={this.state.requiredAnswers}
+                    />
+                    {this.state.correctAnswers} / {this.state.requiredAnswers}
+                  </p>
+                </Grid>
+              </Grid>
+            </Loading>
+          )}
+        </Body>
+      )
+    }
   }
 
   render() {
