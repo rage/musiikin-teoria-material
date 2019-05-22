@@ -17,8 +17,6 @@ import {
   Divider,
   Icon,
 } from "@material-ui/core"
-import Fab from "@material-ui/core/Fab"
-import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import Modal from "@material-ui/core/Modal"
 import LoginStateContext from "../contexes/LoginStateContext"
 import LoginControls from "../components/LoginControls"
