@@ -109,6 +109,11 @@ class ChordExercise extends React.Component {
           anchorEl={this.state.anchorEl}
           placement={this.state.placement}
           isCorrect={this.answerIsCorrect()}
+          correctAnswer={
+            roots[this.state.rootNmr].label +
+            " " +
+            triads[this.state.triadNmr].label.toLowerCase()
+          }
         />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
