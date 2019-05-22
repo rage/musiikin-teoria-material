@@ -52,7 +52,18 @@ class Root {
     this.pitch = pitch
     this.letter = letter
     this.accidental = accidentals[accidental]
-    this.label = (letter === 6 ? "H" : letters[letter]) + this.accidental.symbol
+    if (letter === 6)
+      this.label =
+        pitch === 9
+          ? "Bb"
+          : pitch === 10
+          ? "B"
+          : pitch === 11
+          ? "H"
+          : pitch === 0
+          ? "H#"
+          : "Hx"
+    else this.label = letters[letter] + this.accidental.symbol
     this.notation = this.accidental.notation + letters[letter]
   }
 }
@@ -74,8 +85,8 @@ export const roots = [
   new Root(8, A, FLAT), // Ab
   new Root(9, A, NATURAL), // A
   new Root(10, A, SHARP), // A#
-  new Root(10, B, FLAT), // Bb
-  new Root(11, B, NATURAL), // B
+  new Root(10, B, FLAT), // Bb or B
+  new Root(11, B, NATURAL), // B or H
 ]
 
 // defaults are major and perfect intervals
