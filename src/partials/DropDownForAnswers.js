@@ -5,31 +5,15 @@ import styled from "styled-components"
 
 class DropDownForAnswers extends React.Component {
   state = {
-    answer: "",
     anchorEl: null,
-    selectedIndex: 0,
     options: [],
   }
 
   componentDidMount() {
     const options = this.props.answers.map(answer => answer.label)
-    const answer = this.props.label
     this.setState({
       options,
-      answer,
     })
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.resetAnswer !== prevProps.resetAnswer &&
-      this.props.resetAnswer
-    ) {
-      this.setState({
-        answer: this.props.label,
-      })
-      this.props.toggleResetAnswer()
-    }
   }
 
   handleClick = event => {
@@ -42,9 +26,7 @@ class DropDownForAnswers extends React.Component {
 
   handleItemSelection = (event, index) => {
     this.setState({
-      selectedIndex: index,
       anchorEl: null,
-      answer: this.state.options[index],
     })
     this.props.setStudentsAnswer(index)
   }
@@ -60,8 +42,12 @@ class DropDownForAnswers extends React.Component {
             options={this.state.options}
             handleClose={this.handleClose}
             handleItemSelection={this.handleItemSelection}
-            selectedIndex={this.state.selectedIndex}
-            answer={this.state.answer}
+            selectedIndex={this.props.selectedIndex}
+            answer={
+              typeof this.props.selectedIndex === "number"
+                ? this.state.options[this.props.selectedIndex]
+                : this.props.label
+            }
             anchorEl={this.state.anchorEl}
           />
         </Fragment>

@@ -21,7 +21,6 @@ class MusicExercise extends React.Component {
     answerChordType: null,
     rootNmr: null,
     triadNmr: null,
-    resetAnswer: false,
   }
 
   async componentDidMount() {
@@ -42,8 +41,8 @@ class MusicExercise extends React.Component {
 
   answerIsCorrect = () => {
     if (
-      this.state.rootNmr == this.state.answerBaseKey &&
-      this.state.triadNmr == this.state.answerChordType
+      this.state.rootNmr === this.state.answerBaseKey &&
+      this.state.triadNmr === this.state.answerChordType
     ) {
       return true
     } else {
@@ -52,7 +51,10 @@ class MusicExercise extends React.Component {
   }
 
   handleClick = placement => event => {
-    if (!this.state.answerBaseKey || !this.state.answerChordType) {
+    if (
+      typeof this.state.answerBaseKey !== "number" ||
+      typeof this.state.answerChordType !== "number"
+    ) {
       return
     }
     const { currentTarget } = event
@@ -87,18 +89,14 @@ class MusicExercise extends React.Component {
     const notation = triads[triadNmr].notation(roots[rootNmr])
 
     this.setState({
+      rootNmr,
+      triadNmr,
       notation,
       toggleSubmitButton: false,
       open: false,
       answerBaseKey: null,
       answerChordType: null,
-      answerInterval: null,
-      answerScaleType: null,
     })
-  }
-
-  toggleResetAnswer = () => {
-    this.setState({ resetAnswer: !this.state.resetAnswer })
   }
 
   render() {
@@ -118,13 +116,6 @@ class MusicExercise extends React.Component {
       scale: 3,
       staffwidth: 250,
     }
-
-    const answerOptions = [
-      { id: 0, label: "duuri" },
-      { id: 1, label: "luonnollinen molli" },
-      { id: 2, label: "harmoninen molli" },
-      { id: 3, label: "melodinen molli" },
-    ]
 
     return (
       <Fragment>
@@ -153,8 +144,7 @@ class MusicExercise extends React.Component {
                 setStudentsAnswer={this.setAnswerBaseKey}
                 answers={roots}
                 label="Valitse vastaus"
-                resetAnswer={this.state.resetAnswer}
-                toggleResetAnswer={this.toggleResetAnswer}
+                selectedIndex={this.state.answerBaseKey}
               />
             </div>
             <div className="dropdown2">
@@ -162,8 +152,7 @@ class MusicExercise extends React.Component {
                 setStudentsAnswer={this.setAnswerChordType}
                 answers={triads}
                 label="Valitse vastaus"
-                resetAnswer={this.state.resetAnswer}
-                toggleResetAnswer={this.toggleResetAnswer}
+                selectedIndex={this.state.answerChordType}
               />
             </div>
             <div className="submitbutton">
@@ -184,7 +173,6 @@ class MusicExercise extends React.Component {
                 <Button
                   onClick={() => {
                     this.nextExercise()
-                    this.toggleResetAnswer()
                   }}
                   variant="contained"
                   color="primary"
