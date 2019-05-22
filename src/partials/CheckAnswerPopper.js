@@ -37,7 +37,11 @@ class CheckAnswerPopper extends React.Component {
           >
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-                <Typography>Vastauksesi on väärin.</Typography>
+                <Typography>
+                  Vastauksesi on väärin.
+                  <br />
+                  Oikea vastaus on {this.props.correctAnswer}.
+                </Typography>
               </Fade>
             )}
           </Popper>
