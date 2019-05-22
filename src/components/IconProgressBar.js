@@ -1,4 +1,5 @@
 import React from "react"
+import { Fragment } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheckCircle as correct } from "@fortawesome/free-solid-svg-icons"
@@ -7,7 +8,7 @@ import { faCircle as unanswered } from "@fortawesome/free-regular-svg-icons"
 import green from "@material-ui/core/colors/green"
 
 class IconProgressBar extends React.Component {
-  /* 
+  /*
     {
       correct: Integer,
       total: Integer
@@ -35,24 +36,19 @@ class IconProgressBar extends React.Component {
       <>
         {correctIterator.map(i => {
           return (
-            <>
-              <FontAwesomeIcon
-                style={{ color: green[600] }}
-                key={i}
-                icon={correct}
-              />{" "}
-            </>
+            <Fragment key={"correct-" + i}>
+              <FontAwesomeIcon style={{ color: green[600] }} icon={correct} />{" "}
+            </Fragment>
           )
         })}
         {totalIterator.map(i => {
           return (
-            <>
+            <Fragment key={"unanswered-" + i}>
               <FontAwesomeIcon
                 style={{ color: green[200] }}
-                key={i}
                 icon={unanswered}
               />{" "}
-            </>
+            </Fragment>
           )
         })}{" "}
       </>
