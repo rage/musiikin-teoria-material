@@ -56,8 +56,6 @@ class MusicSheet extends React.Component {
   }
 
   render() {
-    console.log(this.state.playbuttonstyle)
-
     if (!this.state.render) {
       return <p>Loading..</p>
     }
