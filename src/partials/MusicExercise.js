@@ -135,7 +135,7 @@ class MusicExercise extends React.Component {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 30,
+      paddingleft: 50,
       paddingright: 50,
       paddingtop: 15,
       responsive: undefined,

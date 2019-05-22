@@ -37,6 +37,9 @@ class MusicSheet extends React.Component {
       id: "music-midi-" + Math.floor(Math.random() * 10000),
       onlyNotes: props.only_notes ? true : false,
       onlySound: props.only_sound ? true : false,
+      playbuttonstyle: props.playbuttonstyle
+        ? props.playbuttonstyle
+        : "playbutton",
     }
   }
 
@@ -87,11 +90,10 @@ class MusicSheet extends React.Component {
   renderPlayButton(notation) {
     return (
       <>
-        {/* edit playback button styling in \node_modules\react-abc\dist\midi\style.css */}
         <div id={this.state.id}>
           <this.state.react_abc.Midi notation={notation} />
         </div>
-        <div className="playbutton">
+        <div className={this.state.playbuttonstyle}>
           <Fab color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon />
           </Fab>
