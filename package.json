@@ -70,7 +70,8 @@
     "serve": "gatsby serve",
     "format": "prettier --write \"src/**/*.js\"",
     "prettier-check": "prettier  --list-different \"src/**/*.js\"",
-    "test": "jest --verbose"
+    "test": "jest",
+    "now-build": "npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
