@@ -11,9 +11,6 @@ import { Divider, Grid, Button } from "@material-ui/core"
 import IconProgressBar from "../IconProgressBar"
 import Loading from "../Loading"
 
-// Exercises
-import ChordExercise from "./ChordExercise"
-
 const accentColor = "#38b6fa"
 
 const BorderedExerciseBox = styled.section`

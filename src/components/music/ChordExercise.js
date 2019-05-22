@@ -1,12 +1,12 @@
 import React, { Fragment } from "react"
 import { Button, Icon } from "@material-ui/core"
-import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
+import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
-import MusicSheet from "./MusicSheet"
+import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, triads } from "../util/musicUtils"
-import { randomInt } from "../util/random"
+import { roots, triads } from "../../util/musicUtils"
+import { randomInt } from "../../util/random"
 
 class ChordExercise extends React.Component {
   state = {
@@ -109,11 +109,6 @@ class ChordExercise extends React.Component {
           anchorEl={this.state.anchorEl}
           placement={this.state.placement}
           isCorrect={this.answerIsCorrect()}
-          correctAnswer={
-            roots[this.state.rootNmr].label +
-            " " +
-            triads[this.state.triadNmr].label.toLowerCase()
-          }
         />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
