@@ -1,8 +1,6 @@
 import React, { Fragment } from "react"
 import { Button, Icon } from "@material-ui/core"
-import LoginStateContext from "../contexes/LoginStateContext"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
@@ -133,8 +131,8 @@ class MusicExercise extends React.Component {
           <div className="left-container">
             <MusicSheet
               notation={this.state.notation}
-              only_notes={this.props.onlyNotes}
-              only_sound={this.props.onlySound}
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
               engraverParams={engraverParams}
             />
           </div>
