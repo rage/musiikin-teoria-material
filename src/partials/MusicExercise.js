@@ -1,27 +1,7 @@
 import React, { Fragment } from "react"
-import styled from "styled-components"
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
-import { OutboundLink } from "gatsby-plugin-google-analytics"
-
-import {
-  fetchProgrammingExerciseDetails,
-  fetchProgrammingExerciseModelSolution,
-} from "../services/moocfi"
-import {
-  Button,
-  Paper,
-  Card,
-  CardContent,
-  Divider,
-  Icon,
-} from "@material-ui/core"
-import Modal from "@material-ui/core/Modal"
+import { Button, Icon } from "@material-ui/core"
 import LoginStateContext from "../contexes/LoginStateContext"
-import LoginControls from "../components/LoginControls"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-import { normalizeExerciseId } from "../util/strings"
 import Loading from "../components/Loading"
 
 import MusicSheet from "./MusicSheet"
@@ -30,11 +10,7 @@ import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, triads } from "../util/musicUtils"
 import { randomInt } from "../util/random"
 
-const accentColor = "#38b6fa"
-
 class MusicExercise extends React.Component {
-  static contextType = LoginStateContext
-
   state = {
     render: false,
     anchorEl: null,
