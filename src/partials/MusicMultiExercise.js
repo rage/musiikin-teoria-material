@@ -180,6 +180,22 @@ class MusicMultiExercise extends React.Component {
     )
   }
 
+  renderProgressPart() {
+    return (
+      <Grid container spacing={16} direction="column" alignItems="center">
+        <Grid item>
+          <p>
+            <IconProgressBar
+              style={{ marginTop: "1em" }}
+              correct={this.state.correctAnswers}
+              total={this.state.requiredAnswers}
+            />
+          </p>
+        </Grid>
+      </Grid>
+    )
+  }
+
   renderBody() {
     if (this.state.completed) {
       return this.renderCompleteScreen()
@@ -203,23 +219,7 @@ class MusicMultiExercise extends React.Component {
             <Loading loading={false} heightHint="305px">
               {this.renderExercise()}
               <StyledDivider />
-              <Grid container spacing={16}>
-                <Grid item xs={8}>
-                  {/* TODO Remove example buttons */}
-                  <button onClick={this.onCorrectAnswer}>Correct</button>
-                  <button onClick={this.onIncorrectAnswer}>Incorrect</button>
-                </Grid>
-                <Grid item xs={4}>
-                  <p>
-                    <IconProgressBar
-                      style={{ marginTop: "1em" }}
-                      correct={this.state.correctAnswers}
-                      total={this.state.requiredAnswers}
-                    />
-                    {this.state.correctAnswers} / {this.state.requiredAnswers}
-                  </p>
-                </Grid>
-              </Grid>
+              {this.renderProgressPart()}
             </Loading>
           )}
         </Body>
