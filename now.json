@@ -1,5 +1,12 @@
 {
-  "type": "static",
+  "version": 2,
   "alias": "musiikin-teoria.now.sh",
-  "public": true
+  "public": true,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "public" }
+    }
+  ]
 }
