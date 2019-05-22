@@ -45,6 +45,7 @@ class MusicExercise extends React.Component {
     answerChordType: null,
     rootNmr: null,
     triadNmr: null,
+    resetAnswer: false,
   }
 
   async componentDidMount() {
@@ -120,6 +121,10 @@ class MusicExercise extends React.Component {
     })
   }
 
+  toggleResetAnswer = () => {
+    this.setState({ resetAnswer: !this.state.resetAnswer })
+  }
+
   render() {
     if (!this.state.render) {
       return <div>Loading</div>
@@ -171,12 +176,18 @@ class MusicExercise extends React.Component {
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerBaseKey}
                 answers={roots}
+                label="Valitse vastaus"
+                resetAnswer={this.state.resetAnswer}
+                toggleResetAnswer={this.toggleResetAnswer}
               />
             </div>
             <div className="dropdown2">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerChordType}
                 answers={triads}
+                label="Valitse vastaus"
+                resetAnswer={this.state.resetAnswer}
+                toggleResetAnswer={this.toggleResetAnswer}
               />
             </div>
             <div className="submitbutton">
@@ -195,7 +206,10 @@ class MusicExercise extends React.Component {
                 // if answer is not correct we show start over button
                 // We then change toggleSubmitButton back to false.
                 <Button
-                  onClick={this.nextExercise}
+                  onClick={() => {
+                    this.nextExercise()
+                    this.toggleResetAnswer()
+                  }}
                   variant="contained"
                   color="primary"
                 >
