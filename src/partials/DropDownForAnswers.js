@@ -13,11 +13,23 @@ class DropDownForAnswers extends React.Component {
 
   componentDidMount() {
     const options = this.props.answers.map(answer => answer.label)
-    const answer = label
+    const answer = this.props.label
     this.setState({
       options,
       answer,
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.resetAnswer !== prevProps.resetAnswer &&
+      this.props.resetAnswer
+    ) {
+      this.setState({
+        answer: this.props.label,
+      })
+      this.props.toggleResetAnswer()
+    }
   }
 
   handleClick = event => {
@@ -61,7 +73,5 @@ class DropDownForAnswers extends React.Component {
 const Wrapper = styled.div`
   margin-bottom: 1rem;
 `
-
-const label = "Valitse vastaus"
 
 export default withSimpleErrorBoundary(DropDownForAnswers)
