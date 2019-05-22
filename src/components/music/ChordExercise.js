@@ -8,7 +8,7 @@ import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, triads } from "../util/musicUtils"
 import { randomInt } from "../util/random"
 
-class MusicExercise extends React.Component {
+class ChordExercise extends React.Component {
   state = {
     render: false,
     anchorEl: null,
@@ -102,19 +102,6 @@ class MusicExercise extends React.Component {
       return <div>Loading</div>
     }
 
-    const engraverParams = {
-      add_classes: false,
-      editable: false,
-      listener: null,
-      paddingbottom: 1,
-      paddingleft: 50,
-      paddingright: 50,
-      paddingtop: 15,
-      responsive: undefined,
-      scale: 3,
-      staffwidth: 250,
-    }
-
     return (
       <Fragment>
         <CheckAnswerPopper
@@ -133,7 +120,7 @@ class MusicExercise extends React.Component {
               notation={this.state.notation}
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
-              engraverParams={engraverParams}
+              engraverParams={this.props.engraverParams}
             />
           </div>
           <div className="right-container">
@@ -197,4 +184,4 @@ class MusicExercise extends React.Component {
   }
 }
 
-export default withSimpleErrorBoundary(MusicExercise)
+export default withSimpleErrorBoundary(ChordExercise)
