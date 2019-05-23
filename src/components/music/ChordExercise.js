@@ -14,11 +14,12 @@ class ChordExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    toggleSubmitButton: false,
     answerRoot: null,
     answerTriad: null,
     correctRoot: null,
     correctTriad: null,
+    answerWasSubmitted: false,
+    answerWasCorrect: false,
   }
 
   async componentDidMount() {
@@ -57,9 +58,10 @@ class ChordExercise extends React.Component {
       anchorEl: currentTarget,
       open: state.placement !== placement || !state.open,
       placement,
-      toggleSubmitButton: true,
+      answerWasSubmitted: true,
+      answerWasCorrect: this.answerIsCorrect(),
     }))
-    if (this.answerIsCorrect()) {
+    if (this.state.answerWasCorrect) {
       this.props.onCorrect()
     } else {
       this.props.onIncorrect()
@@ -87,7 +89,8 @@ class ChordExercise extends React.Component {
       correctRoot,
       correctTriad,
       notation,
-      toggleSubmitButton: false,
+      answerWasSubmitted: false,
+      answerWasCorrect: false,
       open: false,
       answerRoot: null,
       answerTriad: null,
@@ -105,7 +108,16 @@ class ChordExercise extends React.Component {
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           placement={this.state.placement}
-          isCorrect={this.answerIsCorrect()}
+          isCorrect={this.state.answerWasCorrect}
+          correctAnswer={
+            // pass correct answer only after the answer was sent; otherwise the
+            // student could read the correct answer using React Developer Tools
+            this.state.answerWasSubmitted
+              ? roots[this.state.correctRoot].label +
+                " " +
+                triads[this.state.correctTriad].label.toLowerCase()
+              : ""
+          }
         />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
@@ -128,7 +140,7 @@ class ChordExercise extends React.Component {
                 label="Valitse vastaus"
                 selectedIndex={this.state.answerRoot}
                 borderColor={
-                  this.state.toggleSubmitButton
+                  this.state.answerWasSubmitted
                     ? this.answerRootIsCorrect()
                       ? "green"
                       : "red"
@@ -143,7 +155,7 @@ class ChordExercise extends React.Component {
                 label="Valitse vastaus"
                 selectedIndex={this.state.answerTriad}
                 borderColor={
-                  this.state.toggleSubmitButton
+                  this.state.answerWasSubmitted
                     ? this.answerTriadIsCorrect()
                       ? "green"
                       : "red"
@@ -152,32 +164,17 @@ class ChordExercise extends React.Component {
               />
             </div>
             <div className="submitbutton">
-              {this.state.toggleSubmitButton && this.answerIsCorrect() ? (
-                // once we have submitted the answer and toggleSubmitButton is true
-                // we also check if answer is correct and if it is we show next question
-                // button. We then change toggleSubmitButton back to false.
+              {this.state.answerWasSubmitted ? (
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={this.nextExercise}
                 >
-                  Seuraava kysymys
-                </Button>
-              ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
-                // if answer is not correct we show start over button
-                // We then change toggleSubmitButton back to false.
-                <Button
-                  onClick={() => {
-                    this.nextExercise()
-                  }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Aloita alusta
+                  {this.state.answerWasCorrect
+                    ? "Seuraava kysymys"
+                    : "Aloita alusta"}
                 </Button>
               ) : (
-                // toggleSubmitButton is by default false and after submitting answer below
-                // we change it to true
                 <Button
                   variant="contained"
                   color="primary"
