@@ -67,6 +67,7 @@ class MusicExerciseWrapper extends React.Component {
 
   state = {
     render: false,
+    skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
     requiredAnswers: 10,
     name: "Not set",
@@ -139,8 +140,14 @@ class MusicExerciseWrapper extends React.Component {
 
   renderProgressPart() {
     return (
-      <Grid container spacing={16} direction="column" alignItems="center">
-        <Grid item>
+      <Grid
+        container
+        spacing={40}
+        direction="column"
+        alignItems="center"
+        style={{ height: 75 }}
+      >
+        <Grid item style={{ marginTop: "1em" }}>
           <p>
             <IconProgressBar
               style={{ marginTop: "1em" }}
@@ -160,7 +167,7 @@ class MusicExerciseWrapper extends React.Component {
       return (
         <Body>
           <div>
-            {this.context.loggedIn ? (
+            {this.context.loggedIn || this.state.skipLogin ? (
               <></>
             ) : (
               <div>
@@ -168,17 +175,20 @@ class MusicExerciseWrapper extends React.Component {
                 <LoginNagWrapper>
                   <LoginControls />
                 </LoginNagWrapper>
+                <button onClick={() => this.setState({ skipLogin: true })}>
+                  Skip
+                </button>
               </div>
             )}
           </div>
 
-          {this.context.loggedIn && (
+          {(this.context.loggedIn || this.state.skipLogin) && (
             <Loading loading={false} heightHint="305px">
               {this.props.renderExercise(
                 this.onCorrectAnswer,
                 this.onIncorrectAnswer,
               )}
-              <StyledDivider />
+              {/* <StyledDivider /> */}
               {this.renderProgressPart()}
             </Loading>
           )}
