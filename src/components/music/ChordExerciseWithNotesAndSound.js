@@ -20,7 +20,7 @@ const ChordExerciseWithNotesAndSound = ({
               editable: false,
               listener: null,
               paddingbottom: 1,
-              paddingleft: 50,
+              paddingleft: 66,
               paddingright: 50,
               paddingtop: 15,
               responsive: undefined,
