@@ -15,16 +15,16 @@ class ChordExercise extends React.Component {
     open: false,
     placement: null,
     toggleSubmitButton: false,
-    answerBaseKey: null,
-    answerChordType: null,
-    rootNmr: null,
-    triadNmr: null,
+    answerRoot: null,
+    answerTriad: null,
+    correctRoot: null,
+    correctTriad: null,
   }
 
   async componentDidMount() {
     this.setState({
-      rootNmr: randomInt(0, roots.length),
-      triadNmr: randomInt(0, triads.length),
+      correctRoot: randomInt(0, roots.length),
+      correctTriad: randomInt(0, triads.length),
       render: true,
       onCorrect: undefined, // Function
       onIncorrect: undefined, // Function
@@ -37,18 +37,18 @@ class ChordExercise extends React.Component {
     super(props)
   }
 
-  answerBaseKeyIsCorrect = () => this.state.rootNmr === this.state.answerBaseKey
+  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
 
-  answerChordTypeIsCorrect = () =>
-    this.state.triadNmr === this.state.answerChordType
+  answerTriadIsCorrect = () =>
+    this.state.correctTriad === this.state.answerTriad
 
   answerIsCorrect = () =>
-    this.answerBaseKeyIsCorrect() && this.answerChordTypeIsCorrect()
+    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
 
   handleClick = placement => event => {
     if (
-      typeof this.state.answerBaseKey !== "number" ||
-      typeof this.state.answerChordType !== "number"
+      typeof this.state.answerRoot !== "number" ||
+      typeof this.state.answerTriad !== "number"
     ) {
       return
     }
@@ -66,31 +66,31 @@ class ChordExercise extends React.Component {
     }
   }
 
-  setAnswerBaseKey = studentsAnswer => {
+  setAnswerRoot = studentsAnswer => {
     this.setState({
-      answerBaseKey: studentsAnswer,
+      answerRoot: studentsAnswer,
     })
   }
 
-  setAnswerChordType = studentsAnswer => {
+  setAnswerTriad = studentsAnswer => {
     this.setState({
-      answerChordType: studentsAnswer,
+      answerTriad: studentsAnswer,
     })
   }
 
   nextExercise = () => {
-    const rootNmr = randomInt(0, roots.length)
-    const triadNmr = randomInt(0, triads.length)
-    const notation = triads[triadNmr].notation(roots[rootNmr])
+    const correctRoot = randomInt(0, roots.length)
+    const correctTriad = randomInt(0, triads.length)
+    const notation = triads[correctTriad].notation(roots[correctRoot])
 
     this.setState({
-      rootNmr,
-      triadNmr,
+      correctRoot,
+      correctTriad,
       notation,
       toggleSubmitButton: false,
       open: false,
-      answerBaseKey: null,
-      answerChordType: null,
+      answerRoot: null,
+      answerTriad: null,
     })
   }
 
@@ -123,13 +123,13 @@ class ChordExercise extends React.Component {
           <div className="right-container">
             <div className="dropdown1">
               <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerBaseKey}
+                setStudentsAnswer={this.setAnswerRoot}
                 answers={roots}
                 label="Valitse vastaus"
-                selectedIndex={this.state.answerBaseKey}
+                selectedIndex={this.state.answerRoot}
                 borderColor={
                   this.state.toggleSubmitButton
-                    ? this.answerBaseKeyIsCorrect()
+                    ? this.answerRootIsCorrect()
                       ? "green"
                       : "red"
                     : ""
@@ -138,13 +138,13 @@ class ChordExercise extends React.Component {
             </div>
             <div className="dropdown2">
               <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerChordType}
+                setStudentsAnswer={this.setAnswerTriad}
                 answers={triads}
                 label="Valitse vastaus"
-                selectedIndex={this.state.answerChordType}
+                selectedIndex={this.state.answerTriad}
                 borderColor={
                   this.state.toggleSubmitButton
-                    ? this.answerChordTypeIsCorrect()
+                    ? this.answerTriadIsCorrect()
                       ? "green"
                       : "red"
                     : ""
