@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
-import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
-import DropDownMenu from "../components/DropDownMenu"
+import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import DropDownMenu from "../DropDownMenu"
 import styled from "styled-components"
 
 class DropDownForAnswers extends React.Component {

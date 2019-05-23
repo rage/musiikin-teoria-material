@@ -38,7 +38,7 @@ import AbStudy from "./AbStudy"
 import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
 import MusicSheet from "./MusicSheet"
-import MusicMultiExercise from "./MusicMultiExercise"
+import MusicExercises from "./MusicExercises"
 
 import {
   Table,
@@ -59,7 +59,6 @@ import H6 from "./Headers/H6"
 import TableOfContents from "./TableOfContents"
 import Notice from "./Notice"
 import RegistrationLink from "./RegistrationLink"
-import DropDownForAnswers from "./DropDownForAnswers"
 
 const mapping = {
   test: Test,
@@ -78,8 +77,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
-  "answer-selection": DropDownForAnswers,
-  "music-exercise": MusicMultiExercise,
+  "music-exercise": MusicExercises,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,

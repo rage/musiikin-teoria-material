@@ -1,22 +1,19 @@
 import React from "react"
 import styled from "styled-components"
-import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
+import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
-import LoginStateContext from "../contexes/LoginStateContext"
-import LoginControls from "../components/LoginControls"
+import LoginStateContext from "../../contexes/LoginStateContext"
+import LoginControls from "../LoginControls"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
 import { Divider, Grid, Button } from "@material-ui/core"
-import IconProgressBar from "../components/IconProgressBar"
-import Loading from "../components/Loading"
-
-// Exercises
-import MusicExercise from "./MusicExercise"
+import IconProgressBar from "../IconProgressBar"
+import Loading from "../Loading"
 
 const accentColor = "#38b6fa"
 
-const MusicExerciseWrapper = styled.section`
+const BorderedExerciseBox = styled.section`
   padding 1rem;
   margin-bottom: 2rem;
   border-left: 0.2rem solid ${accentColor};
@@ -65,7 +62,7 @@ const StyledDivider = styled(Divider)`
   margin: 1rem 16px !important;
 `
 
-class MusicMultiExercise extends React.Component {
+class MusicExerciseWrapper extends React.Component {
   static contextType = LoginStateContext
 
   state = {
@@ -114,46 +111,6 @@ class MusicMultiExercise extends React.Component {
 
   onReset = () => {
     this.setState({ correctAnswers: 0, completed: false })
-  }
-
-  renderExercise() {
-    let type = "chords"
-    if (this.props.type) {
-      type = this.props.type
-    }
-
-    switch (type) {
-      case "chords":
-        return (
-          <MusicExercise
-            onCorrect={this.onCorrectAnswer}
-            onIncorrect={this.onIncorrectAnswer}
-          />
-        )
-      case "chords_notes":
-        return (
-          <MusicExercise
-            onCorrect={this.onCorrectAnswer}
-            onIncorrect={this.onIncorrectAnswer}
-            onlyNotes={true}
-          />
-        )
-      case "chords_sound":
-        return (
-          <MusicExercise
-            onCorrect={this.onCorrectAnswer}
-            onIncorrect={this.onIncorrectAnswer}
-            onlySound={true}
-          />
-        )
-      default:
-        return (
-          <p>
-            Incorrect exercise type, implemented types: "chords",
-            "chords_notes", "chords_sound"
-          </p>
-        )
-    }
   }
 
   renderCompleteScreen() {
@@ -217,7 +174,10 @@ class MusicMultiExercise extends React.Component {
 
           {this.context.loggedIn && (
             <Loading loading={false} heightHint="305px">
-              {this.renderExercise()}
+              {this.props.renderExercise(
+                this.onCorrectAnswer,
+                this.onIncorrectAnswer,
+              )}
               <StyledDivider />
               {this.renderProgressPart()}
             </Loading>
@@ -234,13 +194,13 @@ class MusicMultiExercise extends React.Component {
 
     return (
       <>
-        <MusicExerciseWrapper>
+        <BorderedExerciseBox>
           {this.renderHeader()}
           {this.renderBody()}
-        </MusicExerciseWrapper>
+        </BorderedExerciseBox>
       </>
     )
   }
 }
 
-export default withSimpleErrorBoundary(MusicMultiExercise)
+export default withSimpleErrorBoundary(MusicExerciseWrapper)
