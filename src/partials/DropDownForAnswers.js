@@ -49,6 +49,7 @@ class DropDownForAnswers extends React.Component {
                 : this.props.label
             }
             anchorEl={this.state.anchorEl}
+            borderColor={this.props.borderColor}
           />
         </Fragment>
       </Wrapper>

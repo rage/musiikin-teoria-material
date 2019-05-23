@@ -37,16 +37,13 @@ class MusicExercise extends React.Component {
     super(props)
   }
 
-  answerIsCorrect = () => {
-    if (
-      this.state.rootNmr === this.state.answerBaseKey &&
-      this.state.triadNmr === this.state.answerChordType
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }
+  answerBaseKeyIsCorrect = () => this.state.rootNmr === this.state.answerBaseKey
+
+  answerChordTypeIsCorrect = () =>
+    this.state.triadNmr === this.state.answerChordType
+
+  answerIsCorrect = () =>
+    this.answerBaseKeyIsCorrect() && this.answerChordTypeIsCorrect()
 
   handleClick = placement => event => {
     if (
@@ -148,6 +145,13 @@ class MusicExercise extends React.Component {
                 answers={roots}
                 label="Valitse vastaus"
                 selectedIndex={this.state.answerBaseKey}
+                borderColor={
+                  this.state.toggleSubmitButton
+                    ? this.answerBaseKeyIsCorrect()
+                      ? "green"
+                      : "red"
+                    : ""
+                }
               />
             </div>
             <div className="dropdown2">
@@ -156,6 +160,13 @@ class MusicExercise extends React.Component {
                 answers={triads}
                 label="Valitse vastaus"
                 selectedIndex={this.state.answerChordType}
+                borderColor={
+                  this.state.toggleSubmitButton
+                    ? this.answerChordTypeIsCorrect()
+                      ? "green"
+                      : "red"
+                    : ""
+                }
               />
             </div>
             <div className="submitbutton">
