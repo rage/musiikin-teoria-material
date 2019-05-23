@@ -1,3 +1,5 @@
+import { randomInt } from "./random"
+
 // Magic numbers that index the letters below
 const C = 0,
   D = 1,
@@ -117,7 +119,8 @@ const UNISON = 1,
   FOURTH = 4,
   FIFTH = 5,
   SIXTH = 6,
-  SEVENTH = 7
+  SEVENTH = 7,
+  OCTAVE = 8
 
 // Qualities
 const DIMINISHED = "dim",
@@ -125,6 +128,8 @@ const DIMINISHED = "dim",
   MAJOR = "maj",
   PERFECT = "perf",
   AUGMENTED = "aug"
+
+const qualities = [DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED]
 
 /**
  * Returns String corresponding to abc notation for adding an interval symbol
@@ -199,3 +204,48 @@ export const triads = [
   new Chord("Duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
   new Chord("Ylinouseva", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
 ]
+
+export const createRandomInterval = () => {
+  const quality = qualities[randomInt(0, qualities.length - 1)]
+  const possibleIntervals = intervalsForQualities[quality]
+  const interval = possibleIntervals[randomInt(0, possibleIntervals.length - 1)]
+
+  return new Interval(quality, interval)
+}
+
+class Interval {
+  constructor(quality, interval) {
+    this.quality = quality
+    this.label = intervalLabels[interval]
+    this.interval = interval
+  }
+
+  notation(root) {
+    return (
+      "L:1/1\n[" +
+      root.notation +
+      interval(root, this, this.quality, this.interval).join("") +
+      "]"
+    )
+  }
+}
+
+const intervalLabels = [
+  undefined,
+  "Priimi",
+  "Sekunti",
+  "Terssi",
+  "Kvartti",
+  "Kvintti",
+  "Seksti",
+  "Septimi",
+  "Oktaavi",
+]
+
+const intervalsForQualities = {
+  dim: qualities,
+  min: [SECOND, THIRD, SIXTH, SEVENTH],
+  maj: [SECOND, THIRD, SIXTH, SEVENTH],
+  perf: [UNISON, FOURTH, FIFTH, OCTAVE],
+  aug: qualities,
+}
