@@ -173,7 +173,7 @@ class ChordExercise extends React.Component {
                     color="primary"
                     onClick={this.nextExercise}
                   >
-                    Seuraava kysymys
+                    Aloita alusta
                   </Button>
                 ) : (
                   <Button
