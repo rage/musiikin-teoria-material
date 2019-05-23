@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { Button, Icon } from "@material-ui/core"
+import { Button, Icon, Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
@@ -114,71 +114,73 @@ class ChordExercise extends React.Component {
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
           sointuja
         </p>
-        <div className="overall-container">
-          <div className="left-container">
-            <MusicSheet
-              notation={this.state.notation}
-              onlynotes={this.props.onlyNotes}
-              onlysound={this.props.onlySound}
-              engraverParams={this.props.engraverParams}
-            />
-          </div>
-          <div className="right-container">
-            <div className="dropdown1">
-              <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerBaseKey}
-                answers={roots}
-                label="Valitse vastaus"
-                selectedIndex={this.state.answerBaseKey}
+        <Paper>
+          <div className="overall-container">
+            <div className="left-container">
+              <MusicSheet
+                notation={this.state.notation}
+                onlynotes={this.props.onlyNotes}
+                onlysound={this.props.onlySound}
+                engraverParams={this.props.engraverParams}
               />
             </div>
-            <div className="dropdown2">
-              <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerChordType}
-                answers={triads}
-                label="Valitse vastaus"
-                selectedIndex={this.state.answerChordType}
-              />
-            </div>
-            <div className="submitbutton">
-              {this.state.toggleSubmitButton && this.answerIsCorrect() ? (
-                // once we have submitted the answer and toggleSubmitButton is true
-                // we also check if answer is correct and if it is we show next question
-                // button. We then change toggleSubmitButton back to false.
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.nextExercise}
-                >
-                  Seuraava kysymys
-                </Button>
-              ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
-                // if answer is not correct we show start over button
-                // We then change toggleSubmitButton back to false.
-                <Button
-                  onClick={() => {
-                    this.nextExercise()
-                  }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Aloita alusta
-                </Button>
-              ) : (
-                // toggleSubmitButton is by default false and after submitting answer below
-                // we change it to true
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleClick("top")}
-                >
-                  Lähetä vastaukset &nbsp;
-                  <Icon>send</Icon>
-                </Button>
-              )}
+            <div className="right-container">
+              <div className="dropdown1">
+                <DropDownForAnswers
+                  setStudentsAnswer={this.setAnswerBaseKey}
+                  answers={roots}
+                  label="Valitse vastaus"
+                  selectedIndex={this.state.answerBaseKey}
+                />
+              </div>
+              <div className="dropdown2">
+                <DropDownForAnswers
+                  setStudentsAnswer={this.setAnswerChordType}
+                  answers={triads}
+                  label="Valitse vastaus"
+                  selectedIndex={this.state.answerChordType}
+                />
+              </div>
+              <div className="submitbutton">
+                {this.state.toggleSubmitButton && this.answerIsCorrect() ? (
+                  // once we have submitted the answer and toggleSubmitButton is true
+                  // we also check if answer is correct and if it is we show next question
+                  // button. We then change toggleSubmitButton back to false.
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.nextExercise}
+                  >
+                    Seuraava kysymys
+                  </Button>
+                ) : this.state.toggleSubmitButton && !this.answerIsCorrect() ? (
+                  // if answer is not correct we show start over button
+                  // We then change toggleSubmitButton back to false.
+                  <Button
+                    onClick={() => {
+                      this.nextExercise()
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Aloita alusta
+                  </Button>
+                ) : (
+                  // toggleSubmitButton is by default false and after submitting answer below
+                  // we change it to true
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleClick("top")}
+                  >
+                    Lähetä vastaukset &nbsp;
+                    <Icon>send</Icon>
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </Paper>
       </Fragment>
     )
   }
