@@ -8,6 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.1.3",
     "@material-ui/core": "^3.8.1",
     "@material-ui/icons": "^3.0.1",
+    "abcjs": "^5.6.11",
     "axios": "^0.18.0",
     "babel-plugin-styled-components": "^1.10.0",
     "code-states-visualizer": "^0.1.1",
