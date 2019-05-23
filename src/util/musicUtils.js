@@ -1,3 +1,4 @@
+// Magic numbers that index the letters below
 const C = 0,
   D = 1,
   E = 2,
@@ -6,9 +7,11 @@ const C = 0,
   A = 5,
   B = 6
 
+// Represents the position of the note on the staff (nuottiviivasto)
 const letters = ["C", "D", "E", "F", "G", "A", "B"]
 
-// grouped by pitch
+// Represents notes in abc notation,
+// Grouped by pitch (elements in same row produce same sound)
 const notes = [
   ["C", "^B", "__D"],
   ["_D", "^C", "^^B"],
@@ -24,6 +27,10 @@ const notes = [
   ["B", "_C", "^^A"],
 ]
 
+/**
+ * symbol: String shown in answer choices
+ * notation: String used in abc notation to produce the accidental
+ */
 class Accidental {
   constructor(symbol, notation) {
     this.symbol = symbol
@@ -31,6 +38,7 @@ class Accidental {
   }
 }
 
+// Magic numbers that index the accidentals below.
 const DOUBLE_FLAT = 0,
   FLAT = 1,
   NATURAL_SIGN = 2,
@@ -47,15 +55,23 @@ const accidentals = [
   new Accidental("x", "^^"),
 ]
 
+/**
+ * pitch: index for 'notes' that match the wanted sound of this Root note
+ * letter: index for 'letters' of this Root note
+ * accidental: index for 'accidentals' of this Root note
+ */
 class Root {
   constructor(pitch, letter, accidental) {
     this.pitch = pitch
     this.letter = letter
     this.accidental = accidentals[accidental]
-    if (letter === 6)
+
+    // Determines label, label is shown in answer choices
+    if (letter === B)
+      // Custom label for B
       this.label =
         pitch === 9
-          ? "Bbb"
+          ? "Bbb" // The number matches the name inside "", so 9 = "Bbb"
           : pitch === 10
           ? "Bb"
           : pitch === 11
@@ -64,6 +80,8 @@ class Root {
           ? "H#"
           : "Hx"
     else this.label = letters[letter] + this.accidental.symbol
+
+    // abc requires accidental before letter
     this.notation = this.accidental.notation + letters[letter]
   }
 }
@@ -89,9 +107,10 @@ export const roots = [
   new Root(11, B, NATURAL), // B or H
 ]
 
-// defaults are major and perfect intervals
+// pitchJumps assume PERFECT and MAJOR quality
 const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
 
+// Numbers
 const UNISON = 1,
   SECOND = 2,
   THIRD = 3,
@@ -100,28 +119,47 @@ const UNISON = 1,
   SIXTH = 6,
   SEVENTH = 7
 
+// Qualities
 const DIMINISHED = "dim",
   MINOR = "min",
   MAJOR = "maj",
   PERFECT = "perf",
   AUGMENTED = "aug"
 
-/*
-  doesn't error check for nonexisting intervals
-  (like perfect third or minor fourth)
-  for now only 1 -> 7 intervals are supported
-*/
+/**
+ * Returns String corresponding to abc notation for adding an interval symbol
+ * on top of root.
+ *
+ * For example:
+ *    root = roots[0] // C
+ *    interval(root, MAJOR, THIRD)
+ *    returns "E"
+ *
+ * @param {*} root Root note for the interval
+ * @param {*} quality What quality the interval should have
+ * @param {*} number Number corresponding to the name of the interval, 3 for third
+ */
 export const interval = (root, quality, number) => {
+  // How many letters the letter jumps to go to
   const letterJump = number - 1
-  const letter = letters[(root.letter + letterJump) % letters.length]
-  const smallLetter = root.letter + letterJump >= letters.length
 
+  const letter = letters[(root.letter + letterJump) % letters.length]
+  // abc notation uses lowercase for second octave
+  const lowercaseLetter = root.letter + letterJump >= letters.length
+
+  // How many semitones the pitch jumps
   let pitchJump = pitchJumps[letterJump]
+
+  // Default pitchJumps assume PERFECT and MAJOR quality
+  // So we need to modify the pitch jump based on the quality
   switch (quality) {
     case MINOR:
       pitchJump -= 1
       break
     case DIMINISHED:
+      // UNISON, FOURTH, FIFTH assume PERFECT quality,
+      // so the jump needs to be reduced by 1
+      // Rest assume MAJOR, so the jump needs to be reduced by 2
       pitchJump -=
         number === UNISON || number === FOURTH || number === FIFTH ? 1 : 2
       break
@@ -129,8 +167,14 @@ export const interval = (root, quality, number) => {
       pitchJump += 1
   }
 
+  /*
+  doesn't error check for nonexisting intervals
+  (like perfect third or minor fourth)
+  for now only 1 -> 7 intervals are supported
+*/
   for (const note of notes[(root.pitch + pitchJump) % notes.length])
-    if (note.includes(letter)) return smallLetter ? note.toLowerCase() : note
+    if (note.includes(letter))
+      return lowercaseLetter ? note.toLowerCase() : note
 }
 
 class Chord {
