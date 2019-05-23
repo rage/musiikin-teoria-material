@@ -122,6 +122,7 @@ class ChordExercise extends React.Component {
                 onlynotes={this.props.onlyNotes}
                 onlysound={this.props.onlySound}
                 engraverParams={this.props.engraverParams}
+                playbuttonstyle={this.props.playButtonStyle}
               />
             </div>
             <div className="right-container">
