@@ -46,16 +46,46 @@
   width: 400px;
 }
 
-.dropdown1 {
+.dropdownchord1 {
   order: 1;
   margin-left: 113px;
   margin-top: 70px;
 }
 
-.dropdown2 {
+.dropdownchord2 {
   order: 2;
   margin-left: 113px;
   margin-top: 20px;
+}
+
+.submitbuttonchord {
+  order: 3;
+  margin-left: 113px;
+  margin-top: 90px;
+}
+
+.dropdowninterval1 {
+  order: 1;
+  margin-left: 113px;
+  margin-top: 50px;
+}
+
+.dropdowninterval2 {
+  order: 2;
+  margin-left: 113px;
+  margin-top: 20px;
+}
+
+.dropdowninterval3 {
+  order: 3;
+  margin-left: 113px;
+  margin-top: 20px;
+}
+
+.submitbuttoninterval {
+  order: 4;
+  margin-left: 113px;
+  margin-top: 37px;
 }
 
 .playbutton {
@@ -67,11 +97,7 @@
   margin-top: 147px;
 }
 
-.submitbutton {
-  order: 3;
-  margin-left: 113px;
-  margin-top: 90px;
-}
+
 
 .overall-container-two {
   display: flex;

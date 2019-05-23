@@ -8,7 +8,7 @@ import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
-class ChordExercise extends React.Component {
+class IntervalExercise extends React.Component {
   state = {
     render: false,
     anchorEl: null,
@@ -135,7 +135,7 @@ class ChordExercise extends React.Component {
               />
             </div>
             <div className="right-container">
-              <div className="dropdownchord1">
+              <div className="dropdowninterval1">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerRoot}
                   answers={roots}
@@ -150,7 +150,7 @@ class ChordExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="dropdownchord2">
+              <div className="dropdowninterval2">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerTriad}
                   answers={triads}
@@ -165,7 +165,22 @@ class ChordExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="submitbuttonchord">
+              <div className="dropdowninterval3">
+                <DropDownForAnswers
+                  setStudentsAnswer={this.setAnswerTriad}
+                  answers={triads}
+                  label="Valitse vastaus"
+                  selectedIndex={this.state.answerTriad}
+                  borderColor={
+                    this.state.answerWasSubmitted
+                      ? this.answerTriadIsCorrect()
+                        ? "green"
+                        : "red"
+                      : ""
+                  }
+                />
+              </div>
+              <div className="submitbuttoninterval">
                 {this.state.answerWasSubmitted ? (
                   <Button
                     variant="contained"
@@ -195,4 +210,4 @@ class ChordExercise extends React.Component {
   }
 }
 
-export default withSimpleErrorBoundary(ChordExercise)
+export default withSimpleErrorBoundary(IntervalExercise)
