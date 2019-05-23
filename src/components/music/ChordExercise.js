@@ -109,7 +109,7 @@ class ChordExercise extends React.Component {
         />
         <p>
           TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
-          sointuja
+          sointujas
         </p>
         <Paper>
           <div className="overall-container">
