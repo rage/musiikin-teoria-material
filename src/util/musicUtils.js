@@ -55,9 +55,9 @@ class Root {
     if (letter === 6)
       this.label =
         pitch === 9
-          ? "Bb"
+          ? "Bbb"
           : pitch === 10
-          ? "B"
+          ? "Bb"
           : pitch === 11
           ? "H"
           : pitch === 0

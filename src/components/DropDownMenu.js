@@ -13,6 +13,7 @@ const DropDownMenu = ({
   selectedIndex,
   answer,
   anchorEl,
+  borderColor,
 }) => (
   <div>
     <Button
@@ -20,6 +21,7 @@ const DropDownMenu = ({
       aria-haspopup="true"
       onClick={handleClick}
       variant="outlined"
+      style={{ borderColor }}
     >
       {answer}
       <DropDownIcon />
