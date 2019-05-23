@@ -1,4 +1,5 @@
 {
+  "type": "static",
   "version": 2,
   "alias": "musiikin-teoria.now.sh",
   "public": true,
