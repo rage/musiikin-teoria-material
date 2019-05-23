@@ -82,7 +82,7 @@ class MusicSheet extends React.Component {
           <this.state.react_abc.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
-          <Fab color="primary" onClick={() => this.onPlay()}>
+          <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon />
           </Fab>
         </div>

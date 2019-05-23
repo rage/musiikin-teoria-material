@@ -139,8 +139,14 @@ class MusicExerciseWrapper extends React.Component {
 
   renderProgressPart() {
     return (
-      <Grid container spacing={16} direction="column" alignItems="center">
-        <Grid item>
+      <Grid
+        container
+        spacing={40}
+        direction="column"
+        alignItems="center"
+        style={{ height: 75 }}
+      >
+        <Grid item style={{ marginTop: "1em" }}>
           <p>
             <IconProgressBar
               style={{ marginTop: "1em" }}
@@ -178,7 +184,7 @@ class MusicExerciseWrapper extends React.Component {
                 this.onCorrectAnswer,
                 this.onIncorrectAnswer,
               )}
-              <StyledDivider />
+              {/* <StyledDivider /> */}
               {this.renderProgressPart()}
             </Loading>
           )}

@@ -31,6 +31,7 @@
 .overall-container {
   display: flex;
   flex-direction: row;
+  height: 350px;
 }
 
 .left-container {
@@ -47,23 +48,28 @@
 
 .dropdown1 {
   order: 1;
-  margin-left: 50px;
+  margin-left: 113px;
   margin-top: 70px;
 }
 
 .dropdown2 {
   order: 2;
-  margin-left: 50px;
+  margin-left: 113px;
   margin-top: 20px;
 }
 
 .playbutton {
-  margin-left: 137px;
+  margin-left: 163px;
+}
+
+.playbuttonSound {
+  margin-left: 163px;
+  margin-top: 147px;
 }
 
 .submitbutton {
   order: 3;
-  margin-left: 50px;
+  margin-left: 113px;
   margin-top: 90px;
 }
 
