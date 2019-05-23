@@ -9,45 +9,26 @@ class CheckAnswerPopper extends React.Component {
     const anchorEl = this.props.anchorEl
     const placement = this.props.placement
 
-    if (this.props.isCorrect) {
-      return (
-        <Wrapper>
-          <Popper
-            open={open}
-            anchorEl={anchorEl}
-            placement={placement}
-            transition
-          >
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Typography>Vastauksesi on oikein!</Typography>
-              </Fade>
-            )}
-          </Popper>
-        </Wrapper>
-      )
-    } else {
-      return (
-        <Wrapper>
-          <Popper
-            open={open}
-            anchorEl={anchorEl}
-            placement={placement}
-            transition
-          >
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Typography>
-                  Vastauksesi on väärin.
-                  <br />
-                  Oikea vastaus on {this.props.correctAnswer}.
-                </Typography>
-              </Fade>
-            )}
-          </Popper>
-        </Wrapper>
-      )
-    }
+    return (
+      <Wrapper>
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement={placement}
+          transition
+        >
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={350}>
+              <Typography>
+                Vastauksesi on väärin.
+                <br />
+                Oikea vastaus on {this.props.correctAnswer}.
+              </Typography>
+            </Fade>
+          )}
+        </Popper>
+      </Wrapper>
+    )
   }
 }
 

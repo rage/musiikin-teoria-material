@@ -54,17 +54,19 @@ class ChordExercise extends React.Component {
       return
     }
     const { currentTarget } = event
-    this.setState(state => ({
-      anchorEl: currentTarget,
-      open: state.placement !== placement || !state.open,
-      placement,
-      answerWasSubmitted: true,
-      answerWasCorrect: this.answerIsCorrect(),
-    }))
-    if (this.state.answerWasCorrect) {
+    const answerWasCorrect = this.answerIsCorrect()
+    if (answerWasCorrect) {
       this.props.onCorrect()
+      this.nextExercise()
     } else {
       this.props.onIncorrect()
+      this.setState(state => ({
+        anchorEl: currentTarget,
+        open: state.placement !== placement || !state.open,
+        placement,
+        answerWasSubmitted: true,
+        answerWasCorrect,
+      }))
     }
   }
 
@@ -108,7 +110,6 @@ class ChordExercise extends React.Component {
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           placement={this.state.placement}
-          isCorrect={this.state.answerWasCorrect}
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
@@ -172,9 +173,7 @@ class ChordExercise extends React.Component {
                     color="primary"
                     onClick={this.nextExercise}
                   >
-                    {this.state.answerWasCorrect
-                      ? "Seuraava kysymys"
-                      : "Aloita alusta"}
+                    Aloita alusta
                   </Button>
                 ) : (
                   <Button
