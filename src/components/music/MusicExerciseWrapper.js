@@ -67,6 +67,7 @@ class MusicExerciseWrapper extends React.Component {
 
   state = {
     render: false,
+    skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
     requiredAnswers: 10,
     name: "Not set",
@@ -166,7 +167,7 @@ class MusicExerciseWrapper extends React.Component {
       return (
         <Body>
           <div>
-            {this.context.loggedIn ? (
+            {this.context.loggedIn || this.state.skipLogin ? (
               <></>
             ) : (
               <div>
@@ -174,11 +175,14 @@ class MusicExerciseWrapper extends React.Component {
                 <LoginNagWrapper>
                   <LoginControls />
                 </LoginNagWrapper>
+                <button onClick={() => this.setState({ skipLogin: true })}>
+                  Skip
+                </button>
               </div>
             )}
           </div>
 
-          {this.context.loggedIn && (
+          {(this.context.loggedIn || this.state.skipLogin) && (
             <Loading loading={false} heightHint="305px">
               {this.props.renderExercise(
                 this.onCorrectAnswer,
