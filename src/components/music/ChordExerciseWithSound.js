@@ -1,7 +1,7 @@
 import React from "react"
 import ChordExercise from "./ChordExercise"
 
-const ChordExerciseWithNotes = ({
+const ChordExerciseWithSound = ({
   playButtonStyle,
   onCorrectAnswer,
   onIncorrectAnswer,
@@ -18,4 +18,4 @@ const ChordExerciseWithNotes = ({
   )
 }
 
-export default ChordExerciseWithNotes
+export default ChordExerciseWithSound
