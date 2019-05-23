@@ -135,7 +135,7 @@ class ChordExercise extends React.Component {
               />
             </div>
             <div className="right-container">
-              <div className="dropdown1">
+              <div className="dropdownchord1">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerRoot}
                   answers={roots}
@@ -150,7 +150,7 @@ class ChordExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="dropdown2">
+              <div className="dropdownchord2">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerTriad}
                   answers={triads}
@@ -165,7 +165,7 @@ class ChordExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="submitbutton">
+              <div className="submitbuttonchord">
                 {this.state.answerWasSubmitted ? (
                   <Button
                     variant="contained"
