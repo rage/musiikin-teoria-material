@@ -105,9 +105,37 @@ export const roots = [
   new Root(8, A, FLAT), // Ab
   new Root(9, A, NATURAL), // A
   new Root(10, A, SHARP), // A#
-  new Root(10, B, FLAT), // Bb or B
+  new Root(10, B, FLAT), // Bb
   new Root(11, B, NATURAL), // B or H
 ]
+
+/**
+ * Takes as argument a String in abc notation and returns a String in abc
+ * notation corresponding to the input notation raised an octave higher.
+ * Please note that the input notation must not contain any header.
+ *
+ * For example:
+ *    raiseOctave("_B, g'^F") returns "_B g''^f"
+ *
+ * @param {*} input A String in abc notation
+ */
+const raiseOctave = input => {
+  let output = ""
+  for (let i = 0; i < input.length; i++) {
+    if (input.charAt(i).match(/[A-G]/)) {
+      if (input.charAt(i + 1) && input.charAt(i + 1) === ",") {
+        output += input.charAt(i++)
+      } else {
+        output += input.charAt(i).toLowerCase()
+      }
+    } else if (input.charAt(i).match(/[a-g]/)) {
+      output += input.charAt(i) + "'"
+    } else {
+      output += input.charAt(i)
+    }
+  }
+  return output
+}
 
 // pitchJumps assume PERFECT and MAJOR quality
 const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
@@ -158,11 +186,20 @@ export const qualities = [
  * @param {*} number Number corresponding to the name of the interval, 3 for third
  */
 export const interval = (root, quality, number) => {
+  // When the interval is an octave or bigger (compound interval), first make
+  // the simple interval (less than an octave), later raise it one octave
+  let compound = false
+  if (number > SEVENTH) {
+    number -= letters.length
+    compound = true
+  }
+
   // How many letters the letter jumps to go to
   const letterJump = number - 1
 
   const letter = letters[(root.letter + letterJump) % letters.length]
-  // abc notation uses lowercase for second octave
+  // abc notation uses lowercase for the higher octave, i.e. the 5th octave in
+  // scientific pitch notation
   const lowercaseLetter = root.letter + letterJump >= letters.length
 
   // How many semitones the pitch jumps
@@ -188,11 +225,14 @@ export const interval = (root, quality, number) => {
   /*
   doesn't error check for nonexisting intervals
   (like perfect third or minor fourth)
-  for now only 1 -> 7 intervals are supported
-*/
+  for now only 1 -> 14 intervals are supported
+  */
+  let notation = ""
   for (const note of notes[(root.pitch + pitchJump) % notes.length])
     if (note.includes(letter))
-      return lowercaseLetter ? note.toLowerCase() : note
+      notation = lowercaseLetter ? note.toLowerCase() : note
+
+  return compound ? raiseOctave(notation) : notation
 }
 
 class Chord {
