@@ -7,6 +7,9 @@ import ChordExerciseWithSound from "../components/music/ChordExerciseWithSound"
 import IntervalExerciseWithNotesAndSound from "../components/music/IntervalExerciseWithNotesAndSound"
 import IntervalExerciseWithNotes from "../components/music/IntervalExerciseWithNotes"
 import IntervalExerciseWithSound from "../components/music/IntervalExerciseWithSound"
+import ScaleExerciseWithNotesAndSound from "../components/music/ScaleExerciseWithNotesAndSound"
+import ScaleExerciseWithNotes from "../components/music/ScaleExerciseWithNotes"
+import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
 
 /**
  * In charge of routing user exercise type to implementing exercise
@@ -63,6 +66,27 @@ const createExerciseRenderingFunction = type => (
     case "intervals_sound":
       return (
         <IntervalExerciseWithSound
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+        />
+      )
+    case "scales":
+      return (
+        <ScaleExerciseWithNotesAndSound
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+        />
+      )
+    case "scales_notes":
+      return (
+        <ScaleExerciseWithNotes
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+        />
+      )
+    case "scales_sound":
+      return (
+        <ScaleExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
         />
