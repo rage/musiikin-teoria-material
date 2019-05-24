@@ -37,6 +37,10 @@ class MusicSheet extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.componentDidUpdate({})
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.notation !== prevProps.notation) {
       this.setState({
