@@ -37,21 +37,6 @@ class MusicSheet extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // react-abc can not be imported directly since it uses
-    // abcjs that is a non react library.
-    // abcjs attempts to use DOM api that is not available when
-    // gatsby runs build, so it's server side rendering had to be
-    // disabled.
-    // -> Dynamic import is used instead.
-    import("react-abc").then(react_abc => {
-      this.setState({ render: true, react_abc: react_abc })
-    })
-    // import("./react-abc-modified/Midi").then(react_abc_modified => {
-    //   this.setState({ react_abc_modified })
-    // })
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.notation !== prevProps.notation) {
       this.setState({
@@ -61,11 +46,19 @@ class MusicSheet extends React.Component {
       })
     }
     if (!this.state.render) {
+      // react-abc can not be imported directly since it uses
+      // abcjs that is a non react library.
+      // abcjs attempts to use DOM api that is not available when
+      // gatsby runs build, so it's server side rendering had to be
+      // disabled.
+      // -> Dynamic import is used instead.
       import("react-abc").then(react_abc => {
-        this.setState({ render: true, react_abc: react_abc })
-        // import("./react-abc-modified/Midi").then(react_abc_modified => {
-        //   this.setState({ react_abc_modified })
-        // })
+        // react-abc-modified is a version with bugfix for custom soundfont
+        // url, if this issue https://github.com/paulrosen/abcjs/issues/221
+        // is fixed then this can be removed and updated abcjs used instead.
+        import("./react-abc-modified/Midi").then(react_abc_modified => {
+          this.setState({ render: true, react_abc, react_abc_modified })
+        })
       })
     }
   }
