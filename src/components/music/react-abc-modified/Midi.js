@@ -5,7 +5,7 @@ import renderMidi from "./abc_tunebook_midi"
 import { midiProps } from "./props"
 import "./style.css"
 
-class Midi extends Component {
+export class Midi extends Component {
   componentDidMount() {
     const {
       el,
@@ -47,5 +47,3 @@ Midi.propTypes = {
 }
 
 Midi.defaultProps = midiProps
-
-export default Midi

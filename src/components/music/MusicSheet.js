@@ -49,6 +49,9 @@ class MusicSheet extends React.Component {
     import("react-abc").then(react_abc => {
       this.setState({ render: true, react_abc: react_abc })
     })
+    import("./react-abc-modified/Midi").then(react_abc_modified => {
+      this.setState({ react_abc_modified })
+    })
   }
 
   render() {
@@ -81,7 +84,7 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id}>
-          <Midi notation={notation} />
+          <this.state.react_abc_modified.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
