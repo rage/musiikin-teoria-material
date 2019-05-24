@@ -50,6 +50,20 @@ class MusicSheet extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.notation !== prevProps.notation) {
+      this.setState({
+        react_abc: null,
+        render: false,
+      })
+    }
+    if (!this.state.render) {
+      import("react-abc").then(react_abc => {
+        this.setState({ render: true, react_abc: react_abc })
+      })
+    }
+  }
+
   render() {
     if (!this.state.render) {
       return <p>Loading..</p>
