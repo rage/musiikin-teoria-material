@@ -47,21 +47,25 @@ class MusicSheet extends React.Component {
     import("react-abc").then(react_abc => {
       this.setState({ render: true, react_abc: react_abc })
     })
-    import("./react-abc-modified/Midi").then(react_abc_modified => {
-      this.setState({ react_abc_modified })
-    })
+    // import("./react-abc-modified/Midi").then(react_abc_modified => {
+    //   this.setState({ react_abc_modified })
+    // })
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.notation !== prevProps.notation) {
       this.setState({
         react_abc: null,
+        read_abc_modified: null,
         render: false,
       })
     }
     if (!this.state.render) {
       import("react-abc").then(react_abc => {
         this.setState({ render: true, react_abc: react_abc })
+        // import("./react-abc-modified/Midi").then(react_abc_modified => {
+        //   this.setState({ react_abc_modified })
+        // })
       })
     }
   }
@@ -96,7 +100,7 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id}>
-          <this.state.react_abc_modified.Midi notation={notation} />
+          <this.state.react_abc.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
