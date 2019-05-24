@@ -21,7 +21,7 @@ class IntervalExercise extends React.Component {
     placement: null,
     answerRoot: null,
     answerInterval: undefined,
-    answeruality: undefined,
+    answerQuality: undefined,
     correctRoot: undefined,
     correctInterval: undefined,
     correctQuality: undefined,
@@ -95,13 +95,11 @@ class IntervalExercise extends React.Component {
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
     const interval = createRandomInterval()
-    const correctInterval = interval.number - 1
+    const correctInterval = interval.number - 1 // Number is one higher than index
     const correctQuality = qualities.indexOf(interval.quality)
 
-    console.log(interval)
-
     const notation = interval.notation(roots[correctRoot])
-    console.log(notation)
+
     this.setState({
       correctRoot,
       correctInterval,
@@ -174,11 +172,9 @@ class IntervalExercise extends React.Component {
               <div className="dropdowninterval2">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerInterval}
-                  answers={intervalLabels
-                    .filter(answer => answer)
-                    .map(label => {
-                      return { label: label }
-                    })}
+                  answers={intervalLabels.map(label => {
+                    return { label: label }
+                  })}
                   label="Valitse vastaus"
                   selectedIndex={this.state.answerInterval}
                   borderColor={

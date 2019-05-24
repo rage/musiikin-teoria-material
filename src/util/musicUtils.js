@@ -138,9 +138,9 @@ class Quality {
 
 export const qualities = [
   new Quality("Vähennetty", DIMINISHED),
-  new Quality("Molli", MINOR),
-  new Quality("Duuri", MAJOR),
-  new Quality("?", PERFECT),
+  new Quality("Pieni", MINOR),
+  new Quality("Suuri", MAJOR),
+  new Quality("Puhdas", PERFECT),
   new Quality("Ylinouseva", AUGMENTED),
 ]
 
@@ -219,9 +219,9 @@ export const triads = [
 ]
 
 export const createRandomInterval = () => {
-  const quality = qualities[randomInt(0, qualities.length - 1)]
+  const quality = qualities[randomInt(0, qualities.length)]
   const possibleNumbers = numbersForQualities[quality.name]
-  const number = possibleNumbers[randomInt(0, possibleNumbers.length - 1)]
+  const number = possibleNumbers[randomInt(0, possibleNumbers.length)]
 
   return new Interval(quality, number)
 }
@@ -229,7 +229,7 @@ export const createRandomInterval = () => {
 class Interval {
   constructor(quality, number) {
     this.quality = quality
-    this.label = intervalLabels[number]
+    this.label = intervalLabels[number - 1]
     this.number = number
   }
 
@@ -244,7 +244,6 @@ class Interval {
 }
 
 export const intervalLabels = [
-  undefined,
   "Priimi",
   "Sekunti",
   "Terssi",
