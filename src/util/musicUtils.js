@@ -1,3 +1,5 @@
+import { randomInt } from "./random"
+
 // Magic numbers that index the letters below
 const C = 0,
   D = 1,
@@ -117,7 +119,8 @@ const UNISON = 1,
   FOURTH = 4,
   FIFTH = 5,
   SIXTH = 6,
-  SEVENTH = 7
+  SEVENTH = 7,
+  OCTAVE = 8
 
 // Qualities
 const DIMINISHED = "dim",
@@ -125,6 +128,21 @@ const DIMINISHED = "dim",
   MAJOR = "maj",
   PERFECT = "perf",
   AUGMENTED = "aug"
+
+class Quality {
+  constructor(label, name) {
+    this.label = label
+    this.name = name
+  }
+}
+
+export const qualities = [
+  new Quality("Vähennetty", DIMINISHED),
+  new Quality("Pieni", MINOR),
+  new Quality("Suuri", MAJOR),
+  new Quality("Puhdas", PERFECT),
+  new Quality("Ylinouseva", AUGMENTED),
+]
 
 /**
  * Returns String corresponding to abc notation for adding an interval symbol
@@ -199,3 +217,47 @@ export const triads = [
   new Chord("Duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
   new Chord("Ylinouseva", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
 ]
+
+export const createRandomInterval = () => {
+  const quality = qualities[randomInt(0, qualities.length)]
+  const possibleNumbers = numbersForQualities[quality.name]
+  const number = possibleNumbers[randomInt(0, possibleNumbers.length)]
+
+  return new Interval(quality, number)
+}
+
+class Interval {
+  constructor(quality, number) {
+    this.quality = quality
+    this.label = intervalLabels[number - 1]
+    this.number = number
+  }
+
+  notation(root) {
+    return (
+      "L:1/1\n[" +
+      root.notation +
+      interval(root, this.quality.name, this.number) +
+      "]"
+    )
+  }
+}
+
+export const intervalLabels = [
+  "Priimi",
+  "Sekunti",
+  "Terssi",
+  "Kvartti",
+  "Kvintti",
+  "Seksti",
+  "Septimi",
+  "Oktaavi",
+]
+
+const numbersForQualities = {
+  dim: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
+  min: [SECOND, THIRD, SIXTH, SEVENTH],
+  maj: [SECOND, THIRD, SIXTH, SEVENTH],
+  perf: [UNISON, FOURTH, FIFTH, OCTAVE],
+  aug: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
+}
