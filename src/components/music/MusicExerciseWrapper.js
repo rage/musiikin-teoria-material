@@ -44,7 +44,7 @@ const HeaderMuted = styled.span`
 
 const Body = styled.div`
   padding-bottom: 0.5rem;
-  min-height: 300px;
+  min-height: 175px;
 `
 
 const LoginNag = styled.div`
@@ -58,9 +58,9 @@ const LoginNagWrapper = styled.div`
   justify-content: center;
 `
 
-const StyledDivider = styled(Divider)`
-  margin: 1rem 16px !important;
-`
+// const StyledDivider = styled(Divider)`
+//   margin: 1rem 16px !important;
+// `
 
 class MusicExerciseWrapper extends React.Component {
   static contextType = LoginStateContext
@@ -70,7 +70,7 @@ class MusicExerciseWrapper extends React.Component {
     skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
     requiredAnswers: 10,
-    name: "Not set",
+    name: this.props.name ? this.props.name : "'name' parameter not set",
   }
 
   constructor(props) {
@@ -78,7 +78,7 @@ class MusicExerciseWrapper extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ name: this.props.name, render: true })
+    this.setState({ render: true })
 
     const required_answers = this.props.required_answers
 
@@ -184,6 +184,7 @@ class MusicExerciseWrapper extends React.Component {
 
           {(this.context.loggedIn || this.state.skipLogin) && (
             <Loading loading={false} heightHint="305px">
+              <p>{this.props.description && this.props.description}</p>
               {this.props.renderExercise(
                 this.onCorrectAnswer,
                 this.onIncorrectAnswer,

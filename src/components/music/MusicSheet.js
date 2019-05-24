@@ -2,7 +2,6 @@ import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
-import { withPrefix } from "gatsby"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -39,15 +38,33 @@ class MusicSheet extends React.Component {
   }
 
   componentDidMount() {
-    // react-abc can not be imported directly since it uses
-    // abcjs that is a non react library.
-    // abcjs attempts to use DOM api that is not available when
-    // gatsby runs build, so it's server side rendering had to be
-    // disabled.
-    // -> Dynamic import is used instead.
-    import("react-abc").then(react_abc => {
-      this.setState({ render: true, react_abc: react_abc })
-    })
+    this.componentDidUpdate({})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.notation !== prevProps.notation) {
+      this.setState({
+        react_abc: null,
+        read_abc_modified: null,
+        render: false,
+      })
+    }
+    if (!this.state.render) {
+      // react-abc can not be imported directly since it uses
+      // abcjs that is a non react library.
+      // abcjs attempts to use DOM api that is not available when
+      // gatsby runs build, so it's server side rendering had to be
+      // disabled.
+      // -> Dynamic import is used instead.
+      import("react-abc").then(react_abc => {
+        // react-abc-modified is a version with bugfix for custom soundfont
+        // url, if this issue https://github.com/paulrosen/abcjs/issues/221
+        // is fixed then this can be removed and updated abcjs used instead.
+        import("./react-abc-modified/Midi").then(react_abc_modified => {
+          this.setState({ render: true, react_abc, react_abc_modified })
+        })
+      })
+    }
   }
 
   render() {
@@ -80,7 +97,7 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id}>
-          <this.state.react_abc.Midi notation={notation} />
+          <this.state.react_abc_modified.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
