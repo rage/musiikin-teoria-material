@@ -2,7 +2,8 @@ import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
-import { withPrefix } from "gatsby"
+
+import Midi from "./react-abc-modified/Midi"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -80,7 +81,7 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id}>
-          <this.state.react_abc.Midi notation={notation} />
+          <Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>

@@ -29,10 +29,10 @@ var renderMidi = function(output, abc, parserParams, midiParams, renderParams) {
       }
     }
   }
+
+  midi.setSoundFont("/")
+
   if (midiParams) {
-    if (midiParams.soundfontUrl) {
-      midi.setSoundFont(midiParams.soundfontUrl)
-    }
     for (key in midiParams) {
       if (midiParams.hasOwnProperty(key)) {
         // There is a conflict with the name of the parameters "listener" and "transpose". If it comes in the second parameter, then it is for midi.
@@ -73,7 +73,7 @@ var renderMidi = function(output, abc, parserParams, midiParams, renderParams) {
       html += midi.generateMidiDownloadLink(tune, params, downloadMidi, index)
     }
     div.innerHTML = html
-    if (params.generateInline) midi.attachListeners(div)
+    // if (params.generateInline) midi.attachListeners(div)
     var find = function(element, cls) {
       var els = element.getElementsByClassName(cls)
       if (els.length === 0) return null
