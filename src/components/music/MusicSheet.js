@@ -97,7 +97,7 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id}>
-          <this.state.react_abc.Midi notation={notation} />
+          <this.state.react_abc_modified.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
