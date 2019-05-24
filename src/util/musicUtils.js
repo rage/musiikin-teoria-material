@@ -254,7 +254,7 @@ export const intervalLabels = [
   "Oktaavi",
 ]
 
-const numbersForQualities = {
+export const numbersForQualities = {
   dim: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
   min: [SECOND, THIRD, SIXTH, SEVENTH],
   maj: [SECOND, THIRD, SIXTH, SEVENTH],
