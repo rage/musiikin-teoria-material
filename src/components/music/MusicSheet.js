@@ -3,8 +3,6 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 
-import Midi from "./react-abc-modified/Midi"
-
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
  *
