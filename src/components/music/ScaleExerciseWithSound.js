@@ -1,5 +1,5 @@
 import React from "react"
-import ChordExercise from "./ChordExercise"
+import ScaleExercise from "./ScaleExercise"
 
 const ScaleExerciseWithSound = ({
   playButtonStyle,
@@ -8,9 +8,9 @@ const ScaleExerciseWithSound = ({
   ...other
 }) => {
   return (
-    <ChordExercise
+    <ScaleExercise
       {...other}
-      playButtonStyle={playButtonStyle ? playButtonStyle : "playbuttonSound"}
+      playButtonStyle={playButtonStyle ? playButtonStyle : "scalePlayButton"}
       onCorrect={onCorrectAnswer}
       onIncorrect={onIncorrectAnswer}
       onlySound={true}

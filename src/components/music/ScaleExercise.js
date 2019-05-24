@@ -85,7 +85,8 @@ class ScaleExercise extends React.Component {
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
     const correctTriad = randomInt(0, triads.length)
-    const notation = triads[correctTriad].notation(roots[correctRoot])
+    // const notation = triads[correctTriad].notation(roots[correctRoot])
+    const notation = "ACGDEAEGFDFGADC"
 
     this.setState({
       correctRoot,
@@ -125,67 +126,63 @@ class ScaleExercise extends React.Component {
           sointujas
         </p>
         <Paper>
-          <div className="overall-container">
-            <div className="left-container">
-              <MusicSheet
-                notation={this.state.notation}
-                onlynotes={this.props.onlyNotes}
-                onlysound={this.props.onlySound}
-                engraverParams={this.props.engraverParams}
-                playbuttonstyle={this.props.playButtonStyle}
+          <div className="overall-container-two">
+            <MusicSheet
+              notation={this.state.notation}
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={this.props.engraverParams}
+              playbuttonstyle={this.props.playButtonStyle}
+            />
+            <div className="scaleDropdown1">
+              <DropDownForAnswers
+                setStudentsAnswer={this.setAnswerRoot}
+                answers={roots}
+                label="Valitse vastaus"
+                selectedIndex={this.state.answerRoot}
+                borderColor={
+                  this.state.answerWasSubmitted
+                    ? this.answerRootIsCorrect()
+                      ? "green"
+                      : "red"
+                    : ""
+                }
               />
             </div>
-            <div className="right-container">
-              <div className="dropdownchord1">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerRoot}
-                  answers={roots}
-                  label="Valitse vastaus"
-                  selectedIndex={this.state.answerRoot}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerRootIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="dropdownchord2">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerTriad}
-                  answers={triads}
-                  label="Valitse vastaus"
-                  selectedIndex={this.state.answerTriad}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerTriadIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="submitbuttonchord">
-                {this.state.answerWasSubmitted ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.nextExercise}
-                  >
-                    Aloita alusta
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleClick("top")}
-                  >
-                    Lähetä vastaukset &nbsp;
-                    <Icon>send</Icon>
-                  </Button>
-                )}
-              </div>
+            <div className="scaleDropdown2">
+              <DropDownForAnswers
+                setStudentsAnswer={this.setAnswerTriad}
+                answers={triads}
+                label="Valitse vastaus"
+                selectedIndex={this.state.answerTriad}
+                borderColor={
+                  this.state.answerWasSubmitted
+                    ? this.answerTriadIsCorrect()
+                      ? "green"
+                      : "red"
+                    : ""
+                }
+              />
+            </div>
+            <div className="scaleSubmitbutton">
+              {this.state.answerWasSubmitted ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.nextExercise}
+                >
+                  Aloita alusta
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleClick("top")}
+                >
+                  Lähetä vastaukset &nbsp;
+                  <Icon>send</Icon>
+                </Button>
+              )}
             </div>
           </div>
         </Paper>

@@ -1,5 +1,5 @@
 import React from "react"
-import ChordExercise from "./ChordExercise"
+import ScaleExercise from "./ScaleExercise"
 
 const ScaleExerciseWithNotes = ({
   engraverParams,
@@ -8,7 +8,7 @@ const ScaleExerciseWithNotes = ({
   ...other
 }) => {
   return (
-    <ChordExercise
+    <ScaleExercise
       {...other}
       engraverParams={
         engraverParams
@@ -19,12 +19,12 @@ const ScaleExerciseWithNotes = ({
               editable: false,
               listener: null,
               paddingbottom: 1,
-              paddingleft: 66,
-              paddingright: 50,
-              paddingtop: 60,
+              paddingleft: 15,
+              paddingright: 10,
+              paddingtop: 15,
               responsive: undefined,
-              scale: 3,
-              staffwidth: 250,
+              scale: 2,
+              staffwidth: 730,
             }
       }
       onCorrect={onCorrectAnswer}
