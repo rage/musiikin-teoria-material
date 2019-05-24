@@ -138,10 +138,6 @@ class IntervalExercise extends React.Component {
               : ""
           }
         />
-        <p>
-          TODO Tehtävät, esim: Seuraavassa tehtävässä on tarkoitus opetella
-          sointujas
-        </p>
         <Paper>
           <div className="overall-container">
             <div className="left-container">
