@@ -44,7 +44,7 @@ const HeaderMuted = styled.span`
 
 const Body = styled.div`
   padding-bottom: 0.5rem;
-  min-height: 300px;
+  min-height: 175px;
 `
 
 const LoginNag = styled.div`
@@ -58,9 +58,9 @@ const LoginNagWrapper = styled.div`
   justify-content: center;
 `
 
-const StyledDivider = styled(Divider)`
-  margin: 1rem 16px !important;
-`
+// const StyledDivider = styled(Divider)`
+//   margin: 1rem 16px !important;
+// `
 
 class MusicExerciseWrapper extends React.Component {
   static contextType = LoginStateContext
