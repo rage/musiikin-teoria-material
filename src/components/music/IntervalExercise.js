@@ -60,17 +60,19 @@ class IntervalExercise extends React.Component {
       return
     }
     const { currentTarget } = event
-    this.setState(state => ({
-      anchorEl: currentTarget,
-      open: state.placement !== placement || !state.open,
-      placement,
-      answerWasSubmitted: true,
-      answerWasCorrect: this.answerIsCorrect(),
-    }))
-    if (this.state.answerWasCorrect) {
+    const answerWasCorrect = this.answerIsCorrect()
+    if (answerWasCorrect) {
       this.props.onCorrect()
+      this.nextExercise()
     } else {
       this.props.onIncorrect()
+      this.setState(state => ({
+        anchorEl: currentTarget,
+        open: state.placement !== placement || !state.open,
+        placement,
+        answerWasSubmitted: true,
+        answerWasCorrect: this.answerIsCorrect(),
+      }))
     }
   }
 
@@ -201,16 +203,14 @@ class IntervalExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="submitbuttoninterval">
+              <div className="submitbuttonchord">
                 {this.state.answerWasSubmitted ? (
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={this.nextExercise}
                   >
-                    {this.state.answerWasCorrect
-                      ? "Seuraava kysymys"
-                      : "Aloita alusta"}
+                    Aloita alusta
                   </Button>
                 ) : (
                   <Button
