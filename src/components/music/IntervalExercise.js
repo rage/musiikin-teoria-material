@@ -5,7 +5,12 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, triads } from "../../util/musicUtils"
+import {
+  roots,
+  intervalLabels,
+  qualities,
+  createRandomInterval,
+} from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
 class IntervalExercise extends React.Component {
@@ -15,22 +20,17 @@ class IntervalExercise extends React.Component {
     open: false,
     placement: null,
     answerRoot: null,
-    answerTriad: null,
-    correctRoot: null,
-    correctTriad: null,
+    answerInterval: undefined,
+    answeruality: undefined,
+    correctRoot: undefined,
+    correctInterval: undefined,
+    correctQuality: undefined,
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
 
   async componentDidMount() {
-    this.setState({
-      correctRoot: randomInt(0, roots.length),
-      correctTriad: randomInt(0, triads.length),
-      render: true,
-      onCorrect: undefined, // Function
-      onIncorrect: undefined, // Function
-      notation: "",
-    })
+    this.setState({ render: true })
     this.nextExercise()
   }
 
@@ -40,16 +40,22 @@ class IntervalExercise extends React.Component {
 
   answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
 
-  answerTriadIsCorrect = () =>
-    this.state.correctTriad === this.state.answerTriad
+  answerIntervalIsCorrect = () =>
+    this.state.correctInterval === this.state.answerInterval
+
+  answerQualityIsCorrect = () =>
+    this.state.correctQuality === this.state.answerQuality
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
+    this.answerRootIsCorrect() &&
+    this.answerIntervalIsCorrect() &&
+    this.answerQualityIsCorrect()
 
   handleClick = placement => event => {
     if (
       typeof this.state.answerRoot !== "number" ||
-      typeof this.state.answerTriad !== "number"
+      typeof this.state.answerInterval !== "number" ||
+      typeof this.state.answerQuality !== "number"
     ) {
       return
     }
@@ -74,26 +80,39 @@ class IntervalExercise extends React.Component {
     })
   }
 
-  setAnswerTriad = studentsAnswer => {
+  setAnswerInterval = studentsAnswer => {
     this.setState({
-      answerTriad: studentsAnswer,
+      answerInterval: studentsAnswer,
+    })
+  }
+
+  setAnswerQuality = studentsAnswer => {
+    this.setState({
+      answerQuality: studentsAnswer,
     })
   }
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
-    const correctTriad = randomInt(0, triads.length)
-    const notation = triads[correctTriad].notation(roots[correctRoot])
+    const interval = createRandomInterval()
+    const correctInterval = interval.number - 1
+    const correctQuality = qualities.indexOf(interval.quality)
 
+    console.log(interval)
+
+    const notation = interval.notation(roots[correctRoot])
+    console.log(notation)
     this.setState({
       correctRoot,
-      correctTriad,
+      correctInterval,
+      correctQuality,
       notation,
       answerWasSubmitted: false,
       answerWasCorrect: false,
       open: false,
       answerRoot: null,
-      answerTriad: null,
+      answerInterval: null,
+      answerQuality: null,
     })
   }
 
@@ -115,7 +134,9 @@ class IntervalExercise extends React.Component {
             this.state.answerWasSubmitted
               ? roots[this.state.correctRoot].label +
                 " " +
-                triads[this.state.correctTriad].label.toLowerCase()
+                qualities[this.state.correctQuality].label.toLowerCase() +
+                " " +
+                intervalLabels[this.state.correctInterval]
               : ""
           }
         />
@@ -152,13 +173,17 @@ class IntervalExercise extends React.Component {
               </div>
               <div className="dropdowninterval2">
                 <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerTriad}
-                  answers={triads}
+                  setStudentsAnswer={this.setAnswerInterval}
+                  answers={intervalLabels
+                    .filter(answer => answer)
+                    .map(label => {
+                      return { label: label }
+                    })}
                   label="Valitse vastaus"
-                  selectedIndex={this.state.answerTriad}
+                  selectedIndex={this.state.answerInterval}
                   borderColor={
                     this.state.answerWasSubmitted
-                      ? this.answerTriadIsCorrect()
+                      ? this.answerIntervalIsCorrect()
                         ? "green"
                         : "red"
                       : ""
@@ -167,13 +192,13 @@ class IntervalExercise extends React.Component {
               </div>
               <div className="dropdowninterval3">
                 <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerTriad}
-                  answers={triads}
+                  setStudentsAnswer={this.setAnswerQuality}
+                  answers={qualities}
                   label="Valitse vastaus"
-                  selectedIndex={this.state.answerTriad}
+                  selectedIndex={this.state.answerQuality}
                   borderColor={
                     this.state.answerWasSubmitted
-                      ? this.answerTriadIsCorrect()
+                      ? this.answerQualityIsCorrect()
                         ? "green"
                         : "red"
                       : ""

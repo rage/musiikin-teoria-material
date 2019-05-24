@@ -129,7 +129,20 @@ const DIMINISHED = "dim",
   PERFECT = "perf",
   AUGMENTED = "aug"
 
-const qualities = [DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED]
+class Quality {
+  constructor(label, name) {
+    this.label = label
+    this.name = name
+  }
+}
+
+export const qualities = [
+  new Quality("Vähennetty", DIMINISHED),
+  new Quality("Molli", MINOR),
+  new Quality("Duuri", MAJOR),
+  new Quality("?", PERFECT),
+  new Quality("Ylinouseva", AUGMENTED),
+]
 
 /**
  * Returns String corresponding to abc notation for adding an interval symbol
@@ -207,30 +220,30 @@ export const triads = [
 
 export const createRandomInterval = () => {
   const quality = qualities[randomInt(0, qualities.length - 1)]
-  const possibleIntervals = intervalsForQualities[quality]
-  const interval = possibleIntervals[randomInt(0, possibleIntervals.length - 1)]
+  const possibleNumbers = numbersForQualities[quality.name]
+  const number = possibleNumbers[randomInt(0, possibleNumbers.length - 1)]
 
-  return new Interval(quality, interval)
+  return new Interval(quality, number)
 }
 
 class Interval {
-  constructor(quality, interval) {
+  constructor(quality, number) {
     this.quality = quality
-    this.label = intervalLabels[interval]
-    this.interval = interval
+    this.label = intervalLabels[number]
+    this.number = number
   }
 
   notation(root) {
     return (
       "L:1/1\n[" +
       root.notation +
-      interval(root, this, this.quality, this.interval).join("") +
+      interval(root, this.quality.name, this.number) +
       "]"
     )
   }
 }
 
-const intervalLabels = [
+export const intervalLabels = [
   undefined,
   "Priimi",
   "Sekunti",
@@ -242,10 +255,10 @@ const intervalLabels = [
   "Oktaavi",
 ]
 
-const intervalsForQualities = {
-  dim: qualities,
+const numbersForQualities = {
+  dim: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
   min: [SECOND, THIRD, SIXTH, SEVENTH],
   maj: [SECOND, THIRD, SIXTH, SEVENTH],
   perf: [UNISON, FOURTH, FIFTH, OCTAVE],
-  aug: qualities,
+  aug: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
 }
