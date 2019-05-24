@@ -199,7 +199,7 @@ class IntervalExercise extends React.Component {
                   }
                 />
               </div>
-              <div className="submitbuttonchord">
+              <div className="submitbuttoninterval">
                 {this.state.answerWasSubmitted ? (
                   <Button
                     variant="contained"
