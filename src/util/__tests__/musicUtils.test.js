@@ -1,4 +1,10 @@
-import { interval, roots, triads } from "../musicUtils"
+import {
+  interval,
+  roots,
+  triads,
+  qualities,
+  numbersForQualities,
+} from "../musicUtils"
 
 /*
   These are in no way a comprehensive collection of intervals, chords or scales;
@@ -78,6 +84,16 @@ describe("interval()", () => {
   it("returns E flat as E's diminished octave", () => {
     const e = roots[6]
     expect(interval(e, "dim", 8)).toBe("_e")
+  })
+})
+
+// This test checks that all available root/interval combinations are writable
+describe("interval()", () => {
+  it("returns a note for each possible interval on a root in roots", () => {
+    for (const root of roots)
+      for (const quality of qualities)
+        for (const number of numbersForQualities[quality.name])
+          expect(interval(root, quality.name, number)).toBeTruthy()
   })
 })
 
