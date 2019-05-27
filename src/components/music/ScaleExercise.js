@@ -5,7 +5,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, triads } from "../../util/musicUtils"
+import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
 class ScaleExercise extends React.Component {
@@ -14,12 +14,12 @@ class ScaleExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null,
-    answerPitch: null,
-    answerTriad: null,
-    correctRoot: null,
-    correctPitch: null,
-    correctTriad: null,
+    answerRoot: null, //index of array answerOptionsForRoots
+    answerPitch: null, //pitch from class Root
+    answerTriad: null, //index of array triads
+    correctRoot: null, //index of array roots
+    correctPitch: null, //pitch from class Root
+    correctTriad: null, //index of array triads
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
@@ -40,7 +40,7 @@ class ScaleExercise extends React.Component {
     this.state.correctTriad === this.state.answerTriad
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
+    this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
 
   handleClick = placement => event => {
     if (
@@ -67,7 +67,7 @@ class ScaleExercise extends React.Component {
   }
 
   setAnswerRootAndPitch = studentsAnswer => {
-    const answerPitch = roots[studentsAnswer].pitch
+    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
     const answerRoot = studentsAnswer
     this.setState({
       answerPitch,
@@ -134,7 +134,7 @@ class ScaleExercise extends React.Component {
             <div className="scaleDropdown1">
               <DropDownForAnswers
                 setStudentsAnswer={this.setAnswerRootAndPitch}
-                answers={roots}
+                answers={answerOptionsForRoots}
                 label="Pohjasävel"
                 selectedIndex={this.state.answerRoot}
                 borderColor={

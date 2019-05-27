@@ -7,6 +7,7 @@ import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
 import {
   roots,
+  answerOptionsForRoots,
   intervalLabels,
   qualities,
   createRandomInterval,
@@ -19,12 +20,12 @@ class IntervalExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null,
-    answerPitch: null,
+    answerRoot: null, //index of array answerOptionsForRoots
+    answerPitch: null, //pitch from class Root
     answerInterval: undefined,
     answerQuality: undefined,
-    correctRoot: undefined,
-    correctPitch: undefined,
+    correctRoot: undefined, //index of array roots
+    correctPitch: undefined, //pitch from class Root
     correctInterval: undefined,
     correctQuality: undefined,
     answerWasSubmitted: false,
@@ -80,7 +81,7 @@ class IntervalExercise extends React.Component {
   }
 
   setAnswerRootAndPitch = studentsAnswer => {
-    const answerPitch = roots[studentsAnswer].pitch
+    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
     const answerRoot = studentsAnswer
     this.setState({
       answerPitch,
@@ -162,7 +163,7 @@ class IntervalExercise extends React.Component {
               <div className="dropdowninterval1">
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerRootAndPitch}
-                  answers={roots}
+                  answers={answerOptionsForRoots}
                   label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
