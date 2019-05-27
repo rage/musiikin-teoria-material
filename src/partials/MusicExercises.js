@@ -15,12 +15,13 @@ import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
  * In charge of routing user exercise type to implementing exercise
  * eg <music-exercise type="chrords"> to ChordsExercise
  */
-const ExerciseRouter = ({ type, name, description }) => {
+const ExerciseRouter = ({ type, name, description, required }) => {
   return (
     <MusicExerciseWrapper
       renderExercise={createExerciseRenderingFunction(type)}
       name={name}
       description={description}
+      requiredAnswers={required}
     />
   )
 }
