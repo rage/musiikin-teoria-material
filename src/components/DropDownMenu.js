@@ -21,7 +21,7 @@ const DropDownMenu = ({
       aria-haspopup="true"
       onClick={handleClick}
       variant="outlined"
-      style={{ borderColor }}
+      style={{ borderColor, width: 150, justifyContent: "space-between" }}
     >
       {answer}
       <DropDownIcon />
