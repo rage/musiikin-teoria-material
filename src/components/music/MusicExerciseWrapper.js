@@ -69,7 +69,9 @@ class MusicExerciseWrapper extends React.Component {
     render: false,
     skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
-    requiredAnswers: 10,
+    requiredAnswers: this.props.requiredAnswers
+      ? this.props.requiredAnswers
+      : 10,
     name: this.props.name ? this.props.name : "'name' parameter not set",
   }
 
