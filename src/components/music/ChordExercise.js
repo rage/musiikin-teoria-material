@@ -105,7 +105,7 @@ class ChordExercise extends React.Component {
     if (!this.state.render) {
       return <div>Loading</div>
     }
-    console.log("ar", answerOptionsForRoots)
+
     return (
       <Fragment>
         <CheckAnswerPopper
