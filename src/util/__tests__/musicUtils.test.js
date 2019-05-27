@@ -110,14 +110,12 @@ describe("interval()", () => {
   })
 })
 
+// This test checks that all available root/interval combinations are writable
 describe("interval()", () => {
-  it("returns a note for each possible interval starting from a root in roots", () => {
-    roots.forEach(root =>
-      qualities.forEach(quality =>
-        numbersForQualities[quality.name].forEach(number =>
-          expect(interval(root, quality.name, number)).toBeTruthy(),
-        ),
-      ),
-    )
+  it("returns a note for each possible interval on a root in roots", () => {
+    for (const root of roots)
+      for (const quality of qualities)
+        for (const number of numbersForQualities[quality.name])
+          expect(interval(root, quality.name, number)).toBeTruthy()
   })
 })

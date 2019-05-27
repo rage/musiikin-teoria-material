@@ -228,7 +228,9 @@ export const interval = (root, quality, number) => {
   for now only 1 -> 14 intervals are supported
   */
   let notation = ""
-  for (const note of notes[(root.pitch + pitchJump) % notes.length])
+  for (const note of notes[
+    (root.pitch + pitchJump + notes.length) % notes.length
+  ])
     if (note.includes(letter))
       notation = lowercaseLetter ? note.toLowerCase() : note
 
@@ -294,10 +296,16 @@ export const intervalLabels = [
   "Oktaavi",
 ]
 
+/*
+  The following intervals have been removed, since they cannot be written for
+  some of the available roots in the roots array:
+  diminished second, diminished third, diminished sixth, augmented third,
+  augmented sixth augmented seventh
+*/
 export const numbersForQualities = {
-  dim: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
+  dim: [UNISON, FOURTH, FIFTH, SEVENTH, OCTAVE],
   min: [SECOND, THIRD, SIXTH, SEVENTH],
   maj: [SECOND, THIRD, SIXTH, SEVENTH],
   perf: [UNISON, FOURTH, FIFTH, OCTAVE],
-  aug: [UNISON, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, OCTAVE],
+  aug: [UNISON, SECOND, FOURTH, FIFTH, OCTAVE],
 }
