@@ -156,7 +156,7 @@ class IntervalExercise extends React.Component {
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerRoot}
                   answers={roots}
-                  label="Valitse vastaus"
+                  label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
                     this.state.answerWasSubmitted
@@ -173,7 +173,7 @@ class IntervalExercise extends React.Component {
                   answers={intervalLabels.map(label => {
                     return { label: label }
                   })}
-                  label="Valitse vastaus"
+                  label="Intervalli"
                   selectedIndex={this.state.answerInterval}
                   borderColor={
                     this.state.answerWasSubmitted
@@ -188,7 +188,7 @@ class IntervalExercise extends React.Component {
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerQuality}
                   answers={qualities}
-                  label="Valitse vastaus"
+                  label="Laatu"
                   selectedIndex={this.state.answerQuality}
                   borderColor={
                     this.state.answerWasSubmitted

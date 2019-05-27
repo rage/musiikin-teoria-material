@@ -136,7 +136,7 @@ class ChordExercise extends React.Component {
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerRoot}
                   answers={roots}
-                  label="Valitse vastaus"
+                  label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
                     this.state.answerWasSubmitted
@@ -151,7 +151,7 @@ class ChordExercise extends React.Component {
                 <DropDownForAnswers
                   setStudentsAnswer={this.setAnswerTriad}
                   answers={triads}
-                  label="Valitse vastaus"
+                  label="Laatu"
                   selectedIndex={this.state.answerTriad}
                   borderColor={
                     this.state.answerWasSubmitted
