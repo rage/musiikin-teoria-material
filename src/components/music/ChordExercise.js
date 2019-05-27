@@ -25,17 +25,7 @@ class ChordExercise extends React.Component {
   }
 
   async componentDidMount() {
-    const correctRoot = randomInt(0, roots.length)
-    const correctPitch = roots[correctRoot].pitch
-    this.setState({
-      correctRoot,
-      correctPitch,
-      correctTriad: randomInt(0, triads.length),
-      render: true,
-      onCorrect: undefined, // Function
-      onIncorrect: undefined, // Function
-      notation: "",
-    })
+    this.setState({ render: true })
     this.nextExercise()
   }
 
