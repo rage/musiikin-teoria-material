@@ -15,22 +15,17 @@ class ScaleExercise extends React.Component {
     open: false,
     placement: null,
     answerRoot: null,
+    answerPitch: null,
     answerTriad: null,
     correctRoot: null,
+    correctPitch: null,
     correctTriad: null,
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
 
   async componentDidMount() {
-    this.setState({
-      correctRoot: randomInt(0, roots.length),
-      correctTriad: randomInt(0, triads.length),
-      render: true,
-      onCorrect: undefined, // Function
-      onIncorrect: undefined, // Function
-      notation: "",
-    })
+    this.setState({ render: true })
     this.nextExercise()
   }
 
@@ -38,7 +33,8 @@ class ScaleExercise extends React.Component {
     super(props)
   }
 
-  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
+  answerPitchIsCorrect = () =>
+    this.state.correctPitch === this.state.answerPitch
 
   answerTriadIsCorrect = () =>
     this.state.correctTriad === this.state.answerTriad
@@ -70,9 +66,12 @@ class ScaleExercise extends React.Component {
     }
   }
 
-  setAnswerRoot = studentsAnswer => {
+  setAnswerRootAndPitch = studentsAnswer => {
+    const answerPitch = roots[studentsAnswer].pitch
+    const answerRoot = studentsAnswer
     this.setState({
-      answerRoot: studentsAnswer,
+      answerPitch,
+      answerRoot,
     })
   }
 
@@ -84,12 +83,14 @@ class ScaleExercise extends React.Component {
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     const correctTriad = randomInt(0, triads.length)
     // const notation = triads[correctTriad].notation(roots[correctRoot])
     const notation = "ACGDEAEGFDFGADC"
 
     this.setState({
       correctRoot,
+      correctPitch,
       correctTriad,
       notation,
       answerWasSubmitted: false,
@@ -132,13 +133,13 @@ class ScaleExercise extends React.Component {
             />
             <div className="scaleDropdown1">
               <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerRoot}
+                setStudentsAnswer={this.setAnswerRootAndPitch}
                 answers={roots}
                 label="Pohjasävel"
                 selectedIndex={this.state.answerRoot}
                 borderColor={
                   this.state.answerWasSubmitted
-                    ? this.answerRootIsCorrect()
+                    ? this.answerPitchIsCorrect()
                       ? "green"
                       : "red"
                     : ""

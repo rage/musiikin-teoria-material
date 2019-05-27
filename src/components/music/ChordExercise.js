@@ -14,17 +14,22 @@ class ChordExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
+    answerPitch: null,
     answerRoot: null,
     answerTriad: null,
     correctRoot: null,
+    correctPitch: null,
     correctTriad: null,
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
 
   async componentDidMount() {
+    const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     this.setState({
-      correctRoot: randomInt(0, roots.length),
+      correctRoot,
+      correctPitch,
       correctTriad: randomInt(0, triads.length),
       render: true,
       onCorrect: undefined, // Function
@@ -38,13 +43,14 @@ class ChordExercise extends React.Component {
     super(props)
   }
 
-  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
+  answerPitchIsCorrect = () =>
+    this.state.correctPitch === this.state.answerPitch
 
   answerTriadIsCorrect = () =>
     this.state.correctTriad === this.state.answerTriad
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
+    this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
 
   handleClick = placement => event => {
     if (
@@ -70,9 +76,12 @@ class ChordExercise extends React.Component {
     }
   }
 
-  setAnswerRoot = studentsAnswer => {
+  setAnswerRootAndPitch = studentsAnswer => {
+    const answerPitch = roots[studentsAnswer].pitch
+    const answerRoot = studentsAnswer
     this.setState({
-      answerRoot: studentsAnswer,
+      answerPitch,
+      answerRoot,
     })
   }
 
@@ -84,16 +93,19 @@ class ChordExercise extends React.Component {
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     const correctTriad = randomInt(0, triads.length)
     const notation = triads[correctTriad].notation(roots[correctRoot])
 
     this.setState({
+      correctPitch,
       correctRoot,
       correctTriad,
       notation,
       answerWasSubmitted: false,
       answerWasCorrect: false,
       open: false,
+      answerPitch: null,
       answerRoot: null,
       answerTriad: null,
     })
@@ -134,13 +146,13 @@ class ChordExercise extends React.Component {
             <div className="right-container">
               <div className="dropdownchord1">
                 <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerRoot}
+                  setStudentsAnswer={this.setAnswerRootAndPitch}
                   answers={roots}
                   label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
                     this.state.answerWasSubmitted
-                      ? this.answerRootIsCorrect()
+                      ? this.answerPitchIsCorrect()
                         ? "green"
                         : "red"
                       : ""
