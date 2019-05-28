@@ -1,10 +1,10 @@
 import React, { Fragment } from "react"
-import { Button, Icon, Paper } from "@material-ui/core"
+import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import DropDownForAnswers from "./DropDownForAnswers"
+import SelectionBar from "./SelectionBar"
 import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
@@ -106,6 +106,33 @@ class ScaleExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const selectionOptions = [
+      {
+        className: "scaleDropdown1",
+        setAnswer: this.setAnswerRootAndPitch,
+        answers: roots,
+        label: "Pohjasävel",
+        selectedIndex: this.state.answerRoot,
+        bordercolor: this.state.answerWasSubmitted
+          ? this.answerPitchIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+      {
+        className: "scaleDropdown2",
+        setAnswer: this.setAnswerTriad,
+        answers: triads,
+        label: "Laatu",
+        selectedIndex: this.state.answerTriad,
+        bordercolor: this.state.answerWasSubmitted
+          ? this.answerTriadIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+    ]
+
     return (
       <Fragment>
         <CheckAnswerPopper
@@ -131,56 +158,12 @@ class ScaleExercise extends React.Component {
               engraverParams={this.props.engraverParams}
               playbuttonstyle={this.props.playButtonStyle}
             />
-            <div className="scaleDropdown1">
-              <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerRootAndPitch}
-                answers={answerOptionsForRoots}
-                label="Pohjasävel"
-                selectedIndex={this.state.answerRoot}
-                borderColor={
-                  this.state.answerWasSubmitted
-                    ? this.answerPitchIsCorrect()
-                      ? "green"
-                      : "red"
-                    : ""
-                }
-              />
-            </div>
-            <div className="scaleDropdown2">
-              <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerTriad}
-                answers={triads}
-                label="Laatu"
-                selectedIndex={this.state.answerTriad}
-                borderColor={
-                  this.state.answerWasSubmitted
-                    ? this.answerTriadIsCorrect()
-                      ? "green"
-                      : "red"
-                    : ""
-                }
-              />
-            </div>
-            <div className="scaleSubmitbutton">
-              {this.state.answerWasSubmitted ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.nextExercise}
-                >
-                  Aloita alusta
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleClick("top")}
-                >
-                  Lähetä vastaukset &nbsp;
-                  <Icon>send</Icon>
-                </Button>
-              )}
-            </div>
+            <SelectionBar
+              options={selectionOptions}
+              answerWasSubmitted={this.state.answerWasSubmitted}
+              nextExercise={this.nextExercise}
+              handleClick={this.handleClick("top")}
+            />
           </div>
         </Paper>
       </Fragment>
