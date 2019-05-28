@@ -34,11 +34,20 @@ class MusicSheet extends React.Component {
       playbuttonstyle: props.playbuttonstyle
         ? props.playbuttonstyle
         : "playbutton",
+      pianoSoundLoaded: false,
     }
   }
 
   componentDidMount() {
-    this.componentDidUpdate({})
+    // react-abc can not be imported directly since it uses
+    // abcjs that is a non react library.
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("react-abc").then(react_abc => {
+      this.setState({ render: true, react_abc })
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -50,17 +59,13 @@ class MusicSheet extends React.Component {
       })
     }
     if (!this.state.render) {
-      // react-abc can not be imported directly since it uses
-      // abcjs that is a non react library.
-      // abcjs attempts to use DOM api that is not available when
-      // gatsby runs build, so it's server side rendering had to be
-      // disabled.
-      // -> Dynamic import is used instead.
       import("react-abc").then(react_abc => {
         this.setState({ render: true, react_abc })
       })
     } else {
-      this.loadPianoSound()
+      if (!this.state.pianoSoundLoaded) {
+        this.loadPianoSound()
+      }
     }
   }
 
@@ -71,6 +76,7 @@ class MusicSheet extends React.Component {
     }
     const original = div.querySelector(".abcjs-midi-start.abcjs-btn")
     if (original) {
+      this.setState({ pianoSoundLoaded: true })
       original.click()
     }
   }
