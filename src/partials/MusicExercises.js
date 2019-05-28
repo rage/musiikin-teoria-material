@@ -11,7 +11,7 @@ import ScaleExerciseWithNotesAndSound from "../components/music/ScaleExerciseWit
 import ScaleExerciseWithNotes from "../components/music/ScaleExerciseWithNotes"
 import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
 
-import { scales, modes } from "../util/musicUtils"
+import { scales, modes } from "../util/music/scales"
 
 /**
  * In charge of routing user exercise type to implementing exercise

@@ -67,7 +67,6 @@ class ScaleExercise extends React.Component {
   }
 
   setAnswerRootAndPitch = studentsAnswer => {
-    console.log("sa", studentsAnswer)
     const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
     const answerRoot = studentsAnswer
     this.setState({
