@@ -1,11 +1,10 @@
 import React, { Fragment } from "react"
-import { Button, Icon, Paper } from "@material-ui/core"
+import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
-import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
@@ -110,7 +109,7 @@ class ScaleExercise extends React.Component {
     const selectionOptions = [
       {
         className: "scaleDropdown1",
-        setAnswer: this.setAnswerRoot,
+        setAnswer: this.setAnswerRootAndPitch,
         answers: roots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
