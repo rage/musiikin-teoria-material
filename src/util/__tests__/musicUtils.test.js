@@ -1,17 +1,13 @@
-import {
-  interval,
-  roots,
-  triads,
-  qualities,
-  numbersForQualities,
-  scales,
-  modes,
-} from "../musicUtils"
+import { interval } from "../music/intervals"
+import { roots } from "../music/roots"
+import { triads } from "../music/chords"
+import { qualities, numbersForQualities } from "../music/qualities"
+import { scales, modes } from "../music/scales"
 
 /*
   These are in no way a comprehensive collection of intervals, chords or scales;
   it would not make sense to have all the possibilities hard coded here, when
-  musicUtils has been designed precisely to avoid hardcoding all possibilities.
+  music utils have been designed precisely to avoid hardcoding all possibilities.
 */
 
 describe("interval()", () => {

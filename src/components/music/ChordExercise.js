@@ -5,7 +5,8 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
+import { roots, answerOptionsForRoots } from "../../util/music/roots"
+import { triads } from "../../util/music/chords"
 import { randomInt } from "../../util/random"
 
 class ChordExercise extends React.Component {
