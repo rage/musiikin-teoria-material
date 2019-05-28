@@ -1,7 +1,7 @@
-import { interval } from "../music/intervals"
+import { interval, intervalsForQualities } from "../music/intervals"
 import { roots } from "../music/roots"
 import { triads } from "../music/chords"
-import { qualities, intervalsForQualities } from "../music/qualities"
+import { qualities } from "../music/qualities"
 import { scales, modes } from "../music/scales"
 
 /*
