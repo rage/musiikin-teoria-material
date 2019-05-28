@@ -80,10 +80,10 @@ class IntervalExercise extends React.Component {
     }
   }
 
-  //answerPitch (pitch from class Root) is used for comparing
+  //answerPitch is used for comparing
   //user's answer with the correct answer,
-  //answerRoot (index of array answerOptionsForRoots) is used
-  //for finding user's answer from the array
+  //answerRoot is used
+  //for finding user's answer from the array answerOptionsForRoots
   setAnswerRootAndPitch = studentsAnswer => {
     const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
     const answerRoot = studentsAnswer
