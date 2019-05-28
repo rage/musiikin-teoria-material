@@ -5,7 +5,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
+import { roots, answerOptionsForRoots } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
 class ScaleExercise extends React.Component {
@@ -16,10 +16,10 @@ class ScaleExercise extends React.Component {
     placement: null,
     answerRoot: null, //index of array answerOptionsForRoots
     answerPitch: null, //pitch from class Root
-    answerTriad: null, //index of array triads
+    answerScale: null, //index of array scales or modes
     correctRoot: null, //index of array roots
     correctPitch: null, //pitch from class Root
-    correctTriad: null, //index of array triads
+    correctScale: null, //index of array scales or modes
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
@@ -36,16 +36,16 @@ class ScaleExercise extends React.Component {
   answerPitchIsCorrect = () =>
     this.state.correctPitch === this.state.answerPitch
 
-  answerTriadIsCorrect = () =>
-    this.state.correctTriad === this.state.answerTriad
+  answerScaleIsCorrect = () =>
+    this.state.correctScale === this.state.answerScale
 
   answerIsCorrect = () =>
-    this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
+    this.answerPitchIsCorrect() && this.answerScaleIsCorrect()
 
   handleClick = placement => event => {
     if (
       typeof this.state.answerRoot !== "number" ||
-      typeof this.state.answerTriad !== "number"
+      typeof this.state.answerScale !== "number"
     ) {
       return
     }
@@ -75,29 +75,29 @@ class ScaleExercise extends React.Component {
     })
   }
 
-  setAnswerTriad = studentsAnswer => {
+  setAnswerScale = studentsAnswer => {
     this.setState({
-      answerTriad: studentsAnswer,
+      answerScale: studentsAnswer,
     })
   }
 
   nextExercise = () => {
+    const scales = this.props.scales
     const correctRoot = randomInt(0, roots.length)
     const correctPitch = roots[correctRoot].pitch
-    const correctTriad = randomInt(0, triads.length)
-    // const notation = triads[correctTriad].notation(roots[correctRoot])
-    const notation = "ACGDEAEGFDFGADC"
+    const correctScale = randomInt(0, scales.length)
+    const notation = scales[correctScale].notation(roots[correctRoot])
 
     this.setState({
       correctRoot,
       correctPitch,
-      correctTriad,
+      correctScale,
       notation,
       answerWasSubmitted: false,
       answerWasCorrect: false,
       open: false,
       answerRoot: null,
-      answerTriad: null,
+      answerScale: null,
     })
   }
 
@@ -118,7 +118,7 @@ class ScaleExercise extends React.Component {
             this.state.answerWasSubmitted
               ? roots[this.state.correctRoot].label +
                 " " +
-                triads[this.state.correctTriad].label.toLowerCase()
+                this.props.scales[this.state.correctScale].label.toLowerCase()
               : ""
           }
         />
@@ -148,13 +148,13 @@ class ScaleExercise extends React.Component {
             </div>
             <div className="scaleDropdown2">
               <DropDownForAnswers
-                setStudentsAnswer={this.setAnswerTriad}
-                answers={triads}
+                setStudentsAnswer={this.setAnswerScale}
+                answers={this.props.scales}
                 label="Laatu"
-                selectedIndex={this.state.answerTriad}
+                selectedIndex={this.state.answerScale}
                 borderColor={
                   this.state.answerWasSubmitted
-                    ? this.answerTriadIsCorrect()
+                    ? this.answerScaleIsCorrect()
                       ? "green"
                       : "red"
                     : ""
