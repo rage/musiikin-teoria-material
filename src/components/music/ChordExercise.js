@@ -5,7 +5,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, triads } from "../../util/musicUtils"
+import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
 class ChordExercise extends React.Component {
@@ -14,23 +14,18 @@ class ChordExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null,
-    answerTriad: null,
-    correctRoot: null,
-    correctTriad: null,
+    answerRoot: null, //index of array answerOptionsForRoots
+    answerPitch: null, //pitch from class Root
+    answerTriad: null, //index of array triads
+    correctRoot: null, //index of array roots
+    correctPitch: null, //pitch from class Root
+    correctTriad: null, //index of array triads
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
 
   async componentDidMount() {
-    this.setState({
-      correctRoot: randomInt(0, roots.length),
-      correctTriad: randomInt(0, triads.length),
-      render: true,
-      onCorrect: undefined, // Function
-      onIncorrect: undefined, // Function
-      notation: "",
-    })
+    this.setState({ render: true })
     this.nextExercise()
   }
 
@@ -38,13 +33,14 @@ class ChordExercise extends React.Component {
     super(props)
   }
 
-  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
+  answerPitchIsCorrect = () =>
+    this.state.correctPitch === this.state.answerPitch
 
   answerTriadIsCorrect = () =>
     this.state.correctTriad === this.state.answerTriad
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
+    this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
 
   handleClick = placement => event => {
     if (
@@ -70,9 +66,12 @@ class ChordExercise extends React.Component {
     }
   }
 
-  setAnswerRoot = studentsAnswer => {
+  setAnswerRootAndPitch = studentsAnswer => {
+    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
+    const answerRoot = studentsAnswer
     this.setState({
-      answerRoot: studentsAnswer,
+      answerPitch,
+      answerRoot,
     })
   }
 
@@ -84,16 +83,19 @@ class ChordExercise extends React.Component {
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     const correctTriad = randomInt(0, triads.length)
     const notation = triads[correctTriad].notation(roots[correctRoot])
 
     this.setState({
+      correctPitch,
       correctRoot,
       correctTriad,
       notation,
       answerWasSubmitted: false,
       answerWasCorrect: false,
       open: false,
+      answerPitch: null,
       answerRoot: null,
       answerTriad: null,
     })
@@ -134,13 +136,13 @@ class ChordExercise extends React.Component {
             <div className="right-container">
               <div className="dropdownchord1">
                 <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerRoot}
-                  answers={roots}
+                  setStudentsAnswer={this.setAnswerRootAndPitch}
+                  answers={answerOptionsForRoots}
                   label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
                     this.state.answerWasSubmitted
-                      ? this.answerRootIsCorrect()
+                      ? this.answerPitchIsCorrect()
                         ? "green"
                         : "red"
                       : ""

@@ -6,7 +6,7 @@ import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
 import DropDownForAnswers from "./DropDownForAnswers"
-import { roots, triads } from "../../util/musicUtils"
+import { roots, answerOptionsForRoots, triads } from "../../util/musicUtils"
 import { randomInt } from "../../util/random"
 
 class ScaleExercise extends React.Component {
@@ -15,23 +15,18 @@ class ScaleExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null,
-    answerTriad: null,
-    correctRoot: null,
-    correctTriad: null,
+    answerRoot: null, //index of array answerOptionsForRoots
+    answerPitch: null, //pitch from class Root
+    answerTriad: null, //index of array triads
+    correctRoot: null, //index of array roots
+    correctPitch: null, //pitch from class Root
+    correctTriad: null, //index of array triads
     answerWasSubmitted: false,
     answerWasCorrect: false,
   }
 
   async componentDidMount() {
-    this.setState({
-      correctRoot: randomInt(0, roots.length),
-      correctTriad: randomInt(0, triads.length),
-      render: true,
-      onCorrect: undefined, // Function
-      onIncorrect: undefined, // Function
-      notation: "",
-    })
+    this.setState({ render: true })
     this.nextExercise()
   }
 
@@ -39,13 +34,14 @@ class ScaleExercise extends React.Component {
     super(props)
   }
 
-  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
+  answerPitchIsCorrect = () =>
+    this.state.correctPitch === this.state.answerPitch
 
   answerTriadIsCorrect = () =>
     this.state.correctTriad === this.state.answerTriad
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() && this.answerTriadIsCorrect()
+    this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
 
   handleClick = placement => event => {
     if (
@@ -71,9 +67,12 @@ class ScaleExercise extends React.Component {
     }
   }
 
-  setAnswerRoot = studentsAnswer => {
+  setAnswerRootAndPitch = studentsAnswer => {
+    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
+    const answerRoot = studentsAnswer
     this.setState({
-      answerRoot: studentsAnswer,
+      answerPitch,
+      answerRoot,
     })
   }
 
@@ -85,12 +84,14 @@ class ScaleExercise extends React.Component {
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     const correctTriad = randomInt(0, triads.length)
     // const notation = triads[correctTriad].notation(roots[correctRoot])
     const notation = "ACGDEAEGFDFGADC"
 
     this.setState({
       correctRoot,
+      correctPitch,
       correctTriad,
       notation,
       answerWasSubmitted: false,

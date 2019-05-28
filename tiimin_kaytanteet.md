@@ -38,6 +38,16 @@ Jos myöhästyy Daily Scrumista niin merkataan ylös. *Rangaistus valitaan myöh
 - Laske taskeista työmäärä ja kirjoita se story korttiin
 - Aseta story valmiiksi
 
+### Koodikatselmointi
+
+- Mene staging ympäristöön kokeilemaan toimiiko varsinainen uusi toiminallisuus tai bugi korjaus oikein.
+  - `User committed 4 hours ago jälkeen on keltainen ympyrä` jossa on linkki stagingiin jossa on uusin commit tietylle haaralle. 
+- Katso koodien eroa tarkasti läpi ja yritä ymmärtää mitä muutoksissa on tapahtunut
+  - Jos ei ymmmärrä jotain, niin kommentti suoraan pull requestiin. 
+- Kun kaikki ylhäällä on tehty voi vasta hyväksyä pull requestin ja sen jälkeen piirrä taululle vihreä check mark taskin viereen.
+- Merge käytäntö
+  - Kun pull request on hyväksytty, sen tekijä tekee merge branchin ja siihen liittyvän commit viestin muotoon `[Merge] commit viesti (#xx)`
+
 ### Lopetat työskentelyn
 
 - `git push` commitit
