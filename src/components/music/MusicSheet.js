@@ -120,11 +120,27 @@ class MusicSheet extends React.Component {
   }
 
   onPlay() {
-    const original = document
+    const originalStart = document
       .querySelector("#" + this.state.id)
       .querySelector(".abcjs-midi-start.abcjs-btn")
-    if (original) {
-      original.click()
+    /*
+      Check if the play button is not pushed, in which case push it;
+      otherwise push the reset button, to play from the beginning.
+      The check is performed in the same way as in the original abcjs library:
+      https://github.com/paulrosen/abcjs/blob/master/src/midi/abc_midi_controls.js
+    */
+    if (
+      originalStart &&
+      (" " + originalStart.className + " ").indexOf(" abcjs-pushed ") === -1
+    ) {
+      originalStart.click()
+    } else {
+      const originalReset = document
+        .querySelector("#" + this.state.id)
+        .querySelector(".abcjs-midi-reset.abcjs-btn")
+      if (originalReset) {
+        originalReset.click()
+      }
     }
   }
 }
