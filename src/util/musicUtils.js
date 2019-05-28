@@ -63,25 +63,11 @@ const accidentals = [
  * accidental: index for 'accidentals' of this Root note
  */
 class Root {
-  constructor(pitch, letter, accidental) {
+  constructor(pitch, letter, accidental, label) {
     this.pitch = pitch
     this.letter = letter
     this.accidental = accidentals[accidental]
-
-    // Determines label, label is shown in answer choices
-    if (letter === B)
-      // Custom label for B
-      this.label =
-        pitch === 9
-          ? "Bbb" // The number matches the name inside "", so 9 = "Bbb"
-          : pitch === 10
-          ? "Bb"
-          : pitch === 11
-          ? "H"
-          : pitch === 0
-          ? "H#"
-          : "Hx"
-    else this.label = letters[letter] + this.accidental.symbol
+    this.label = label
 
     // abc requires accidental before letter
     this.notation = this.accidental.notation + letters[letter]
@@ -90,23 +76,39 @@ class Root {
 
 // available roots (doesn't include all theoretically possible roots)
 export const roots = [
-  new Root(0, C, NATURAL), // C
-  new Root(1, C, SHARP), // C#
-  new Root(1, D, FLAT), // Db
-  new Root(2, D, NATURAL), // D
-  new Root(3, D, SHARP), // D#
-  new Root(3, E, FLAT), // Eb
-  new Root(4, E, NATURAL), // E
-  new Root(5, F, NATURAL), // F
-  new Root(6, F, SHARP), // F#
-  new Root(6, G, FLAT), // Gb
-  new Root(7, G, NATURAL), // G
-  new Root(8, G, SHARP), // G#
-  new Root(8, A, FLAT), // Ab
-  new Root(9, A, NATURAL), // A
-  new Root(10, A, SHARP), // A#
-  new Root(10, B, FLAT), // Bb
-  new Root(11, B, NATURAL), // B or H
+  new Root(0, C, NATURAL, "C"), // C
+  new Root(1, C, SHARP, "C#"), // C#
+  new Root(1, D, FLAT, "Db"), // Db
+  new Root(2, D, NATURAL, "D"), // D
+  new Root(3, D, SHARP, "D#"), // D#
+  new Root(3, E, FLAT, "Eb"), // Eb
+  new Root(4, E, NATURAL, "E"), // E
+  new Root(5, F, NATURAL, "F"), // F
+  new Root(6, F, SHARP, "F#"), // F#
+  new Root(6, G, FLAT, "Gb"), // Gb
+  new Root(7, G, NATURAL, "G"), // G
+  new Root(8, G, SHARP, "G#"), // G#
+  new Root(8, A, FLAT, "Ab"), // Ab
+  new Root(9, A, NATURAL, "A"), // A
+  new Root(10, A, SHARP, "A#"), // A#
+  new Root(10, B, FLAT, "Bb"), // Bb
+  new Root(11, B, NATURAL, "H"), // B or H
+]
+
+// answer options for roots (notes with same pitch together)
+export const answerOptionsForRoots = [
+  new Root(0, C, NATURAL, "C"), // C
+  new Root(1, C, SHARP, "C#/Db"), // C#
+  new Root(2, D, NATURAL, "D"), // D
+  new Root(3, D, SHARP, "D#/Eb"), // D#
+  new Root(4, E, NATURAL, "E"), // E
+  new Root(5, F, NATURAL, "F"), // F
+  new Root(6, F, SHARP, "F#/Gb"), // F#
+  new Root(7, G, NATURAL, "G"), // G
+  new Root(8, G, SHARP, "G#/Ab"), // G#
+  new Root(9, A, NATURAL, "A"), // A
+  new Root(10, A, SHARP, "A#/Bb"), // A#
+  new Root(11, B, NATURAL, "H"), // B or H
 ]
 
 /**

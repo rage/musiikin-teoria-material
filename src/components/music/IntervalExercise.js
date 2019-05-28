@@ -7,6 +7,7 @@ import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
 import {
   roots,
+  answerOptionsForRoots,
   intervalLabels,
   qualities,
   createRandomInterval,
@@ -19,10 +20,12 @@ class IntervalExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null,
+    answerRoot: null, //index of array answerOptionsForRoots
+    answerPitch: null, //pitch from class Root
     answerInterval: undefined,
     answerQuality: undefined,
-    correctRoot: undefined,
+    correctRoot: undefined, //index of array roots
+    correctPitch: undefined, //pitch from class Root
     correctInterval: undefined,
     correctQuality: undefined,
     answerWasSubmitted: false,
@@ -38,7 +41,8 @@ class IntervalExercise extends React.Component {
     super(props)
   }
 
-  answerRootIsCorrect = () => this.state.correctRoot === this.state.answerRoot
+  answerPitchIsCorrect = () =>
+    this.state.correctPitch === this.state.answerPitch
 
   answerIntervalIsCorrect = () =>
     this.state.correctInterval === this.state.answerInterval
@@ -47,7 +51,7 @@ class IntervalExercise extends React.Component {
     this.state.correctQuality === this.state.answerQuality
 
   answerIsCorrect = () =>
-    this.answerRootIsCorrect() &&
+    this.answerPitchIsCorrect() &&
     this.answerIntervalIsCorrect() &&
     this.answerQualityIsCorrect()
 
@@ -76,12 +80,18 @@ class IntervalExercise extends React.Component {
     }
   }
 
-  setAnswerRoot = studentsAnswer => {
+  //answerPitch is used for comparing
+  //user's answer with the correct answer,
+  //answerRoot is used
+  //for finding user's answer from the array answerOptionsForRoots
+  setAnswerRootAndPitch = studentsAnswer => {
+    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
+    const answerRoot = studentsAnswer
     this.setState({
-      answerRoot: studentsAnswer,
+      answerPitch,
+      answerRoot,
     })
   }
-
   setAnswerInterval = studentsAnswer => {
     this.setState({
       answerInterval: studentsAnswer,
@@ -96,6 +106,7 @@ class IntervalExercise extends React.Component {
 
   nextExercise = () => {
     const correctRoot = randomInt(0, roots.length)
+    const correctPitch = roots[correctRoot].pitch
     const interval = createRandomInterval()
     const correctInterval = interval.number - 1 // Number is one higher than index
     const correctQuality = qualities.indexOf(interval.quality)
@@ -103,6 +114,7 @@ class IntervalExercise extends React.Component {
     const notation = interval.notation(roots[correctRoot])
 
     this.setState({
+      correctPitch,
       correctRoot,
       correctInterval,
       correctQuality,
@@ -154,13 +166,13 @@ class IntervalExercise extends React.Component {
             <div className="right-container">
               <div className="dropdowninterval1">
                 <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerRoot}
-                  answers={roots}
+                  setStudentsAnswer={this.setAnswerRootAndPitch}
+                  answers={answerOptionsForRoots}
                   label="Pohjasävel"
                   selectedIndex={this.state.answerRoot}
                   borderColor={
                     this.state.answerWasSubmitted
-                      ? this.answerRootIsCorrect()
+                      ? this.answerPitchIsCorrect()
                         ? "green"
                         : "red"
                       : ""
