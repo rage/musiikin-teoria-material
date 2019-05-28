@@ -114,7 +114,7 @@ class ScaleExercise extends React.Component {
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
         bordercolor: this.state.answerWasSubmitted
-          ? this.answerRootIsCorrect()
+          ? this.answerPitchIsCorrect()
             ? "green"
             : "red"
           : "",
