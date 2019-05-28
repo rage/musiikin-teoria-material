@@ -4,8 +4,8 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import { roots, answerOptionsForRoots } from "../../util/musicUtils"
 import SelectionBar from "./SelectionBar"
+import { roots, answerOptionsForRoots } from "../../util/music/roots"
 import { randomInt } from "../../util/random"
 
 class ScaleExercise extends React.Component {

@@ -5,13 +5,13 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import DropDownForAnswers from "./DropDownForAnswers"
+import { roots, answerOptionsForRoots } from "../../util/music/roots"
 import {
-  roots,
-  answerOptionsForRoots,
   intervalLabels,
-  qualities,
   createRandomInterval,
-} from "../../util/musicUtils"
+} from "../../util/music/intervals"
+import { qualities } from "../../util/music/qualities"
+
 import { randomInt } from "../../util/random"
 
 class IntervalExercise extends React.Component {
