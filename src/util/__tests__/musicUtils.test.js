@@ -1,7 +1,7 @@
 import { interval } from "../music/intervals"
 import { roots } from "../music/roots"
 import { triads } from "../music/chords"
-import { qualities, numbersForQualities } from "../music/qualities"
+import { qualities, intervalsForQualities } from "../music/qualities"
 import { scales, modes } from "../music/scales"
 
 /*
@@ -90,7 +90,7 @@ describe("interval()", () => {
   it("returns a note for each possible interval on a root in roots", () => {
     for (const root of roots)
       for (const quality of qualities)
-        for (const number of numbersForQualities[quality.name])
+        for (const number of intervalsForQualities[quality.name])
           expect(interval(root, quality.name, number)).toBeTruthy()
   })
 })
