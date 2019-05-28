@@ -57,13 +57,21 @@ class MusicSheet extends React.Component {
       // disabled.
       // -> Dynamic import is used instead.
       import("react-abc").then(react_abc => {
-        // react-abc-modified is a version with bugfix for custom soundfont
-        // url, if this issue https://github.com/paulrosen/abcjs/issues/221
-        // is fixed then this can be removed and updated abcjs used instead.
-        import("./react-abc-modified/Midi").then(react_abc_modified => {
-          this.setState({ render: true, react_abc, react_abc_modified })
-        })
+        this.setState({ render: true, react_abc })
       })
+    } else {
+      this.loadPianoSound()
+    }
+  }
+
+  loadPianoSound() {
+    const div = document.querySelector("#" + this.state.id + "-empty")
+    if (!div) {
+      return
+    }
+    const original = div.querySelector(".abcjs-midi-start.abcjs-btn")
+    if (original) {
+      original.click()
     }
   }
 
@@ -96,8 +104,11 @@ class MusicSheet extends React.Component {
   renderPlayButton(notation) {
     return (
       <>
+        <div id={this.state.id + "-empty"}>
+          <this.state.react_abc.Midi notation={"L:1/1\n[]"} />
+        </div>
         <div id={this.state.id}>
-          <this.state.react_abc_modified.Midi notation={notation} />
+          <this.state.react_abc.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="medium" color="primary" onClick={() => this.onPlay()}>
