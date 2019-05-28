@@ -40,7 +40,7 @@ class Scale {
       concatenate(
         root,
         this.symmetric
-          ? this.intervals.reverse()
+          ? this.intervals.slice().reverse()
           : this.intervals.slice(this.intervals.length / 2),
       ) +
       root.notation
