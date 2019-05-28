@@ -1,17 +1,13 @@
-import {
-  interval,
-  roots,
-  triads,
-  qualities,
-  numbersForQualities,
-  scales,
-  modes,
-} from "../musicUtils"
+import { interval, intervalsForQualities } from "../music/intervals"
+import { roots } from "../music/roots"
+import { triads } from "../music/chords"
+import { qualities } from "../music/qualities"
+import { scales, modes } from "../music/scales"
 
 /*
   These are in no way a comprehensive collection of intervals, chords or scales;
   it would not make sense to have all the possibilities hard coded here, when
-  musicUtils has been designed precisely to avoid hardcoding all possibilities.
+  music utils have been designed precisely to avoid hardcoding all possibilities.
 */
 
 describe("interval()", () => {
@@ -94,7 +90,7 @@ describe("interval()", () => {
   it("returns a note for each possible interval on a root in roots", () => {
     for (const root of roots)
       for (const quality of qualities)
-        for (const number of numbersForQualities[quality.name])
+        for (const number of intervalsForQualities[quality.name])
           expect(interval(root, quality.name, number)).toBeTruthy()
   })
 })
@@ -128,6 +124,13 @@ describe("Scale.notation()", () => {
     const majorScale = scales[0]
     expect(majorScale.notation(aFlat)).toBe("L:1/4\n_A_Bc_d_efg_agf_e_dc_B_A")
   })
+  it("returns correct A sharp major scale", () => {
+    const aSharp = roots[14]
+    const majorScale = scales[0]
+    expect(majorScale.notation(aSharp)).toBe(
+      "L:1/4\n^A^B^^c^d^e^^f^^g^a^^g^^f^e^d^^c^B^A",
+    )
+  })
   it("returns correct F sharp natural minor scale", () => {
     const fSharp = roots[8]
     const naturalMinorScale = scales[1]
@@ -145,6 +148,20 @@ describe("Scale.notation()", () => {
     const melodicMinorScale = scales[3]
     expect(melodicMinorScale.notation(dSharp)).toBe(
       "L:1/4\n^D^E^F^G^A^B^^c^d^cB^A^G^F^E^D",
+    )
+  })
+  it("returns correct A flat melodic minor scale", () => {
+    const aSharp = roots[14]
+    const melodicMinorScale = scales[3]
+    expect(melodicMinorScale.notation(aSharp)).toBe(
+      "L:1/4\n^A^B^c^d^e^^f^^g^a^g^f^e^d^c^B^A",
+    )
+  })
+  it("returns correct A sharp melodic minor scale", () => {
+    const aFlat = roots[12]
+    const melodicMinorScale = scales[3]
+    expect(melodicMinorScale.notation(aFlat)).toBe(
+      "L:1/4\n_A_B_c_d_efg_a_g_f_e_d_c_B_A",
     )
   })
 
@@ -177,7 +194,7 @@ describe("Scale.notation()", () => {
       "L:1/4\n^G^A^B^c^d^e^f^g^f^e^d^c^B^A^G",
     )
   })
-  it("returns correct E flat Aeolian  mode", () => {
+  it("returns correct E flat Aeolian mode", () => {
     const eFlat = roots[5]
     const aeolianMode = modes[5]
     expect(aeolianMode.notation(eFlat)).toBe(

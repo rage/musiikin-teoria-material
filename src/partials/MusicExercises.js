@@ -11,9 +11,11 @@ import ScaleExerciseWithNotesAndSound from "../components/music/ScaleExerciseWit
 import ScaleExerciseWithNotes from "../components/music/ScaleExerciseWithNotes"
 import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
 
+import { scales, modes } from "../util/music/scales"
+
 /**
  * In charge of routing user exercise type to implementing exercise
- * eg <music-exercise type="chrords"> to ChordsExercise
+ * eg <music-exercise type="chords"> to ChordsExercise
  */
 const ExerciseRouter = ({ type, name, description, required }) => {
   return (
@@ -78,6 +80,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotesAndSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          scales={scales}
         />
       )
     case "scales_notes":
@@ -85,6 +88,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotes
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          scales={scales}
         />
       )
     case "scales_sound":
@@ -92,6 +96,31 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          scales={scales}
+        />
+      )
+    case "modes":
+      return (
+        <ScaleExerciseWithNotesAndSound
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+          scales={modes}
+        />
+      )
+    case "modes_notes":
+      return (
+        <ScaleExerciseWithNotes
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+          scales={modes}
+        />
+      )
+    case "modes_sound":
+      return (
+        <ScaleExerciseWithSound
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+          scales={modes}
         />
       )
     default:
