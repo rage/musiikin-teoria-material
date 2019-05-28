@@ -237,6 +237,18 @@ export const interval = (root, quality, number) => {
   return compound ? raiseOctave(notation) : notation
 }
 
+/**
+ * Returns String corresponding to abc notation for all the notes specified in
+ * intervals, built on top of the given root.
+ *
+ * For example:
+ *    root = roots[0] // C
+ *    concatenate(root, [[MAJOR, THIRD], [PERFECT, FOURTH], [MINOR, SIXTH]])
+ *      returns "EF_A"
+ *
+ * @param {*} root Root note from which the intervals will be built
+ * @param {*} intervals Desired notes, expressed as intervals from the root
+ */
 const concatenate = (root, intervals) =>
   intervals.map(i => interval(root, ...i)).join("")
 
@@ -324,8 +336,14 @@ class Scale {
     this.symmetric = symmetric
   }
 
+  /*
+    if not symmetric, use the first half of intervals going up, and the second
+    half going down; if symmetric, use all intervals going up, and all intervals
+    in reverse order going down
+  */
   notation(root) {
     return (
+      "L:1/4\n" +
       root.notation +
       concatenate(
         root,
