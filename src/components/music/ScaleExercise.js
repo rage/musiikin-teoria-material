@@ -113,7 +113,7 @@ class ScaleExercise extends React.Component {
         answers: roots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
-        bordercolor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasSubmitted
           ? this.answerPitchIsCorrect()
             ? "green"
             : "red"
@@ -125,7 +125,7 @@ class ScaleExercise extends React.Component {
         answers: triads,
         label: "Laatu",
         selectedIndex: this.state.answerTriad,
-        bordercolor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasSubmitted
           ? this.answerTriadIsCorrect()
             ? "green"
             : "red"
