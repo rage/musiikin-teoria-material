@@ -419,3 +419,90 @@ export const scales = [
     false,
   ),
 ]
+
+export const modes = [
+  new Scale(
+    "Jooninen",
+    [
+      [MAJOR, SECOND],
+      [MAJOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MAJOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Doorinen",
+    [
+      [MAJOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Fryyginen",
+    [
+      [MINOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MINOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Lyydinen",
+    [
+      [MAJOR, SECOND],
+      [MAJOR, THIRD],
+      [AUGMENTED, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MAJOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Miksolyydinen",
+    [
+      [MAJOR, SECOND],
+      [MAJOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Aiolinen",
+    [
+      [MAJOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MINOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Lokrinen",
+    [
+      [MINOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [DIMINISHED, FIFTH],
+      [MINOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+]
