@@ -237,6 +237,21 @@ export const interval = (root, quality, number) => {
   return compound ? raiseOctave(notation) : notation
 }
 
+/**
+ * Returns String corresponding to abc notation for all the notes specified in
+ * intervals, built on top of the given root.
+ *
+ * For example:
+ *    root = roots[0] // C
+ *    concatenate(root, [[MAJOR, THIRD], [PERFECT, FOURTH], [MINOR, SIXTH]])
+ *      returns "EF_A"
+ *
+ * @param {*} root Root note from which the intervals will be built
+ * @param {*} intervals Desired notes, expressed as intervals from the root
+ */
+const concatenate = (root, intervals) =>
+  intervals.map(i => interval(root, ...i)).join("")
+
 class Chord {
   constructor(label, intervals) {
     this.label = label
@@ -309,3 +324,98 @@ export const numbersForQualities = {
   perf: [UNISON, FOURTH, FIFTH, OCTAVE],
   aug: [UNISON, SECOND, FOURTH, FIFTH, OCTAVE],
 }
+
+/**
+ * symmetric: true if ascending and descending scales contain the same intervals
+ * in which case parameter intervals should contain only ascending intervals
+ */
+class Scale {
+  constructor(label, intervals, symmetric) {
+    this.label = label
+    this.intervals = intervals
+    this.symmetric = symmetric
+  }
+
+  /*
+    if not symmetric, use the first half of intervals going up, and the second
+    half going down; if symmetric, use all intervals going up, and all intervals
+    in reverse order going down
+  */
+  notation(root) {
+    return (
+      "L:1/4\n" +
+      root.notation +
+      concatenate(
+        root,
+        this.symmetric
+          ? this.intervals
+          : this.intervals.slice(0, this.intervals.length / 2),
+      ) +
+      raiseOctave(root.notation) +
+      concatenate(
+        root,
+        this.symmetric
+          ? this.intervals.reverse()
+          : this.intervals.slice(this.intervals.length / 2),
+      ) +
+      root.notation
+    )
+  }
+}
+
+export const scales = [
+  new Scale(
+    "Duuri",
+    [
+      [MAJOR, SECOND],
+      [MAJOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MAJOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Luonnollinen molli",
+    [
+      [MAJOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MINOR, SIXTH],
+      [MINOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Harmoninen molli",
+    [
+      [MAJOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MINOR, SIXTH],
+      [MAJOR, SEVENTH],
+    ],
+    true,
+  ),
+  new Scale(
+    "Melodinen molli",
+    [
+      [MAJOR, SECOND],
+      [MINOR, THIRD],
+      [PERFECT, FOURTH],
+      [PERFECT, FIFTH],
+      [MAJOR, SIXTH],
+      [MAJOR, SEVENTH],
+      [MINOR, SEVENTH],
+      [MINOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MAJOR, SECOND],
+    ],
+    false,
+  ),
+]

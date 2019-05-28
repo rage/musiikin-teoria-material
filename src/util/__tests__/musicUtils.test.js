@@ -4,6 +4,7 @@ import {
   triads,
   qualities,
   numbersForQualities,
+  scales,
 } from "../musicUtils"
 
 /*
@@ -117,5 +118,32 @@ describe("Chords.notation()", () => {
     const b = roots[16]
     const augmentedTriad = triads[3]
     expect(augmentedTriad.notation(b)).toBe("L:1/1\n[B^d^^f]")
+  })
+})
+
+describe("Scale.notation()", () => {
+  it("returns correct A flat major scale", () => {
+    const aFlat = roots[12]
+    const majorScale = scales[0]
+    expect(majorScale.notation(aFlat)).toBe("L:1/4\n_A_Bc_d_efg_agf_e_dc_B_A")
+  })
+  it("returns correct F sharp natural minor scale", () => {
+    const fSharp = roots[8]
+    const naturalMinorScale = scales[1]
+    expect(naturalMinorScale.notation(fSharp)).toBe(
+      "L:1/4\n^F^GAB^cde^fed^cBA^G^F",
+    )
+  })
+  it("returns correct B harmonic minor scale", () => {
+    const b = roots[16]
+    const harmonicMinorScale = scales[2]
+    expect(harmonicMinorScale.notation(b)).toBe("L:1/4\nB^cde^fg^ab^ag^fed^cB")
+  })
+  it("returns correct D sharp melodic minor scale", () => {
+    const dSharp = roots[4]
+    const melodicMinorScale = scales[3]
+    expect(melodicMinorScale.notation(dSharp)).toBe(
+      "L:1/4\n^D^E^F^G^A^B^^c^d^cB^A^G^F^E^D",
+    )
   })
 })
