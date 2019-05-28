@@ -10,7 +10,7 @@ const ChordExerciseWithSound = ({
   return (
     <ChordExercise
       {...other}
-      playButtonStyle={playButtonStyle ? playButtonStyle : "playbuttonSound"}
+      playButtonStyle={playButtonStyle ? playButtonStyle : "scalePlayButton"}
       onCorrect={onCorrectAnswer}
       onIncorrect={onIncorrectAnswer}
       onlySound={true}
