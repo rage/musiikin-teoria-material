@@ -118,7 +118,7 @@ class IntervalExercise extends React.Component {
           return { label: label }
         }),
         label: "Intervalli",
-        selectedIndex: this.state.answerInterva,
+        selectedIndex: this.state.answerInterval,
         borderColor: this.state.answerWasSubmitted
           ? this.answerIntervalIsCorrect()
             ? "green"

@@ -111,7 +111,7 @@ class ChordExercise extends React.Component {
       {
         className: "scaleDropdown1",
         setAnswer: this.setAnswerRootAndPitch,
-        answers: roots,
+        answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
         borderColor: this.state.answerWasSubmitted
