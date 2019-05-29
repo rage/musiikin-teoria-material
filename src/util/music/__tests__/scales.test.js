@@ -36,7 +36,7 @@ describe("Scale.notation()", () => {
     const dSharp = roots[4]
     const melodicMinorScale = scales[3]
     expect(melodicMinorScale.notation(dSharp)).toBe(
-      "L:1/4\n^D^E^F^G^A^B^^c^d^cB^A^G^F^E^D",
+      "L:1/4\n^D^E^F^G^A^B^^c^d^c=B^A^G^F^E^D",
     )
   })
   it("returns correct A sharp melodic minor scale", () => {
