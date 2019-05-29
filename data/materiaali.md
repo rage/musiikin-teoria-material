@@ -23,4 +23,4 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 </text-box>
 
-<music-exercise name="Intervalli"></music-exercise>
+<music-exercise required=5 name="Sointu nuotti ja kuuntelu" description="Tunnista sointujen pohjasävel ja tyyppi" type="chords"></music-exercise>

@@ -4,6 +4,6 @@ title: 'Osa 3: Soinnut'
 overview: true
 ---
 
-<music-exercise required=5 name="Soinnut 1" description="Tunnista sointujen pohjasävel ja tyyppi" type="chords"></music-exercise>
-<music-exercise name="Soinnut 2" type="chords_notes"></music-exercise>
-<music-exercise name="Soinnut 3" type="chords_sound"></music-exercise>
+<music-exercise name="Sointu nuotti ja kuuntelu" type="chords"></music-exercise>
+<music-exercise name="Sointu nuotti" type="chords_notes"></music-exercise>
+<music-exercise name="Sointu kuuntelu" type="chords_sound"></music-exercise>
