@@ -19,12 +19,12 @@ const IntervalExerciseWithNotes = ({
               editable: false,
               listener: null,
               paddingbottom: 1,
-              paddingleft: 66,
-              paddingright: 50,
-              paddingtop: 60,
+              paddingleft: 216,
+              paddingright: 232,
+              paddingtop: 15,
               responsive: undefined,
               scale: 3,
-              staffwidth: 250,
+              staffwidth: 300,
             }
       }
       onCorrect={onCorrectAnswer}

@@ -5,7 +5,6 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
-import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, answerOptionsForRoots } from "../../util/music/roots"
 import { triads } from "../../util/music/chords"
 import { randomInt } from "../../util/random"
@@ -112,7 +111,7 @@ class ChordExercise extends React.Component {
       {
         className: "scaleDropdown1",
         setAnswer: this.setAnswerRootAndPitch,
-        answers: roots,
+        answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
         borderColor: this.state.answerWasSubmitted
