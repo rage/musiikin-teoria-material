@@ -1,10 +1,10 @@
 import React, { Fragment } from "react"
-import { Button, Icon, Paper } from "@material-ui/core"
+import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import DropDownForAnswers from "./DropDownForAnswers"
+import SelectionBar from "./SelectionBar"
 import { roots } from "../../util/music/roots"
 import {
   intervalLabels,
@@ -110,6 +110,35 @@ class IntervalExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const selectionOptions = [
+      {
+        className: "scaleDropdown1",
+        setAnswer: this.setAnswerInterval,
+        answers: intervalLabels.map(label => {
+          return { label: label }
+        }),
+        label: "Intervalli",
+        selectedIndex: this.state.answerInterva,
+        borderColor: this.state.answerWasSubmitted
+          ? this.answerIntervalIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+      {
+        className: "scaleDropdown2",
+        setAnswer: this.setAnswerQuality,
+        answers: qualities,
+        label: "Laatu",
+        selectedIndex: this.state.answerQuality,
+        borderColor: this.state.answerWasSubmitted
+          ? this.answerQualityIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+    ]
+
     return (
       <Fragment>
         <CheckAnswerPopper
@@ -130,70 +159,20 @@ class IntervalExercise extends React.Component {
           }
         />
         <Paper>
-          <div className="overall-container">
-            <div className="left-container">
-              <MusicSheet
-                notation={this.state.notation}
-                onlynotes={this.props.onlyNotes}
-                onlysound={this.props.onlySound}
-                engraverParams={this.props.engraverParams}
-                playbuttonstyle={this.props.playButtonStyle}
-              />
-            </div>
-            <div className="right-container">
-              <div className="dropdowninterval1">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerInterval}
-                  answers={intervalLabels.map(label => {
-                    return { label: label }
-                  })}
-                  label="Intervalli"
-                  selectedIndex={this.state.answerInterval}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerIntervalIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="dropdowninterval2">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerQuality}
-                  answers={qualities}
-                  label="Laatu"
-                  selectedIndex={this.state.answerQuality}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerQualityIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="submitbutton">
-                {this.state.answerWasSubmitted ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.nextExercise}
-                  >
-                    Aloita alusta
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleClick("top")}
-                  >
-                    Lähetä vastaukset &nbsp;
-                    <Icon>send</Icon>
-                  </Button>
-                )}
-              </div>
-            </div>
+          <div className="overall-container-two">
+            <MusicSheet
+              notation={this.state.notation}
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={this.props.engraverParams}
+              playbuttonstyle={this.props.playButtonStyle}
+            />
+            <SelectionBar
+              options={selectionOptions}
+              answerWasSubmitted={this.state.answerWasSubmitted}
+              nextExercise={this.nextExercise}
+              handleClick={this.handleClick("top")}
+            />
           </div>
         </Paper>
       </Fragment>

@@ -44,7 +44,7 @@ const HeaderMuted = styled.span`
 
 const Body = styled.div`
   padding-bottom: 0.5rem;
-  min-height: 175px;
+  min-height: 115px;
 `
 
 const LoginNag = styled.div`
