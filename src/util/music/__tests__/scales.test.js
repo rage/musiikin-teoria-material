@@ -1,3 +1,4 @@
+import { interval } from "../intervals"
 import { roots } from "../roots"
 import { scales, modes } from "../scales"
 
@@ -93,5 +94,15 @@ describe("Scale.notation()", () => {
     const a = roots[13]
     const locrianMode = modes[6]
     expect(locrianMode.notation(a)).toBe("L:1/4\nA_Bcd_efgagf_edc_BA")
+  })
+})
+
+// This test checks that all available root/scale combinations are writable
+describe("interval()", () => {
+  it("returns a note for each interval in each possible scale built on a root in roots", () => {
+    for (const root of roots)
+      for (const scale of [...scales, ...modes])
+        for (const i of scale.intervals)
+          expect(interval(root, ...i)).toBeTruthy()
   })
 })
