@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { Popper, Fade, Typography } from "@material-ui/core"
 import styled from "styled-components"
@@ -20,9 +20,9 @@ class CheckAnswerPopper extends React.Component {
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
               <Typography>
-                Vastauksesi on väärin.
+                Vastauksesi ei ollut oikein.
                 <br />
-                Oikea vastaus on {this.props.correctAnswer}.
+                Kyseessä oli {this.props.correctAnswer}.
               </Typography>
             </Fade>
           )}

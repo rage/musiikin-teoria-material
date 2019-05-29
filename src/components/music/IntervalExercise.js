@@ -1,10 +1,12 @@
-import React, { Fragment } from "react"
+import React from "react"
 import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
+import Loading from "../Loading"
+
 import { roots } from "../../util/music/roots"
 import {
   intervalLabels,
@@ -106,10 +108,6 @@ class IntervalExercise extends React.Component {
   }
 
   render() {
-    if (!this.state.render) {
-      return <div>Loading</div>
-    }
-
     const selectionOptions = [
       {
         setAnswer: this.setAnswerInterval,
@@ -138,7 +136,7 @@ class IntervalExercise extends React.Component {
     ]
 
     return (
-      <Fragment>
+      <Loading loading={!this.state.render}>
         <CheckAnswerPopper
           open={this.state.open}
           anchorEl={this.state.anchorEl}
@@ -173,7 +171,7 @@ class IntervalExercise extends React.Component {
             />
           </div>
         </Paper>
-      </Fragment>
+      </Loading>
     )
   }
 }

@@ -2,6 +2,7 @@ import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
+import Loading from "../Loading"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -83,7 +84,7 @@ class MusicSheet extends React.Component {
 
   render() {
     if (!this.state.render) {
-      return <p>Loading..</p>
+      return <Loading loading={!this.state.render} heightHint="200px" />
     }
 
     const renderNotes = this.state.renderNotes

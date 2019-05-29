@@ -125,10 +125,15 @@ const createExerciseRenderingFunction = type => (
       )
     default:
       return (
-        <p>
-          Incorrect exercise type, implemented types: "chords", "chords_notes",
-          "chords_sound"
-        </p>
+        <>
+          <p>Incorrect exercise type {"'" + type + "'"}, implemented types:</p>
+          <ul>
+            <li>chords, chords_notes, chords_sound</li>
+            <li>intervals, intervals_notes, intervals_sound</li>
+            <li>scales, scales_notes, scales_sound</li>
+            <li>modes, modes_notes, modes_sound</li>
+          </ul>
+        </>
       )
   }
 }
