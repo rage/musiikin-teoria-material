@@ -1,9 +1,10 @@
 import React, { Fragment } from "react"
-import { Button, Icon, Paper } from "@material-ui/core"
+import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
+import SelectionBar from "./SelectionBar"
 import DropDownForAnswers from "./DropDownForAnswers"
 import { roots, answerOptionsForRoots } from "../../util/music/roots"
 import { triads } from "../../util/music/chords"
@@ -107,6 +108,33 @@ class ChordExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const selectionOptions = [
+      {
+        className: "scaleDropdown1",
+        setAnswer: this.setAnswerRootAndPitch,
+        answers: roots,
+        label: "Pohjasävel",
+        selectedIndex: this.state.answerRoot,
+        borderColor: this.state.answerWasSubmitted
+          ? this.answerPitchIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+      {
+        className: "scaleDropdown2",
+        setAnswer: this.setAnswerTriad,
+        answers: triads,
+        label: "Laatu",
+        selectedIndex: this.state.answerTriad,
+        borderColor: this.state.answerWasSubmitted
+          ? this.answerTriadIsCorrect()
+            ? "green"
+            : "red"
+          : "",
+      },
+    ]
+
     return (
       <Fragment>
         <CheckAnswerPopper
@@ -124,68 +152,20 @@ class ChordExercise extends React.Component {
           }
         />
         <Paper>
-          <div className="overall-container">
-            <div className="left-container">
-              <MusicSheet
-                notation={this.state.notation}
-                onlynotes={this.props.onlyNotes}
-                onlysound={this.props.onlySound}
-                engraverParams={this.props.engraverParams}
-                playbuttonstyle={this.props.playButtonStyle}
-              />
-            </div>
-            <div className="right-container">
-              <div className="dropdownchord1">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerRootAndPitch}
-                  answers={answerOptionsForRoots}
-                  label="Pohjasävel"
-                  selectedIndex={this.state.answerRoot}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerPitchIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="dropdownchord2">
-                <DropDownForAnswers
-                  setStudentsAnswer={this.setAnswerTriad}
-                  answers={triads}
-                  label="Laatu"
-                  selectedIndex={this.state.answerTriad}
-                  borderColor={
-                    this.state.answerWasSubmitted
-                      ? this.answerTriadIsCorrect()
-                        ? "green"
-                        : "red"
-                      : ""
-                  }
-                />
-              </div>
-              <div className="submitbuttonchord">
-                {this.state.answerWasSubmitted ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.nextExercise}
-                  >
-                    Aloita alusta
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleClick("top")}
-                  >
-                    Lähetä vastaukset &nbsp;
-                    <Icon>send</Icon>
-                  </Button>
-                )}
-              </div>
-            </div>
+          <div className="overall-container-two">
+            <MusicSheet
+              notation={this.state.notation}
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={this.props.engraverParams}
+              playbuttonstyle={this.props.playButtonStyle}
+            />
+            <SelectionBar
+              options={selectionOptions}
+              answerWasSubmitted={this.state.answerWasSubmitted}
+              nextExercise={this.nextExercise}
+              handleClick={this.handleClick("top")}
+            />
           </div>
         </Paper>
       </Fragment>

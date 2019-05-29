@@ -33,8 +33,8 @@ class SelectionBar extends React.Component {
               color="primary"
               onClick={this.props.handleClick}
             >
-              Lähetä vastaukset &nbsp;
-              <Icon>send</Icon>
+              Lähetä &nbsp;
+              <Icon fontSize="small">send</Icon>
             </Button>
           )}
         </div>
