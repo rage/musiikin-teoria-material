@@ -1,3 +1,4 @@
+import { interval } from "../intervals"
 import { roots } from "../roots"
 import { triads } from "../chords"
 
@@ -26,5 +27,15 @@ describe("Chords.notation()", () => {
     const b = roots[16]
     const augmentedTriad = triads[3]
     expect(augmentedTriad.notation(b)).toBe("L:1/1\n[B^d^^f]")
+  })
+})
+
+// This test checks that all available root/chord combinations are writable
+describe("interval()", () => {
+  it("returns a note for each interval in each possible chord built on a root in roots", () => {
+    for (const root of roots)
+      for (const chord of triads)
+        for (const i of chord.intervals)
+          expect(interval(root, ...i)).toBeTruthy()
   })
 })
