@@ -5,10 +5,12 @@ import DropDownForAnswers from "./DropDownForAnswers"
 
 class SelectionBar extends React.Component {
   render() {
+    const dropDownClassList = ["dropDown1", "dropDown2"]
+
     return (
       <Fragment>
         {this.props.options.map((option, i) => (
-          <div key={i} className={option.className}>
+          <div key={i} className={dropDownClassList[i]}>
             <DropDownForAnswers
               setStudentsAnswer={option.setAnswer}
               answers={option.answers}
@@ -18,7 +20,7 @@ class SelectionBar extends React.Component {
             />
           </div>
         ))}
-        <div className="scaleSubmitbutton">
+        <div className="submitButton">
           {this.props.answerWasSubmitted ? (
             <Button
               variant="contained"

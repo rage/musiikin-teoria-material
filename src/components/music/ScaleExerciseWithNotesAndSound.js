@@ -28,7 +28,7 @@ const ScaleExerciseWithNotesAndSound = ({
               staffwidth: 730,
             }
       }
-      playButtonStyle={playButtonStyle ? playButtonStyle : "scalePlayButton"}
+      playButtonStyle={playButtonStyle ? playButtonStyle : "playButton"}
       onCorrect={onCorrectAnswer}
       onIncorrect={onIncorrectAnswer}
     />

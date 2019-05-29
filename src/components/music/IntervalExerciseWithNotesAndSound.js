@@ -28,7 +28,7 @@ const IntervalExerciseWithNotesAndSound = ({
               staffwidth: 300,
             }
       }
-      playButtonStyle={playButtonStyle ? playButtonStyle : "scalePlayButton"}
+      playButtonStyle={playButtonStyle ? playButtonStyle : "playButton"}
       onCorrect={onCorrectAnswer}
       onIncorrect={onIncorrectAnswer}
     />
