@@ -7,7 +7,7 @@ import LoginControls from "../LoginControls"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
-import { Divider, Grid, Button } from "@material-ui/core"
+import { Grid, Button } from "@material-ui/core"
 import IconProgressBar from "../IconProgressBar"
 import Loading from "../Loading"
 
@@ -57,10 +57,6 @@ const LoginNagWrapper = styled.div`
   align-content: center;
   justify-content: center;
 `
-
-// const StyledDivider = styled(Divider)`
-//   margin: 1rem 16px !important;
-// `
 
 class MusicExerciseWrapper extends React.Component {
   static contextType = LoginStateContext

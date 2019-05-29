@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { Popper, Fade, Typography } from "@material-ui/core"
 import styled from "styled-components"
