@@ -1,4 +1,4 @@
-import { raiseOctave, concatenate } from "./intervals"
+import { concatenate } from "./intervals"
 import { DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED } from "./qualities"
 import {
   UNISON,
@@ -21,28 +21,11 @@ class Scale {
     this.symmetric = symmetric
   }
 
-  /*
-    if not symmetric, use the first half of intervals going up, and the second
-    half going down; if symmetric, use all intervals going up, and all intervals
-    in reverse order going down
-  */
   notation(root) {
     return (
       "L:1/4\n" +
       root.notation +
-      concatenate(
-        root,
-        this.symmetric
-          ? this.intervals
-          : this.intervals.slice(0, this.intervals.length / 2),
-      ) +
-      raiseOctave(root.notation) +
-      concatenate(
-        root,
-        this.symmetric
-          ? this.intervals.slice().reverse()
-          : this.intervals.slice(this.intervals.length / 2),
-      ) +
+      concatenate(root, this.intervals) +
       root.notation
     )
   }
@@ -58,6 +41,13 @@ export const scales = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MAJOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MAJOR, SEVENTH],
+      [MAJOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MAJOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -70,6 +60,13 @@ export const scales = [
       [PERFECT, FIFTH],
       [MINOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MINOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -82,6 +79,13 @@ export const scales = [
       [PERFECT, FIFTH],
       [MINOR, SIXTH],
       [MAJOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MAJOR, SEVENTH],
+      [MINOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -94,6 +98,7 @@ export const scales = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MAJOR, SEVENTH],
+      [PERFECT, OCTAVE],
       [MINOR, SEVENTH],
       [MINOR, SIXTH],
       [PERFECT, FIFTH],
@@ -115,6 +120,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MAJOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MAJOR, SEVENTH],
+      [MAJOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MAJOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -127,6 +139,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MAJOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -139,6 +158,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MINOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MINOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MINOR, SECOND],
     ],
     true,
   ),
@@ -151,6 +177,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MAJOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MAJOR, SEVENTH],
+      [MAJOR, SIXTH],
+      [PERFECT, FIFTH],
+      [AUGMENTED, FOURTH],
+      [MAJOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -163,6 +196,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MAJOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MAJOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MAJOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -175,6 +215,13 @@ export const modes = [
       [PERFECT, FIFTH],
       [MINOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MINOR, SIXTH],
+      [PERFECT, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MAJOR, SECOND],
     ],
     true,
   ),
@@ -187,6 +234,13 @@ export const modes = [
       [DIMINISHED, FIFTH],
       [MINOR, SIXTH],
       [MINOR, SEVENTH],
+      [PERFECT, OCTAVE],
+      [MINOR, SEVENTH],
+      [MINOR, SIXTH],
+      [DIMINISHED, FIFTH],
+      [PERFECT, FOURTH],
+      [MINOR, THIRD],
+      [MINOR, SECOND],
     ],
     true,
   ),
