@@ -198,16 +198,13 @@ class MusicExerciseWrapper extends React.Component {
 
   render() {
     if (!this.state.render) {
-      return <div>Loading</div>
+      return <Loading loading={!this.state.render} heightHint="350px" />
     }
-
     return (
-      <>
-        <BorderedExerciseBox>
-          {this.renderHeader()}
-          {this.renderBody()}
-        </BorderedExerciseBox>
-      </>
+      <BorderedExerciseBox>
+        {this.renderHeader()}
+        {this.renderBody()}
+      </BorderedExerciseBox>
     )
   }
 }
