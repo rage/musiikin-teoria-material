@@ -39,18 +39,25 @@ describe("Scale.notation()", () => {
       "L:1/4\n^D^E^F^G^A^B^^c^d^cB^A^G^F^E^D",
     )
   })
-  it("returns correct A flat melodic minor scale", () => {
+  it("returns correct A sharp melodic minor scale", () => {
     const aSharp = roots[14]
     const melodicMinorScale = scales[3]
     expect(melodicMinorScale.notation(aSharp)).toBe(
       "L:1/4\n^A^B^c^d^e^^f^^g^a^g^f^e^d^c^B^A",
     )
   })
-  it("returns correct A sharp melodic minor scale", () => {
+  it("returns correct A flat melodic minor scale", () => {
     const aFlat = roots[12]
     const melodicMinorScale = scales[3]
     expect(melodicMinorScale.notation(aFlat)).toBe(
       "L:1/4\n_A_B_c_d_efg_a_g_f_e_d_c_B_A",
+    )
+  })
+  it("returns correct G sharp melodic minor scale", () => {
+    const gSharp = roots[11]
+    const melodicMinorScale = scales[3]
+    expect(melodicMinorScale.notation(gSharp)).toBe(
+      "L:1/4\n^G^AB^c^d^e^^f^g^f=e^d^cB^A^G",
     )
   })
 
