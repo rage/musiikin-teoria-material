@@ -173,7 +173,9 @@ export const interval = (root, quality, number) => {
 
 /**
  * Returns String corresponding to abc notation for all the notes specified in
- * intervals, built on top of the given root.
+ * intervals, built on top of the given root. If the note being added is not accidental,
+ * and previously the same not was added as accidental, a natural symbol is added
+ * to the note.
  *
  * For example:
  *    root = roots[0] // C
@@ -183,5 +185,32 @@ export const interval = (root, quality, number) => {
  * @param {*} root Root note from which the intervals will be built
  * @param {*} intervals Desired notes, expressed as intervals from the root
  */
-export const concatenate = (root, intervals) =>
-  intervals.map(i => interval(root, ...i)).join("")
+export const concatenate = (root, intervals) => {
+  let prevAccidentals = ""
+  const notation = intervals
+    .map(i => {
+      let note = interval(root, ...i)
+      if (!isAccidental(note)) {
+        note = addNaturalIfNeeded(note, prevAccidentals)
+      } else {
+        prevAccidentals = prevAccidentals + note
+      }
+      return note
+    })
+    .join("")
+  return notation
+}
+
+const isAccidental = note => {
+  if (note.includes("_") || note.includes("^")) {
+    return true
+  }
+  return false
+}
+
+const addNaturalIfNeeded = (note, prevAccidentals) => {
+  if (prevAccidentals.includes(note)) {
+    note = "=" + note
+  }
+  return note
+}
