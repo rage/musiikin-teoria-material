@@ -108,7 +108,6 @@ class ScaleExercise extends React.Component {
 
     const selectionOptions = [
       {
-        className: "scaleDropdown1",
         setAnswer: this.setAnswerRootAndPitch,
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
@@ -120,7 +119,6 @@ class ScaleExercise extends React.Component {
           : "",
       },
       {
-        className: "scaleDropdown2",
         setAnswer: this.setAnswerScale,
         answers: this.props.scales,
         label: "Laatu",
@@ -150,7 +148,7 @@ class ScaleExercise extends React.Component {
           }
         />
         <Paper>
-          <div className="overall-container-two">
+          <div className="overall-container">
             <MusicSheet
               notation={this.state.notation}
               onlynotes={this.props.onlyNotes}

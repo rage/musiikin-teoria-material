@@ -94,6 +94,7 @@ class MusicSheet extends React.Component {
       <>
         {renderNotes && this.renderNotation(notation)}
         {renderSound && this.renderPlayButton(notation)}
+        {!renderSound && <div className="emptyPlayButton" />}
       </>
     )
   }

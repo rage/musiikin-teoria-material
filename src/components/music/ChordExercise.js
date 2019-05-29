@@ -109,7 +109,6 @@ class ChordExercise extends React.Component {
 
     const selectionOptions = [
       {
-        className: "scaleDropdown1",
         setAnswer: this.setAnswerRootAndPitch,
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
@@ -121,7 +120,6 @@ class ChordExercise extends React.Component {
           : "",
       },
       {
-        className: "scaleDropdown2",
         setAnswer: this.setAnswerTriad,
         answers: triads,
         label: "Laatu",
@@ -151,7 +149,7 @@ class ChordExercise extends React.Component {
           }
         />
         <Paper>
-          <div className="overall-container-two">
+          <div className="overall-container">
             <MusicSheet
               notation={this.state.notation}
               onlynotes={this.props.onlyNotes}

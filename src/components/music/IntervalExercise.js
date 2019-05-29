@@ -112,7 +112,6 @@ class IntervalExercise extends React.Component {
 
     const selectionOptions = [
       {
-        className: "scaleDropdown1",
         setAnswer: this.setAnswerInterval,
         answers: intervalLabels.map(label => {
           return { label: label }
@@ -126,7 +125,6 @@ class IntervalExercise extends React.Component {
           : "",
       },
       {
-        className: "scaleDropdown2",
         setAnswer: this.setAnswerQuality,
         answers: qualities,
         label: "Laatu",
@@ -159,7 +157,7 @@ class IntervalExercise extends React.Component {
           }
         />
         <Paper>
-          <div className="overall-container-two">
+          <div className="overall-container">
             <MusicSheet
               notation={this.state.notation}
               onlynotes={this.props.onlyNotes}

@@ -10,7 +10,7 @@ const IntervalExerciseWithSound = ({
   return (
     <IntervalExercise
       {...other}
-      playButtonStyle={playButtonStyle ? playButtonStyle : "scalePlayButton"}
+      playButtonStyle={playButtonStyle ? playButtonStyle : "playButton"}
       onCorrect={onCorrectAnswer}
       onIncorrect={onIncorrectAnswer}
       onlySound={true}
