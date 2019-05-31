@@ -9,7 +9,7 @@ import Loading from "../Loading"
 
 import { roots, answerOptionsForRoots } from "../../util/music/roots"
 import { triads } from "../../util/music/chords"
-import { randomInt } from "../../util/random"
+import { randomIntArray } from "../../util/random"
 
 class ChordExercise extends React.Component {
   state = {
@@ -17,29 +17,32 @@ class ChordExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerRoot: null, //index of array answerOptionsForRoots
-    answerPitch: null, //pitch from class Root
-    answerTriad: null, //index of array triads
-    correctRoot: null, //index of array roots
-    correctPitch: null, //pitch from class Root
-    correctTriad: null, //index of array triads
+    answerRoot: null, // index of array answerOptionsForRoots
+    answerTriad: null, // index of array triads
+    correctRoots: null, // array with indexes of array roots
+    correctTriads: null, // array with indexes of array triads
+    currentExercise: null, // index for correctRoots and correctTriads
     answerWasWrong: false,
   }
 
   async componentDidMount() {
     this.setState({ render: true })
-    this.nextExercise()
+    this.nextExerciseSet()
   }
 
   constructor(props) {
     super(props)
   }
 
-  answerPitchIsCorrect = () =>
-    this.state.correctPitch === this.state.answerPitch
+  correctRoot = () => this.state.correctRoots[this.state.currentExercise]
 
-  answerTriadIsCorrect = () =>
-    this.state.correctTriad === this.state.answerTriad
+  correctTriad = () => this.state.correctTriads[this.state.currentExercise]
+
+  answerPitchIsCorrect = () =>
+    roots[this.correctRoot()].pitch ===
+    answerOptionsForRoots[this.state.answerRoot].pitch
+
+  answerTriadIsCorrect = () => this.correctTriad() === this.state.answerTriad
 
   answerIsCorrect = () =>
     this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
@@ -58,7 +61,9 @@ class ChordExercise extends React.Component {
     const { currentTarget } = event
     if (this.answerIsCorrect()) {
       this.props.onCorrect()
-      this.nextExercise()
+      // check that this wasn't the last exercise in the set
+      if (this.state.currentExercise < this.props.requiredAnswers - 1)
+        this.nextExercise()
     } else {
       this.props.onIncorrect()
       this.setState(state => ({
@@ -71,44 +76,56 @@ class ChordExercise extends React.Component {
     return true
   }
 
-  setAnswerRootAndPitch = studentsAnswer => {
-    const answerPitch = answerOptionsForRoots[studentsAnswer].pitch
-    const answerRoot = studentsAnswer
+  setAnswerRoot = studentsAnswer =>
     this.setState({
-      answerPitch,
-      answerRoot,
+      answerRoot: studentsAnswer,
     })
-  }
 
-  setAnswerTriad = studentsAnswer => {
+  setAnswerTriad = studentsAnswer =>
     this.setState({
       answerTriad: studentsAnswer,
     })
-  }
 
-  nextExercise = () => {
-    const correctRoot = randomInt(0, roots.length)
-    const correctPitch = roots[correctRoot].pitch
-    const correctTriad = randomInt(0, triads.length)
-    const notation = triads[correctTriad].notation(roots[correctRoot])
-
+  setExercise = (
+    currentExercise,
+    correctRoots = this.state.correctRoots,
+    correctTriads = this.state.correctTriads,
+  ) => {
+    const notation = triads[correctTriads[currentExercise]].notation(
+      roots[correctRoots[currentExercise]],
+    )
     this.setState({
-      correctPitch,
-      correctRoot,
-      correctTriad,
       notation,
       answerWasWrong: false,
       open: false,
-      answerPitch: null,
       answerRoot: null,
       answerTriad: null,
+      correctRoots,
+      correctTriads,
+      currentExercise,
     })
   }
+
+  nextExerciseSet = () => {
+    const correctRoots = randomIntArray(
+      0,
+      roots.length,
+      this.props.requiredAnswers,
+    )
+    const correctTriads = randomIntArray(
+      0,
+      triads.length,
+      this.props.requiredAnswers,
+    )
+    this.setExercise(0, correctRoots, correctTriads)
+  }
+
+  nextExercise = () => this.setExercise(this.state.currentExercise + 1)
 
   render() {
     const selectionOptions = [
       {
-        setAnswer: this.setAnswerRootAndPitch,
+        setAnswer: this.setAnswerRoot,
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
@@ -141,9 +158,9 @@ class ChordExercise extends React.Component {
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
             this.state.answerWasWrong
-              ? roots[this.state.correctRoot].label +
+              ? roots[this.correctRoot()].label +
                 " " +
-                triads[this.state.correctTriad].label.toLowerCase()
+                triads[this.correctTriad()].label.toLowerCase()
               : ""
           }
         />
@@ -159,7 +176,7 @@ class ChordExercise extends React.Component {
             <SelectionBar
               options={selectionOptions}
               answerWasWrong={this.state.answerWasWrong}
-              nextExercise={this.nextExercise}
+              nextExerciseSet={this.nextExerciseSet}
               handleClick={this.handleClick("top")}
             />
           </div>

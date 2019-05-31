@@ -22,7 +22,6 @@ class IntervalExercise extends React.Component {
     anchorEl: null,
     open: false,
     placement: null,
-    answerPitch: null, //pitch from class Root
     answerInterval: undefined,
     answerQuality: undefined,
     correctRoot: undefined, //index of array roots
@@ -166,7 +165,7 @@ class IntervalExercise extends React.Component {
             <SelectionBar
               options={selectionOptions}
               answerWasWrong={this.state.answerWasWrong}
-              nextExercise={this.nextExercise}
+              nextExerciseSet={this.nextExercise}
               handleClick={this.handleClick("top")}
             />
           </div>

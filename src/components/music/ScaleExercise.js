@@ -162,7 +162,7 @@ class ScaleExercise extends React.Component {
             <SelectionBar
               options={selectionOptions}
               answerWasWrong={this.state.answerWasWrong}
-              nextExercise={this.nextExercise}
+              nextExerciseSet={this.nextExercise}
               handleClick={this.handleClick("top")}
             />
           </div>

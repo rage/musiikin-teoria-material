@@ -18,17 +18,18 @@ import { scales, modes } from "../util/music/scales"
  * eg <music-exercise type="chords"> to ChordsExercise
  */
 const ExerciseRouter = ({ type, name, description, required }) => {
+  const requiredAnswers = required || 10 // default is 10
   return (
     <MusicExerciseWrapper
-      renderExercise={createExerciseRenderingFunction(type)}
+      renderExercise={createExerciseRenderingFunction(type, requiredAnswers)}
       name={name}
       description={description}
-      requiredAnswers={required}
+      requiredAnswers={requiredAnswers}
     />
   )
 }
 
-const createExerciseRenderingFunction = type => (
+const createExerciseRenderingFunction = (type, requiredAnswers) => (
   onCorrectAnswer,
   onIncorrectAnswer,
 ) => {
@@ -38,6 +39,7 @@ const createExerciseRenderingFunction = type => (
         <ChordExerciseWithNotesAndSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "chords_notes":
@@ -45,6 +47,7 @@ const createExerciseRenderingFunction = type => (
         <ChordExerciseWithNotes
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "chords_sound":
@@ -52,6 +55,7 @@ const createExerciseRenderingFunction = type => (
         <ChordExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "intervals":
@@ -59,6 +63,7 @@ const createExerciseRenderingFunction = type => (
         <IntervalExerciseWithNotesAndSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "intervals_notes":
@@ -66,6 +71,7 @@ const createExerciseRenderingFunction = type => (
         <IntervalExerciseWithNotes
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "intervals_sound":
@@ -73,6 +79,7 @@ const createExerciseRenderingFunction = type => (
         <IntervalExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
         />
       )
     case "scales":
@@ -80,6 +87,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotesAndSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={scales}
         />
       )
@@ -88,6 +96,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotes
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={scales}
         />
       )
@@ -96,6 +105,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={scales}
         />
       )
@@ -104,6 +114,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotesAndSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={modes}
         />
       )
@@ -112,6 +123,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithNotes
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={modes}
         />
       )
@@ -120,6 +132,7 @@ const createExerciseRenderingFunction = type => (
         <ScaleExerciseWithSound
           onCorrectAnswer={onCorrectAnswer}
           onIncorrectAnswer={onIncorrectAnswer}
+          requiredAnswers={requiredAnswers}
           scales={modes}
         />
       )
