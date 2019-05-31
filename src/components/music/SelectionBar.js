@@ -14,7 +14,10 @@ class SelectionBar extends React.Component {
   }
 
   sendAnswer = event => {
-    this.props.handleClick(event)
+    if (!this.props.handleClick(event)) {
+      // Tähän voi lisätä "valitse kaikki vaihtoehdot!" myöhemmin jos haluaa
+      return
+    }
     setTimeout(() => {
       const wrongAnswer = this.props.answerWasSubmitted
       if (wrongAnswer) {
