@@ -22,8 +22,7 @@ class ScaleExercise extends React.Component {
     correctRoot: null, //index of array roots
     correctPitch: null, //pitch from class Root
     correctScale: null, //index of array scales or modes
-    answerWasSubmitted: false,
-    answerWasCorrect: false,
+    answerWasWrong: false,
   }
 
   async componentDidMount() {
@@ -44,16 +43,19 @@ class ScaleExercise extends React.Component {
   answerIsCorrect = () =>
     this.answerPitchIsCorrect() && this.answerScaleIsCorrect()
 
+  /**
+   * Method to call when submit answer button is pressed.
+   * @returns false if not all answers are selected, true if the answer was submitted
+   */
   handleClick = placement => event => {
     if (
       typeof this.state.answerRoot !== "number" ||
       typeof this.state.answerScale !== "number"
     ) {
-      return
+      return false
     }
     const { currentTarget } = event
-    const answerWasCorrect = this.answerIsCorrect()
-    if (answerWasCorrect) {
+    if (this.answerIsCorrect()) {
       this.props.onCorrect()
       this.nextExercise()
     } else {
@@ -62,10 +64,10 @@ class ScaleExercise extends React.Component {
         anchorEl: currentTarget,
         open: state.placement !== placement || !state.open,
         placement,
-        answerWasSubmitted: true,
-        answerWasCorrect,
+        answerWasWrong: true,
       }))
     }
+    return true
   }
 
   setAnswerRootAndPitch = studentsAnswer => {
@@ -95,8 +97,7 @@ class ScaleExercise extends React.Component {
       correctPitch,
       correctScale,
       notation,
-      answerWasSubmitted: false,
-      answerWasCorrect: false,
+      answerWasWrong: false,
       open: false,
       answerRoot: null,
       answerScale: null,
@@ -114,7 +115,7 @@ class ScaleExercise extends React.Component {
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerPitchIsCorrect()
             ? "green"
             : "red"
@@ -125,7 +126,7 @@ class ScaleExercise extends React.Component {
         answers: this.props.scales,
         label: "Laatu",
         selectedIndex: this.state.answerScale,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerScaleIsCorrect()
             ? "green"
             : "red"
@@ -142,7 +143,7 @@ class ScaleExercise extends React.Component {
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
-            this.state.answerWasSubmitted
+            this.state.answerWasWrong
               ? roots[this.state.correctRoot].label +
                 " " +
                 this.props.scales[this.state.correctScale].label.toLowerCase()
@@ -160,7 +161,7 @@ class ScaleExercise extends React.Component {
             />
             <SelectionBar
               options={selectionOptions}
-              answerWasSubmitted={this.state.answerWasSubmitted}
+              answerWasWrong={this.state.answerWasWrong}
               nextExercise={this.nextExercise}
               handleClick={this.handleClick("top")}
             />

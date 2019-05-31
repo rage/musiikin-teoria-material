@@ -23,8 +23,7 @@ class ChordExercise extends React.Component {
     correctRoot: null, //index of array roots
     correctPitch: null, //pitch from class Root
     correctTriad: null, //index of array triads
-    answerWasSubmitted: false,
-    answerWasCorrect: false,
+    answerWasWrong: false,
   }
 
   async componentDidMount() {
@@ -45,16 +44,19 @@ class ChordExercise extends React.Component {
   answerIsCorrect = () =>
     this.answerPitchIsCorrect() && this.answerTriadIsCorrect()
 
+  /**
+   * Method to call when submit answer button is pressed.
+   * @returns false if not all answers are selected, true if the answer was submitted
+   */
   handleClick = placement => event => {
     if (
       typeof this.state.answerRoot !== "number" ||
       typeof this.state.answerTriad !== "number"
     ) {
-      return
+      return false
     }
     const { currentTarget } = event
-    const answerWasCorrect = this.answerIsCorrect()
-    if (answerWasCorrect) {
+    if (this.answerIsCorrect()) {
       this.props.onCorrect()
       this.nextExercise()
     } else {
@@ -63,10 +65,10 @@ class ChordExercise extends React.Component {
         anchorEl: currentTarget,
         open: state.placement !== placement || !state.open,
         placement,
-        answerWasSubmitted: true,
-        answerWasCorrect,
+        answerWasWrong: true,
       }))
     }
+    return true
   }
 
   setAnswerRootAndPitch = studentsAnswer => {
@@ -95,8 +97,7 @@ class ChordExercise extends React.Component {
       correctRoot,
       correctTriad,
       notation,
-      answerWasSubmitted: false,
-      answerWasCorrect: false,
+      answerWasWrong: false,
       open: false,
       answerPitch: null,
       answerRoot: null,
@@ -111,7 +112,7 @@ class ChordExercise extends React.Component {
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerPitchIsCorrect()
             ? "green"
             : "red"
@@ -122,7 +123,7 @@ class ChordExercise extends React.Component {
         answers: triads,
         label: "Laatu",
         selectedIndex: this.state.answerTriad,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerTriadIsCorrect()
             ? "green"
             : "red"
@@ -139,7 +140,7 @@ class ChordExercise extends React.Component {
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
-            this.state.answerWasSubmitted
+            this.state.answerWasWrong
               ? roots[this.state.correctRoot].label +
                 " " +
                 triads[this.state.correctTriad].label.toLowerCase()
@@ -157,7 +158,7 @@ class ChordExercise extends React.Component {
             />
             <SelectionBar
               options={selectionOptions}
-              answerWasSubmitted={this.state.answerWasSubmitted}
+              answerWasWrong={this.state.answerWasWrong}
               nextExercise={this.nextExercise}
               handleClick={this.handleClick("top")}
             />

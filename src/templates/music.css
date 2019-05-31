@@ -2,65 +2,76 @@
 
 .abcjs-inline-midi {
   display: none !important;
-  height: 26px;
-  padding: 2px 5px;
-  border-radius: 3px;
-  color: #f4f4f4;
-  background-color: #424242;
-  display: flex;
 }
 
-.abcjs-inline-midi .abcjs-btn {
-  width: 28px;
-  height: 26px;
-  display: inline-block;
-  margin-right: 2px;
-  float: left;
-  padding: 0;
-
-  background: none;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: 14px;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #f4f4f4;
-  border: 1px solid transparent;
-}
-
+/* Flex on mobile environments (viewport below 1200px) */
 .overall-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-content: stretch;
+}
+
+.select-bar {
+  flex-direction: row;
 }
 
 .playButton {
-  order: 1;
-  margin-left: 50px;
-  margin-top: 17px;
+  order: 0;
 }
 
 .emptyPlayButton {
-  order: 1;
-  margin-left: 90px;
-  margin-top: 17px;
+  order: 0;
+  margin: 0rem 1rem;
 }
 
-.dropDown1 {
-  order: 2;
-  margin-left: 50px;
-  margin-top: 20px;
+/* Hide pseudo element that spaces play button when the buttons collapse to 2 rows */
+@media only screen and (max-width: 550px) {
+  .emptyPlayButton {
+    display: none;
+  }
 }
 
-.dropDown2 {
-  order: 3;
-  margin-left: 50px;
-  margin-top: 20px;
+/* Use hardcoded margins on desktop environments */
+@media only screen and (min-width: 1200px) {
+  .overall-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: unset;
+    align-content: unset;
+  }
+
+  .select-bar {
+    flex-direction: unset;
+  }
+
+  .playButton {
+    order: 1;
+    margin-left: 50px;
+    margin-top: 17px;
+  }
+
+  .emptyPlayButton {
+    order: 1;
+    margin-left: 70px;
+    margin-top: 17px;
+  }
+
+  .dropDown1 {
+    order: 2;
+    margin-left: 60px;
+    margin-top: 20px;
+  }
+
+  .dropDown2 {
+    order: 3;
+    margin-left: 50px;
+    margin-top: 20px;
+  }
+
+  .submitButton {
+    order: 4;
+    margin-left: 116px;
+    margin-top: 20px;
+  }
 }
-
-.submitButton {
-  order: 4;
-  margin-left: 116px;
-  margin-top: 20px;
-}
-
-
