@@ -112,10 +112,10 @@ class MusicSheet extends React.Component {
   renderPlayButton(notation) {
     return (
       <>
-        <div id={this.state.id + "-empty"}>
+        <div id={this.state.id + "-empty"} style={{ display: "none" }}>
           <this.state.react_abc.Midi notation={"L:1/1\n[]"} />
         </div>
-        <div id={this.state.id}>
+        <div id={this.state.id} style={{ display: "none" }}>
           <this.state.react_abc.Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
