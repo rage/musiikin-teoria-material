@@ -49,6 +49,11 @@ class MusicSheet extends React.Component {
     import("react-abc").then(react_abc => {
       this.setState({ render: true, react_abc })
     })
+    // window.addEventListener("resize", this.updateCanvasWidth.bind(this))
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener("resize", this.updateCanvasWidth.bind(this))
   }
 
   componentDidUpdate(prevProps) {
@@ -67,6 +72,9 @@ class MusicSheet extends React.Component {
       if (!this.state.pianoSoundLoaded) {
         this.loadPianoSound()
       }
+      if (this.state.renderNotes) {
+        this.updateCanvasWidth()
+      }
     }
   }
 
@@ -80,6 +88,18 @@ class MusicSheet extends React.Component {
       this.setState({ pianoSoundLoaded: true })
       original.click()
     }
+  }
+
+  updateCanvasWidth() {
+    const midiDiv = document.querySelector("#midi-" + this.state.id)
+    if (!midiDiv) return
+    const notes = midiDiv.querySelector("div")
+    if (!notes) return
+    const canvas = notes.querySelector("svg")
+    if (!canvas) return
+
+    notes.style.overflow = null // abcjs div comes with "overflow: hidden" that has to be removed.
+    canvas.setAttribute("preserveAspectRatio", "xMidYMid meet")
   }
 
   render() {
@@ -102,10 +122,12 @@ class MusicSheet extends React.Component {
 
   renderNotation(notation) {
     return (
-      <this.state.react_abc.Notation
-        notation={notation}
-        engraverParams={this.state.engraverParams}
-      />
+      <div id={"midi-" + this.state.id} className="staffContainer">
+        <this.state.react_abc.Notation
+          notation={notation}
+          engraverParams={this.state.engraverParams}
+        />
+      </div>
     )
   }
 
