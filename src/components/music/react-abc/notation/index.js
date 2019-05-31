@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import abc from "abcjs"
-
 import { notationProps } from "../defaults/props"
 
 class Notation extends Component {
@@ -22,21 +20,23 @@ class Notation extends Component {
   }
 
   renderNotation() {
-    const {
-      el,
-      engraverParams,
-      notation,
-      parserParams,
-      renderParams,
-    } = this.props
+    const { engraverParams, notation, parserParams, renderParams } = this.props
 
-    this.notation = abc.renderAbc(
-      el || this.el,
-      notation,
-      engraverParams,
-      parserParams,
-      renderParams,
-    )
+    const el = this.props.el || this.el
+
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("abcjs").then(abc => {
+      this.notation = abc.renderAbc(
+        el,
+        notation,
+        engraverParams,
+        parserParams,
+        renderParams,
+      )
+    })
   }
 
   render() {

@@ -1,14 +1,18 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import renderMidi from "abcjs/src/api/abc_tunebook_midi"
 import { midiProps } from "../defaults/props"
 import "./style.css"
 
 class Midi extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = { ready: false }
+  }
+
   componentDidMount() {
     const {
-      el,
       engraverParams,
       midiParams,
       notation,
@@ -16,14 +20,22 @@ class Midi extends Component {
       renderParams,
     } = this.props
 
-    renderMidi(
-      el || this.el,
-      notation,
-      engraverParams,
-      parserParams,
-      midiParams,
-      renderParams,
-    )
+    const el = this.props.el || this.el
+
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("abcjs/src/api/abc_tunebook_midi").then(module => {
+      module.default(
+        el,
+        notation,
+        engraverParams,
+        parserParams,
+        midiParams,
+        renderParams,
+      )
+    })
   }
 
   render() {
