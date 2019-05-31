@@ -28,8 +28,7 @@ class IntervalExercise extends React.Component {
     correctRoot: undefined, //index of array roots
     correctInterval: undefined,
     correctQuality: undefined,
-    answerWasSubmitted: false,
-    answerWasCorrect: false,
+    answerWasWrong: false,
   }
 
   async componentDidMount() {
@@ -58,8 +57,7 @@ class IntervalExercise extends React.Component {
       return
     }
     const { currentTarget } = event
-    const answerWasCorrect = this.answerIsCorrect()
-    if (answerWasCorrect) {
+    if (this.answerIsCorrect()) {
       this.props.onCorrect()
       this.nextExercise()
     } else {
@@ -68,8 +66,7 @@ class IntervalExercise extends React.Component {
         anchorEl: currentTarget,
         open: state.placement !== placement || !state.open,
         placement,
-        answerWasSubmitted: true,
-        answerWasCorrect: this.answerIsCorrect(),
+        answerWasWrong: true,
       }))
     }
   }
@@ -99,8 +96,7 @@ class IntervalExercise extends React.Component {
       correctInterval,
       correctQuality,
       notation,
-      answerWasSubmitted: false,
-      answerWasCorrect: false,
+      answerWasWrong: false,
       open: false,
       answerInterval: null,
       answerQuality: null,
@@ -116,7 +112,7 @@ class IntervalExercise extends React.Component {
         }),
         label: "Intervalli",
         selectedIndex: this.state.answerInterval,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerIntervalIsCorrect()
             ? "green"
             : "red"
@@ -127,7 +123,7 @@ class IntervalExercise extends React.Component {
         answers: qualities,
         label: "Laatu",
         selectedIndex: this.state.answerQuality,
-        borderColor: this.state.answerWasSubmitted
+        borderColor: this.state.answerWasWrong
           ? this.answerQualityIsCorrect()
             ? "green"
             : "red"
@@ -141,11 +137,10 @@ class IntervalExercise extends React.Component {
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           placement={this.state.placement}
-          isCorrect={this.state.answerWasCorrect}
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
-            this.state.answerWasSubmitted
+            this.state.answerWasWrong
               ? roots[this.state.correctRoot].label +
                 " " +
                 qualities[this.state.correctQuality].label.toLowerCase() +
@@ -165,7 +160,7 @@ class IntervalExercise extends React.Component {
             />
             <SelectionBar
               options={selectionOptions}
-              answerWasSubmitted={this.state.answerWasSubmitted}
+              answerWasWrong={this.state.answerWasWrong}
               nextExercise={this.nextExercise}
               handleClick={this.handleClick("top")}
             />
