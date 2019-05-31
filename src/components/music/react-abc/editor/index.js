@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import abc from "abcjs"
 import { editorProps } from "../defaults/props"
 
 class Editor extends Component {
@@ -10,10 +9,17 @@ class Editor extends Component {
 
     this.editor = null
   }
+
   componentDidMount() {
     const { editArea, editorParams } = this.props
 
-    this.editor = new abc.Editor(editArea, editorParams)
+    // abcjs attempts to use DOM api that is not available when
+    // gatsby runs build, so it's server side rendering had to be
+    // disabled.
+    // -> Dynamic import is used instead.
+    import("abcjs").then(abc => {
+      this.editor = new abc.Editor(editArea, editorParams)
+    })
   }
 
   render() {
