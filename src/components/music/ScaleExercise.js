@@ -43,12 +43,16 @@ class ScaleExercise extends React.Component {
   answerIsCorrect = () =>
     this.answerPitchIsCorrect() && this.answerScaleIsCorrect()
 
+  /**
+   * Method to call when submit answer button is pressed.
+   * @returns false if not all answers are selected, true if the answer was submitted
+   */
   handleClick = placement => event => {
     if (
       typeof this.state.answerRoot !== "number" ||
       typeof this.state.answerScale !== "number"
     ) {
-      return
+      return false
     }
     const { currentTarget } = event
     if (this.answerIsCorrect()) {
@@ -63,6 +67,7 @@ class ScaleExercise extends React.Component {
         answerWasWrong: true,
       }))
     }
+    return true
   }
 
   setAnswerRootAndPitch = studentsAnswer => {

@@ -49,12 +49,16 @@ class IntervalExercise extends React.Component {
   answerIsCorrect = () =>
     this.answerIntervalIsCorrect() && this.answerQualityIsCorrect()
 
+  /**
+   * Method to call when submit answer button is pressed.
+   * @returns false if not all answers are selected, true if the answer was submitted
+   */
   handleClick = placement => event => {
     if (
       typeof this.state.answerInterval !== "number" ||
       typeof this.state.answerQuality !== "number"
     ) {
-      return
+      return false
     }
     const { currentTarget } = event
     if (this.answerIsCorrect()) {
@@ -69,6 +73,7 @@ class IntervalExercise extends React.Component {
         answerWasWrong: true,
       }))
     }
+    return true
   }
 
   setAnswerInterval = studentsAnswer => {
