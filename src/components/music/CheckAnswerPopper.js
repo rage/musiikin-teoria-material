@@ -1,6 +1,8 @@
 import React from "react"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
-import { Popper, Fade, Typography } from "@material-ui/core"
+import { Popper, Fade, Typography, Paper } from "@material-ui/core"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSortDown } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
 class CheckAnswerPopper extends React.Component {
@@ -19,11 +21,28 @@ class CheckAnswerPopper extends React.Component {
         >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
-              <Typography>
-                Vastauksesi ei ollut oikein.
-                <br />
-                Kyseessä oli {this.props.correctAnswer}.
-              </Typography>
+              <>
+                <Paper>
+                  <Typography>
+                    <MarginInPaper>
+                      Vastauksesi ei ollut oikein.
+                      <br />
+                      Kyseessä oli {this.props.correctAnswer}.
+                    </MarginInPaper>
+                  </Typography>
+                </Paper>
+                <CenterArrowIcon>
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    color="grey"
+                    size="2x"
+                    style={{
+                      position: "relative",
+                      top: "-20px",
+                    }}
+                  />
+                </CenterArrowIcon>
+              </>
             </Fade>
           )}
         </Popper>
@@ -34,6 +53,15 @@ class CheckAnswerPopper extends React.Component {
 
 const Wrapper = styled.div`
   margin-bottom: 1rem;
+`
+
+const MarginInPaper = styled.div`
+  padding: 1rem;
+`
+
+const CenterArrowIcon = styled.div`
+  text-align: center;
+  height: 11.75px;
 `
 
 export default withSimpleErrorBoundary(CheckAnswerPopper)
