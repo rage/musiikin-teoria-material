@@ -49,11 +49,6 @@ class MusicSheet extends React.Component {
     import("react-abc").then(react_abc => {
       this.setState({ render: true, react_abc })
     })
-    // window.addEventListener("resize", this.updateCanvasWidth.bind(this))
-  }
-
-  componentWillUnmount() {
-    // window.removeEventListener("resize", this.updateCanvasWidth.bind(this))
   }
 
   componentDidUpdate(prevProps) {
