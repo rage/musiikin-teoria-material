@@ -49,7 +49,7 @@ class SelectionBar extends React.Component {
         <Button
           variant="contained"
           color="primary"
-          onClick={this.props.nextExercise}
+          onClick={this.props.nextExerciseSet}
         >
           Aloita alusta
         </Button>
