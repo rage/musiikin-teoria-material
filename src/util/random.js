@@ -72,7 +72,7 @@ export const randomIntArray = (min, max, length) => {
       ...randomIntArray(min, max, length - possibleValueCount),
     ])
   } else if (length > possibleValueCount / 2) {
-    const excludedSet = randomIntSet(min, max, possibleValues - length)
+    const excludedSet = randomIntSet(min, max, possibleValueCount - length)
     return possibleValues.filter(v => !excludedSet.has(v))
   } else {
     const includedSet = randomIntSet(min, max, length)

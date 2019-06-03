@@ -1,15 +1,15 @@
 import React from "react"
 
 import MusicExerciseWrapper from "../components/music/MusicExerciseWrapper"
-import ChordExerciseWithNotesAndSound from "../components/music/ChordExerciseWithNotesAndSound"
-import ChordExerciseWithNotes from "../components/music/ChordExerciseWithNotes"
-import ChordExerciseWithSound from "../components/music/ChordExerciseWithSound"
 import IntervalExerciseWithNotesAndSound from "../components/music/IntervalExerciseWithNotesAndSound"
 import IntervalExerciseWithNotes from "../components/music/IntervalExerciseWithNotes"
 import IntervalExerciseWithSound from "../components/music/IntervalExerciseWithSound"
 import ScaleExerciseWithNotesAndSound from "../components/music/ScaleExerciseWithNotesAndSound"
 import ScaleExerciseWithNotes from "../components/music/ScaleExerciseWithNotes"
 import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
+
+import Exercise from "../components/music/Exercise"
+import Chord from "../components/music/Chord"
 
 import { scales, modes } from "../util/music/scales"
 
@@ -36,25 +36,30 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
   switch (type ? type : "chords") {
     case "chords":
       return (
-        <ChordExerciseWithNotesAndSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          exerciseKind={new Chord()}
           requiredAnswers={requiredAnswers}
         />
       )
     case "chords_notes":
       return (
-        <ChordExerciseWithNotes
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlyNotes={true}
+          exerciseKind={new Chord()}
           requiredAnswers={requiredAnswers}
         />
       )
     case "chords_sound":
       return (
-        <ChordExerciseWithSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlySound={true}
+          exerciseKind={new Chord()}
           requiredAnswers={requiredAnswers}
         />
       )
