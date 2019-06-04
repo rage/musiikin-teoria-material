@@ -11,7 +11,8 @@ const ROOT = "root",
 
 export default class Chord {
   /**
-   * @returns Array of Exercises with the correct answers
+   * Generate array of Exercises with the correct answers
+   * @returns [{root: 5, triad: 4}, ...]
    */
   generateExerciseSet(howMany) {
     const exerciseSet = {
@@ -44,12 +45,12 @@ export default class Chord {
     })
   }
 
-  // answers
-  // answerKeys: ["root", "triad"]
-  // answers[answerKeys[i]]
-
-  // answer[answerKeys[0]] = studentAnswer
-
+  /**
+   * Get answerKeys that were same in both answer and correctAnswer.
+   * @param {*} answer {root: 5, triad: 3}
+   * @param {*} correctAnswer {root: 5, triad: 2}
+   * @returns ["root"]
+   */
   getCorrectAnswerKeys(answer, correctAnswer) {
     if (!answer.root || !correctAnswer) return []
 
@@ -62,6 +63,11 @@ export default class Chord {
     return correctAnswerKeys
   }
 
+  /**
+   * Get user readable string of the answer.
+   * @param {*} answer {root: 0, triad: 0}
+   * @returns "C major"
+   */
   readableAnswerString(answer) {
     return (
       notationRoots[answer.root].label +
@@ -70,6 +76,9 @@ export default class Chord {
     )
   }
 
+  /**
+   * Get engraverParams for MusicSheet to display this exercise kind.
+   */
   getEngraverParams() {
     return {
       add_classes: false,

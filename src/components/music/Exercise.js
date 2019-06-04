@@ -11,17 +11,27 @@ class Exercise extends React.Component {
   state = {
     render: false,
 
+    // For "wrong answer" popper
     open: false,
     placement: undefined,
 
+    // Answer given by student, parts are set in setAnswer.
+    // Contains index numbers.
     answer: {},
+    // Correct answers generated based on props.exerciseKind
     exerciseSet: {
+      // Keys that define how the answer, options and correct answers
+      // are formatted, eg. ["root", "triad"]
       answerKeys: undefined,
+      // All possible options for each answer eg {root: [], triad: []}
       answerOptions: {},
+      // Correct answers for each exercise
       exercises: [],
     },
+    // Current exercise in exerciseSet.exercises
     currentExerciseIndex: 0,
 
+    // When the user clicks "Send answer"
     answerWasSubmitted: false,
   }
 
@@ -58,6 +68,9 @@ class Exercise extends React.Component {
     return true
   }
 
+  /**
+   * Check that all needed answers are set in this.state.answer
+   */
   isAnswerSet = () => {
     return (
       this.state.exerciseSet.answerKeys.length ===
@@ -65,6 +78,9 @@ class Exercise extends React.Component {
     )
   }
 
+  /**
+   * Check that the given answer is correct
+   */
   isAnswerCorrect = () => {
     const answer = this.state.answer
     const correctAnswer = this.state.exerciseSet.exercises[
@@ -81,13 +97,20 @@ class Exercise extends React.Component {
     )
   }
 
-  // <Dropdown setAnswer("root") /> in Dropwdown: setAnswer(studentAnswer)
+  /**
+   * Function to create a setAnswer function for a dropdown
+   * @param {*} answerOption Key in this.state.exerciseSet.answerKeys
+   * @returns A function that sets given answer to the correct key in this.state.answer
+   */
   setAnswer = answerOption => studentAnswer => {
     const answer = this.state.answer
     answer[answerOption] = studentAnswer
     this.setState({ answer })
   }
 
+  /**
+   * Generate new set of exercises and reset answer
+   */
   nextExerciseSet = () => {
     this.setState({
       currentExerciseIndex: 0,
@@ -101,6 +124,12 @@ class Exercise extends React.Component {
     })
   }
 
+  /**
+   * Take next exercise from the exercise set and reset answer
+   *
+   * Duplicate code can not be removed (Similar above), because
+   * multiple setState calls within same method cause overrides
+   */
   nextExercise = () => {
     this.setState({
       currentExerciseIndex: this.state.currentExerciseIndex + 1,
@@ -117,14 +146,14 @@ class Exercise extends React.Component {
 
     const exerciseSet = this.state.exerciseSet
     const correctAnswer = exerciseSet.exercises[this.state.currentExerciseIndex]
+    // answerKeys that were same in answer and correctAnswer
+    const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
+      this.state.answer,
+      correctAnswer,
+    )
 
     const selectionOptions = exerciseSet.answerKeys.map(key => {
       const answerOptions = exerciseSet.answerOptions[key]
-
-      const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
-        this.state.answer,
-        correctAnswer,
-      )
 
       return {
         setAnswer: this.setAnswer(key),
