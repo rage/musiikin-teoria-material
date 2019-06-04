@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
@@ -211,6 +212,15 @@ class Exercise extends React.Component {
       </Loading>
     )
   }
+}
+
+Exercise.propTypes = {
+  exerciseKind: PropTypes.object.isRequired,
+  requiredAnswers: PropTypes.number.isRequired,
+  onCorrect: PropTypes.func.isRequired,
+  onIncorrect: PropTypes.func.isRequired,
+  onlyNotes: PropTypes.bool,
+  onlySound: PropTypes.bool,
 }
 
 export default withSimpleErrorBoundary(Exercise)
