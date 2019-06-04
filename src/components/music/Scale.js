@@ -61,7 +61,9 @@ export default class Scale {
 
     const correctAnswerKeys = []
 
-    if (answer.root.pitch === correctAnswer.root.pitch)
+    if (
+      answerRoots[answer.root].pitch === notationRoots[correctAnswer.root].pitch
+    )
       correctAnswerKeys.push(ROOT)
     if (answer.scale === correctAnswer.scale) correctAnswerKeys.push(SCALE)
 
