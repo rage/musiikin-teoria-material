@@ -65,7 +65,7 @@ export default class Interval {
 
     const correctAnswerKeys = []
 
-    if (answer.interval.pitch === correctAnswer.interval.pitch)
+    if (answer.interval === correctAnswer.interval)
       correctAnswerKeys.push(INTERVAL)
     if (answer.quality === correctAnswer.quality)
       correctAnswerKeys.push(QUALITY)
