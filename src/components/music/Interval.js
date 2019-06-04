@@ -95,12 +95,12 @@ export default class Interval {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 216,
-      paddingright: 232,
+      paddingleft: 270,
+      paddingright: 270,
       paddingtop: 15,
       responsive: undefined,
       scale: 2,
-      staffwidth: 300,
+      staffwidth: 224,
     }
   }
 }
