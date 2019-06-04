@@ -4,12 +4,10 @@ import MusicExerciseWrapper from "../components/music/MusicExerciseWrapper"
 import IntervalExerciseWithNotesAndSound from "../components/music/IntervalExerciseWithNotesAndSound"
 import IntervalExerciseWithNotes from "../components/music/IntervalExerciseWithNotes"
 import IntervalExerciseWithSound from "../components/music/IntervalExerciseWithSound"
-import ScaleExerciseWithNotesAndSound from "../components/music/ScaleExerciseWithNotesAndSound"
-import ScaleExerciseWithNotes from "../components/music/ScaleExerciseWithNotes"
-import ScaleExerciseWithSound from "../components/music/ScaleExerciseWithSound"
 
 import Exercise from "../components/music/Exercise"
 import Chord from "../components/music/Chord"
+import Scale from "../components/music/Scale"
 
 import { scales, modes } from "../util/music/scales"
 
@@ -89,56 +87,60 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
       )
     case "scales":
       return (
-        <ScaleExerciseWithNotesAndSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          exerciseKind={new Scale(scales)}
           requiredAnswers={requiredAnswers}
-          scales={scales}
         />
       )
     case "scales_notes":
       return (
-        <ScaleExerciseWithNotes
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlyNotes={true}
+          exerciseKind={new Scale(scales)}
           requiredAnswers={requiredAnswers}
-          scales={scales}
         />
       )
     case "scales_sound":
       return (
-        <ScaleExerciseWithSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlySound={true}
+          exerciseKind={new Scale(scales)}
           requiredAnswers={requiredAnswers}
-          scales={scales}
         />
       )
     case "modes":
       return (
-        <ScaleExerciseWithNotesAndSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          exerciseKind={new Scale(modes)}
           requiredAnswers={requiredAnswers}
-          scales={modes}
         />
       )
     case "modes_notes":
       return (
-        <ScaleExerciseWithNotes
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlyNotes={true}
+          exerciseKind={new Scale(modes)}
           requiredAnswers={requiredAnswers}
-          scales={modes}
         />
       )
     case "modes_sound":
       return (
-        <ScaleExerciseWithSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlySound={true}
+          exerciseKind={new Scale(modes)}
           requiredAnswers={requiredAnswers}
-          scales={modes}
         />
       )
     default:
