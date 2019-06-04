@@ -10,10 +10,6 @@ const ROOT = "root",
   TRIAD = "triad"
 
 export default class Chord {
-  /**
-   * Generate array of Exercises with the correct answers
-   * @returns [{root: 5, triad: 4}, ...]
-   */
   generateExerciseSet(howMany) {
     const exerciseSet = {
       answerKeys: [ROOT, TRIAD],
@@ -31,6 +27,11 @@ export default class Chord {
     return exerciseSet
   }
 
+  /**
+   * Private method, generate a number of correct answers.
+   * @param {*} howMany How many exercises to generate
+   * @returns [{root: 5, triad: 4, notation: "<abc notation>"}]
+   */
   __generateCorrectAnswers = howMany => {
     const correctRoots = randomIntArray(0, notationRoots.length, howMany)
     const correctTriads = randomIntArray(0, answerTriads.length, howMany)
