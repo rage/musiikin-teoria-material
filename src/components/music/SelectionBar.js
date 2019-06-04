@@ -1,9 +1,10 @@
 import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+
+import DropDownForAnswers from "./DropDownForAnswers"
 import { Button, Icon } from "@material-ui/core"
 import green from "@material-ui/core/colors/green"
-import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
-import DropDownForAnswers from "./DropDownForAnswers"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck as correct } from "@fortawesome/free-solid-svg-icons"
 import CorrectIcon from "@material-ui/icons/CheckCircle"
@@ -118,6 +119,13 @@ class SelectionBar extends React.Component {
       </Fragment>
     )
   }
+}
+
+SelectionBar.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  nextExerciseSet: PropTypes.func.isRequired,
+  answerWasWrong: PropTypes.bool.isRequired,
+  options: PropTypes.array.isRequired,
 }
 
 export default withSimpleErrorBoundary(SelectionBar)
