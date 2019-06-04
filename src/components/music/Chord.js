@@ -86,12 +86,12 @@ export default class Chord {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 216,
-      paddingright: 232,
+      paddingleft: 270,
+      paddingright: 270,
       paddingtop: 15,
       responsive: undefined,
-      scale: 3,
-      staffwidth: 300,
+      scale: 2,
+      staffwidth: 224,
     }
   }
 }
