@@ -13,11 +13,22 @@ class SelectionBar extends React.Component {
     this.state = { showCorrectAnswerCheckmark: false }
   }
 
-  sendAnswer = event => {
-    if (!this.props.handleClick(event)) {
-      // Tähän voi lisätä "valitse kaikki vaihtoehdot!" myöhemmin jos haluaa
+  haveAnswersBeenGiven = () => {
+    const wantedAnswers = this.props.options.length
+    const givenAnswers = this.props.options.filter(option => {
+      return typeof option.selectedIndex === "number"
+    }).length
+    return wantedAnswers === givenAnswers
+  }
+
+  onClick = event => {
+    if (!this.haveAnswersBeenGiven()) {
+      // "Set these options" can be added here later
       return
     }
+
+    this.props.handleClick(event)
+
     setTimeout(() => {
       const wrongAnswer = this.props.answerWasWrong
       if (wrongAnswer) {
@@ -56,7 +67,7 @@ class SelectionBar extends React.Component {
       )
     } else {
       return (
-        <Button variant="contained" color="primary" onClick={this.sendAnswer}>
+        <Button variant="contained" color="primary" onClick={this.onClick}>
           Lähetä &nbsp;
           <Icon fontSize="small">send</Icon>
         </Button>

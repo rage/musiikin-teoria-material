@@ -53,10 +53,8 @@ class Exercise extends React.Component {
    * @returns false if not all answers are selected, true if the answer was submitted
    */
   handleClick = placement => event => {
-    if (!this.isAnswerSet()) {
-      return false
-    }
     const { currentTarget } = event
+
     if (this.isAnswerCorrect()) {
       this.props.onCorrect()
       this.nextExercise()
@@ -69,7 +67,6 @@ class Exercise extends React.Component {
         answerWasSubmitted: true,
       }))
     }
-    return true
   }
 
   /**
