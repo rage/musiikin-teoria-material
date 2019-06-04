@@ -27,7 +27,7 @@ class SelectionBar extends React.Component {
       return
     }
 
-    this.props.handleClick(event)
+    this.props.onSubmit(event)
 
     setTimeout(() => {
       const wrongAnswer = this.props.answerWasWrong

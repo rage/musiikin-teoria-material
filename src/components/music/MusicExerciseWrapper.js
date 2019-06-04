@@ -108,7 +108,7 @@ class MusicExerciseWrapper extends React.Component {
     //function for sending answerObject to backend
   }
 
-  onCorrectAnswer = () => {
+  onCorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
 
     if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
@@ -117,7 +117,7 @@ class MusicExerciseWrapper extends React.Component {
     }
   }
 
-  onIncorrectAnswer = () => {
+  onIncorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: 0 })
   }
 
