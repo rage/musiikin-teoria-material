@@ -93,6 +93,21 @@ class MusicExerciseWrapper extends React.Component {
     )
   }
 
+  sendAnswer = (textData, correct) => {
+    const answerObject = {
+      quizId: this.props.quizId,
+      languageId: "fi_FI",
+      itemAnswers: [
+        {
+          itemAnswerId: null, //from backend?
+          textData,
+          correct,
+        },
+      ],
+    }
+    //function for sending answerObject to backend
+  }
+
   onCorrectAnswer = () => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
 
