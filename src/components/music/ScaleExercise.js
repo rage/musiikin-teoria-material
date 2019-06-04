@@ -112,42 +112,49 @@ class ScaleExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const correctIndicators = {
+      borderColor: "green",
+      icon: <CorrectIcon style={{ color: green[600] }} />,
+    }
+
+    const errorIndicators = {
+      borderColor: "red",
+      icon: <ErrorIcon color="error" />,
+    }
+
+    const noIndicators = {
+      borderColor: "",
+      icon: null,
+    }
+
+    const pitchCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerPitchIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
+    const scaleCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerScaleIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
     const selectionOptions = [
       {
         setAnswer: this.setAnswerRootAndPitch,
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
-        borderColor: this.state.answerWasWrong
-          ? this.answerPitchIsCorrect()
-            ? "green"
-            : "red"
-          : "",
-        icon: this.state.answerWasWrong ? (
-          this.answerPitchIsCorrect() ? (
-            <CorrectIcon style={{ color: green[600] }} />
-          ) : (
-            <ErrorIcon color="error" />
-          )
-        ) : null,
+        borderColor: pitchCorrectnessIndicators.borderColor,
+        icon: pitchCorrectnessIndicators.icon,
       },
       {
         setAnswer: this.setAnswerScale,
         answers: this.props.scales,
         label: "Laatu",
         selectedIndex: this.state.answerScale,
-        borderColor: this.state.answerWasWrong
-          ? this.answerScaleIsCorrect()
-            ? "green"
-            : "red"
-          : "",
-        icon: this.state.answerWasWrong ? (
-          this.answerScaleIsCorrect() ? (
-            <CorrectIcon style={{ color: green[600] }} />
-          ) : (
-            <ErrorIcon color="error" />
-          )
-        ) : null,
+        borderColor: scaleCorrectnessIndicators.borderColor,
+        icon: scaleCorrectnessIndicators.icon,
       },
     ]
 

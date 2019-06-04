@@ -111,6 +111,33 @@ class IntervalExercise extends React.Component {
   }
 
   render() {
+    const correctIndicators = {
+      borderColor: "green",
+      icon: <CorrectIcon style={{ color: green[600] }} />,
+    }
+
+    const errorIndicators = {
+      borderColor: "red",
+      icon: <ErrorIcon color="error" />,
+    }
+
+    const noIndicators = {
+      borderColor: "",
+      icon: null,
+    }
+
+    const intervalCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerIntervalIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
+    const qualityCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerQualityIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
     const selectionOptions = [
       {
         setAnswer: this.setAnswerInterval,
@@ -119,36 +146,16 @@ class IntervalExercise extends React.Component {
         }),
         label: "Intervalli",
         selectedIndex: this.state.answerInterval,
-        borderColor: this.state.answerWasWrong
-          ? this.answerIntervalIsCorrect()
-            ? "green"
-            : "red"
-          : "",
-        icon: this.state.answerWasWrong ? (
-          this.answerIntervalIsCorrect() ? (
-            <CorrectIcon style={{ color: green[600] }} />
-          ) : (
-            <ErrorIcon color="error" />
-          )
-        ) : null,
+        borderColor: intervalCorrectnessIndicators.borderColor,
+        icon: intervalCorrectnessIndicators.icon,
       },
       {
         setAnswer: this.setAnswerQuality,
         answers: qualities,
         label: "Laatu",
         selectedIndex: this.state.answerQuality,
-        borderColor: this.state.answerWasWrong
-          ? this.answerQualityIsCorrect()
-            ? "green"
-            : "red"
-          : "",
-        icon: this.state.answerWasWrong ? (
-          this.answerQualityIsCorrect() ? (
-            <CorrectIcon style={{ color: green[600] }} />
-          ) : (
-            <ErrorIcon color="error" />
-          )
-        ) : null,
+        borderColor: qualityCorrectnessIndicators.borderColor,
+        icon: qualityCorrectnessIndicators.icon,
       },
     ]
 
