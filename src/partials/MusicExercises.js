@@ -1,12 +1,10 @@
 import React from "react"
 
 import MusicExerciseWrapper from "../components/music/MusicExerciseWrapper"
-import IntervalExerciseWithNotesAndSound from "../components/music/IntervalExerciseWithNotesAndSound"
-import IntervalExerciseWithNotes from "../components/music/IntervalExerciseWithNotes"
-import IntervalExerciseWithSound from "../components/music/IntervalExerciseWithSound"
 
 import Exercise from "../components/music/Exercise"
 import Chord from "../components/music/Chord"
+import Interval from "../components/music/Interval"
 import Scale from "../components/music/Scale"
 
 import { scales, modes } from "../util/music/scales"
@@ -63,25 +61,30 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
       )
     case "intervals":
       return (
-        <IntervalExerciseWithNotesAndSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          exerciseKind={new Interval()}
           requiredAnswers={requiredAnswers}
         />
       )
     case "intervals_notes":
       return (
-        <IntervalExerciseWithNotes
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlyNotes={true}
+          exerciseKind={new Interval()}
           requiredAnswers={requiredAnswers}
         />
       )
     case "intervals_sound":
       return (
-        <IntervalExerciseWithSound
-          onCorrectAnswer={onCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
+        <Exercise
+          onCorrect={onCorrectAnswer}
+          onIncorrect={onIncorrectAnswer}
+          onlySound={true}
+          exerciseKind={new Interval()}
           requiredAnswers={requiredAnswers}
         />
       )

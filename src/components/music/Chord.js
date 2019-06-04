@@ -57,7 +57,9 @@ export default class Chord {
 
     const correctAnswerKeys = []
 
-    if (answer.root.pitch === correctAnswer.root.pitch)
+    if (
+      answerRoots[answer.root].pitch === notationRoots[correctAnswer.root].pitch
+    )
       correctAnswerKeys.push(ROOT)
     if (answer.triad === correctAnswer.triad) correctAnswerKeys.push(TRIAD)
 
