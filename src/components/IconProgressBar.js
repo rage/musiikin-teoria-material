@@ -45,7 +45,7 @@ class IconProgressBar extends React.Component {
           return (
             <Fragment key={"unanswered-" + i}>
               <FontAwesomeIcon
-                style={{ color: green[200] }}
+                style={{ color: green[500] }}
                 icon={unanswered}
               />{" "}
             </Fragment>

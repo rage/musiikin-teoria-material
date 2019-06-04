@@ -1,5 +1,8 @@
 import React from "react"
 import { Paper } from "@material-ui/core"
+import CorrectIcon from "@material-ui/icons/CheckCircle"
+import ErrorIcon from "@material-ui/icons/Error"
+import green from "@material-ui/core/colors/green"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
@@ -108,6 +111,33 @@ class IntervalExercise extends React.Component {
   }
 
   render() {
+    const correctIndicators = {
+      borderColor: "green",
+      icon: <CorrectIcon style={{ color: green[600] }} />,
+    }
+
+    const errorIndicators = {
+      borderColor: "red",
+      icon: <ErrorIcon color="error" />,
+    }
+
+    const noIndicators = {
+      borderColor: "",
+      icon: null,
+    }
+
+    const intervalCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerIntervalIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
+    const qualityCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerQualityIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
     const selectionOptions = [
       {
         setAnswer: this.setAnswerInterval,
@@ -116,22 +146,16 @@ class IntervalExercise extends React.Component {
         }),
         label: "Intervalli",
         selectedIndex: this.state.answerInterval,
-        borderColor: this.state.answerWasWrong
-          ? this.answerIntervalIsCorrect()
-            ? "green"
-            : "red"
-          : "",
+        borderColor: intervalCorrectnessIndicators.borderColor,
+        icon: intervalCorrectnessIndicators.icon,
       },
       {
         setAnswer: this.setAnswerQuality,
         answers: qualities,
         label: "Laatu",
         selectedIndex: this.state.answerQuality,
-        borderColor: this.state.answerWasWrong
-          ? this.answerQualityIsCorrect()
-            ? "green"
-            : "red"
-          : "",
+        borderColor: qualityCorrectnessIndicators.borderColor,
+        icon: qualityCorrectnessIndicators.icon,
       },
     ]
 

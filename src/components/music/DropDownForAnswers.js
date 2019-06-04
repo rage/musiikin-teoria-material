@@ -33,7 +33,6 @@ class DropDownForAnswers extends React.Component {
 
   render() {
     if (!this.state.options.length) return null
-
     return (
       <Wrapper>
         <Fragment>
@@ -50,6 +49,7 @@ class DropDownForAnswers extends React.Component {
             }
             anchorEl={this.state.anchorEl}
             borderColor={this.props.borderColor}
+            icon={this.props.icon}
           />
         </Fragment>
       </Wrapper>

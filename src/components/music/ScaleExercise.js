@@ -1,5 +1,8 @@
 import React from "react"
 import { Paper } from "@material-ui/core"
+import CorrectIcon from "@material-ui/icons/CheckCircle"
+import ErrorIcon from "@material-ui/icons/Error"
+import green from "@material-ui/core/colors/green"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
@@ -109,28 +112,49 @@ class ScaleExercise extends React.Component {
       return <div>Loading</div>
     }
 
+    const correctIndicators = {
+      borderColor: "green",
+      icon: <CorrectIcon style={{ color: green[600] }} />,
+    }
+
+    const errorIndicators = {
+      borderColor: "red",
+      icon: <ErrorIcon color="error" />,
+    }
+
+    const noIndicators = {
+      borderColor: "",
+      icon: null,
+    }
+
+    const pitchCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerPitchIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
+    const scaleCorrectnessIndicators = this.state.answerWasWrong
+      ? this.answerScaleIsCorrect()
+        ? correctIndicators
+        : errorIndicators
+      : noIndicators
+
     const selectionOptions = [
       {
         setAnswer: this.setAnswerRootAndPitch,
         answers: answerOptionsForRoots,
         label: "Pohjasävel",
         selectedIndex: this.state.answerRoot,
-        borderColor: this.state.answerWasWrong
-          ? this.answerPitchIsCorrect()
-            ? "green"
-            : "red"
-          : "",
+        borderColor: pitchCorrectnessIndicators.borderColor,
+        icon: pitchCorrectnessIndicators.icon,
       },
       {
         setAnswer: this.setAnswerScale,
         answers: this.props.scales,
         label: "Laatu",
         selectedIndex: this.state.answerScale,
-        borderColor: this.state.answerWasWrong
-          ? this.answerScaleIsCorrect()
-            ? "green"
-            : "red"
-          : "",
+        borderColor: scaleCorrectnessIndicators.borderColor,
+        icon: scaleCorrectnessIndicators.icon,
       },
     ]
 
