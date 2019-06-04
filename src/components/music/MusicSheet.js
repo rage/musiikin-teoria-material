@@ -46,7 +46,7 @@ class MusicSheet extends React.Component {
     // gatsby runs build, so it's server side rendering had to be
     // disabled.
     // -> Dynamic import is used instead.
-    import("react-abc").then(react_abc => {
+    import("react-abc-mooc").then(react_abc => {
       this.setState({ render: true, react_abc })
     })
   }
@@ -60,7 +60,7 @@ class MusicSheet extends React.Component {
       })
     }
     if (!this.state.render) {
-      import("react-abc").then(react_abc => {
+      import("react-abc-mooc").then(react_abc => {
         this.setState({ render: true, react_abc })
       })
     } else {
