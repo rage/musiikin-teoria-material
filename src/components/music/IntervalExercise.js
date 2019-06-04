@@ -1,5 +1,8 @@
 import React from "react"
 import { Paper } from "@material-ui/core"
+import CorrectIcon from "@material-ui/icons/CheckCircle"
+import ErrorIcon from "@material-ui/icons/Error"
+import green from "@material-ui/core/colors/green"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
@@ -121,6 +124,13 @@ class IntervalExercise extends React.Component {
             ? "green"
             : "red"
           : "",
+        icon: this.state.answerWasWrong ? (
+          this.answerIntervalIsCorrect() ? (
+            <CorrectIcon style={{ color: green[600] }} />
+          ) : (
+            <ErrorIcon color="error" />
+          )
+        ) : null,
       },
       {
         setAnswer: this.setAnswerQuality,
@@ -132,6 +142,13 @@ class IntervalExercise extends React.Component {
             ? "green"
             : "red"
           : "",
+        icon: this.state.answerWasWrong ? (
+          this.answerQualityIsCorrect() ? (
+            <CorrectIcon style={{ color: green[600] }} />
+          ) : (
+            <ErrorIcon color="error" />
+          )
+        ) : null,
       },
     ]
 

@@ -77,6 +77,7 @@ class SelectionBar extends React.Component {
               label={option.label}
               selectedIndex={option.selectedIndex}
               borderColor={option.borderColor}
+              icon={option.icon}
             />
           </div>
         ))}

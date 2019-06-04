@@ -14,6 +14,7 @@ const DropDownMenu = ({
   answer,
   anchorEl,
   borderColor,
+  icon,
 }) => (
   <div>
     <Button
@@ -24,7 +25,7 @@ const DropDownMenu = ({
       style={{ borderColor, width: 150, justifyContent: "space-between" }}
     >
       {answer}
-      <DropDownIcon />
+      {icon ? icon : <DropDownIcon />}
     </Button>
     <Menu
       id="drop-down-menu"
