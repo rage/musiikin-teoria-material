@@ -3,6 +3,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import Loading from "../Loading"
+import { Midi, Notation } from "react-abc"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -14,7 +15,7 @@ class MusicSheet extends React.Component {
     super(props)
 
     this.state = {
-      render: false,
+      render: true,
       engraverParams: props.engraverParams
         ? props.engraverParams
         : {
@@ -46,9 +47,9 @@ class MusicSheet extends React.Component {
     // gatsby runs build, so it's server side rendering had to be
     // disabled.
     // -> Dynamic import is used instead.
-    import("react-abc").then(react_abc => {
-      this.setState({ render: true, react_abc })
-    })
+    // import("react-abc").then(react_abc => {
+    //   this.setState({ render: true, react_abc })
+    // })
   }
 
   componentDidUpdate(prevProps) {
@@ -60,9 +61,9 @@ class MusicSheet extends React.Component {
       })
     }
     if (!this.state.render) {
-      import("react-abc").then(react_abc => {
-        this.setState({ render: true, react_abc })
-      })
+      // import("react-abc").then(react_abc => {
+      //   this.setState({ render: true, react_abc })
+      // })
     } else {
       if (!this.state.pianoSoundLoaded) {
         this.loadPianoSound()
@@ -118,7 +119,7 @@ class MusicSheet extends React.Component {
   renderNotation(notation) {
     return (
       <div id={"midi-" + this.state.id} className="staffContainer">
-        <this.state.react_abc.Notation
+        <Notation
           notation={notation}
           engraverParams={this.state.engraverParams}
         />
@@ -130,10 +131,10 @@ class MusicSheet extends React.Component {
     return (
       <>
         <div id={this.state.id + "-empty"} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={"L:1/1\n[]"} />
+          <Midi notation={"L:1/1\n[]"} />
         </div>
         <div id={this.state.id} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={notation} />
+          <Midi notation={notation} />
         </div>
         <div className={this.state.playbuttonstyle}>
           <Fab size="small" color="primary" onClick={() => this.onPlay()}>
