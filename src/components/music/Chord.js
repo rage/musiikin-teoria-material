@@ -9,6 +9,25 @@ import { randomIntArray } from "../../util/random"
 const ROOT = "root",
   TRIAD = "triad"
 
+/**
+ * Private method, generate a number of correct answers.
+ * @param {*} howMany How many exercises to generate
+ * @returns [{root: 5, triad: 4, notation: "<abc notation>"}]
+ */
+const generateCorrectAnswers = howMany => {
+  const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+  const correctTriads = randomIntArray(0, answerTriads.length, howMany)
+
+  return correctRoots.map((root, i) => {
+    const triad = correctTriads[i]
+    return {
+      root: root,
+      triad: triad,
+      notation: answerTriads[triad].notation(notationRoots[root]),
+    }
+  })
+}
+
 export default class Chord {
   generateExerciseSet(howMany) {
     const exerciseSet = {
@@ -21,29 +40,10 @@ export default class Chord {
         root: "Pohjasävel",
         triad: "Laatu",
       },
-      exercises: this.__generateCorrectAnswers(howMany),
+      exercises: generateCorrectAnswers(howMany),
     }
 
     return exerciseSet
-  }
-
-  /**
-   * Private method, generate a number of correct answers.
-   * @param {*} howMany How many exercises to generate
-   * @returns [{root: 5, triad: 4, notation: "<abc notation>"}]
-   */
-  __generateCorrectAnswers = howMany => {
-    const correctRoots = randomIntArray(0, notationRoots.length, howMany)
-    const correctTriads = randomIntArray(0, answerTriads.length, howMany)
-
-    return correctRoots.map((root, i) => {
-      const triad = correctTriads[i]
-      return {
-        root: root,
-        triad: triad,
-        notation: answerTriads[triad].notation(notationRoots[root]),
-      }
-    })
   }
 
   /**
