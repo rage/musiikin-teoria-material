@@ -13,7 +13,7 @@ import { scales, modes } from "../util/music/scales"
  * In charge of routing user exercise type to implementing exercise
  * eg <music-exercise type="chords"> to ChordsExercise
  */
-const ExerciseRouter = ({ type, name, description, required }) => {
+const ExerciseRouter = ({ type, name, description, required, quizid }) => {
   const requiredAnswers = required || 10 // default is 10
   return (
     <MusicExerciseWrapper
@@ -21,6 +21,7 @@ const ExerciseRouter = ({ type, name, description, required }) => {
       name={name}
       description={description}
       requiredAnswers={requiredAnswers}
+      quizId={quizid}
     />
   )
 }
