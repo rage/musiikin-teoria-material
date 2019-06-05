@@ -16,3 +16,27 @@ export async function fetchQuizzesProgress(exerciseName) {
   )
   return res.data?.points_by_group
 }
+
+export async function postAnswerData(answerObject) {
+  const res = await axios.post(
+    `${BASE_URL}/api/v1/quizzes/answer`,
+    answerObject,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken()}`,
+      },
+    },
+  )
+  return res.data?.points_by_group
+}
+
+export async function getQuizData(quizId) {
+  const res = await axios.get(`${BASE_URL}/api/v1/${quizId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken()}`,
+    },
+  })
+  return res.data?.points_by_group
+}
