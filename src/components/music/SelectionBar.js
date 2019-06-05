@@ -6,6 +6,8 @@ import DropDownForAnswers from "./DropDownForAnswers"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck as correct } from "@fortawesome/free-solid-svg-icons"
+import CorrectIcon from "@material-ui/icons/CheckCircle"
+import ErrorIcon from "@material-ui/icons/Error"
 
 class SelectionBar extends React.Component {
   constructor(props) {
@@ -78,6 +80,26 @@ class SelectionBar extends React.Component {
   render() {
     const dropDownClassList = ["dropDown1", "dropDown2"]
 
+    const setBorderColor = answerIsCorrect => {
+      let borderColor = ""
+      if (answerIsCorrect === null) {
+        return borderColor
+      }
+      answerIsCorrect ? (borderColor = "green") : (borderColor = "red")
+      return borderColor
+    }
+
+    const setIcon = answerIsCorrect => {
+      let icon = null
+      if (answerIsCorrect === null) {
+        return icon
+      }
+      answerIsCorrect
+        ? (icon = <CorrectIcon style={{ color: green[600] }} />)
+        : (icon = <ErrorIcon color="error" />)
+      return icon
+    }
+
     return (
       <Fragment>
         {this.props.options.map((option, i) => (
@@ -87,8 +109,8 @@ class SelectionBar extends React.Component {
               answers={option.answers}
               label={option.label}
               selectedIndex={option.selectedIndex}
-              borderColor={option.borderColor}
-              icon={option.icon}
+              borderColor={setBorderColor(option.answerIsCorrect)}
+              icon={setIcon(option.answerIsCorrect)}
             />
           </div>
         ))}
