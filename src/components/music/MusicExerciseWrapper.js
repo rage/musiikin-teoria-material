@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import styled from "styled-components"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
@@ -220,6 +221,14 @@ class MusicExerciseWrapper extends React.Component {
       </BorderedExerciseBox>
     )
   }
+}
+
+MusicExerciseWrapper.propTypes = {
+  renderExercise: PropTypes.func.isRequired,
+  requiredAnswers: PropTypes.number,
+  required_answers: PropTypes.number,
+  name: PropTypes.string,
+  description: PropTypes.string,
 }
 
 export default withSimpleErrorBoundary(MusicExerciseWrapper)

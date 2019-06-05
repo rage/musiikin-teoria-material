@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Fragment } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -8,12 +9,6 @@ import { faCircle as unanswered } from "@fortawesome/free-regular-svg-icons"
 import green from "@material-ui/core/colors/green"
 
 class IconProgressBar extends React.Component {
-  /*
-    {
-      correct: Integer,
-      total: Integer
-    }
-  */
   constructor(props) {
     super(props)
   }
@@ -54,6 +49,11 @@ class IconProgressBar extends React.Component {
       </>
     )
   }
+}
+
+IconProgressBar.propTypes = {
+  correct: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
 }
 
 export default IconProgressBar
