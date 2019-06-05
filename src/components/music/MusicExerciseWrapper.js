@@ -4,6 +4,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import LoginStateContext from "../../contexes/LoginStateContext"
 import LoginControls from "../LoginControls"
+import { postAnswerData, getQuizData } from "../../services/quizzes"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
@@ -67,13 +68,14 @@ class MusicExerciseWrapper extends React.Component {
     correctAnswers: 0,
     requiredAnswers: this.props.requiredAnswers,
     name: this.props.name ? this.props.name : "'name' parameter not set",
+    quizItemId: undefined,
   }
 
   constructor(props) {
     super(props)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ render: true })
 
     const required_answers = this.props.required_answers
@@ -81,6 +83,10 @@ class MusicExerciseWrapper extends React.Component {
     if (required_answers && required_answers > 0) {
       this.setState({ requiredAnswers: required_answers })
     }
+
+    const res = await getQuizData(this.props.quizId)
+    const quizItemId = res.quiz.items[0].quizId
+    this.setState({ quizItemId })
   }
 
   renderHeader() {
@@ -93,32 +99,49 @@ class MusicExerciseWrapper extends React.Component {
     )
   }
 
-  sendAnswer = (textData, correct) => {
+  sendAnswer = async (textData, correct) => {
     const answerObject = {
       quizId: this.props.quizId,
       languageId: "fi_FI",
       itemAnswers: [
         {
-          itemAnswerId: null, //from backend?
+          quizItemId: this.state.quizItemId,
           textData,
           correct,
         },
       ],
     }
-    //function for sending answerObject to backend
+    const res = await postAnswerData(answerObject)
+    console.log("r", res)
   }
 
   onCorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
 
+    const textData = {
+      answerString,
+      correctAnswerString,
+      answerIsCorrect: true,
+    }
+
     if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
       this.setState({ completed: true })
-      // Tähän voi lisätä lähetyskoodin myöhemmin
+
+      this.sendAnswer(textData, true)
+    } else {
+      this.sendAnswer(textData, false)
     }
   }
 
   onIncorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: 0 })
+
+    const textData = {
+      answerString,
+      correctAnswerString,
+      answerIsCorrect: false,
+    }
+    this.sendAnswer(textData, false)
   }
 
   onReset = () => {
