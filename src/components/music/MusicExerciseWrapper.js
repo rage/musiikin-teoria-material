@@ -97,7 +97,7 @@ class MusicExerciseWrapper extends React.Component {
     }
 
     const res = await getQuizData(this.props.quizId)
-    const quizItemId = res.quiz.items[0].quizId
+    const quizItemId = res.quiz.items[0].id
     this.setState({ quizItemId })
   }
 
@@ -124,8 +124,7 @@ class MusicExerciseWrapper extends React.Component {
         },
       ],
     }
-    const res = await postAnswerData(answerObject)
-    console.log("r", res)
+    await postAnswerData(answerObject)
   }
 
   onCorrectAnswer = (answerString, correctAnswerString) => {
