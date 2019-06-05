@@ -52,24 +52,31 @@ class Exercise extends React.Component {
    * Method to call when submit answer button is pressed.
    * @returns false if not all answers are selected, true if the answer was submitted
    */
-  handleClick = placement => event => {
-    if (!this.isAnswerSet()) {
-      return false
-    }
-    const { currentTarget } = event
+  onSubmit = clickEvent => {
+    const { currentTarget } = clickEvent
+
+    const answer = this.state.answer
+    const correctAnswer = this.state.exerciseSet.exercises[
+      this.state.currentExerciseIndex
+    ]
+
+    const answerString = this.props.exerciseKind.readableAnswerString(answer)
+    const correctAnswerString = this.props.exerciseKind.readableAnswerString(
+      correctAnswer,
+    )
+
     if (this.isAnswerCorrect()) {
-      this.props.onCorrect()
+      this.props.onCorrect(answerString, correctAnswerString)
       this.nextExercise()
     } else {
-      this.props.onIncorrect()
+      this.props.onIncorrect(answerString, correctAnswerString)
       this.setState(state => ({
         anchorEl: currentTarget,
-        open: state.placement !== placement || !state.open,
-        placement,
+        open: state.placement !== "top" || !state.open,
+        placement: "top",
         answerWasSubmitted: true,
       }))
     }
-    return true
   }
 
   /**
@@ -217,7 +224,7 @@ class Exercise extends React.Component {
               options={selectionOptions}
               answerWasWrong={this.state.answerWasSubmitted}
               nextExerciseSet={this.nextExerciseSet}
-              handleClick={this.handleClick("top")}
+              onSubmit={this.onSubmit}
             />
           </div>
         </Paper>

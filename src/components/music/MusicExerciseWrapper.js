@@ -93,7 +93,22 @@ class MusicExerciseWrapper extends React.Component {
     )
   }
 
-  onCorrectAnswer = () => {
+  sendAnswer = (textData, correct) => {
+    const answerObject = {
+      quizId: this.props.quizId,
+      languageId: "fi_FI",
+      itemAnswers: [
+        {
+          itemAnswerId: null, //from backend?
+          textData,
+          correct,
+        },
+      ],
+    }
+    //function for sending answerObject to backend
+  }
+
+  onCorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
 
     if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
@@ -102,7 +117,7 @@ class MusicExerciseWrapper extends React.Component {
     }
   }
 
-  onIncorrectAnswer = () => {
+  onIncorrectAnswer = (answerString, correctAnswerString) => {
     this.setState({ correctAnswers: 0 })
   }
 
