@@ -22,6 +22,7 @@ const generateCorrectAnswers = (howMany, scales) => {
     const notation = scales[correctScale].notation(notationRoots[root])
     return {
       root: root,
+      pitch: notationRoots[root].pitch, // Correct answers have pitch
       scale: correctScale,
       notation: notation,
     }
@@ -61,10 +62,14 @@ export default class Scale {
 
     const correctAnswerKeys = []
 
-    if (
-      answerRoots[answer.root].pitch === notationRoots[correctAnswer.root].pitch
-    )
-      correctAnswerKeys.push(ROOT)
+    const answerPitch = answer.pitch
+      ? answer.pitch // Correct answers have pitch
+      : answerRoots[answer.root].pitch
+    const correctAnswerPitch = correctAnswer.pitch
+      ? correctAnswer.pitch // Correct answers have pitch
+      : answerRoots[correctAnswer.root].pitch
+
+    if (answerPitch === correctAnswerPitch) correctAnswerKeys.push(ROOT)
     if (answer.scale === correctAnswer.scale) correctAnswerKeys.push(SCALE)
 
     return correctAnswerKeys
@@ -76,10 +81,12 @@ export default class Scale {
    * @returns "C major"
    */
   readableAnswerString(answer) {
+    const answerPitchLabel = answer.pitch // Correct answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+
     return (
-      notationRoots[answer.root].label +
-      " " +
-      this.scales[answer.scale].label.toLowerCase()
+      answerPitchLabel + " " + this.scales[answer.scale].label.toLowerCase()
     )
   }
 
