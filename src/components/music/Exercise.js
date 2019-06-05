@@ -2,10 +2,6 @@ import React from "react"
 import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
-import CorrectIcon from "@material-ui/icons/CheckCircle"
-import ErrorIcon from "@material-ui/icons/Error"
-import green from "@material-ui/core/colors/green"
-
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
@@ -156,37 +152,21 @@ class Exercise extends React.Component {
       correctAnswer,
     )
 
-    const correctIndicators = {
-      borderColor: "green",
-      icon: <CorrectIcon style={{ color: green[600] }} />,
-    }
-
-    const errorIndicators = {
-      borderColor: "red",
-      icon: <ErrorIcon color="error" />,
-    }
-
-    const noIndicators = {
-      borderColor: "",
-      icon: null,
-    }
-
     const selectionOptions = exerciseSet.answerKeys.map(key => {
       const answerOptions = exerciseSet.answerOptions[key]
 
-      const correctnessIndicators = this.state.answerWasSubmitted
+      const answerIsCorrect = this.state.answerWasSubmitted
         ? answerKeysThatAreCorrect.includes(key)
-          ? correctIndicators
-          : errorIndicators
-        : noIndicators
+          ? true
+          : false
+        : null
 
       return {
         setAnswer: this.setAnswer(key),
         answers: answerOptions,
         label: exerciseSet.answerLabels[key],
         selectedIndex: this.state.answer[key],
-        borderColor: correctnessIndicators.borderColor,
-        icon: correctnessIndicators.icon,
+        answerIsCorrect,
       }
     })
 
