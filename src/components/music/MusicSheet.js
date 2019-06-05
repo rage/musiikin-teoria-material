@@ -1,5 +1,7 @@
 import React from "react"
+import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import Loading from "../Loading"
@@ -168,6 +170,14 @@ class MusicSheet extends React.Component {
       }
     }
   }
+}
+
+MusicSheet.propTypes = {
+  notation: PropTypes.string.isRequired,
+  engraverParams: PropTypes.object,
+  playbuttonstyle: PropTypes.string,
+  renderNotes: PropTypes.bool,
+  renderSound: PropTypes.bool,
 }
 
 export default withSimpleErrorBoundary(MusicSheet)

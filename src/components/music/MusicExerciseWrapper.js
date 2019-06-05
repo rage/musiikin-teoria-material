@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import styled from "styled-components"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
@@ -8,6 +9,8 @@ import { postAnswerData, getQuizData } from "../../services/quizzes"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
+import { Icon } from "@material-ui/core"
+import green from "@material-ui/core/colors/green"
 import { Grid, Button } from "@material-ui/core"
 import IconProgressBar from "../IconProgressBar"
 import Loading from "../Loading"
@@ -22,11 +25,19 @@ const BorderedExerciseBox = styled.section`
   border-radius: 4px;
 `
 
-const StyledIcon = styled(FontAwesomeIcon)`
+const ExerciseIcon = styled(FontAwesomeIcon)`
   vertical-align: middle;
   margin-right: 1rem;
   margin-left: 0.5rem;
   color: ${accentColor};
+`
+
+const DoneIcon = styled(Icon)`
+  vertical-align: middle;
+  margin-right: 1rem;
+  margin-left: 0.5rem;
+  color: ${green[600]};
+  float: right;
 `
 
 const Header = styled.h3`
@@ -64,6 +75,7 @@ class MusicExerciseWrapper extends React.Component {
 
   state = {
     render: false,
+    pointsAwarded: false,
     skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
     requiredAnswers: this.props.requiredAnswers,
@@ -92,9 +104,10 @@ class MusicExerciseWrapper extends React.Component {
   renderHeader() {
     return (
       <Header>
-        <StyledIcon icon={icon} size="1x" />
+        <ExerciseIcon icon={icon} size="1x" />
         <HeaderMuted>Tehtävä: </HeaderMuted>
         {this.state.name}
+        {this.state.pointsAwarded && <DoneIcon>done_outline</DoneIcon>}
       </Header>
     )
   }
@@ -243,6 +256,14 @@ class MusicExerciseWrapper extends React.Component {
       </BorderedExerciseBox>
     )
   }
+}
+
+MusicExerciseWrapper.propTypes = {
+  renderExercise: PropTypes.func.isRequired,
+  requiredAnswers: PropTypes.number,
+  required_answers: PropTypes.number,
+  name: PropTypes.string,
+  description: PropTypes.string,
 }
 
 export default withSimpleErrorBoundary(MusicExerciseWrapper)

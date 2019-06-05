@@ -1,4 +1,5 @@
 import React, { Fragment } from "react"
+import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import DropDownMenu from "../DropDownMenu"
 import styled from "styled-components"
@@ -60,5 +61,12 @@ class DropDownForAnswers extends React.Component {
 const Wrapper = styled.div`
   margin-bottom: 1rem;
 `
+
+DropDownForAnswers.propTypes = {
+  selectedIndex: PropTypes.number.isRequired,
+  answers: PropTypes.array.isRequired,
+  borderColor: PropTypes.string,
+  icon: PropTypes.element,
+}
 
 export default withSimpleErrorBoundary(DropDownForAnswers)

@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { Popper, Fade, Typography, Paper } from "@material-ui/core"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -63,5 +64,11 @@ const CenterArrowIcon = styled.div`
   text-align: center;
   height: 11.75px;
 `
+
+CheckAnswerPopper.propTypes = {
+  open: PropTypes.bool.isRequired,
+  anchorEl: PropTypes.element,
+  placement: PropTypes.string,
+}
 
 export default withSimpleErrorBoundary(CheckAnswerPopper)
