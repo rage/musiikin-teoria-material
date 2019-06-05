@@ -41,7 +41,7 @@
     "pdf-slideshow": "^0.1.4",
     "prismjs": "^1.15.0",
     "react": "^16.7.0",
-    "react-abc-mooc": "^0.4.0",
+    "react-abc": "github:nigoshh/react-abc-mooc",
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",
     "react-jss": "^8.6.1",
