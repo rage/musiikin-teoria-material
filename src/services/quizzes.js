@@ -28,15 +28,15 @@ export async function postAnswerData(answerObject) {
       },
     },
   )
-  return res.data?.points_by_group
+  return res.data
 }
 
 export async function getQuizData(quizId) {
-  const res = await axios.get(`${BASE_URL}/api/v1/${quizId}`, {
+  const res = await axios.get(`${BASE_URL}/api/v1/quizzes/${quizId}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken()}`,
     },
   })
-  return res.data?.points_by_group
+  return res.data
 }
