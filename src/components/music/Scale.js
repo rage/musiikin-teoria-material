@@ -33,6 +33,7 @@ const generateCorrectAnswers = (howMany, scales) => {
 export default class Scale {
   constructor(useModes) {
     this.scales = useModes === "modes" ? modes : scales
+    this.usedMode = useModes
   }
 
   generateExerciseSet(howMany) {
@@ -105,7 +106,7 @@ export default class Scale {
     ].label.toLowerCase()
 
     return {
-      type: "scale", // TODO HUOM, miten tähän saisi moodisen
+      type: this.usedMode,
       answer: {
         root: answerPitchLabel,
         scale: answerScaleLabel,
