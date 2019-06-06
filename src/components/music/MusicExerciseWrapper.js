@@ -91,6 +91,10 @@ class MusicExerciseWrapper extends React.Component {
   }
 
   async componentDidMount() {
+    if (!this.context.loggedIn) {
+      this.setState({ render: true })
+      return
+    }
     const res = await getQuizData(this.props.quizId)
     const quizItemId = res.quiz.items[0].id
     const pointsAwarded = res.userQuizState
@@ -236,7 +240,11 @@ class MusicExerciseWrapper extends React.Component {
                 <LoginNagWrapper>
                   <LoginControls />
                 </LoginNagWrapper>
-                <button onClick={() => this.setState({ skipLogin: true })}>
+                <button
+                  onClick={() =>
+                    this.setState({ skipLogin: true, showProgressBar: true })
+                  }
+                >
                   Skip
                 </button>
               </div>
