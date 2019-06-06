@@ -112,7 +112,7 @@ class MusicExerciseWrapper extends React.Component {
     )
   }
 
-  sendAnswer = async (textData, correct) => {
+  sendAnswer = (textData, correct) => {
     const answerObject = {
       quizId: this.props.quizId,
       languageId: "fi_FI",
@@ -124,7 +124,7 @@ class MusicExerciseWrapper extends React.Component {
         },
       ],
     }
-    await postAnswerData(answerObject)
+    postAnswerData(answerObject)
   }
 
   onCorrectAnswer = (answerString, correctAnswerString) => {
