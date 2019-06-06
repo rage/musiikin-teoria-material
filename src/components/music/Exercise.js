@@ -57,16 +57,18 @@ class Exercise extends React.Component {
       this.state.currentExerciseIndex
     ]
 
-    const answerString = this.props.exerciseKind.readableAnswerString(answer)
-    const correctAnswerString = this.props.exerciseKind.readableAnswerString(
+    const correct = this.isAnswerCorrect()
+    const payload = this.props.exerciseKind.makeAnswerPayload(
+      answer,
       correctAnswer,
+      correct,
     )
 
-    if (this.isAnswerCorrect()) {
-      this.props.onCorrect(answerString, correctAnswerString)
+    if (correct) {
+      this.props.onCorrect(payload)
       this.nextExercise()
     } else {
-      this.props.onIncorrect(answerString, correctAnswerString)
+      this.props.onIncorrect(payload)
       this.setState(state => ({
         anchorEl: currentTarget,
         open: state.placement !== "top" || !state.open,

@@ -127,13 +127,11 @@ class MusicExerciseWrapper extends React.Component {
     postAnswerData(answerObject)
   }
 
-  onCorrectAnswer = (answerString, correctAnswerString) => {
+  onCorrectAnswer = payload => {
     this.setState({ correctAnswers: this.state.correctAnswers + 1 })
 
     const textData = {
-      answerString,
-      correctAnswerString,
-      answerIsCorrect: true,
+      ...payload,
     }
 
     if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
@@ -145,13 +143,11 @@ class MusicExerciseWrapper extends React.Component {
     }
   }
 
-  onIncorrectAnswer = (answerString, correctAnswerString) => {
+  onIncorrectAnswer = payload => {
     this.setState({ correctAnswers: 0 })
 
     const textData = {
-      answerString,
-      correctAnswerString,
-      answerIsCorrect: false,
+      ...payload,
     }
     this.sendAnswer(textData, false)
   }

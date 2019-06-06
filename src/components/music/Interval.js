@@ -86,6 +86,33 @@ export default class Interval {
     )
   }
 
+  makeAnswerPayload(answer, correctAnswer, correct) {
+    const answerQualityLabel = qualities[answer.quality].label.toLowerCase()
+    const answerIntervalLabel = intervalLabels[
+      answer.interval
+    ].label.toLowerCase()
+
+    const correctAnswerQualityLabel = qualities[
+      correctAnswer.quality
+    ].label.toLowerCase()
+    const correctAnswerIntervalLabel = intervalLabels[
+      correctAnswer.interval
+    ].label.toLowerCase()
+
+    return {
+      type: "interval",
+      answer: {
+        quality: answerQualityLabel,
+        interval: answerIntervalLabel,
+      },
+      correctAnswer: {
+        quality: correctAnswerQualityLabel,
+        interval: correctAnswerIntervalLabel,
+      },
+      correct,
+    }
+  }
+
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */

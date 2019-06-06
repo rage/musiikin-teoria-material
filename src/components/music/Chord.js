@@ -22,7 +22,7 @@ const generateCorrectAnswers = howMany => {
     const triad = correctTriads[i]
     return {
       root: root,
-      pitch: notationRoots[root].pitch, // Correct answers have pitch
+      pitch: notationRoots[root].pitch, // Generated answers have pitch
       triad: triad,
       notation: answerTriads[triad].notation(notationRoots[root]),
     }
@@ -59,10 +59,10 @@ export default class Chord {
     const correctAnswerKeys = []
 
     const answerPitch = answer.pitch
-      ? answer.pitch // Correct answers have pitch
+      ? answer.pitch // Generated answers have pitch
       : answerRoots[answer.root].pitch
     const correctAnswerPitch = correctAnswer.pitch
-      ? correctAnswer.pitch // Correct answers have pitch
+      ? correctAnswer.pitch // Generated answers have pitch
       : answerRoots[correctAnswer.root].pitch
 
     if (answerPitch === correctAnswerPitch) correctAnswerKeys.push(ROOT)
@@ -77,13 +77,40 @@ export default class Chord {
    * @returns "C major"
    */
   readableAnswerString(answer) {
-    const answerPitchLabel = answer.pitch // Correct answers have pitch
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
       : answerRoots[answer.root].label
 
     return (
       answerPitchLabel + " " + answerTriads[answer.triad].label.toLowerCase()
     )
+  }
+
+  makeAnswerPayload(answer, correctAnswer, correct) {
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+    const answerTriadLabel = answerTriads[answer.triad].label.toLowerCase()
+
+    const correctAnswerPitchLabel = correctAnswer.pitch // Generated answers have pitch
+      ? notationRoots[correctAnswer.root].label
+      : answerRoots[correctAnswer.root].label
+    const correctAnswerTriadLabel = answerTriads[
+      correctAnswer.triad
+    ].label.toLowerCase()
+
+    return {
+      type: "chord",
+      answer: {
+        root: answerPitchLabel,
+        triad: answerTriadLabel,
+      },
+      correctAnswer: {
+        root: correctAnswerPitchLabel,
+        triad: correctAnswerTriadLabel,
+      },
+      correct,
+    }
   }
 
   /**
