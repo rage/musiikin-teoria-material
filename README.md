@@ -2,6 +2,10 @@
 
 First half of summer 2019.
 
+## Documentation
+
+[Exercise State Diagram](https://raw.githubusercontent.com/rage/musiikin-teoria-material/master/documentation/IMG_0087.jpg)
+
 ## Development environment
 
 Requirements: recent Node
