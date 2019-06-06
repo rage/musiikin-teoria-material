@@ -66,7 +66,10 @@ class Exercise extends React.Component {
 
     if (correct) {
       this.props.onCorrect(payload)
-      if (this.state.currentExerciseIndex + 1 < this.state.exerciseSet.length)
+      if (
+        this.state.currentExerciseIndex + 1 <
+        this.state.exerciseSet.exercises.length
+      )
         this.nextExercise()
     } else {
       this.props.onIncorrect(payload)
