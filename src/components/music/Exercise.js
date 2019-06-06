@@ -64,7 +64,8 @@ class Exercise extends React.Component {
 
     if (this.isAnswerCorrect()) {
       this.props.onCorrect(answerString, correctAnswerString)
-      this.nextExercise()
+      if (this.state.currentExerciseIndex + 1 < this.state.exerciseSet.length)
+        this.nextExercise()
     } else {
       this.props.onIncorrect(answerString, correctAnswerString)
       this.setState(state => ({
