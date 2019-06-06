@@ -79,16 +79,6 @@ class Exercise extends React.Component {
   }
 
   /**
-   * Check that all needed answers are set in this.state.answer
-   */
-  isAnswerSet = () => {
-    return (
-      this.state.exerciseSet.answerKeys.length ===
-      Object.keys(this.state.answer).length
-    )
-  }
-
-  /**
    * Check that the given answer is correct
    */
   isAnswerCorrect = () => {

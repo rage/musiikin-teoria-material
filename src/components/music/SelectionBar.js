@@ -6,14 +6,20 @@ import DropDownForAnswers from "./DropDownForAnswers"
 import { Button, Icon } from "@material-ui/core"
 import green from "@material-ui/core/colors/green"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCheck as correct } from "@fortawesome/free-solid-svg-icons"
-import CorrectIcon from "@material-ui/icons/CheckCircle"
-import ErrorIcon from "@material-ui/icons/Error"
+import {
+  faCheck as correctMsgIcon,
+  faCheckCircle as correct,
+  faTimesCircle as incorrect,
+  faExclamationCircle as unset,
+} from "@fortawesome/free-solid-svg-icons"
 
 class SelectionBar extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { showCorrectAnswerCheckmark: false }
+    this.state = {
+      showCorrectAnswerCheckmark: false,
+      showWarnUnsetAnswers: false,
+    }
   }
 
   haveAnswersBeenGiven = () => {
@@ -26,9 +32,11 @@ class SelectionBar extends React.Component {
 
   onClick = event => {
     if (!this.haveAnswersBeenGiven()) {
-      // "Set these options" can be added here later
+      this.setState({ showWarnUnsetAnswers: true })
       return
     }
+
+    this.setState({ showWarnUnsetAnswers: false })
 
     this.props.onSubmit(event)
 
@@ -55,7 +63,7 @@ class SelectionBar extends React.Component {
           color="primary"
           style={{ backgroundColor: green[500] }}
         >
-          Oikein! &nbsp; <FontAwesomeIcon icon={correct} />
+          Oikein! &nbsp; <FontAwesomeIcon icon={correctMsgIcon} />
         </Button>
       )
     } else if (this.props.answerWasWrong) {
@@ -81,24 +89,40 @@ class SelectionBar extends React.Component {
   render() {
     const dropDownClassList = ["dropDown1", "dropDown2"]
 
-    const setBorderColor = answerIsCorrect => {
-      let borderColor = ""
-      if (answerIsCorrect === null) {
-        return borderColor
+    const borderColorForOption = option => {
+      if (option.answerIsCorrect === null) {
+        const warnAboutUnset =
+          this.state.showWarnUnsetAnswers &&
+          typeof option.selectedIndex !== "number"
+
+        return warnAboutUnset ? "darkorange" : ""
       }
-      answerIsCorrect ? (borderColor = "green") : (borderColor = "red")
-      return borderColor
+      return option.answerIsCorrect ? "green" : "red"
     }
 
-    const setIcon = answerIsCorrect => {
-      let icon = null
-      if (answerIsCorrect === null) {
-        return icon
+    const iconForOption = option => {
+      if (option.answerIsCorrect === null) {
+        const warnAboutUnset =
+          this.state.showWarnUnsetAnswers &&
+          typeof option.selectedIndex !== "number"
+
+        return warnAboutUnset ? (
+          <FontAwesomeIcon
+            size="lg"
+            icon={unset}
+            style={{ color: "darkorange" }}
+          />
+        ) : null
       }
-      answerIsCorrect
-        ? (icon = <CorrectIcon style={{ color: green[600] }} />)
-        : (icon = <ErrorIcon color="error" />)
-      return icon
+      return option.answerIsCorrect ? (
+        <FontAwesomeIcon
+          size="lg"
+          icon={correct}
+          style={{ color: green[600] }}
+        />
+      ) : (
+        <FontAwesomeIcon size="lg" icon={incorrect} style={{ color: "red" }} />
+      )
     }
 
     return (
@@ -110,8 +134,8 @@ class SelectionBar extends React.Component {
               answers={option.answers}
               label={option.label}
               selectedIndex={option.selectedIndex}
-              borderColor={setBorderColor(option.answerIsCorrect)}
-              icon={setIcon(option.answerIsCorrect)}
+              borderColor={borderColorForOption(option)}
+              icon={iconForOption(option)}
             />
           </div>
         ))}
