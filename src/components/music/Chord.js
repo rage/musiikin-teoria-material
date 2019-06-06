@@ -22,6 +22,7 @@ const generateCorrectAnswers = howMany => {
     const triad = correctTriads[i]
     return {
       root: root,
+      pitch: notationRoots[root].pitch, // Generated answers have pitch
       triad: triad,
       notation: answerTriads[triad].notation(notationRoots[root]),
     }
@@ -57,10 +58,14 @@ export default class Chord {
 
     const correctAnswerKeys = []
 
-    if (
-      answerRoots[answer.root].pitch === notationRoots[correctAnswer.root].pitch
-    )
-      correctAnswerKeys.push(ROOT)
+    const answerPitch = answer.pitch
+      ? answer.pitch // Generated answers have pitch
+      : answerRoots[answer.root].pitch
+    const correctAnswerPitch = correctAnswer.pitch
+      ? correctAnswer.pitch // Generated answers have pitch
+      : answerRoots[correctAnswer.root].pitch
+
+    if (answerPitch === correctAnswerPitch) correctAnswerKeys.push(ROOT)
     if (answer.triad === correctAnswer.triad) correctAnswerKeys.push(TRIAD)
 
     return correctAnswerKeys
@@ -72,11 +77,40 @@ export default class Chord {
    * @returns "C major"
    */
   readableAnswerString(answer) {
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+
     return (
-      notationRoots[answer.root].label +
-      " " +
-      answerTriads[answer.triad].label.toLowerCase()
+      answerPitchLabel + " " + answerTriads[answer.triad].label.toLowerCase()
     )
+  }
+
+  makeAnswerPayload(answer, correctAnswer, correct) {
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+    const answerTriadLabel = answerTriads[answer.triad].label.toLowerCase()
+
+    const correctAnswerPitchLabel = correctAnswer.pitch // Generated answers have pitch
+      ? notationRoots[correctAnswer.root].label
+      : answerRoots[correctAnswer.root].label
+    const correctAnswerTriadLabel = answerTriads[
+      correctAnswer.triad
+    ].label.toLowerCase()
+
+    return {
+      type: "chord",
+      answer: {
+        root: answerPitchLabel,
+        triad: answerTriadLabel,
+      },
+      correctAnswer: {
+        root: correctAnswerPitchLabel,
+        triad: correctAnswerTriadLabel,
+      },
+      correct,
+    }
   }
 
   /**

@@ -2,6 +2,7 @@ import {
   roots as notationRoots,
   answerOptionsForRoots as answerRoots,
 } from "../../util/music/roots"
+import { modes, scales } from "../../util/music/scales"
 import { randomIntArray } from "../../util/random"
 
 // Answer Keys
@@ -22,6 +23,7 @@ const generateCorrectAnswers = (howMany, scales) => {
     const notation = scales[correctScale].notation(notationRoots[root])
     return {
       root: root,
+      pitch: notationRoots[root].pitch, // Generated answers have pitch
       scale: correctScale,
       notation: notation,
     }
@@ -29,8 +31,9 @@ const generateCorrectAnswers = (howMany, scales) => {
 }
 
 export default class Scale {
-  constructor(scales) {
-    this.scales = scales
+  constructor(useModes) {
+    this.scales = useModes === "modes" ? modes : scales
+    this.usedMode = useModes
   }
 
   generateExerciseSet(howMany) {
@@ -61,10 +64,14 @@ export default class Scale {
 
     const correctAnswerKeys = []
 
-    if (
-      answerRoots[answer.root].pitch === notationRoots[correctAnswer.root].pitch
-    )
-      correctAnswerKeys.push(ROOT)
+    const answerPitch = answer.pitch
+      ? answer.pitch // Generated answers have pitch
+      : answerRoots[answer.root].pitch
+    const correctAnswerPitch = correctAnswer.pitch
+      ? correctAnswer.pitch // Generated answers have pitch
+      : answerRoots[correctAnswer.root].pitch
+
+    if (answerPitch === correctAnswerPitch) correctAnswerKeys.push(ROOT)
     if (answer.scale === correctAnswer.scale) correctAnswerKeys.push(SCALE)
 
     return correctAnswerKeys
@@ -76,11 +83,40 @@ export default class Scale {
    * @returns "C major"
    */
   readableAnswerString(answer) {
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+
     return (
-      notationRoots[answer.root].label +
-      " " +
-      this.scales[answer.scale].label.toLowerCase()
+      answerPitchLabel + " " + this.scales[answer.scale].label.toLowerCase()
     )
+  }
+
+  makeAnswerPayload(answer, correctAnswer, correct) {
+    const answerPitchLabel = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root].label
+      : answerRoots[answer.root].label
+    const answerScaleLabel = this.scales[answer.scale].label.toLowerCase()
+
+    const correctAnswerPitchLabel = correctAnswer.pitch // Generated answers have pitch
+      ? notationRoots[correctAnswer.root].label
+      : answerRoots[correctAnswer.root].label
+    const correctAnswerScaleLabel = this.scales[
+      correctAnswer.scale
+    ].label.toLowerCase()
+
+    return {
+      type: this.usedMode,
+      answer: {
+        root: answerPitchLabel,
+        scale: answerScaleLabel,
+      },
+      correctAnswer: {
+        root: correctAnswerPitchLabel,
+        scale: correctAnswerScaleLabel,
+      },
+      correct,
+    }
   }
 
   /**

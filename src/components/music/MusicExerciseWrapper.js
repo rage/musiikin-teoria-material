@@ -131,16 +131,14 @@ class MusicExerciseWrapper extends React.Component {
     return await postAnswerData(answerObject)
   }
 
-  onCorrectAnswer = async (answerString, correctAnswerString) => {
+  onCorrectAnswer = async payload => {
     const correctAnswers = this.state.correctAnswers + 1
     // update correctAnswers already here (instead of after waiting for the
     // response from backend) to show progress in the progress bar more quickly
     this.setState({ correctAnswers })
 
     const textData = {
-      answerString,
-      correctAnswerString,
-      answerIsCorrect: true,
+      ...payload,
     }
 
     if (correctAnswers >= this.state.requiredAnswers) {
@@ -158,13 +156,11 @@ class MusicExerciseWrapper extends React.Component {
     }
   }
 
-  onIncorrectAnswer = (answerString, correctAnswerString) => {
+  onIncorrectAnswer = payload => {
     this.setState({ correctAnswers: 0 })
 
     const textData = {
-      answerString,
-      correctAnswerString,
-      answerIsCorrect: false,
+      ...payload,
     }
     this.sendAnswer(textData, false)
   }
