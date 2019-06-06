@@ -191,7 +191,7 @@ class Exercise extends React.Component {
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
               engraverParams={this.props.exerciseKind.getEngraverParams()}
-              playbuttonstyle={"playButton"}
+              playButtonStyle={"playButton"}
             />
             <SelectionBar
               options={selectionOptions}

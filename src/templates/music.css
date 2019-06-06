@@ -87,4 +87,8 @@
     margin-left: 116px;
     margin-top: 20px;
   }
+
+  .playButtonSheet {
+    text-align: center;
+  }
 }

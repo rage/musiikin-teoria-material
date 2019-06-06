@@ -49,7 +49,7 @@ const NotesAndSoundMusicSheet = ({
               staffwidth: 740,
             }
       }
-      playButtonStyle={playButtonStyle ? playButtonStyle : "playbutton"} // default playButtonStyle
+      playButtonStyle={playButtonStyle ? playButtonStyle : "playButtonSheet"} // default playButtonStyle
     />
   )
 }
@@ -93,7 +93,7 @@ const SoundMusicSheet = ({ playButtonStyle, ...other }) => {
       {...other}
       renderNotes={false}
       renderSound={true}
-      playButtonStyle={playButtonStyle ? playButtonStyle : "playbutton"} // default playButtonStyle
+      playButtonStyle={playButtonStyle ? playButtonStyle : "playButtonSheet"} // default playButtonStyle
     />
   )
 }
