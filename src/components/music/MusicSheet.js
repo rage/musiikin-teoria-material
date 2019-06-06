@@ -34,9 +34,9 @@ class MusicSheet extends React.Component {
       id: "music-midi-" + Math.floor(Math.random() * 10000),
       renderNotes: props.renderNotes ? true : false,
       renderSound: props.renderSound ? true : false,
-      playbuttonstyle: props.playbuttonstyle
-        ? props.playbuttonstyle
-        : "playbutton",
+      playButtonStyle: props.playButtonStyle
+        ? props.playButtonStyle
+        : "playButton",
       pianoSoundLoaded: false,
     }
   }
@@ -137,7 +137,7 @@ class MusicSheet extends React.Component {
         <div id={this.state.id} style={{ display: "none" }}>
           <this.state.react_abc.Midi notation={notation} />
         </div>
-        <div className={this.state.playbuttonstyle}>
+        <div className={this.state.playButtonStyle}>
           <Fab size="small" color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon fontSize="small" />
           </Fab>
@@ -175,7 +175,7 @@ class MusicSheet extends React.Component {
 MusicSheet.propTypes = {
   notation: PropTypes.string.isRequired,
   engraverParams: PropTypes.object,
-  playbuttonstyle: PropTypes.string,
+  playButtonStyle: PropTypes.string,
   renderNotes: PropTypes.bool,
   renderSound: PropTypes.bool,
 }

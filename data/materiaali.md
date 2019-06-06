@@ -13,14 +13,37 @@ TODO
 
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Yes
 
-<music-sheet name="Music Sheet Component" notation='D'></music-sheet>
+<hr>
+
+<music-sheet name="Notes and Sound" notation='T: Cooleys
+M: 4/4
+L: 1/8
+R: reel
+K: Emin
+|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
+EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:'
+only_notes=true></music-sheet>
 
 <hr>
 
-<music-sheet name="Only notes" notation='CDEF GABcDF|' only_notes=true></music-sheet>
+<music-sheet name="Only Notes" onlynotes=true notation='T: Cooleys
+M: 4/4
+L: 1/8
+R: reel
+K: Emin
+|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
+EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:'
+only_notes=true></music-sheet>
 
-<check-answer isCorrect="true"></check-answer>
+<hr>
+
+<music-sheet name="Only Sound" onlysound=true notation='T: Cooleys
+M: 4/4
+L: 1/8
+R: reel
+K: Emin
+|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|
+EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:'
+only_notes=true></music-sheet>
 
 </text-box>
-
-<music-exercise required=5 name="Sointu nuotti ja kuuntelu" description="Tunnista sointujen pohjasävel ja tyyppi" type="chords"></music-exercise>
