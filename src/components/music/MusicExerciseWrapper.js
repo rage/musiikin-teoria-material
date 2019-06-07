@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPencilAlt as icon } from "@fortawesome/free-solid-svg-icons"
 import { Icon } from "@material-ui/core"
 import green from "@material-ui/core/colors/green"
-import { Grid, Button } from "@material-ui/core"
+import { Grid, Button, Typography } from "@material-ui/core"
 import IconProgressBar from "../IconProgressBar"
 import Loading from "../Loading"
 
@@ -267,7 +267,13 @@ class MusicExerciseWrapper extends React.Component {
 
           {(this.context.loggedIn || this.state.skipLogin) && (
             <Loading loading={false} heightHint="305px">
-              <p>{this.props.description && this.props.description}</p>
+              {!this.context.loggedIn && (
+                <Typography color="secondary">
+                  Et saa tekemistäsi tehtävistä pisteitä ennen kuin kirjaudut
+                  sisään.
+                </Typography>
+              )}
+              {this.props.description && <p>{this.props.description}</p>}
               {this.props.renderExercise(
                 this.onCorrectAnswer,
                 this.onIncorrectAnswer,
