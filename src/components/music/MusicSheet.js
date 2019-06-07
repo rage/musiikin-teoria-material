@@ -20,26 +20,9 @@ class MusicSheet extends React.Component {
 
     this.state = {
       render: false,
-      engraverParams: props.engraverParams
-        ? props.engraverParams
-        : {
-            add_classes: false,
-            editable: false,
-            listener: null,
-            paddingbottom: 30,
-            paddingleft: 15,
-            paddingright: 50,
-            paddingtop: 15,
-            responsive: undefined,
-            scale: 1,
-            staffwidth: 740,
-          },
       id: "music-midi-" + Math.floor(Math.random() * 10000),
       renderNotes: props.renderNotes ? true : false,
       renderSound: props.renderSound ? true : false,
-      playButtonStyle: props.playButtonStyle
-        ? props.playButtonStyle
-        : "playButton",
     }
   }
 
@@ -109,13 +92,16 @@ class MusicSheet extends React.Component {
       <div id={"midi-" + this.state.id} className="staffContainer">
         <this.state.react_abc.Notation
           notation={notation}
-          engraverParams={this.state.engraverParams}
+          engraverParams={this.props.engraverParams}
         />
       </div>
     )
   }
 
   renderPlayButton(notation) {
+    const playButtonStyle = this.props.playButtonStyle
+      ? this.props.playButtonStyle
+      : "playButton"
     // MidiSoundContext is used to load the piano sound
     return (
       <MidiSoundContext.Consumer>
@@ -125,7 +111,7 @@ class MusicSheet extends React.Component {
               <div id={this.state.id} style={{ display: "none" }}>
                 <this.state.react_abc.Midi notation={notation} />
               </div>
-              <div className={this.state.playButtonStyle}>
+              <div className={playButtonStyle}>
                 {!value.soundLoaded ? (
                   <CircularProgress variant="indeterminate" />
                 ) : (
