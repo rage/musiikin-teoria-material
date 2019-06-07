@@ -75,12 +75,15 @@ class MusicExerciseWrapper extends React.Component {
 
   state = {
     render: false,
-    pointsAwarded: false,
+    pointsAwarded: null, // this can be either null or 1 (same as in backend)
     skipLogin: false, // TODO remove at some point
     correctAnswers: 0,
+    completed: false, // true if an exercise set was completed just now (not before)
     requiredAnswers: this.props.requiredAnswers,
     name: this.props.name ? this.props.name : "'name' parameter not set",
     quizItemId: undefined,
+    showProgressBar: false, // if true, progress bar is shown
+    pointsError: false, // true if the points were not received by the backend
   }
 
   constructor(props) {
@@ -88,17 +91,22 @@ class MusicExerciseWrapper extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ render: true })
-
-    const required_answers = this.props.required_answers
-
-    if (required_answers && required_answers > 0) {
-      this.setState({ requiredAnswers: required_answers })
+    if (!this.context.loggedIn) {
+      this.setState({ render: true })
+      return
     }
-
     const res = await getQuizData(this.props.quizId)
     const quizItemId = res.quiz.items[0].id
-    this.setState({ quizItemId })
+    const pointsAwarded = res.userQuizState
+      ? res.userQuizState.pointsAwarded
+      : null
+    this.setState({
+      render: true,
+      quizItemId,
+      pointsAwarded,
+      completed: pointsAwarded ? true : false,
+      showProgressBar: !pointsAwarded,
+    })
   }
 
   renderHeader() {
@@ -112,7 +120,7 @@ class MusicExerciseWrapper extends React.Component {
     )
   }
 
-  sendAnswer = (textData, correct) => {
+  sendAnswer = async (textData, correct) => {
     const answerObject = {
       quizId: this.props.quizId,
       languageId: "fi_FI",
@@ -124,20 +132,38 @@ class MusicExerciseWrapper extends React.Component {
         },
       ],
     }
-    postAnswerData(answerObject)
+    return await postAnswerData(answerObject)
   }
 
-  onCorrectAnswer = payload => {
-    this.setState({ correctAnswers: this.state.correctAnswers + 1 })
+  onCorrectAnswer = async payload => {
+    const correctAnswers = this.state.correctAnswers + 1
+
+    if (!this.context.loggedIn) {
+      this.setState({
+        correctAnswers,
+        completed: correctAnswers >= this.state.requiredAnswers,
+      })
+      return
+    }
+
+    // update correctAnswers already here (instead of after waiting for the
+    // response from backend) to show progress in the progress bar more quickly
+    this.setState({ correctAnswers })
 
     const textData = {
       ...payload,
     }
 
-    if (this.state.correctAnswers + 1 >= this.state.requiredAnswers) {
-      this.setState({ completed: true })
-
-      this.sendAnswer(textData, true)
+    if (correctAnswers >= this.state.requiredAnswers) {
+      const res = await this.sendAnswer(textData, true)
+      const pointsAwarded = res.userQuizState
+        ? res.userQuizState.pointsAwarded
+        : null
+      this.setState({
+        completed: true,
+        pointsAwarded,
+        pointsError: !pointsAwarded,
+      })
     } else {
       this.sendAnswer(textData, false)
     }
@@ -153,7 +179,11 @@ class MusicExerciseWrapper extends React.Component {
   }
 
   onReset = () => {
-    this.setState({ correctAnswers: 0, completed: false })
+    this.setState({
+      correctAnswers: 0,
+      completed: false,
+      showProgressBar: true,
+    })
   }
 
   renderCompleteScreen() {
@@ -163,13 +193,15 @@ class MusicExerciseWrapper extends React.Component {
           <Grid item>
             <p>Tehtävä suoritettu</p>
           </Grid>
-          <Grid item>
-            <IconProgressBar
-              style={{ marginTop: "1em" }}
-              correct={this.state.correctAnswers}
-              total={this.state.requiredAnswers}
-            />
-          </Grid>
+          {this.state.showProgressBar && (
+            <Grid item>
+              <IconProgressBar
+                style={{ marginTop: "1em" }}
+                correct={this.state.correctAnswers}
+                total={this.state.requiredAnswers}
+              />
+            </Grid>
+          )}
           <Grid item>
             <Button variant="contained" color="primary" onClick={this.onReset}>
               Harjoittele lisää
@@ -217,7 +249,11 @@ class MusicExerciseWrapper extends React.Component {
                 <LoginNagWrapper>
                   <LoginControls />
                 </LoginNagWrapper>
-                <button onClick={() => this.setState({ skipLogin: true })}>
+                <button
+                  onClick={() =>
+                    this.setState({ skipLogin: true, showProgressBar: true })
+                  }
+                >
                   Skip
                 </button>
               </div>
@@ -231,7 +267,6 @@ class MusicExerciseWrapper extends React.Component {
                 this.onCorrectAnswer,
                 this.onIncorrectAnswer,
               )}
-              {/* <StyledDivider /> */}
               {this.renderProgressPart()}
             </Loading>
           )}

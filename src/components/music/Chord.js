@@ -54,7 +54,13 @@ export default class Chord {
    * @returns ["root"]
    */
   getCorrectAnswerKeys(answer, correctAnswer) {
-    if (!answer.root || !correctAnswer) return []
+    if (
+      !answer ||
+      typeof answer.root !== "number" ||
+      typeof answer.triad !== "number" ||
+      !correctAnswer
+    )
+      return []
 
     const correctAnswerKeys = []
 
