@@ -61,7 +61,13 @@ export default class Interval {
    * @returns ["interval"]
    */
   getCorrectAnswerKeys(answer, correctAnswer) {
-    if (!answer.interval || !correctAnswer) return []
+    if (
+      !answer ||
+      typeof answer.interval !== "number" ||
+      typeof answer.quality !== "number" ||
+      !correctAnswer
+    )
+      return []
 
     const correctAnswerKeys = []
 

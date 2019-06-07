@@ -60,7 +60,13 @@ export default class Scale {
    * @returns ["root"]
    */
   getCorrectAnswerKeys(answer, correctAnswer) {
-    if (!answer.root || !correctAnswer) return []
+    if (
+      !answer ||
+      typeof answer.root !== "number" ||
+      typeof answer.scale !== "number" ||
+      !correctAnswer
+    )
+      return []
 
     const correctAnswerKeys = []
 
