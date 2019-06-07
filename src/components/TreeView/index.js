@@ -13,8 +13,8 @@ class TreeView extends React.Component {
   render() {
     return (
       <StyledUl>
-        {this.props.data.map(top => (
-          <TreeViewItem key={top.title} item={top} spy />
+        {this.props.data.map((top, i) => (
+          <TreeViewItem key={top.title + "_" + i} item={top} spy />
         ))}
       </StyledUl>
     )
