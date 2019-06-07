@@ -17,8 +17,8 @@ class SelectionBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showCorrectAnswerCheckmark: false,
-      showWarnUnsetAnswers: false,
+      showCorrectOnButton: false,
+      showUnsetAnswersAsOrange: false,
     }
   }
 
@@ -32,11 +32,11 @@ class SelectionBar extends React.Component {
 
   onClick = event => {
     if (!this.haveAnswersBeenGiven()) {
-      this.setState({ showWarnUnsetAnswers: true })
+      this.setState({ showUnsetAnswersAsOrange: true })
       return
     }
 
-    this.setState({ showWarnUnsetAnswers: false })
+    this.setState({ showUnsetAnswersAsOrange: false })
 
     this.props.onSubmit(event)
 
@@ -47,16 +47,16 @@ class SelectionBar extends React.Component {
       }
 
       // Show checkmark
-      this.setState({ showCorrectAnswerCheckmark: true })
+      this.setState({ showCorrectOnButton: true })
       // Hide checkmark later
       setTimeout(() => {
-        this.setState({ showCorrectAnswerCheckmark: false })
+        this.setState({ showCorrectOnButton: false })
       }, 2500)
     }, 100)
   }
 
   renderButton() {
-    if (this.state.showCorrectAnswerCheckmark) {
+    if (this.state.showCorrectOnButton) {
       return (
         <Button
           variant="contained"
@@ -92,7 +92,7 @@ class SelectionBar extends React.Component {
     const borderColorForOption = option => {
       if (option.answerIsCorrect === null) {
         const warnAboutUnset =
-          this.state.showWarnUnsetAnswers &&
+          this.state.showUnsetAnswersAsOrange &&
           typeof option.selectedIndex !== "number"
 
         return warnAboutUnset ? "darkorange" : ""
@@ -103,7 +103,7 @@ class SelectionBar extends React.Component {
     const iconForOption = option => {
       if (option.answerIsCorrect === null) {
         const warnAboutUnset =
-          this.state.showWarnUnsetAnswers &&
+          this.state.showUnsetAnswersAsOrange &&
           typeof option.selectedIndex !== "number"
 
         return warnAboutUnset ? (
