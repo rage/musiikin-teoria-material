@@ -5,6 +5,8 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import Loading from "../Loading"
+import abcjsMidi from "abcjs/midi"
+import abcjs from "abcjs"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -16,7 +18,7 @@ class MusicSheet extends React.Component {
     super(props)
 
     this.state = {
-      render: false,
+      render: true,
       engraverParams: props.engraverParams
         ? props.engraverParams
         : {
@@ -38,6 +40,7 @@ class MusicSheet extends React.Component {
         ? props.playButtonStyle
         : "playButton",
       pianoSoundLoaded: false,
+      loader: false,
     }
   }
 
@@ -48,42 +51,24 @@ class MusicSheet extends React.Component {
     // gatsby runs build, so it's server side rendering had to be
     // disabled.
     // -> Dynamic import is used instead.
-    import("react-abc").then(react_abc => {
-      this.setState({ render: true, react_abc })
-    })
+    this.midiId = this.state.id
+    const midiListener = (abcjsElement, currentEvent) => {
+      console.log("c", currentEvent)
+      if (currentEvent.newBeat) {
+        console.log("f")
+        this.setState({ loader: false })
+      }
+    }
+
+    abcjs.renderAbc(this.notes, this.props.notation, {})
+    abcjsMidi.renderMidi(this.midiId, this.props.notation, { midiListener })
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.notation !== prevProps.notation) {
-      this.setState({
-        react_abc: null,
-        read_abc_modified: null,
-        render: false,
-      })
-    }
-    if (!this.state.render) {
-      import("react-abc").then(react_abc => {
-        this.setState({ render: true, react_abc })
-      })
-    } else {
-      if (!this.state.pianoSoundLoaded) {
-        this.loadPianoSound()
-      }
+    if (this.state.render) {
       if (this.state.renderNotes) {
         this.updateCanvasWidth()
       }
-    }
-  }
-
-  loadPianoSound() {
-    const div = document.querySelector("#" + this.state.id + "-empty")
-    if (!div) {
-      return
-    }
-    const original = div.querySelector(".abcjs-midi-start.abcjs-btn")
-    if (original) {
-      this.setState({ pianoSoundLoaded: true })
-      original.click()
     }
   }
 
@@ -106,37 +91,39 @@ class MusicSheet extends React.Component {
 
     const renderNotes = this.state.renderNotes
     const renderSound = this.state.renderSound
-    const notation = this.props.notation
+    const renderLoader = this.state.loader
 
     return (
       <>
-        {renderNotes && this.renderNotation(notation)}
-        {renderSound && this.renderPlayButton(notation)}
-        {!renderSound && <div className="emptyPlayButton" />}
+        {renderNotes && this.renderNotation()}
+        {!renderLoader && renderSound && this.renderPlayButton()}
+        {renderLoader && this.renderPlayButtonLoader()}
       </>
     )
   }
 
-  renderNotation(notation) {
+  renderNotation() {
     return (
-      <div id={"midi-" + this.state.id} className="staffContainer">
-        <this.state.react_abc.Notation
-          notation={notation}
-          engraverParams={this.state.engraverParams}
-        />
-      </div>
+      <div
+        id={"midi-" + this.state.id}
+        className="staffContainer"
+        ref={input => {
+          this.notes = input
+        }}
+      ></div>
     )
   }
 
-  renderPlayButton(notation) {
+  renderPlayButton() {
     return (
       <>
-        <div id={this.state.id + "-empty"} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={"L:1/1\n[]"} />
-        </div>
-        <div id={this.state.id} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={notation} />
-        </div>
+        <div
+          ref={input => {
+            this.midiId = input
+          }}
+          id={this.state.id}
+          style={{ display: "none" }}
+        ></div>
         <div className={this.state.playButtonStyle}>
           <Fab size="small" color="primary" onClick={() => this.onPlay()}>
             <PlayArrowIcon fontSize="small" />
@@ -146,29 +133,22 @@ class MusicSheet extends React.Component {
     )
   }
 
+  renderPlayButtonLoader() {
+    return (
+      <>
+        <div className={this.state.playButtonStyle}>
+          <Fab size="small" color="primary"></Fab>
+        </div>
+      </>
+    )
+  }
+
   onPlay() {
-    const originalStart = document
+    this.setState({ loader: true })
+    const orig = document
       .querySelector("#" + this.state.id)
-      .querySelector(".abcjs-midi-start.abcjs-btn")
-    /*
-      Check if the play button is not pushed, in which case push it;
-      otherwise push the reset button, to play from the beginning.
-      The check is performed in the same way as in the original abcjs library:
-      https://github.com/paulrosen/abcjs/blob/master/src/midi/abc_midi_controls.js
-    */
-    if (
-      originalStart &&
-      (" " + originalStart.className + " ").indexOf(" abcjs-pushed ") === -1
-    ) {
-      originalStart.click()
-    } else {
-      const originalReset = document
-        .querySelector("#" + this.state.id)
-        .querySelector(".abcjs-midi-reset.abcjs-btn")
-      if (originalReset) {
-        originalReset.click()
-      }
-    }
+      .querySelector(".abcjs-inline-midi")
+    abcjsMidi.midi.startPlaying(orig)
   }
 }
 
