@@ -13,8 +13,11 @@ class Exercise extends React.Component {
     render: false,
 
     // For "wrong answer" popper
-    open: false,
-    placement: undefined,
+    popper: {
+      open: false,
+      placement: undefined,
+      anchorEl: undefined,
+    },
 
     // Answer given by student, parts are set in setAnswer.
     // Contains index numbers.
@@ -37,7 +40,6 @@ class Exercise extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ render: true })
     this.nextExerciseSet()
   }
 
@@ -73,10 +75,12 @@ class Exercise extends React.Component {
         this.nextExercise()
     } else {
       this.props.onIncorrect(payload)
-      this.setState(state => ({
-        anchorEl: currentTarget,
-        open: state.placement !== "top" || !state.open,
-        placement: "top",
+      this.setState(oldState => ({
+        popper: {
+          anchorEl: currentTarget,
+          open: oldState.popper.placement !== "top" || !oldState.popper.open,
+          placement: "top",
+        },
         answerWasSubmitted: true,
       }))
     }
@@ -122,7 +126,7 @@ class Exercise extends React.Component {
         this.props.requiredAnswers,
       ),
       render: true,
-      open: false,
+      popper: { open: false },
       answerWasSubmitted: false,
       answer: {},
     })
@@ -137,7 +141,7 @@ class Exercise extends React.Component {
   nextExercise = () => {
     this.setState({
       currentExerciseIndex: this.state.currentExerciseIndex + 1,
-      open: false,
+      popper: { open: false },
       answerWasSubmitted: false,
       answer: {},
     })
@@ -177,9 +181,7 @@ class Exercise extends React.Component {
     return (
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          placement={this.state.placement}
+          options={this.state.popper}
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools

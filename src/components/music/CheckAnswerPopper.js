@@ -8,9 +8,10 @@ import styled from "styled-components"
 
 class CheckAnswerPopper extends React.Component {
   render() {
-    const open = this.props.open
-    const anchorEl = this.props.anchorEl
-    const placement = this.props.placement
+    const options = this.props.options
+    const open = options.open
+    const anchorEl = options.anchorEl
+    const placement = options.placement
 
     return (
       <Wrapper>
