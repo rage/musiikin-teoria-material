@@ -139,7 +139,10 @@ class MusicExerciseWrapper extends React.Component {
     const correctAnswers = this.state.correctAnswers + 1
 
     if (!this.context.loggedIn) {
-      this.setState({ correctAnswers, completed: true })
+      this.setState({
+        correctAnswers,
+        completed: correctAnswers >= this.state.requiredAnswers,
+      })
       return
     }
 
