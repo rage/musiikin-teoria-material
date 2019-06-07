@@ -38,7 +38,7 @@ import AbStudy from "./AbStudy"
 import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
 import MusicSheet from "./MusicSheet"
-import MusicExercises from "./MusicExercises"
+import MusicExercise from "./MusicExercise"
 
 import {
   Table,
@@ -77,7 +77,7 @@ const mapping = {
   "table-of-contents": TableOfContents,
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
-  "music-exercise": MusicExercises,
+  "music-exercise": MusicExercise,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
