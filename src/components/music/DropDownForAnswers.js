@@ -63,8 +63,10 @@ const Wrapper = styled.div`
 `
 
 DropDownForAnswers.propTypes = {
-  selectedIndex: PropTypes.number.isRequired,
   answers: PropTypes.array.isRequired,
+  setStudentsAnswer: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number,
+  label: PropTypes.string.isRequired,
   borderColor: PropTypes.string,
   icon: PropTypes.element,
 }
