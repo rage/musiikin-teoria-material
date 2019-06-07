@@ -15,6 +15,7 @@ import PagesContext from "../contexes/PagesContext"
 import LoginStateContext, {
   LoginStateContextProvider,
 } from "../contexes/LoginStateContext"
+import { MidiSoundContextProvider } from "../contexes/MidiSoundContext"
 import Container from "../components/Container"
 
 import { loggedIn } from "../services/moocfi"
@@ -92,22 +93,24 @@ export default class CourseContentTemplate extends React.Component {
         <Helmet title={frontmatter.title} />
         <PagesContext.Provider value={{ all: allPages, current: frontmatter }}>
           <LoginStateContextProvider>
-            <Layout>
-              <Fragment>
-                <Container>
-                  <ContentWrapper>
-                    <UpLink to={parentSectionPath}>
-                      <StyledIcon icon={icon} />
-                      {parentSectionName}
-                    </UpLink>
-                    <h1>{frontmatter.title}</h1>
-                    {renderAst(htmlAst)}
-                    <EndOfSubSection />
-                  </ContentWrapper>
-                </Container>
-                <CoursePageFooter />
-              </Fragment>
-            </Layout>
+            <MidiSoundContextProvider>
+              <Layout>
+                <Fragment>
+                  <Container>
+                    <ContentWrapper>
+                      <UpLink to={parentSectionPath}>
+                        <StyledIcon icon={icon} />
+                        {parentSectionName}
+                      </UpLink>
+                      <h1>{frontmatter.title}</h1>
+                      {renderAst(htmlAst)}
+                      <EndOfSubSection />
+                    </ContentWrapper>
+                  </Container>
+                  <CoursePageFooter />
+                </Fragment>
+              </Layout>
+            </MidiSoundContextProvider>
           </LoginStateContextProvider>
         </PagesContext.Provider>
       </Fragment>
