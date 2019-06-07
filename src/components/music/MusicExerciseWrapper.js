@@ -137,6 +137,12 @@ class MusicExerciseWrapper extends React.Component {
 
   onCorrectAnswer = async payload => {
     const correctAnswers = this.state.correctAnswers + 1
+
+    if (!this.context.loggedIn) {
+      this.setState({ correctAnswers, completed: true })
+      return
+    }
+
     // update correctAnswers already here (instead of after waiting for the
     // response from backend) to show progress in the progress bar more quickly
     this.setState({ correctAnswers })
@@ -151,7 +157,7 @@ class MusicExerciseWrapper extends React.Component {
         ? res.userQuizState.pointsAwarded
         : null
       this.setState({
-        completed: pointsAwarded ? true : false,
+        completed: true,
         pointsAwarded,
         pointsError: !pointsAwarded,
       })
