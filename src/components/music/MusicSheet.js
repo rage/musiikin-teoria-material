@@ -1,10 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
-
+import { MidiSoundContext } from "../../contexes/MidiSoundContext"
 import Fab from "@material-ui/core/Fab"
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
 import Loading from "../Loading"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 /**
  * In charge of rendering Music Sheet notes and play button based on parameters passed to it.
@@ -12,6 +13,8 @@ import Loading from "../Loading"
  * Use src/partials/MusicSheet when using MusicSheet inside other components
  */
 class MusicSheet extends React.Component {
+  static contextType = MidiSoundContext
+
   constructor(props) {
     super(props)
 
@@ -37,7 +40,6 @@ class MusicSheet extends React.Component {
       playButtonStyle: props.playButtonStyle
         ? props.playButtonStyle
         : "playButton",
-      pianoSoundLoaded: false,
     }
   }
 
@@ -66,24 +68,9 @@ class MusicSheet extends React.Component {
         this.setState({ render: true, react_abc })
       })
     } else {
-      if (!this.state.pianoSoundLoaded) {
-        this.loadPianoSound()
-      }
       if (this.state.renderNotes) {
         this.updateCanvasWidth()
       }
-    }
-  }
-
-  loadPianoSound() {
-    const div = document.querySelector("#" + this.state.id + "-empty")
-    if (!div) {
-      return
-    }
-    const original = div.querySelector(".abcjs-midi-start.abcjs-btn")
-    if (original) {
-      this.setState({ pianoSoundLoaded: true })
-      original.click()
     }
   }
 
@@ -129,20 +116,32 @@ class MusicSheet extends React.Component {
   }
 
   renderPlayButton(notation) {
+    // MidiSoundContext is used to load the piano sound
     return (
-      <>
-        <div id={this.state.id + "-empty"} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={"L:1/1\n[]"} />
-        </div>
-        <div id={this.state.id} style={{ display: "none" }}>
-          <this.state.react_abc.Midi notation={notation} />
-        </div>
-        <div className={this.state.playButtonStyle}>
-          <Fab size="small" color="primary" onClick={() => this.onPlay()}>
-            <PlayArrowIcon fontSize="small" />
-          </Fab>
-        </div>
-      </>
+      <MidiSoundContext.Consumer>
+        {value => {
+          return (
+            <>
+              <div id={this.state.id} style={{ display: "none" }}>
+                <this.state.react_abc.Midi notation={notation} />
+              </div>
+              <div className={this.state.playButtonStyle}>
+                {!value.soundLoaded ? (
+                  <CircularProgress variant="indeterminate" />
+                ) : (
+                  <Fab
+                    size="small"
+                    color="primary"
+                    onClick={() => this.onPlay()}
+                  >
+                    <PlayArrowIcon fontSize="small" />
+                  </Fab>
+                )}
+              </div>
+            </>
+          )
+        }}
+      </MidiSoundContext.Consumer>
     )
   }
 

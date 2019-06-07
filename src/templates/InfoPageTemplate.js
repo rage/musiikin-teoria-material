@@ -10,6 +10,7 @@ import getNamedPartials from "../partials"
 
 import "./remark.css"
 import { LoginStateContextProvider } from "../contexes/LoginStateContext"
+import { MidiSoundContextProvider } from "../contexes/MidiSoundContext"
 import Banner from "../components/Banner"
 import Container from "../components/Container"
 
@@ -29,17 +30,19 @@ export default class InfoPageTemplate extends React.Component {
       <Fragment>
         <Helmet title={frontmatter.title} />
         <LoginStateContextProvider>
-          <Layout>
-            <Fragment>
-              {frontmatter.banner && <Banner />}
-              <Container>
-                <ContentWrapper>
-                  <h1>{frontmatter.title}</h1>
-                  {renderAst(htmlAst)}
-                </ContentWrapper>
-              </Container>
-            </Fragment>
-          </Layout>
+          <MidiSoundContextProvider>
+            <Layout>
+              <Fragment>
+                {frontmatter.banner && <Banner />}
+                <Container>
+                  <ContentWrapper>
+                    <h1>{frontmatter.title}</h1>
+                    {renderAst(htmlAst)}
+                  </ContentWrapper>
+                </Container>
+              </Fragment>
+            </Layout>
+          </MidiSoundContextProvider>
         </LoginStateContextProvider>
       </Fragment>
     )

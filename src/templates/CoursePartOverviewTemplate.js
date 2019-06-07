@@ -14,6 +14,7 @@ import PagesContext from "../contexes/PagesContext"
 import LoginStateContext, {
   LoginStateContextProvider,
 } from "../contexes/LoginStateContext"
+import { MidiSoundContextProvider } from "../contexes/MidiSoundContext"
 import Container from "../components/Container"
 
 import { loggedIn } from "../services/moocfi"
@@ -66,16 +67,18 @@ export default class CoursePartOverviewTemplate extends React.Component {
       >
         <Helmet title={frontmatter.title} />
         <LoginStateContextProvider>
-          <Layout>
-            <Fragment>
-              <Container>
-                <ContentWrapper>
-                  <Title>{frontmatter.title}</Title>
-                  {renderAst(htmlAst)}
-                </ContentWrapper>
-              </Container>
-            </Fragment>
-          </Layout>
+          <MidiSoundContextProvider>
+            <Layout>
+              <Fragment>
+                <Container>
+                  <ContentWrapper>
+                    <Title>{frontmatter.title}</Title>
+                    {renderAst(htmlAst)}
+                  </ContentWrapper>
+                </Container>
+              </Fragment>
+            </Layout>
+          </MidiSoundContextProvider>
         </LoginStateContextProvider>
       </PagesContext.Provider>
     )
