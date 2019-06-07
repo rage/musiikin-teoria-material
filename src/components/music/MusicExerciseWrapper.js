@@ -305,6 +305,7 @@ MusicExerciseWrapper.propTypes = {
   required_answers: PropTypes.number,
   name: PropTypes.string,
   description: PropTypes.string,
+  quizId: PropTypes.string.isRequired,
 }
 
 export default withSimpleErrorBoundary(MusicExerciseWrapper)

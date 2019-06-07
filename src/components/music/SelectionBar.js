@@ -146,7 +146,7 @@ class SelectionBar extends React.Component {
 }
 
 SelectionBar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   nextExerciseSet: PropTypes.func.isRequired,
   answerWasWrong: PropTypes.bool.isRequired,
   options: PropTypes.array.isRequired,

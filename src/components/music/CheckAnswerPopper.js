@@ -67,9 +67,8 @@ const CenterArrowIcon = styled.div`
 `
 
 CheckAnswerPopper.propTypes = {
-  open: PropTypes.bool.isRequired,
-  anchorEl: PropTypes.element,
-  placement: PropTypes.string,
+  options: PropTypes.object.isRequired,
+  correctAnswer: PropTypes.string.isRequired,
 }
 
 export default withSimpleErrorBoundary(CheckAnswerPopper)

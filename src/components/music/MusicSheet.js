@@ -159,10 +159,8 @@ class MusicSheet extends React.Component {
 
 MusicSheet.propTypes = {
   notation: PropTypes.string.isRequired,
-  engraverParams: PropTypes.object,
+  engraverParams: PropTypes.object.isRequired,
   playButtonStyle: PropTypes.string,
-  renderNotes: PropTypes.bool,
-  renderSound: PropTypes.bool,
 }
 
 export default withSimpleErrorBoundary(MusicSheet)
