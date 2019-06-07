@@ -1,6 +1,6 @@
 import { DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED } from "./qualities"
 import {
-  interval,
+  concatenate,
   UNISON,
   SECOND,
   THIRD,
@@ -20,16 +20,15 @@ class Chord {
   notation(root) {
     return (
       "L:1/1\n[" +
-      root.notation +
-      this.intervals.map(i => interval(root, ...i)).join("") +
+      concatenate(root, [[PERFECT, UNISON], ...this.intervals]) +
       "]"
     )
   }
 }
 
 export const triads = [
-  new Chord("Duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
-  new Chord("Molli", [[MINOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("Duuri", [[PERFECT, UNISON], [MAJOR, THIRD], [PERFECT, FIFTH]]),
+  new Chord("Molli", [[PERFECT, UNISON], [MINOR, THIRD], [PERFECT, FIFTH]]),
   new Chord("Vähennetty", [[MINOR, THIRD], [DIMINISHED, FIFTH]]),
   new Chord("Ylinouseva", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
 ]

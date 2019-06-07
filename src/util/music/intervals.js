@@ -20,8 +20,7 @@ class Interval {
   notation(root) {
     return (
       "L:1/1\n[" +
-      root.notation +
-      interval(root, this.quality.name, this.number) +
+      concatenate(root, [[PERFECT, UNISON], [this.quality.name, this.number]]) +
       "]"
     )
   }
