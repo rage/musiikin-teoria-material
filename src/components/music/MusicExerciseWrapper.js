@@ -245,17 +245,22 @@ class MusicExerciseWrapper extends React.Component {
               <></>
             ) : (
               <div>
-                <LoginNag>Kirjaudu sisään nähdäksesi tehtävanannon.</LoginNag>
+                <LoginNag>
+                  Kirjaudu sisään saadaksesi tehtävanannosta pisteitä.
+                </LoginNag>
                 <LoginNagWrapper>
                   <LoginControls />
                 </LoginNagWrapper>
-                <button
-                  onClick={() =>
-                    this.setState({ skipLogin: true, showProgressBar: true })
-                  }
-                >
-                  Skip
-                </button>
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      this.setState({ skipLogin: true, showProgressBar: true })
+                    }
+                  >
+                    Jatka ilman kirjautumista
+                  </Button>
+                </div>
               </div>
             )}
           </div>
