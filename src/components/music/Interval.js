@@ -61,7 +61,13 @@ export default class Interval {
    * @returns ["interval"]
    */
   getCorrectAnswerKeys(answer, correctAnswer) {
-    if (!answer.interval || !correctAnswer) return []
+    if (
+      !answer ||
+      typeof answer.interval !== "number" ||
+      typeof answer.quality !== "number" ||
+      !correctAnswer
+    )
+      return []
 
     const correctAnswerKeys = []
 
@@ -88,16 +94,14 @@ export default class Interval {
 
   makeAnswerPayload(answer, correctAnswer, correct) {
     const answerQualityLabel = qualities[answer.quality].label.toLowerCase()
-    const answerIntervalLabel = intervalLabels[
-      answer.interval
-    ].label.toLowerCase()
+    const answerIntervalLabel = intervalLabels[answer.interval].toLowerCase()
 
     const correctAnswerQualityLabel = qualities[
       correctAnswer.quality
     ].label.toLowerCase()
     const correctAnswerIntervalLabel = intervalLabels[
       correctAnswer.interval
-    ].label.toLowerCase()
+    ].toLowerCase()
 
     return {
       type: "interval",

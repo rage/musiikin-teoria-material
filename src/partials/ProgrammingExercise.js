@@ -269,13 +269,13 @@ class ProgrammingExercise extends React.Component {
                         <ModalContent>
                           <h1>Mallivastaus</h1>
                           {this.state.modelSolution.solution.files.map(
-                            fileEntry => {
+                            (fileEntry, i) => {
                               console.log(fileEntry)
                               return (
-                                <Card>
+                                <Card key={i}>
                                   <CardContent>
                                     <h2>{fileEntry.path}</h2>
-                                    <pre class="language-java">
+                                    <pre className="language-java">
                                       {fileEntry.contents}
                                     </pre>
                                   </CardContent>
@@ -306,7 +306,9 @@ class ProgrammingExercise extends React.Component {
                       Voit myöhemmin katsoa palautuksiasi Test My Code
                       palautusympäristössä{" "}
                       <OutboundLink
-                        href={`https://tmc.mooc.fi/exercises/${this.state.exerciseDetails.id}?use_clients=1`}
+                        href={`https://tmc.mooc.fi/exercises/${
+                          this.state.exerciseDetails.id
+                        }?use_clients=1`}
                         rel="noopener noreferrer"
                         target="_blank"
                       >

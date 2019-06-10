@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
 const Button = ({ children, to, onClick, disabled, variant = "outlined" }) => (
   <StyledLink
     onClick={onClick}
-    to={to === undefined ? false : to}
+    to={to === undefined ? "" : to}
     disabled={disabled}
   >
     <MaterialButton variant={variant}>{children}</MaterialButton>

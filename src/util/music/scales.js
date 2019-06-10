@@ -24,9 +24,11 @@ class Scale {
   notation(root) {
     return (
       "L:1/4\n" +
-      root.notation +
-      concatenate(root, this.intervals) +
-      root.notation
+      concatenate(root, [
+        [PERFECT, UNISON],
+        ...this.intervals,
+        [PERFECT, UNISON],
+      ])
     )
   }
 }

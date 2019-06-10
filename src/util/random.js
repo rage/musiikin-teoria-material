@@ -32,26 +32,6 @@ const shuffle = array => {
 }
 
 /**
- * Returns a set with random integers from the given range.
- * If the given size is larger that the given range, it loops forever.
- *
- * @param {*} min The minimum value of the elements (inclusive)
- * @param {*} max The maximum value of the elements (exclusive)
- * @param {*} size The size of the set, must be less than or equal to max - min
- */
-const randomIntSet = (min, max, size) => {
-  const intSet = new Set()
-  let newInt
-  for (let i = 0; i < size; i++) {
-    do {
-      newInt = randomInt(min, max)
-    } while (intSet.has(newInt))
-    intSet.add(newInt)
-  }
-  return intSet
-}
-
-/**
  * Returns an array containing random integers from the given range, with as few
  * repetitions as possible.
  *
@@ -65,17 +45,16 @@ export const randomIntArray = (min, max, length) => {
   for (let v = min; v < max; v++) {
     possibleValues[v] = v - min
   }
+  // flip a coin to decide if array should be reversed
+  if (Math.random() >= 0.5) possibleValues.reverse()
   shuffle(shuffle(possibleValues))
+
   if (length >= possibleValueCount) {
     return shuffle([
       ...possibleValues,
       ...randomIntArray(min, max, length - possibleValueCount),
     ])
-  } else if (length > possibleValueCount / 2) {
-    const excludedSet = randomIntSet(min, max, possibleValueCount - length)
-    return possibleValues.filter(v => !excludedSet.has(v))
   } else {
-    const includedSet = randomIntSet(min, max, length)
-    return possibleValues.filter(v => includedSet.has(v))
+    return possibleValues.slice(0, length)
   }
 }

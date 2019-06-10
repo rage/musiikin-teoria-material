@@ -13,12 +13,15 @@ class Exercise extends React.Component {
     render: false,
 
     // For "wrong answer" popper
-    open: false,
-    placement: undefined,
+    popper: {
+      open: false,
+      placement: undefined,
+      anchorEl: undefined,
+    },
 
     // Answer given by student, parts are set in setAnswer.
     // Contains index numbers.
-    answer: {},
+    givenAnswer: {},
     // Correct answers generated based on props.exerciseKind
     exerciseSet: {
       // Keys that define how the answer, options and correct answers
@@ -37,7 +40,6 @@ class Exercise extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ render: true })
     this.nextExerciseSet()
   }
 
@@ -52,27 +54,33 @@ class Exercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    const answer = this.state.answer
+    const givenAnswer = this.state.givenAnswer
     const correctAnswer = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
 
     const correct = this.isAnswerCorrect()
     const payload = this.props.exerciseKind.makeAnswerPayload(
-      answer,
+      givenAnswer,
       correctAnswer,
       correct,
     )
 
     if (correct) {
       this.props.onCorrect(payload)
-      this.nextExercise()
+      if (
+        this.state.currentExerciseIndex + 1 <
+        this.state.exerciseSet.exercises.length
+      )
+        this.nextExercise()
     } else {
       this.props.onIncorrect(payload)
-      this.setState(state => ({
-        anchorEl: currentTarget,
-        open: state.placement !== "top" || !state.open,
-        placement: "top",
+      this.setState(oldState => ({
+        popper: {
+          anchorEl: currentTarget,
+          open: oldState.popper.placement !== "top" || !oldState.popper.open,
+          placement: "top",
+        },
         answerWasSubmitted: true,
       }))
     }
@@ -82,18 +90,18 @@ class Exercise extends React.Component {
    * Check that the given answer is correct
    */
   isAnswerCorrect = () => {
-    const answer = this.state.answer
+    const givenAnswer = this.state.givenAnswer
     const correctAnswer = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
 
     const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
-      answer,
+      givenAnswer,
       correctAnswer,
     )
 
-    return this.state.exerciseSet.answerKeys.every(answer =>
-      answerKeysThatAreCorrect.includes(answer),
+    return this.state.exerciseSet.answerKeys.every(key =>
+      answerKeysThatAreCorrect.includes(key),
     )
   }
 
@@ -102,10 +110,10 @@ class Exercise extends React.Component {
    * @param {*} answerOption Key in this.state.exerciseSet.answerKeys
    * @returns A function that sets given answer to the correct key in this.state.answer
    */
-  setAnswer = answerOption => studentAnswer => {
-    const answer = this.state.answer
-    answer[answerOption] = studentAnswer
-    this.setState({ answer })
+  setAnswer = answerOption => selectedOptionIndex => {
+    const givenAnswer = this.state.givenAnswer
+    givenAnswer[answerOption] = selectedOptionIndex
+    this.setState({ givenAnswer })
   }
 
   /**
@@ -118,9 +126,9 @@ class Exercise extends React.Component {
         this.props.requiredAnswers,
       ),
       render: true,
-      open: false,
+      popper: { open: false },
       answerWasSubmitted: false,
-      answer: {},
+      givenAnswer: {},
     })
   }
 
@@ -133,9 +141,9 @@ class Exercise extends React.Component {
   nextExercise = () => {
     this.setState({
       currentExerciseIndex: this.state.currentExerciseIndex + 1,
-      open: false,
+      popper: { open: false },
       answerWasSubmitted: false,
-      answer: {},
+      givenAnswer: {},
     })
   }
 
@@ -148,7 +156,7 @@ class Exercise extends React.Component {
     const correctAnswer = exerciseSet.exercises[this.state.currentExerciseIndex]
     // answerKeys that were same in answer and correctAnswer
     const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
-      this.state.answer,
+      this.state.givenAnswer,
       correctAnswer,
     )
 
@@ -165,7 +173,7 @@ class Exercise extends React.Component {
         setAnswer: this.setAnswer(key),
         answers: answerOptions,
         label: exerciseSet.answerLabels[key],
-        selectedIndex: this.state.answer[key],
+        selectedIndex: this.state.givenAnswer[key],
         answerIsCorrect,
       }
     })
@@ -173,9 +181,7 @@ class Exercise extends React.Component {
     return (
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          placement={this.state.placement}
+          options={this.state.popper}
           correctAnswer={
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
