@@ -12,7 +12,7 @@ import Scale from "../components/music/Scale"
  * eg <music-exercise type="chords"> to ChordsExercise
  */
 const ExerciseRouter = ({ type, name, description, required }) => {
-  const requiredAnswers = required || 10 // default is 10
+  const requiredAnswers = Number(required) || 10 // default is 10
   return (
     <MusicExerciseWrapper
       renderExercise={createExerciseRenderingFunction(type, requiredAnswers)}

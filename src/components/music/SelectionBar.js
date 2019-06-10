@@ -51,7 +51,7 @@ class SelectionBar extends React.Component {
       // Hide checkmark later
       setTimeout(() => {
         this.setState({ showCorrectOnButton: false })
-      }, 2500)
+      }, 1000)
     }, 100)
   }
 
