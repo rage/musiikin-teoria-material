@@ -34,6 +34,19 @@ class DropDownForAnswers extends React.Component {
 
   render() {
     if (!this.state.options.length) return null
+
+    let answer =
+      typeof this.props.selectedIndex === "number"
+        ? this.state.options[this.props.selectedIndex]
+        : this.props.label
+
+    // Find first space of the string and cut it from beginning till space, if space does not exist it will be -1.
+    const index = answer.indexOf(" ")
+
+    if (index !== -1) {
+      answer = answer.substr(0, index)
+    }
+
     return (
       <Wrapper>
         <Fragment>
@@ -43,11 +56,7 @@ class DropDownForAnswers extends React.Component {
             handleClose={this.handleClose}
             handleItemSelection={this.handleItemSelection}
             selectedIndex={this.props.selectedIndex}
-            answer={
-              typeof this.props.selectedIndex === "number"
-                ? this.state.options[this.props.selectedIndex]
-                : this.props.label
-            }
+            answer={answer}
             anchorEl={this.state.anchorEl}
             borderColor={this.props.borderColor}
             icon={this.props.icon}
