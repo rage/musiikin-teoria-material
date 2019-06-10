@@ -1,8 +1,5 @@
 import { roots as notationRoots } from "../../util/music/roots"
-import {
-  intervalLabels,
-  createRandomInterval,
-} from "../../util/music/intervals"
+import { intervalLabels, availableIntervals } from "../../util/music/intervals"
 import { qualities } from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
@@ -18,9 +15,10 @@ const INTERVAL = "interval",
  */
 const generateCorrectAnswers = howMany => {
   const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+  const correctIntervals = randomIntArray(0, availableIntervals.length, howMany)
 
-  return correctRoots.map(correctRoot => {
-    const interval = createRandomInterval()
+  return correctRoots.map((correctRoot, index) => {
+    const interval = availableIntervals[correctIntervals[index]]
     const correctInterval = interval.number - 1 // Number is one higher than index
     const correctQuality = qualities.indexOf(interval.quality)
 

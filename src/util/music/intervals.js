@@ -48,14 +48,6 @@ export const intervalLabels = [
   "Oktaavi",
 ]
 
-export const createRandomInterval = () => {
-  const quality = qualities[randomInt(0, qualities.length)]
-  const possibleNumbers = intervalsForQualities[quality.name]
-  const number = possibleNumbers[randomInt(0, possibleNumbers.length)]
-
-  return new Interval(quality, number)
-}
-
 /*
   The following intervals have been removed:
   (since they cannot be written for some of the available roots in the roots array)
@@ -73,6 +65,18 @@ export const intervalsForQualities = {
   perf: [UNISON, FOURTH, FIFTH, OCTAVE],
   aug: [UNISON, SECOND, FOURTH, FIFTH, OCTAVE],
 }
+
+const makeAllIntervals = () => {
+  const all = []
+  qualities.forEach(quality =>
+    intervalsForQualities[quality.name].forEach(number => {
+      all.push(new Interval(quality, number))
+    }),
+  )
+  return all
+}
+
+export const availableIntervals = makeAllIntervals()
 
 /**
  * Takes as argument a String in abc notation and returns a String in abc
