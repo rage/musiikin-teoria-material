@@ -190,17 +190,25 @@ class MusicExerciseWrapper extends React.Component {
     return (
       <Body>
         <Grid container spacing={32} direction="column" alignItems="center">
-          <Grid item>
-            <p>Tehtävä suoritettu</p>
-          </Grid>
-          {this.state.showProgressBar && (
+          {!this.state.showProgressBar ? (
             <Grid item>
-              <IconProgressBar
-                style={{ marginTop: "1em" }}
-                correct={this.state.correctAnswers}
-                total={this.state.requiredAnswers}
-              />
+              <p>
+                Olet jo suorittanut tämän tehtävän ja ansainnut kurssipisteen
+              </p>
             </Grid>
+          ) : (
+            <>
+              <Grid item>
+                <p>Tehtävä suoritettu</p>
+              </Grid>
+              <Grid item>
+                <IconProgressBar
+                  style={{ marginTop: "1em" }}
+                  correct={this.state.correctAnswers}
+                  total={this.state.requiredAnswers}
+                />
+              </Grid>
+            </>
           )}
           <Grid item>
             <Button variant="contained" color="primary" onClick={this.onReset}>
