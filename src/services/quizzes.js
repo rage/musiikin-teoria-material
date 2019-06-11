@@ -2,7 +2,7 @@ import axios from "axios"
 import { accessToken } from "./moocfi"
 
 const BASE_URL = "https://quizzes.mooc.fi"
-const COURSE_IDENTIFIER = "258dd4bd-7f17-41fb-9d90-1aeeb6cbeff0"
+const COURSE_IDENTIFIER = "e3d417e5-baac-4bcd-b2ea-3c87739970cf"
 
 export async function fetchQuizzesProgress(exerciseName) {
   const res = await axios.get(
