@@ -36,10 +36,8 @@ class MusicSheet extends React.Component {
     // gatsby runs build, so it's server side rendering had to be
     // disabled.
     // -> Dynamic import is used instead.
-    import("abcjs").then(abcjs => {
-      import("abcjs/midi").then(abcjsMidi => {
-        this.setState({ render: true, abcjs, abcjsMidi })
-      })
+    import("abcjs/midi").then(abcjsMidi => {
+      this.setState({ render: true, abcjsMidi })
     })
   }
 
@@ -49,7 +47,7 @@ class MusicSheet extends React.Component {
         !this.state.abcRendered ||
         prevProps.notation !== this.props.notation
       ) {
-        this.state.abcjs.renderAbc(this.notes, this.props.notation, {
+        this.state.abcjsMidi.renderAbc(this.notes, this.props.notation, {
           ...this.props.engraverParams,
         })
         this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {})
