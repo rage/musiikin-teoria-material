@@ -134,12 +134,12 @@ export default class Scale {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 15,
-      paddingright: 10,
+      paddingleft: 8,
+      paddingright: 18,
       paddingtop: 15,
       responsive: undefined,
       scale: 1.5,
-      staffwidth: 730,
+      staffwidth: 729,
     }
   }
 }
