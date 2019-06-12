@@ -37,6 +37,7 @@ class Exercise extends React.Component {
 
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
+    finalAnswerSent: false,
   }
 
   componentDidMount() {
@@ -52,6 +53,10 @@ class Exercise extends React.Component {
    * @returns false if not all answers are selected, true if the answer was submitted
    */
   onSubmit = clickEvent => {
+    if (this.state.finalAnswerSent === true) {
+      return
+    }
+
     const { currentTarget } = clickEvent
 
     const givenAnswer = this.state.givenAnswer
@@ -67,6 +72,10 @@ class Exercise extends React.Component {
     )
 
     if (correct) {
+      if (this.correctAnswers === this.requiredAnswers) {
+        this.setState({ finalAnswerSent: true })
+      }
+      console.log("sending!!")
       this.props.onCorrect(payload)
       if (
         this.state.currentExerciseIndex + 1 <
@@ -154,6 +163,7 @@ class Exercise extends React.Component {
 
     const exerciseSet = this.state.exerciseSet
     const correctAnswer = exerciseSet.exercises[this.state.currentExerciseIndex]
+    console.log("correct answer", correctAnswer)
     // answerKeys that were same in answer and correctAnswer
     const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
       this.state.givenAnswer,

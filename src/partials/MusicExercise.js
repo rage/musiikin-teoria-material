@@ -70,6 +70,7 @@ const getExerciseKindByType = type => {
 const createExerciseRenderingFunction = (type, requiredAnswers) => (
   onCorrectAnswer,
   onIncorrectAnswer,
+  correctAnswers,
 ) => {
   const wantedType = type ? type : "chords"
 
@@ -100,6 +101,7 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
       onlySound={onlySound}
       exerciseKind={exerciseKind}
       requiredAnswers={requiredAnswers}
+      correctAnswers={correctAnswers}
     />
   )
 }
