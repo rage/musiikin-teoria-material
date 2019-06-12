@@ -9,15 +9,19 @@ export class MidiSoundContextProvider extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.react_abc) {
-      import("react-abc").then(react_abc => {
-        this.setState({ render: true, react_abc })
+    if (!this.state.abcjsMidi) {
+      import("abcjs/midi").then(abcjsMidi => {
+        this.setState({ render: true, abcjsMidi })
       })
     }
   }
 
   componentDidUpdate() {
-    if (this.state.render && !this.state.soundLoaded) {
+    if (this.state.abcjsMidi && !this.state.soundLoaded) {
+      const notation = "L:1/1\n[]"
+      this.state.abcjsMidi.renderMidi(this.midi, notation, {
+        voicesOff: true,
+      })
       this.loadPianoSound()
     }
   }
@@ -38,12 +42,13 @@ export class MidiSoundContextProvider extends React.Component {
 
   renderEmptyMidi() {
     return (
-      <div id="empty-abcjs-midi" style={{ display: "none" }}>
-        <this.state.react_abc.Midi
-          midiParams={{ voicesOff: true }}
-          notation="L:1/1\n[]"
-        />
-      </div>
+      <div
+        ref={input => {
+          this.midi = input
+        }}
+        id="empty-abcjs-midi"
+        style={{ display: "none" }}
+      />
     )
   }
 
