@@ -53,7 +53,7 @@ class Exercise extends React.Component {
    * @returns false if not all answers are selected, true if the answer was submitted
    */
   onSubmit = clickEvent => {
-    if (this.state.finalAnswerSent === true) {
+    if (this.state.finalAnswerSent) {
       return
     }
 
