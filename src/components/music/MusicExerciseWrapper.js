@@ -163,7 +163,12 @@ class MusicExerciseWrapper extends React.Component {
 
     if (correctAnswers >= this.state.requiredAnswers) {
       this.setState({ loader: true })
-      const res = await this.sendAnswer(textData, true)
+      let res
+      try {
+        res = await this.sendAnswer(textData, true)
+      } catch {
+        res = {}
+      }
       const pointsAwarded = res.userQuizState
         ? res.userQuizState.pointsAwarded
         : null
