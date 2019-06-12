@@ -362,7 +362,6 @@ class MusicExerciseWrapper extends React.Component {
   }
 
   render() {
-    console.log({ quizzzzzzzzid: this.state.quizItemId })
     if (!this.state.render) {
       return <Loading loading={!this.state.render} heightHint="350px" />
     }
