@@ -21,8 +21,8 @@ class MusicSheet extends React.Component {
     this.state = {
       render: false,
       id: "music-midi-" + Math.floor(Math.random() * 10000),
-      renderNotes: props.renderNotes ? true : false,
-      renderSound: props.renderSound ? true : false,
+      renderNotes: props.renderNotes,
+      renderSound: props.renderSound,
       abcjs: undefined,
       abcjsMidi: undefined,
       abcRendered: false,
@@ -42,31 +42,55 @@ class MusicSheet extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.state.render) {
-      if (
-        !this.state.abcRendered ||
-        prevProps.notation !== this.props.notation
-      ) {
-        this.state.abcjsMidi.renderAbc(this.notes, this.props.notation, {
-          ...this.props.engraverParams,
-        })
-        this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {})
-        this.setState({ abcRendered: true })
-      }
-      if (this.state.renderNotes) {
-        this.updateCanvasWidth()
-      }
+    if (!this.state.render) {
+      return
     }
+
+    const parameters = {
+      /* Engraver parameters */
+      ...this.props.engraverParams,
+      responsive: "resize",
+      /* Parser parameters */
+      oneSvgPerLine: false,
+      scrollHorizontal: false,
+      startingTune: 0,
+      viewportHorizontal: true,
+      wrap: { minSpacing: 1, maxSpacing: 2, preferredMeasuresPerLine: 4 },
+      /* Render parameters */
+      header_only: false,
+      hint_measures: false,
+      print: false,
+      stop_on_warning: false,
+    }
+
+    if (!this.state.abcRendered || prevProps.notation !== this.props.notation) {
+      this.state.abcjsMidi.renderAbc(
+        this.notes,
+        this.props.notation,
+        parameters,
+      )
+      this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {})
+      this.setState({
+        abcRendered: true,
+      })
+    }
+
+    this.updateCanvasWidth()
   }
 
-  updateCanvasWidth() {
+  updateCanvasWidth = () => {
+    if (!this.state.renderNotes) {
+      return
+    }
     const midiDiv = document.querySelector("#midi-" + this.state.id)
     if (!midiDiv) return
-    const canvas = midiDiv.querySelector("svg")
+    const div = midiDiv.querySelector("div")
+    if (!div) return
+    const canvas = div.querySelector("svg")
     if (!canvas) return
 
     midiDiv.style.overflow = null // abcjs div comes with "overflow: hidden" that has to be removed.
-    canvas.setAttribute("preserveAspectRatio", "xMidYMid meet")
+    div.style.overflow = null // abcjs div comes with "overflow: hidden" that has to be removed.
   }
 
   render() {
