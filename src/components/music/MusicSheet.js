@@ -31,8 +31,7 @@ class MusicSheet extends React.Component {
   }
 
   componentDidMount() {
-    // react-abc can not be imported directly since it uses
-    // abcjs that is a non react library.
+    // abcjs can not be imported directly since it is a non react library.
     // abcjs attempts to use DOM api that is not available when
     // gatsby runs build, so it's server side rendering had to be
     // disabled.
