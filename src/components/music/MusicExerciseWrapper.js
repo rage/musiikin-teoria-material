@@ -99,7 +99,9 @@ class MusicExerciseWrapper extends React.Component {
     try {
       res = await getQuizData(this.props.quizId)
     } catch {
-      res = {}
+      // add logic to inform the user of the error
+      this.setState({ render: true })
+      return
     }
     const quizItemId = res.quiz.items[0].id
     const pointsAwarded = res.userQuizState
