@@ -84,6 +84,8 @@ class MusicExerciseWrapper extends React.Component {
     quizItemId: undefined,
     showProgressBar: false, // if true, progress bar is shown
     pointsError: false, // true if the points were not received by the backend
+    textData: null,
+    loader: false,
   }
 
   constructor(props) {
@@ -132,7 +134,9 @@ class MusicExerciseWrapper extends React.Component {
         },
       ],
     }
-    return await postAnswerData(answerObject)
+    const res = await postAnswerData(answerObject)
+    this.setState({ loader: false })
+    return res
   }
 
   onCorrectAnswer = async payload => {
@@ -154,7 +158,11 @@ class MusicExerciseWrapper extends React.Component {
       ...payload,
     }
 
+    // Save textData to state so it can be resent later, in case sending data to backend fails
+    this.setState({ textData })
+
     if (correctAnswers >= this.state.requiredAnswers) {
+      this.setState({ loader: true })
       let res
       try {
         res = await this.sendAnswer(textData, true)
@@ -183,6 +191,16 @@ class MusicExerciseWrapper extends React.Component {
     this.sendAnswer(textData, false)
   }
 
+  onResendAnswer = async () => {
+    this.setState({ loader: true })
+    const res = await this.sendAnswer(this.state.textData, this.state.completed)
+    const pointsAwarded = res.userQuizState
+      ? res.userQuizState.pointsAwarded
+      : null
+    const pointsError = !pointsAwarded
+    this.setState({ pointsError })
+  }
+
   onReset = () => {
     this.setState({
       correctAnswers: 0,
@@ -194,30 +212,33 @@ class MusicExerciseWrapper extends React.Component {
   renderErrorScreen() {
     return (
       <Body>
-        <Grid container spacing={32} direction="column" alignItems="center">
-          <>
+        <Loading loading={this.state.loader} heightHint="305px">
+          <Grid container spacing={32} direction="column" alignItems="center">
+            <>
+              <Grid item>
+                <p style={{ color: "red" }}>
+                  Vastauksesi ovat oikein, mutta lähettäminen ei onnistunut
+                </p>
+              </Grid>
+              <Grid item>
+                <IconProgressBar
+                  correct={this.state.correctAnswers}
+                  total={this.state.requiredAnswers}
+                />
+              </Grid>
+            </>
             <Grid item>
-              <p style={{ color: "red" }}>
-                Vastauksesi ovat oikein, mutta lähettäminen ei onnistunut
-              </p>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "red", color: "white" }}
+                onClick={this.onResendAnswer}
+              >
+                Lähetä uudestaan &nbsp;
+                <Icon fontSize="small">send</Icon>
+              </Button>
             </Grid>
-            <Grid item>
-              <IconProgressBar
-                correct={this.state.correctAnswers}
-                total={this.state.requiredAnswers}
-              />
-            </Grid>
-          </>
-          <Grid item>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: "red", color: "white" }}
-            >
-              Lähetä uudestaan &nbsp;
-              <Icon fontSize="small">send</Icon>
-            </Button>
           </Grid>
-        </Grid>
+        </Loading>
       </Body>
     )
   }
@@ -313,7 +334,7 @@ class MusicExerciseWrapper extends React.Component {
           </div>
 
           {(this.context.loggedIn || this.state.skipLogin) && (
-            <Loading loading={false} heightHint="305px">
+            <Loading loading={this.state.loader} heightHint="305px">
               {!this.context.loggedIn && (
                 <Typography color="secondary">
                   Et saa tekemistäsi tehtävistä pisteitä ennen kuin kirjaudut
