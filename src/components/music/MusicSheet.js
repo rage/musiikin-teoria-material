@@ -27,6 +27,7 @@ class MusicSheet extends React.Component {
       abcjsMidi: undefined,
       abcRendered: false,
       previousWindowWidth: undefined,
+      isPlaying: false,
     }
   }
 
@@ -79,6 +80,15 @@ class MusicSheet extends React.Component {
       stop_on_warning: false,
     }
 
+    const midiListener = (element, event) => {
+      if (event.progress > 0) {
+        this.setState({ isPlaying: true })
+      }
+      if (event.progress === 0) {
+        this.setState({ isPlaying: false })
+      }
+    }
+
     if (
       !this.state.abcRendered ||
       prevProps.notation !== this.props.notation ||
@@ -89,7 +99,9 @@ class MusicSheet extends React.Component {
         this.props.notation,
         parameters,
       )
-      this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {})
+      this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {
+        midiListener,
+      })
       this.setState({
         abcRendered: true,
         previousWindowWidth: windowWidth,
@@ -184,7 +196,9 @@ class MusicSheet extends React.Component {
     const orig = document
       .querySelector("#" + this.state.id)
       .querySelector(".abcjs-inline-midi")
-    this.state.abcjsMidi.midi.startPlaying(orig)
+    this.state.isPlaying
+      ? this.state.abcjsMidi.midi.restartPlaying()
+      : this.state.abcjsMidi.midi.startPlaying(orig)
   }
 }
 
