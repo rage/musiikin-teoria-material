@@ -5,7 +5,9 @@ export const MidiSoundContext = React.createContext()
 export class MidiSoundContextProvider extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      soundLoaded: false,
+    }
   }
 
   componentDidMount() {
@@ -17,10 +19,17 @@ export class MidiSoundContextProvider extends React.Component {
   }
 
   componentDidUpdate() {
+    const midiListener = (element, event) => {
+      if (event.newBeat) {
+        this.setState({ soundLoaded: true })
+      }
+    }
+
     if (this.state.abcjsMidi && !this.state.soundLoaded) {
-      const notation = "L:1/1\n[]"
+      const notation = "L:1/1\n[c]"
       this.state.abcjsMidi.renderMidi(this.midi, notation, {
         voicesOff: true,
+        midiListener,
       })
       this.loadPianoSound()
     }
@@ -34,9 +43,6 @@ export class MidiSoundContextProvider extends React.Component {
     const original = div.querySelector(".abcjs-midi-start.abcjs-btn")
     if (original) {
       original.click()
-      // Wait one second for the piano sound to load
-      // The sound doesn't fire for some reason, even with voicesOff
-      setTimeout(() => this.setState({ soundLoaded: true }), 1000)
     }
   }
 
