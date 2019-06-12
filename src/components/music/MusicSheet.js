@@ -61,11 +61,6 @@ class MusicSheet extends React.Component {
     const parameters = {
       /* Engraver parameters */
       ...this.props.engraverParams,
-      paddingleft:
-        windowWidth < 800 ? 15 : this.props.engraverParams.paddingleft,
-      paddingright:
-        windowWidth < 800 ? 10 : this.props.engraverParams.paddingright,
-      responsive: windowWidth < 750 ? "resize" : undefined,
       /* Parser parameters */
       oneSvgPerLine: false,
       scrollHorizontal: false,
@@ -77,6 +72,8 @@ class MusicSheet extends React.Component {
       hint_measures: false,
       print: false,
       stop_on_warning: false,
+      responsive:
+        windowWidth < this.props.engraverParams.width ? "resize" : undefined,
     }
 
     if (
