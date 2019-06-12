@@ -75,7 +75,6 @@ class Exercise extends React.Component {
       if (this.correctAnswers === this.requiredAnswers) {
         this.setState({ finalAnswerSent: true })
       }
-      console.log("sending!!")
       this.props.onCorrect(payload)
       if (
         this.state.currentExerciseIndex + 1 <
