@@ -26,6 +26,7 @@ class MusicSheet extends React.Component {
       abcjs: undefined,
       abcjsMidi: undefined,
       abcRendered: false,
+      previousWindowWidth: undefined,
     }
   }
 
@@ -39,6 +40,15 @@ class MusicSheet extends React.Component {
     import("abcjs/midi").then(abcjsMidi => {
       this.setState({ render: true, abcjsMidi })
     })
+    window.addEventListener("resize", () =>
+      this.setState({ previousWindowWidth: undefined }),
+    )
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", () =>
+      this.setState({ previousWindowWidth: undefined }),
+    )
   }
 
   componentDidUpdate(prevProps) {
@@ -46,10 +56,16 @@ class MusicSheet extends React.Component {
       return
     }
 
+    const windowWidth = window.innerWidth
+
     const parameters = {
       /* Engraver parameters */
       ...this.props.engraverParams,
-      // responsive: "resize",
+      paddingleft:
+        windowWidth < 800 ? 15 : this.props.engraverParams.paddingleft,
+      paddingright:
+        windowWidth < 800 ? 10 : this.props.engraverParams.paddingright,
+      responsive: windowWidth < 750 ? "resize" : undefined,
       /* Parser parameters */
       oneSvgPerLine: false,
       scrollHorizontal: false,
@@ -63,7 +79,11 @@ class MusicSheet extends React.Component {
       stop_on_warning: false,
     }
 
-    if (!this.state.abcRendered || prevProps.notation !== this.props.notation) {
+    if (
+      !this.state.abcRendered ||
+      prevProps.notation !== this.props.notation ||
+      this.state.previousWindowWidth !== windowWidth
+    ) {
       this.state.abcjsMidi.renderAbc(
         this.notes,
         this.props.notation,
@@ -72,6 +92,7 @@ class MusicSheet extends React.Component {
       this.state.abcjsMidi.renderMidi(this.midi, this.props.notation, {})
       this.setState({
         abcRendered: true,
+        previousWindowWidth: windowWidth,
       })
     }
 
