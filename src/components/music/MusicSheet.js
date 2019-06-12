@@ -54,8 +54,8 @@ class MusicSheet extends React.Component {
       oneSvgPerLine: false,
       scrollHorizontal: false,
       startingTune: 0,
-      viewportHorizontal: true,
-      wrap: { minSpacing: 1, maxSpacing: 2, preferredMeasuresPerLine: 4 },
+      viewportHorizontal: false,
+      // wrap: { minSpacing: 1.5, maxSpacing: 2.7, preferredMeasuresPerLine: 4 },
       /* Render parameters */
       header_only: false,
       hint_measures: false,
