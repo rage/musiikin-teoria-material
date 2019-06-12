@@ -141,9 +141,24 @@ class MusicExerciseWrapper extends React.Component {
         },
       ],
     }
-    const res = await postAnswerData(answerObject)
-    this.setState({ loader: false })
+    let res
+    try {
+      res = await postAnswerData(answerObject)
+    } catch {
+      res = {}
+    }
     return res
+  }
+
+  setCompletedState = res => {
+    const pointsAwarded = res.userQuizState
+      ? res.userQuizState.pointsAwarded
+      : null
+    this.setState({
+      completed: true,
+      pointsAwarded,
+      pointsError: !pointsAwarded,
+    })
   }
 
   onCorrectAnswer = async payload => {
@@ -170,20 +185,10 @@ class MusicExerciseWrapper extends React.Component {
 
     if (correctAnswers >= this.state.requiredAnswers) {
       this.setState({ loader: true })
-      let res
-      try {
-        res = await this.sendAnswer(textData, true)
-      } catch {
-        res = {}
-      }
-      const pointsAwarded = res.userQuizState
-        ? res.userQuizState.pointsAwarded
-        : null
-      this.setState({
-        completed: true,
-        pointsAwarded,
-        pointsError: !pointsAwarded,
-      })
+      const res = await this.sendAnswer(textData, true)
+
+      this.setCompletedState(res)
+      this.setState({ loader: false })
     } else {
       this.sendAnswer(textData, false)
     }
@@ -201,11 +206,11 @@ class MusicExerciseWrapper extends React.Component {
   onResendAnswer = async () => {
     this.setState({ loader: true })
     const res = await this.sendAnswer(this.state.textData, this.state.completed)
-    const pointsAwarded = res.userQuizState
-      ? res.userQuizState.pointsAwarded
-      : null
-    const pointsError = !pointsAwarded
-    this.setState({ pointsError })
+
+    this.setCompletedState(res)
+    let timeout = 0
+    if (this.state.pointsError) timeout = 1000
+    setTimeout(() => this.setState({ loader: false }), timeout)
   }
 
   onReset = () => {
