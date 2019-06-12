@@ -11,6 +11,7 @@ export class MidiSoundContextProvider extends React.Component {
   componentDidMount() {
     if (!this.state.abcjsMidi) {
       import("abcjs/midi").then(abcjsMidi => {
+        abcjsMidi.midi.setSoundFont("/")
         this.setState({ render: true, abcjsMidi })
       })
     }
