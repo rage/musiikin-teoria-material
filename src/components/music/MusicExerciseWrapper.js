@@ -95,7 +95,12 @@ class MusicExerciseWrapper extends React.Component {
       this.setState({ render: true })
       return
     }
-    const res = await getQuizData(this.props.quizId)
+    let res
+    try {
+      res = await getQuizData(this.props.quizId)
+    } catch {
+      res = {}
+    }
     const quizItemId = res.quiz.items[0].id
     const pointsAwarded = res.userQuizState
       ? res.userQuizState.pointsAwarded
