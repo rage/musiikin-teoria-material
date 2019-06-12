@@ -186,6 +186,37 @@ class MusicExerciseWrapper extends React.Component {
     })
   }
 
+  renderErrorScreen() {
+    return (
+      <Body>
+        <Grid container spacing={32} direction="column" alignItems="center">
+          <>
+            <Grid item>
+              <p style={{ color: "red" }}>
+                Vastauksesi ovat oikein, mutta lähettäminen ei onnistunut
+              </p>
+            </Grid>
+            <Grid item>
+              <IconProgressBar
+                correct={this.state.correctAnswers}
+                total={this.state.requiredAnswers}
+              />
+            </Grid>
+          </>
+          <Grid item>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Lähetä uudestaan &nbsp;
+              <Icon fontSize="small">send</Icon>
+            </Button>
+          </Grid>
+        </Grid>
+      </Body>
+    )
+  }
+
   renderCompleteScreen() {
     return (
       <Body>
@@ -244,6 +275,9 @@ class MusicExerciseWrapper extends React.Component {
 
   renderBody() {
     if (this.state.completed) {
+      if (this.state.pointsError) {
+        return this.renderErrorScreen()
+      }
       return this.renderCompleteScreen()
     } else {
       return (
