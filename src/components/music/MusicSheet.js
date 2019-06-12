@@ -49,12 +49,12 @@ class MusicSheet extends React.Component {
     const parameters = {
       /* Engraver parameters */
       ...this.props.engraverParams,
-      responsive: "resize",
+      // responsive: "resize",
       /* Parser parameters */
       oneSvgPerLine: false,
       scrollHorizontal: false,
       startingTune: 0,
-      viewportHorizontal: false,
+      viewportHorizontal: true,
       // wrap: { minSpacing: 1.5, maxSpacing: 2.7, preferredMeasuresPerLine: 4 },
       /* Render parameters */
       header_only: false,
