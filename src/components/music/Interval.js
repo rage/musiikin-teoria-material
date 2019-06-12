@@ -124,13 +124,12 @@ export default class Interval {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: window.innerWidth < 800 ? 15 : 262,
-      paddingright: window.innerWidth < 800 ? 10 : 278,
+      paddingleft: 262,
+      paddingright: 278,
       paddingtop: 15,
-      responsive: undefined,
       scale: 2,
       staffwidth: 224,
-      width: 750,
+      responsivewidth: 750,
     }
   }
 }

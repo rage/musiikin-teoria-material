@@ -131,9 +131,9 @@ export default class Chord {
       paddingleft: 262,
       paddingright: 278,
       paddingtop: 15,
-      responsive: undefined,
       scale: 2,
       staffwidth: 224,
+      responsivewidth: 750,
     }
   }
 }
