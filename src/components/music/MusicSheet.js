@@ -57,26 +57,31 @@ class MusicSheet extends React.Component {
 
     const windowWidth = window.innerWidth
 
-    const parameters = {
-      /* Engraver parameters */
-      ...this.props.engraverParams,
-      paddingleft:
-        windowWidth < 800 ? 15 : this.props.engraverParams.paddingleft,
-      paddingright:
-        windowWidth < 800 ? 10 : this.props.engraverParams.paddingright,
-      responsive: windowWidth < 750 ? "resize" : undefined,
-      /* Parser parameters */
-      oneSvgPerLine: false,
-      scrollHorizontal: false,
-      startingTune: 0,
-      viewportHorizontal: true,
-      // wrap: { minSpacing: 1.5, maxSpacing: 2.7, preferredMeasuresPerLine: 4 },
-      /* Render parameters */
-      header_only: false,
-      hint_measures: false,
-      print: false,
-      stop_on_warning: false,
-    }
+    const parameters = this.state.renderNotes
+      ? {
+          /* Engraver parameters */
+          ...this.props.engraverParams,
+          paddingleft:
+            windowWidth < 800 ? 15 : this.props.engraverParams.paddingleft,
+          paddingright:
+            windowWidth < 800 ? 10 : this.props.engraverParams.paddingright,
+          /* Parser parameters */
+          oneSvgPerLine: false,
+          scrollHorizontal: false,
+          startingTune: 0,
+          viewportHorizontal: true,
+          // wrap: { minSpacing: 1.5, maxSpacing: 2.7, preferredMeasuresPerLine: 4 },
+          /* Render parameters */
+          header_only: false,
+          hint_measures: false,
+          print: false,
+          stop_on_warning: false,
+          responsive:
+            windowWidth < this.props.engraverParams.responsivewidth
+              ? "resize"
+              : undefined,
+        }
+      : {}
 
     if (
       !this.state.abcRendered ||

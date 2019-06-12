@@ -137,9 +137,9 @@ export default class Scale {
       paddingleft: 8,
       paddingright: 18,
       paddingtop: 15,
-      responsive: undefined,
       scale: 1.5,
       staffwidth: 729,
+      responsivewidth: 1250,
     }
   }
 }
