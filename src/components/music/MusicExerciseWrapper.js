@@ -101,7 +101,6 @@ class MusicExerciseWrapper extends React.Component {
     try {
       res = await getQuizData(this.props.quizId)
     } catch {
-      // add logic to inform the user of the error
       this.setState({ render: true })
       return
     }
@@ -326,7 +325,7 @@ class MusicExerciseWrapper extends React.Component {
             ) : (
               <div>
                 <LoginNag>
-                  Kirjaudu sisään saadaksesi tehtävanannosta pisteitä.
+                  Kirjaudu sisään saadaksesi tehtävästä pisteitä.
                 </LoginNag>
                 <LoginNagWrapper>
                   <LoginControls />
@@ -347,12 +346,13 @@ class MusicExerciseWrapper extends React.Component {
 
           {(this.context.loggedIn || this.state.skipLogin) && (
             <Loading loading={this.state.loader} heightHint="305px">
-              {!this.context.loggedIn && (
-                <Typography color="secondary">
-                  Et saa tekemistäsi tehtävistä pisteitä ennen kuin kirjaudut
-                  sisään.
-                </Typography>
-              )}
+              <Typography color="secondary">
+                {!this.context.loggedIn
+                  ? "Et saa tekemistäsi tehtävistä pisteitä ennen kuin kirjaudut sisään."
+                  : !this.state.quizItemId
+                  ? "Tapahtui virhe tehtävän tietojen lataamisessa palvelimelta. Ole hyvä ja lataa sivu uudelleen, jos haluat saada tehtävästä pisteitä."
+                  : ""}
+              </Typography>
               {this.props.description && <p>{this.props.description}</p>}
               {this.props.renderExercise(
                 this.onCorrectAnswer,
