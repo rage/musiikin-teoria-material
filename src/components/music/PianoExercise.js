@@ -155,12 +155,6 @@ class PianoExercise extends React.Component {
             engraverParams={this.props.exerciseKind.getEngraverParams()}
             playButtonStyle={"playButton"}
           />
-          {/* <SelectionBar
-              options={selectionOptions}
-              answerWasWrong={this.state.answerWasSubmitted}
-              nextExerciseSet={this.nextExerciseSet}
-              onSubmit={this.onSubmit}
-            /> */}
           <div className="submitButton">
             <Button variant="contained" color="primary" onClick={this.onClick}>
               Lähetä &nbsp;
