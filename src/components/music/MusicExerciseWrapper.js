@@ -224,7 +224,7 @@ class MusicExerciseWrapper extends React.Component {
     return (
       <Body>
         <Loading loading={this.state.loader} heightHint="305px">
-          <Grid container spacing={32} direction="column" alignItems="center">
+          <Grid container spacing={5} direction="column" alignItems="center">
             <>
               <Grid item>
                 <p style={{ color: "red" }}>
@@ -257,7 +257,7 @@ class MusicExerciseWrapper extends React.Component {
   renderCompleteScreen() {
     return (
       <Body>
-        <Grid container spacing={32} direction="column" alignItems="center">
+        <Grid container spacing={5} direction="column" alignItems="center">
           {!this.state.showProgressBar ? (
             <Grid item>
               <p>
@@ -292,7 +292,7 @@ class MusicExerciseWrapper extends React.Component {
     return (
       <Grid
         container
-        spacing={40}
+        spacing={6}
         direction="column"
         alignItems="center"
         style={{ height: 75 }}
