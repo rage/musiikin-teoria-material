@@ -1,7 +1,6 @@
 import React from "react"
-import PropTypes from "prop-types"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon } from "@material-ui/core"
+import { Paper, Button, Icon, Grid } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Piano from "./Piano"
 
@@ -145,9 +144,30 @@ class PianoExercise extends React.Component {
   }
 
   render() {
+    if (!this.state.render) {
+      return null
+    }
+    const currentExercise = this.state.exerciseSet.exercises[
+      this.state.currentExerciseIndex
+    ]
+    const currentExerciseAsString = this.props.exerciseKind.readableAnswerString(
+      currentExercise,
+    )
+
     return (
       <Paper>
-        <div className="overall-container">
+        <div className="overall-container" style={{ alignContent: "center" }}>
+          <Grid
+            container
+            spacing={6}
+            direction="column"
+            alignItems="center"
+            style={{ height: 75 }}
+          >
+            <Paper style={{ padding: "5px 7px", fontSize: "large" }}>
+              Muodosta {currentExerciseAsString} käyttämällä pianoa.
+            </Paper>
+          </Grid>
           <MusicSheet
             notation={"D2|EB{c}BA"}
             onlynotes={this.props.onlyNotes}
