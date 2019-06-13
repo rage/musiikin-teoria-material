@@ -3,6 +3,7 @@ import React from "react"
 import MusicExerciseWrapper from "../components/music/MusicExerciseWrapper"
 
 import Exercise from "../components/music/Exercise"
+import PianoExercise from "../components/music/PianoExercise"
 import Chord from "../components/music/Chord"
 import Interval from "../components/music/Interval"
 import Scale from "../components/music/Scale"
@@ -50,6 +51,8 @@ const getQuizId = type => {
       return "a85e658f-8613-4b58-bf95-de91382a0f1f"
     case "modes_sound":
       return "b36b9a72-8ee0-4b08-aad2-ed2d288049ef"
+    case "piano_chords":
+      return "abdbe74f-88db-43c2-8ff2-e32e5973bfd4" // same as chords at the top temporarily
   }
 }
 
@@ -92,16 +95,29 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
   const onlyNotes = wantedType.includes("notes")
   const onlySound = wantedType.includes("sound")
 
-  return (
-    <Exercise
-      onCorrect={onCorrectAnswer}
-      onIncorrect={onIncorrectAnswer}
-      onlyNotes={onlyNotes}
-      onlySound={onlySound}
-      exerciseKind={exerciseKind}
-      requiredAnswers={requiredAnswers}
-    />
-  )
+  if (type.includes("piano")) {
+    return (
+      <PianoExercise
+        onCorrect={onCorrectAnswer}
+        onIncorrect={onIncorrectAnswer}
+        onlyNotes={onlyNotes}
+        onlySound={onlySound}
+        exerciseKind={exerciseKind}
+        requiredAnswers={requiredAnswers}
+      />
+    )
+  } else {
+    return (
+      <Exercise
+        onCorrect={onCorrectAnswer}
+        onIncorrect={onIncorrectAnswer}
+        onlyNotes={onlyNotes}
+        onlySound={onlySound}
+        exerciseKind={exerciseKind}
+        requiredAnswers={requiredAnswers}
+      />
+    )
+  }
 }
 
 export default ExerciseRouter
