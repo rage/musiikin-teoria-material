@@ -104,6 +104,10 @@ class MusicExerciseWrapper extends React.Component {
       this.setState({ render: true })
       return
     }
+    if (!res || !res.quiz || !res.quiz.items) {
+      this.setState({ render: true })
+      return
+    }
     const quizItemId = res.quiz.items[0].id
     const pointsAwarded = res.userQuizState
       ? res.userQuizState.pointsAwarded
