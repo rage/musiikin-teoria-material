@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import Background from "../images/background.jpg"
+//import Background from "../images/music_sheet.jpg"
+import Background from "../images/wave_sound.png"
+//import Background from "../images/keyboard2.png"
 import withSimpleErrorBoundary from "../util/withSimpleErrorBoundary"
 
 const BannerWrapper = styled.header`
