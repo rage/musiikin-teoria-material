@@ -1,10 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import { SheetsRegistry } from "jss"
-import {
-  createMuiTheme,
-  createGenerateClassName,
-} from "@material-ui/core/styles"
+import { createMuiTheme } from "@material-ui/core/styles"
+import { createGenerateClassName } from "@material-ui/styles"
 import red from "@material-ui/core/colors/red"
 import blue from "@material-ui/core/colors/blue"
 
@@ -23,9 +21,6 @@ const theme = createMuiTheme({
       dark: red[700],
     },
   },
-  typography: {
-    useNextVariants: true,
-  },
   overrides: {
     MuiButton: {
       root: {
@@ -36,7 +31,7 @@ const theme = createMuiTheme({
       body2: {
         fontSize: "16px",
       },
-      subheading: {
+      subtitle1: {
         fontSize: "18px",
       },
     },
