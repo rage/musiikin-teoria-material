@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Paper } from "@material-ui/core"
+import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import MusicSheet from "../../partials/MusicSheet"
@@ -199,12 +199,22 @@ class Exercise extends React.Component {
               engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButton"}
             />
-            <SelectionBar
+            {/* <SelectionBar
               options={selectionOptions}
               answerWasWrong={this.state.answerWasSubmitted}
               nextExerciseSet={this.nextExerciseSet}
               onSubmit={this.onSubmit}
-            />
+            /> */}
+            <div className="submitButton">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.onClick}
+              >
+                Lähetä &nbsp;
+                <Icon fontSize="small">send</Icon>
+              </Button>
+            </div>
           </div>
         </Paper>
       </Loading>
