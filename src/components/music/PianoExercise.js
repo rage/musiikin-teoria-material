@@ -1,14 +1,9 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { Paper } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import Piano from "./Piano"
 
-import MusicSheet from "../../partials/MusicSheet"
-import CheckAnswerPopper from "./CheckAnswerPopper"
-import SelectionBar from "./SelectionBar"
-import Loading from "../Loading"
-
-class Exercise extends React.Component {
+class PianoExercise extends React.Component {
   state = {
     render: false,
 
@@ -148,77 +143,12 @@ class Exercise extends React.Component {
   }
 
   render() {
-    if (!this.state.render) {
-      return null
-    }
-
-    const exerciseSet = this.state.exerciseSet
-    const correctAnswer = exerciseSet.exercises[this.state.currentExerciseIndex]
-    // answerKeys that were same in answer and correctAnswer
-    const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
-      this.state.givenAnswer,
-      correctAnswer,
-    )
-
-    const selectionOptions = exerciseSet.answerKeys.map(key => {
-      const answerOptions = exerciseSet.answerOptions[key]
-
-      const answerIsCorrect = this.state.answerWasSubmitted
-        ? answerKeysThatAreCorrect.includes(key)
-          ? true
-          : false
-        : null
-
-      return {
-        setAnswer: this.setAnswer(key),
-        answers: answerOptions,
-        label: exerciseSet.answerLabels[key],
-        selectedIndex: this.state.givenAnswer[key],
-        answerIsCorrect,
-      }
-    })
-
     return (
-      <Loading loading={!this.state.render}>
-        <CheckAnswerPopper
-          options={this.state.popper}
-          correctAnswer={
-            // pass correct answer only after the answer was sent; otherwise the
-            // student could read the correct answer using React Developer Tools
-            this.state.answerWasSubmitted
-              ? this.props.exerciseKind.readableAnswerString(correctAnswer)
-              : ""
-          }
-        />
-        <Paper>
-          <div className="overall-container">
-            <MusicSheet
-              notation={correctAnswer.notation}
-              onlynotes={this.props.onlyNotes}
-              onlysound={this.props.onlySound}
-              engraverParams={this.props.exerciseKind.getEngraverParams()}
-              playButtonStyle={"playButton"}
-            />
-            <SelectionBar
-              options={selectionOptions}
-              answerWasWrong={this.state.answerWasSubmitted}
-              nextExerciseSet={this.nextExerciseSet}
-              onSubmit={this.onSubmit}
-            />
-          </div>
-        </Paper>
-      </Loading>
+      <Paper>
+        <Piano />
+      </Paper>
     )
   }
 }
 
-Exercise.propTypes = {
-  exerciseKind: PropTypes.object.isRequired,
-  requiredAnswers: PropTypes.number.isRequired,
-  onCorrect: PropTypes.func.isRequired,
-  onIncorrect: PropTypes.func.isRequired,
-  onlyNotes: PropTypes.bool,
-  onlySound: PropTypes.bool,
-}
-
-export default withSimpleErrorBoundary(Exercise)
+export default withSimpleErrorBoundary(PianoExercise)
