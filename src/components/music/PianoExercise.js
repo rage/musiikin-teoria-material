@@ -7,7 +7,7 @@ import {
   ButtonGroup,
   Icon,
   Collapse,
-  Grid,
+  Divider,
   Typography,
 } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
@@ -172,6 +172,8 @@ class PianoExercise extends React.Component {
           <Typography variant="h6" align="center">
             Muodosta pianon avulla {currentExerciseAsString} kolmisointuna
           </Typography>
+          <br />
+          <Divider light />
           <div className="overall-container">
             <MusicSheet
               notation={
