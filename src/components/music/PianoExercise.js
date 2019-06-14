@@ -4,8 +4,10 @@ import { Paper, Button, Icon, Collapse, Grid } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
 import Loading from "../Loading"
+import Scale from "./Scale"
 
 class PianoExercise extends React.Component {
   state = {
@@ -32,6 +34,9 @@ class PianoExercise extends React.Component {
 
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
+
+    // Array of strings, each string is a note in abc notation
+    notes: [],
   }
 
   componentDidMount() {
@@ -141,9 +146,14 @@ class PianoExercise extends React.Component {
       givenAnswer: {},
     })
   }
-
+  
   handleChange = () => {
     this.setState({ checked: !this.state.checked })
+    
+  appendNote = note => {
+    const notes = this.state.notes
+    notes.push(note)
+    this.setState({ notes })
   }
 
   render() {
@@ -180,12 +190,16 @@ class PianoExercise extends React.Component {
               </Paper>
             </Grid>
             <MusicSheet
-              notation={"D2|EB{c}BA"}
-              onlynotes={this.props.onlyNotes}
-              onlysound={this.props.onlySound}
-              engraverParams={this.props.exerciseKind.getEngraverParams()}
-              playButtonStyle={"playButton"}
-            />
+            notation={
+              this.state.notes.length
+                ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
+                : "L:1/1\nz"
+            }
+            onlynotes={this.props.onlyNotes}
+            onlysound={this.props.onlySound}
+            engraverParams={new Scale().getEngraverParams()}
+            playButtonStyle={"playButton"}
+          />
             <div className="dropDown1">
               <Button
                 variant="outlined"
