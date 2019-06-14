@@ -1,7 +1,6 @@
 import React from "react"
-import PropTypes from "prop-types"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon, Collapse } from "@material-ui/core"
+import { Paper, Button, Icon, Collapse, Grid } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
@@ -148,10 +147,38 @@ class PianoExercise extends React.Component {
   }
 
   render() {
+    if (!this.state.render) {
+      return null
+    }
+    const currentExercise = this.state.exerciseSet.exercises[
+      this.state.currentExerciseIndex
+    ]
+    const currentExerciseAsString = this.props.exerciseKind.readableAnswerString(
+      currentExercise,
+    )
+
     return (
       <Loading loading={!this.state.render}>
         <Paper>
           <div className="overall-container">
+      <Grid
+            container
+            spacing={6}
+            direction="column"
+            alignItems="center"
+            style={{ height: 75 }}
+          >
+            <Paper
+              style={{
+                position: "relative",
+                top: "1.5rem",
+                padding: "5px 7px",
+                fontSize: "large",
+              }}
+            >
+              Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
+            </Paper>
+          </Grid>
             <MusicSheet
               notation={"D2|EB{c}BA"}
               onlynotes={this.props.onlyNotes}

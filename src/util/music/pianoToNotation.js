@@ -1,20 +1,38 @@
 import { notes } from "./roots"
 
 export const convertMidiNumberToNote = midiNumber => {
-  const pitch = convertMidiNumberToPitch(midiNumber)
+  const { pitch, octave } = convertMidiNumberToPitch(midiNumber)
   const noteOptions = notes[pitch]
-  //return first option for now
-  return noteOptions[0]
+  //select the first option for now
+  const selectedNote = noteOptions[0]
+  const noteInRightOctave = getNoteInRightOctave(selectedNote, octave)
+  return noteInRightOctave
 }
 
 const convertMidiNumberToPitch = midiNumber => {
-  //midi number 60 = middle c
-  let pitch = midiNumber - 60
+  let pitch = midiNumber - 60 //midi number 60 = middle c
+  let octave = 1 // middle octave
   while (pitch > 11) {
-    pitch = pitch - 12
+    pitch -= 12
+    octave += 1
   }
   while (pitch < 0) {
-    pitch = pitch + 12
+    pitch += 12
+    octave -= 1
   }
-  return pitch
+  return { pitch, octave }
+}
+
+const getNoteInRightOctave = (note, octave) => {
+  switch (octave) {
+    case 0:
+      return note + ","
+    case 1:
+      return note
+    case 2:
+      return note.toLowerCase()
+    case 3:
+      return note.toLowerCase() + "'"
+  }
+  return note
 }
