@@ -214,7 +214,7 @@ class PianoExercise extends React.Component {
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
               engraverParams={new Scale().getEngraverParams()}
-              playButtonStyle={"playButton"}
+              playButtonStyle={"playButtonPiano"}
             />
             <div className="dropDown1">
               <Button
