@@ -217,11 +217,11 @@ class PianoExercise extends React.Component {
                 variant="outlined"
                 onClick={this.handleChange}
                 style={{
-                  width: 175,
+                  width: 150,
                   justifyContent: "space-between",
                 }}
               >
-                {this.state.checked ? "Piilota piano" : "Näytä piano"} &nbsp;
+                {this.state.checked ? "Piilota piano" : "Näytä piano"}
                 <Icon>
                   {this.state.checked ? "expand_less" : "expand_more"}
                 </Icon>
