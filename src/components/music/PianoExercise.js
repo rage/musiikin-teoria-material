@@ -161,24 +161,24 @@ class PianoExercise extends React.Component {
       <Loading loading={!this.state.render}>
         <Paper>
           <div className="overall-container">
-      <Grid
-            container
-            spacing={6}
-            direction="column"
-            alignItems="center"
-            style={{ height: 75 }}
-          >
-            <Paper
-              style={{
-                position: "relative",
-                top: "1.5rem",
-                padding: "5px 7px",
-                fontSize: "large",
-              }}
+            <Grid
+              container
+              spacing={6}
+              direction="column"
+              alignItems="center"
+              style={{ height: 75 }}
             >
-              Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
-            </Paper>
-          </Grid>
+              <Paper
+                style={{
+                  position: "relative",
+                  top: "1.5rem",
+                  padding: "5px 7px",
+                  fontSize: "large",
+                }}
+              >
+                Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
+              </Paper>
+            </Grid>
             <MusicSheet
               notation={"D2|EB{c}BA"}
               onlynotes={this.props.onlyNotes}
