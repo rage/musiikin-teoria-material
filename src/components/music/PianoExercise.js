@@ -146,10 +146,9 @@ class PianoExercise extends React.Component {
       givenAnswer: {},
     })
   }
-  
-  handleChange = () => {
-    this.setState({ checked: !this.state.checked })
-    
+
+  handleChange = () => this.setState({ checked: !this.state.checked })
+
   appendNote = note => {
     const notes = this.state.notes
     notes.push(note)
@@ -190,16 +189,16 @@ class PianoExercise extends React.Component {
               </Paper>
             </Grid>
             <MusicSheet
-            notation={
-              this.state.notes.length
-                ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
-                : "L:1/1\nz"
-            }
-            onlynotes={this.props.onlyNotes}
-            onlysound={this.props.onlySound}
-            engraverParams={new Scale().getEngraverParams()}
-            playButtonStyle={"playButton"}
-          />
+              notation={
+                this.state.notes.length
+                  ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
+                  : "L:1/1\nz"
+              }
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={new Scale().getEngraverParams()}
+              playButtonStyle={"playButton"}
+            />
             <div className="dropDown1">
               <Button
                 variant="outlined"
