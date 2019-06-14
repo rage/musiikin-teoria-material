@@ -4,6 +4,7 @@ import {
 } from "../../util/music/roots"
 import { triads as answerTriads } from "../../util/music/chords"
 import { randomIntArray } from "../../util/random"
+import { interval } from "../../util/music/intervals"
 
 // Answer Keys
 const ROOT = "root",
@@ -125,6 +126,15 @@ export default class Chord {
       correctAnswer,
       correct,
     }
+  }
+
+  isTriadCorrect(exercise) {
+    return [
+      exercise.pitch,
+      ...answerTriads[exercise.triad].intervals.map(
+        i => interval(notationRoots[exercise.root], ...i).pitch,
+      ),
+    ]
   }
 
   /**
