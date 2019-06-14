@@ -1,9 +1,17 @@
 import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon, Grid } from "@material-ui/core"
+import {
+  Paper,
+  Button,
+  ButtonGroup,
+  Icon,
+  Collapse,
+  Grid,
+} from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
+import Loading from "../Loading"
 import Scale from "./Scale"
 
 class PianoExercise extends React.Component {
@@ -11,11 +19,7 @@ class PianoExercise extends React.Component {
     render: false,
 
     // For "wrong answer" popper
-    popper: {
-      open: false,
-      placement: undefined,
-      anchorEl: undefined,
-    },
+    checked: false,
 
     // Answer given by student, parts are set in setAnswer.
     // Contains index numbers.
@@ -150,11 +154,21 @@ class PianoExercise extends React.Component {
     })
   }
 
+  handleChange = () => this.setState({ checked: !this.state.checked })
+
   appendNote = note => {
     const { notes } = this.state
     notes.push(note)
     this.setState({ notes })
   }
+
+  undoNote = () => {
+    const notes = this.state.notes
+    notes.pop()
+    this.setState({ notes })
+  }
+
+  clearNotes = () => this.setState({ notes: [] })
 
   render() {
     if (!this.state.render) {
@@ -168,48 +182,81 @@ class PianoExercise extends React.Component {
     )
 
     return (
-      <Paper>
-        <div className="overall-container" style={{ alignContent: "center" }}>
-          <Grid
-            container
-            spacing={6}
-            direction="column"
-            alignItems="center"
-            style={{ height: 75 }}
-          >
-            <Paper
-              style={{
-                position: "relative",
-                top: "1.5rem",
-                padding: "5px 7px",
-                fontSize: "large",
-              }}
+      <Loading loading={!this.state.render}>
+        <Paper>
+          <div className="overall-container">
+            <Grid
+              container
+              spacing={6}
+              direction="column"
+              alignItems="center"
+              style={{ height: 75 }}
             >
-              Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
-            </Paper>
-          </Grid>
-          <MusicSheet
-            notation={
-              this.state.notes.length
-                ? "L:1/1\n[" +
-                  concatenateNotes(this.state.notes.map(n => n.notation)) +
-                  "]"
-                : "L:1/1\nz"
-            }
-            onlynotes={this.props.onlyNotes}
-            onlysound={this.props.onlySound}
-            engraverParams={new Scale().getEngraverParams()}
-            playButtonStyle={"playButton"}
-          />
-          <div className="submitButton">
-            <Button variant="contained" color="primary" onClick={this.onClick}>
-              Lähetä &nbsp;
-              <Icon fontSize="small">send</Icon>
-            </Button>
+              <Paper
+                style={{
+                  position: "relative",
+                  top: "1.5rem",
+                  padding: "5px 7px",
+                  fontSize: "large",
+                }}
+              >
+                Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
+              </Paper>
+            </Grid>
+            <MusicSheet
+              notation={
+                this.state.notes.length
+                  ? "L:1/1\n[" +
+                    concatenateNotes(this.state.notes.map(n => n.notation)) +
+                    "]"
+                  : "L:1/1\nz"
+              }
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={new Scale().getEngraverParams()}
+              playButtonStyle={"playButton"}
+            />
+            <div className="dropDown1">
+              <Button
+                variant="outlined"
+                onClick={this.handleChange}
+                style={{
+                  width: 150,
+                  justifyContent: "space-between",
+                }}
+              >
+                {this.state.checked ? "Piilota piano" : "Näytä piano"}
+                <Icon>
+                  {this.state.checked ? "expand_less" : "expand_more"}
+                </Icon>
+              </Button>
+            </div>
+            <div className="dropDown2">
+              <ButtonGroup aria-label="Undo / Clear buttons">
+                <Button title="Peruuta" onClick={this.undoNote}>
+                  <Icon>undo</Icon>
+                </Button>
+                <Button title="Tyhjennä" onClick={this.clearNotes}>
+                  <Icon>delete</Icon>
+                </Button>
+              </ButtonGroup>
+            </div>
+            <div className="submitButton">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.onClick}
+              >
+                Lähetä &nbsp;
+                <Icon fontSize="small">send</Icon>
+              </Button>
+            </div>
           </div>
-        </div>
-        <Piano appendNote={this.appendNote} />
-      </Paper>
+          <Collapse in={this.state.checked}>
+            <Piano appendNote={this.appendNote} />
+          </Collapse>
+        </Paper>
+      </Loading>
     )
   }
 }
