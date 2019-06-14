@@ -1,5 +1,6 @@
 import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
+import CheckAnswerPopper from "./CheckAnswerPopper"
 import {
   Paper,
   Button,
@@ -23,8 +24,8 @@ class PianoExercise extends React.Component {
     checked: false,
 
     // Answer given by student, parts are set in setAnswer.
-    // Contains index numbers.
-    givenAnswer: {},
+    // Contains pitch numbers.
+    givenAnswer: [],
     // Correct answers generated based on props.exerciseKind
     exerciseSet: {
       // Keys that define how the answer, options and correct answers
@@ -62,13 +63,14 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    const givenAnswer = this.state.givenAnswer
-    const correctAnswer = this.state.exerciseSet.exercises[
-      this.state.currentExerciseIndex
-    ]
+    const givenAnswer = [1, 3, 6]
+    const correctAnswer = [1, 3, 6]
+    //const correctAnswer = this.state.exerciseSet.exercises[
+    //  this.state.currentExerciseIndex
+    //]
 
-    const correct = this.isAnswerCorrect()
-    const payload = this.props.exerciseKind.makeAnswerPayload(
+    const correct = this.isAnswerCorrect(givenAnswer, correctAnswer)
+    const payload = this.props.exerciseKind.makePianoAnswerPayload(
       givenAnswer,
       correctAnswer,
       correct,
@@ -97,31 +99,11 @@ class PianoExercise extends React.Component {
   /**
    * Check that the given answer is correct
    */
-  isAnswerCorrect = () => {
-    const givenAnswer = this.state.givenAnswer
-    const correctAnswer = this.state.exerciseSet.exercises[
-      this.state.currentExerciseIndex
-    ]
-
-    const answerKeysThatAreCorrect = this.props.exerciseKind.getCorrectAnswerKeys(
-      givenAnswer,
-      correctAnswer,
-    )
-
-    return this.state.exerciseSet.answerKeys.every(key =>
-      answerKeysThatAreCorrect.includes(key),
-    )
-  }
-
-  /**
-   * Function to create a setAnswer function for a dropdown
-   * @param {*} answerOption Key in this.state.exerciseSet.answerKeys
-   * @returns A function that sets given answer to the correct key in this.state.answer
-   */
-  setAnswer = answerOption => selectedOptionIndex => {
-    const givenAnswer = this.state.givenAnswer
-    givenAnswer[answerOption] = selectedOptionIndex
-    this.setState({ givenAnswer })
+  isAnswerCorrect = (givenAnswer, correctAnswer) => {
+    if (givenAnswer.length === correctAnswer.length) {
+      return correctAnswer.every(pitch => givenAnswer.includes(pitch))
+    }
+    return false
   }
 
   /**
@@ -184,6 +166,7 @@ class PianoExercise extends React.Component {
 
     return (
       <Loading loading={!this.state.render}>
+        <CheckAnswerPopper options={this.state.popper} />
         <Paper>
           <br />
           <Typography variant="h6" align="center">
@@ -232,7 +215,7 @@ class PianoExercise extends React.Component {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={this.onClick}
+                onClick={this.onSubmit}
               >
                 Lähetä &nbsp;
                 <Icon fontSize="small">send</Icon>

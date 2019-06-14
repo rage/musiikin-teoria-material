@@ -110,13 +110,15 @@ export const raiseOctave = input => {
 const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
 
 /**
- * Returns String corresponding to abc notation for adding an interval symbol
- * on top of root.
+ * Returns an object with:
+ * "notation": a String corresponding to abc notation for adding an interval on
+ *             top of the given root;
+ * "pitch": the corresponding pitch, from 0 to 11.
  *
  * For example:
  *    root = roots[0] // C
  *    interval(root, MAJOR, THIRD)
- *    returns "E"
+ *    returns { notation: "E", pitch: 4 }
  *
  * @param {*} root Root note for the interval
  * @param {*} quality What quality the interval should have
@@ -165,13 +167,14 @@ export const interval = (root, quality, number) => {
   for now only 1 -> 14 intervals are supported
   */
   let notation = ""
-  for (const note of notes[
-    (root.pitch + pitchJump + notes.length) % notes.length
-  ])
+  const pitch = (root.pitch + pitchJump + notes.length) % notes.length
+  for (const note of notes[pitch])
     if (note.includes(letter))
       notation = lowercaseLetter ? note.toLowerCase() : note
 
-  return compound ? raiseOctave(notation) : notation
+  notation = compound ? raiseOctave(notation) : notation
+
+  return { notation, pitch }
 }
 
 /**
@@ -189,7 +192,7 @@ export const interval = (root, quality, number) => {
  * @param {*} intervals Desired notes, expressed as intervals from the root
  */
 export const concatenate = (root, intervals) =>
-  concatenateNotes(intervals.map(i => interval(root, ...i)))
+  concatenateNotes(intervals.map(i => interval(root, ...i).notation))
 
 export const concatenateNotes = notes => {
   let prevAccidentals = ""
