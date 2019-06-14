@@ -1,5 +1,7 @@
 import React from "react"
-import { Paper } from "@material-ui/core"
+import PropTypes from "prop-types"
+import MusicSheet from "../../partials/MusicSheet"
+import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Piano from "./Piano"
 
@@ -145,6 +147,21 @@ class PianoExercise extends React.Component {
   render() {
     return (
       <Paper>
+        <div className="overall-container">
+          <MusicSheet
+            notation={"D2|EB{c}BA"}
+            onlynotes={this.props.onlyNotes}
+            onlysound={this.props.onlySound}
+            engraverParams={this.props.exerciseKind.getEngraverParams()}
+            playButtonStyle={"playButton"}
+          />
+          <div className="submitButton">
+            <Button variant="contained" color="primary" onClick={this.onClick}>
+              Lähetä &nbsp;
+              <Icon fontSize="small">send</Icon>
+            </Button>
+          </div>
+        </div>
         <Piano />
       </Paper>
     )
