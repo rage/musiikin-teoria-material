@@ -36,7 +36,9 @@ class PianoExercise extends React.Component {
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
 
-    // Array of strings, each string is a note in abc notation
+    // Array of objects; each note has a string, "notation", which is abc
+    // notation, and a number "pitch", which is the note's pitch in the central
+    // octave, meaning that pitches go from 0 (C) to 11 (B)
     notes: [],
   }
 
@@ -149,7 +151,7 @@ class PianoExercise extends React.Component {
   }
 
   appendNote = note => {
-    const notes = this.state.notes
+    const { notes } = this.state
     notes.push(note)
     this.setState({ notes })
   }
@@ -189,7 +191,9 @@ class PianoExercise extends React.Component {
           <MusicSheet
             notation={
               this.state.notes.length
-                ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
+                ? "L:1/1\n[" +
+                  concatenateNotes(this.state.notes.map(n => n.notation)) +
+                  "]"
                 : "L:1/1\nz"
             }
             onlynotes={this.props.onlyNotes}
