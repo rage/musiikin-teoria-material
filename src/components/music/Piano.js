@@ -28,8 +28,8 @@ const DimensionsProvider = Dimensions()(Provider)
 const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net"
 
 const noteRange = {
-  first: MidiNumbers.fromNote("c3"),
-  last: MidiNumbers.fromNote("b4"),
+  first: MidiNumbers.fromNote("c4"),
+  last: MidiNumbers.fromNote("b5"),
 }
 
 const keyboardShortcuts = KeyboardShortcuts.create({
@@ -58,6 +58,7 @@ class Piano extends React.Component {
       <DimensionsProvider>
         {({ containerWidth, containerHeight }) => (
           <SoundfontProvider
+            appendNote={this.props.appendNote}
             hostname={soundfontHostname}
             audioContext={this.state.audioContext}
             render={({ isLoading, playNote, stopNote }) => (

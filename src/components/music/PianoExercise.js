@@ -3,7 +3,9 @@ import PropTypes from "prop-types"
 import MusicSheet from "../../partials/MusicSheet"
 import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
+import Scale from "./Scale"
 
 class PianoExercise extends React.Component {
   state = {
@@ -34,6 +36,9 @@ class PianoExercise extends React.Component {
 
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
+
+    // Array of strings, each string is a note in abc notation
+    notes: [],
   }
 
   componentDidMount() {
@@ -144,15 +149,25 @@ class PianoExercise extends React.Component {
     })
   }
 
+  appendNote = note => {
+    const notes = this.state.notes
+    notes.push(note)
+    this.setState({ notes })
+  }
+
   render() {
     return (
       <Paper>
         <div className="overall-container">
           <MusicSheet
-            notation={"D2|EB{c}BA"}
+            notation={
+              this.state.notes.length
+                ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
+                : "L:1/1\nz"
+            }
             onlynotes={this.props.onlyNotes}
             onlysound={this.props.onlySound}
-            engraverParams={this.props.exerciseKind.getEngraverParams()}
+            engraverParams={new Scale().getEngraverParams()}
             playButtonStyle={"playButton"}
           />
           <div className="submitButton">
@@ -162,7 +177,7 @@ class PianoExercise extends React.Component {
             </Button>
           </div>
         </div>
-        <Piano />
+        <Piano appendNote={this.appendNote} />
       </Paper>
     )
   }

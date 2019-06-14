@@ -188,11 +188,13 @@ export const interval = (root, quality, number) => {
  * @param {*} root Root note from which the intervals will be built
  * @param {*} intervals Desired notes, expressed as intervals from the root
  */
-export const concatenate = (root, intervals) => {
+export const concatenate = (root, intervals) =>
+  concatenateNotes(intervals.map(i => interval(root, ...i)))
+
+export const concatenateNotes = notes => {
   let prevAccidentals = ""
-  const notation = intervals
-    .map(i => {
-      let note = interval(root, ...i)
+  return notes
+    .map(note => {
       if (!isAccidental(note)) {
         note = addNaturalIfNeeded(note, prevAccidentals)
       } else {
@@ -201,7 +203,6 @@ export const concatenate = (root, intervals) => {
       return note
     })
     .join("")
-  return notation
 }
 
 const isAccidental = note => {
