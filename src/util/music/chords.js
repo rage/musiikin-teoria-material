@@ -12,9 +12,10 @@ import {
 } from "./intervals"
 
 class Chord {
-  constructor(label, intervals) {
+  constructor(label, intervals, formattingFunction) {
     this.label = label
     this.intervals = intervals
+    this.formattingFunction = formattingFunction
   }
 
   notation(root) {
@@ -24,11 +25,31 @@ class Chord {
       "]"
     )
   }
+
+  asReadableString(root) {
+    return this.formattingFunction(root.label, this.label)
+  }
 }
 
 export const triads = [
-  new Chord("Duuri", [[MAJOR, THIRD], [PERFECT, FIFTH]]),
-  new Chord("Molli", [[MINOR, THIRD], [PERFECT, FIFTH]]),
-  new Chord("Vähennetty", [[MINOR, THIRD], [DIMINISHED, FIFTH]]),
-  new Chord("Ylinouseva", [[MAJOR, THIRD], [AUGMENTED, FIFTH]]),
+  new Chord(
+    "Duuri",
+    [[MAJOR, THIRD], [PERFECT, FIFTH]],
+    (root, triad) => root + "-" + triad.toLowerCase(),
+  ),
+  new Chord(
+    "Molli",
+    [[MINOR, THIRD], [PERFECT, FIFTH]],
+    (root, triad) => root + "-" + triad.toLowerCase(),
+  ),
+  new Chord(
+    "Vähennetty",
+    [[MINOR, THIRD], [DIMINISHED, FIFTH]],
+    (root, triad) => triad.toLowerCase() + " " + root,
+  ),
+  new Chord(
+    "Ylinouseva",
+    [[MAJOR, THIRD], [AUGMENTED, FIFTH]],
+    (root, triad) => triad.toLowerCase() + " " + root,
+  ),
 ]

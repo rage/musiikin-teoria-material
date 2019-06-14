@@ -83,13 +83,12 @@ export default class Chord {
    * @returns "C major"
    */
   readableAnswerString(answer) {
-    const answerPitchLabel = answer.pitch // Generated answers have pitch
-      ? notationRoots[answer.root].label
-      : answerRoots[answer.root].label
+    const answerRoot = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root]
+      : answerRoots[answer.root]
+    const answerTriad = answerTriads[answer.triad]
 
-    return (
-      answerPitchLabel + " " + answerTriads[answer.triad].label.toLowerCase()
-    )
+    return answerTriad.asReadableString(answerRoot)
   }
 
   makeAnswerPayload(answer, correctAnswer, correct) {
