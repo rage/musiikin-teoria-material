@@ -1,20 +1,19 @@
 import React from "react"
 import PropTypes from "prop-types"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon } from "@material-ui/core"
+import { Paper, Button, Icon, Collapse } from "@material-ui/core"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import Piano from "./Piano"
+import Loading from "../Loading"
 
 class PianoExercise extends React.Component {
   state = {
     render: false,
 
     // For "wrong answer" popper
-    popper: {
-      open: false,
-      placement: undefined,
-      anchorEl: undefined,
-    },
+    checked: false,
 
     // Answer given by student, parts are set in setAnswer.
     // Contains index numbers.
@@ -144,26 +143,51 @@ class PianoExercise extends React.Component {
     })
   }
 
+  handleChange = () => {
+    this.setState({ checked: !this.state.checked })
+  }
+
   render() {
     return (
-      <Paper>
-        <div className="overall-container">
-          <MusicSheet
-            notation={"D2|EB{c}BA"}
-            onlynotes={this.props.onlyNotes}
-            onlysound={this.props.onlySound}
-            engraverParams={this.props.exerciseKind.getEngraverParams()}
-            playButtonStyle={"playButton"}
-          />
-          <div className="submitButton">
-            <Button variant="contained" color="primary" onClick={this.onClick}>
-              Lähetä &nbsp;
-              <Icon fontSize="small">send</Icon>
-            </Button>
+      <Loading loading={!this.state.render}>
+        <Paper>
+          <div className="overall-container">
+            <MusicSheet
+              notation={"D2|EB{c}BA"}
+              onlynotes={this.props.onlyNotes}
+              onlysound={this.props.onlySound}
+              engraverParams={this.props.exerciseKind.getEngraverParams()}
+              playButtonStyle={"playButton"}
+            />
+            <div className="dropDown1">
+              <Button
+                variant="outlined"
+                onClick={this.handleChange}
+                style={{
+                  width: 150,
+                  justifyContent: "space-between",
+                }}
+              >
+                {this.state.checked ? "Piilota piano" : "Näytä piano "} &nbsp;
+                {this.state.checked ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </Button>
+            </div>
+            <div className="submitButton">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.onClick}
+              >
+                Lähetä &nbsp;
+                <Icon fontSize="small">send</Icon>
+              </Button>
+            </div>
           </div>
-        </div>
-        <Piano />
-      </Paper>
+          <Collapse in={this.state.checked}>
+            <Piano />
+          </Collapse>
+        </Paper>
+      </Loading>
     )
   }
 }
