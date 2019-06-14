@@ -186,7 +186,8 @@ class Exercise extends React.Component {
             // pass correct answer only after the answer was sent; otherwise the
             // student could read the correct answer using React Developer Tools
             this.state.answerWasSubmitted
-              ? this.props.exerciseKind.readableAnswerString(correctAnswer)
+              ? "Kyseessä oli " +
+                this.props.exerciseKind.readableAnswerString(correctAnswer)
               : ""
           }
         />

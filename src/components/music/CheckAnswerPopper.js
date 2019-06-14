@@ -13,6 +13,10 @@ class CheckAnswerPopper extends React.Component {
     const anchorEl = options.anchorEl
     const placement = options.placement
 
+    const correctAnswer = this.props.correctAnswer ? (
+      <div>{this.props.correctAnswer + "."}</div>
+    ) : null
+
     return (
       <Wrapper>
         <Popper
@@ -28,8 +32,7 @@ class CheckAnswerPopper extends React.Component {
                   <Typography>
                     <MarginInPaper>
                       Vastauksesi ei ollut oikein.
-                      <br />
-                      Kyseessä oli {this.props.correctAnswer}.
+                      {correctAnswer}
                     </MarginInPaper>
                   </Typography>
                 </Paper>
