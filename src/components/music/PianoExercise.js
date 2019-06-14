@@ -8,6 +8,7 @@ import {
   Icon,
   Collapse,
   Grid,
+  Typography,
 } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
@@ -167,25 +168,11 @@ class PianoExercise extends React.Component {
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper options={this.state.popper} />
         <Paper>
+          <br />
+          <Typography variant="h6" align="center">
+            Muodosta pianon avulla {currentExerciseAsString} kolmisointuna
+          </Typography>
           <div className="overall-container">
-            <Grid
-              container
-              spacing={6}
-              direction="column"
-              alignItems="center"
-              style={{ height: 75 }}
-            >
-              <Paper
-                style={{
-                  position: "relative",
-                  top: "1.5rem",
-                  padding: "5px 7px",
-                  fontSize: "large",
-                }}
-              >
-                Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
-              </Paper>
-            </Grid>
             <MusicSheet
               notation={
                 this.state.notes.length
