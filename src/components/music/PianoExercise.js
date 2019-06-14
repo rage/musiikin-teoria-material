@@ -169,8 +169,9 @@ class PianoExercise extends React.Component {
         <CheckAnswerPopper options={this.state.popper} />
         <Paper>
           <br />
-          <Typography variant="h6" align="center">
-            Muodosta pianon avulla {currentExerciseAsString} kolmisointuna
+          <Typography variant="subtitle1" align="center">
+            Muodosta pianon avulla <b>{currentExerciseAsString}</b>{" "}
+            kolmisointuna
           </Typography>
           <br />
           <Divider light />
