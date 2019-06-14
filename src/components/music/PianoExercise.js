@@ -1,9 +1,14 @@
 import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon, Collapse, Grid } from "@material-ui/core"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import ExpandLessIcon from "@material-ui/icons/ExpandLess"
+import {
+  Paper,
+  Button,
+  ButtonGroup,
+  Icon,
+  Collapse,
+  Grid,
+} from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
@@ -36,7 +41,9 @@ class PianoExercise extends React.Component {
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
 
-    // Array of strings, each string is a note in abc notation
+    // Array of objects; each note has a string, "notation", which is abc
+    // notation, and a number "pitch", which is the note's pitch in the central
+    // octave, meaning that pitches go from 0 (C) to 11 (B)
     notes: [],
   }
 
@@ -132,10 +139,18 @@ class PianoExercise extends React.Component {
   handleChange = () => this.setState({ checked: !this.state.checked })
 
   appendNote = note => {
-    const notes = this.state.notes
+    const { notes } = this.state
     notes.push(note)
     this.setState({ notes })
   }
+
+  undoNote = () => {
+    const notes = this.state.notes
+    notes.pop()
+    this.setState({ notes })
+  }
+
+  clearNotes = () => this.setState({ notes: [] })
 
   render() {
     if (!this.state.render) {
@@ -174,7 +189,9 @@ class PianoExercise extends React.Component {
             <MusicSheet
               notation={
                 this.state.notes.length
-                  ? "L:1/1\n[" + concatenateNotes(this.state.notes) + "]"
+                  ? "L:1/1\n[" +
+                    concatenateNotes(this.state.notes.map(n => n.notation)) +
+                    "]"
                   : "L:1/1\nz"
               }
               onlynotes={this.props.onlyNotes}
@@ -191,9 +208,21 @@ class PianoExercise extends React.Component {
                   justifyContent: "space-between",
                 }}
               >
-                {this.state.checked ? "Piilota piano" : "Näytä piano "} &nbsp;
-                {this.state.checked ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                {this.state.checked ? "Piilota piano" : "Näytä piano"}
+                <Icon>
+                  {this.state.checked ? "expand_less" : "expand_more"}
+                </Icon>
               </Button>
+            </div>
+            <div className="dropDown2">
+              <ButtonGroup aria-label="Undo / Clear buttons">
+                <Button title="Peruuta" onClick={this.undoNote}>
+                  <Icon>undo</Icon>
+                </Button>
+                <Button title="Tyhjennä" onClick={this.clearNotes}>
+                  <Icon>delete</Icon>
+                </Button>
+              </ButtonGroup>
             </div>
             <div className="submitButton">
               <Button
