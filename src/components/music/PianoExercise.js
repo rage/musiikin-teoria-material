@@ -224,7 +224,7 @@ class PianoExercise extends React.Component {
             </div>
           </div>
           <Collapse in={this.state.checked}>
-            <Piano />
+            <Piano appendNote={this.appendNote} />
           </Collapse>
         </Paper>
       </Loading>
