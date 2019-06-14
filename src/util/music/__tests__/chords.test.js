@@ -36,6 +36,6 @@ describe("interval()", () => {
     for (const root of roots)
       for (const chord of triads)
         for (const i of chord.intervals)
-          expect(interval(root, ...i)).toBeTruthy()
+          expect(interval(root, ...i).notation).toBeTruthy()
   })
 })

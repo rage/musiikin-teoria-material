@@ -110,6 +110,6 @@ describe("interval()", () => {
     for (const root of roots)
       for (const scale of [...scales, ...modes])
         for (const i of scale.intervals)
-          expect(interval(root, ...i)).toBeTruthy()
+          expect(interval(root, ...i).notation).toBeTruthy()
   })
 })
