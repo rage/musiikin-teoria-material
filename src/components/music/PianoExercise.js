@@ -164,8 +164,15 @@ class PianoExercise extends React.Component {
             alignItems="center"
             style={{ height: 75 }}
           >
-            <Paper style={{ padding: "5px 7px", fontSize: "large" }}>
-              Muodosta {currentExerciseAsString} käyttämällä pianoa.
+            <Paper
+              style={{
+                position: "relative",
+                top: "1.5rem",
+                padding: "5px 7px",
+                fontSize: "large",
+              }}
+            >
+              Muodosta pianon avulla {currentExerciseAsString} kolmisointuna.
             </Paper>
           </Grid>
           <MusicSheet
