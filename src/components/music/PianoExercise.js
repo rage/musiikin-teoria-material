@@ -1,8 +1,13 @@
 import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
-import { Paper, Button, Icon, Collapse, Grid } from "@material-ui/core"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import ExpandLessIcon from "@material-ui/icons/ExpandLess"
+import {
+  Paper,
+  Button,
+  ButtonGroup,
+  Icon,
+  Collapse,
+  Grid,
+} from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
@@ -155,6 +160,14 @@ class PianoExercise extends React.Component {
     this.setState({ notes })
   }
 
+  undoNote = () => {
+    const notes = this.state.notes
+    notes.pop()
+    this.setState({ notes })
+  }
+
+  clearNotes = () => this.setState({ notes: [] })
+
   render() {
     if (!this.state.render) {
       return null
@@ -208,9 +221,21 @@ class PianoExercise extends React.Component {
                   justifyContent: "space-between",
                 }}
               >
-                {this.state.checked ? "Piilota piano" : "Näytä piano "} &nbsp;
-                {this.state.checked ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                <Icon>straighten</Icon> &nbsp;
+                <Icon>
+                  {this.state.checked ? "expand_less" : "expand_more"}
+                </Icon>
               </Button>
+            </div>
+            <div className="dropDown2">
+              <ButtonGroup aria-label="Undo / Clear buttons">
+                <Button title="Peruuta" onClick={this.undoNote}>
+                  <Icon>undo</Icon>
+                </Button>
+                <Button title="Tyhjennä" onClick={this.clearNotes}>
+                  <Icon>delete</Icon>
+                </Button>
+              </ButtonGroup>
             </div>
             <div className="submitButton">
               <Button
