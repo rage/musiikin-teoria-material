@@ -118,6 +118,15 @@ export default class Chord {
     }
   }
 
+  makePianoAnswerPayload(answer, correctAnswer, correct) {
+    return {
+      type: "piano chord",
+      answer,
+      correctAnswer,
+      correct,
+    }
+  }
+
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */
