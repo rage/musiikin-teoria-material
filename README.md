@@ -1,3 +1,7 @@
+# Piano Keyboard branch
+
+This branch includes the feature of using computer keyboard to play piano as well as using backspace and delete buttons on keyboard to undo and clear all notes. Reason for creating is the possibility of rolling back to these features in the future. 
+
 # Musiikin teorian MOOC-kurssijärjestelmä 
 
 First half of summer 2019.
