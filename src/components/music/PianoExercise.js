@@ -15,12 +15,19 @@ import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
 import Loading from "../Loading"
 import Scale from "./Scale"
+import SubmitButton from "./SubmitButton"
 
 class PianoExercise extends React.Component {
   state = {
     render: false,
 
     // For "wrong answer" popper
+    popper: {
+      open: false,
+      placement: undefined,
+      anchorEl: undefined,
+    },
+    showCorrectOnButton: false,
     checked: false,
 
     // Answer given by student, parts are set in setAnswer.
@@ -81,7 +88,15 @@ class PianoExercise extends React.Component {
         this.state.currentExerciseIndex + 1 <
         this.state.exerciseSet.exercises.length
       )
-        this.nextExercise()
+        setTimeout(() => {
+          // Show checkmark
+          this.setState({ showCorrectOnButton: true })
+          // Hide checkmark later
+          setTimeout(() => {
+            this.setState({ showCorrectOnButton: false })
+          }, 1000)
+        }, 100)
+      this.nextExercise()
     } else {
       this.props.onIncorrect(payload)
       this.setState(oldState => ({
@@ -92,8 +107,6 @@ class PianoExercise extends React.Component {
         },
         answerWasSubmitted: true,
       }))
-      // remove the following row when "Aloita alusta" nappi is implemented
-      this.nextExerciseSet()
     }
   }
 
@@ -217,16 +230,12 @@ class PianoExercise extends React.Component {
                 </Button>
               </ButtonGroup>
             </div>
-            <div className="submitButton">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.onSubmit}
-              >
-                Lähetä &nbsp;
-                <Icon fontSize="small">send</Icon>
-              </Button>
-            </div>
+            <SubmitButton
+              showCorrectOnButton={this.state.showCorrectOnButton}
+              answerWasWrong={this.state.answerWasSubmitted}
+              nextExerciseSet={this.nextExerciseSet}
+              onClick={this.onSubmit}
+            />
           </div>
           <Collapse in={this.state.checked}>
             <Piano appendNote={this.appendNote} />
