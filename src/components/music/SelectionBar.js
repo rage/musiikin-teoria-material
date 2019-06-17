@@ -3,15 +3,14 @@ import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 
 import DropDownForAnswers from "./DropDownForAnswers"
-import { Button, Icon } from "@material-ui/core"
 import green from "@material-ui/core/colors/green"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
-  faCheck as correctMsgIcon,
   faCheckCircle as correct,
   faTimesCircle as incorrect,
   faExclamationCircle as unset,
 } from "@fortawesome/free-solid-svg-icons"
+import SubmitButton from "./SubmitButton"
 
 class SelectionBar extends React.Component {
   constructor(props) {
@@ -53,37 +52,6 @@ class SelectionBar extends React.Component {
         this.setState({ showCorrectOnButton: false })
       }, 1000)
     }, 100)
-  }
-
-  renderButton() {
-    if (this.state.showCorrectOnButton) {
-      return (
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: green[500] }}
-        >
-          Oikein! &nbsp; <FontAwesomeIcon icon={correctMsgIcon} />
-        </Button>
-      )
-    } else if (this.props.answerWasWrong) {
-      return (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.props.nextExerciseSet}
-        >
-          Aloita alusta
-        </Button>
-      )
-    } else {
-      return (
-        <Button variant="contained" color="primary" onClick={this.onClick}>
-          Lähetä &nbsp;
-          <Icon fontSize="small">send</Icon>
-        </Button>
-      )
-    }
   }
 
   render() {
@@ -139,7 +107,12 @@ class SelectionBar extends React.Component {
             />
           </div>
         ))}
-        <div className="submitButton">{this.renderButton()}</div>
+        <SubmitButton
+          showCorrectOnButton={this.state.showCorrectOnButton}
+          answerWasWrong={this.props.answerWasWrong}
+          nextExerciseSet={this.props.nextExerciseSet}
+          onClick={this.onClick}
+        />
       </Fragment>
     )
   }
