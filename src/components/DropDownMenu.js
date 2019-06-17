@@ -38,7 +38,7 @@ const DropDownMenu = ({
           key={option}
           selected={index === selectedIndex}
           onClick={event => handleItemSelection(event, index)}
-          style={{ width: 118 }}
+          style={{ width: 150 }}
         >
           {option}
         </MenuItem>
