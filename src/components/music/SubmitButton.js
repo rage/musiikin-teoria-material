@@ -9,6 +9,7 @@ const SubmitButton = ({
   answerWasWrong,
   nextExerciseSet,
   onClick,
+  isPiano,
 }) => {
   let button = null
   if (showCorrectOnButton) {
@@ -35,7 +36,12 @@ const SubmitButton = ({
       </Button>
     )
   }
-  return <div className="submitButton">{button}</div>
+
+  if (isPiano) {
+    return <div className="submitButtonPiano">{button}</div>
+  } else {
+    return <div className="submitButton">{button}</div>
+  }
 }
 
 export default SubmitButton
