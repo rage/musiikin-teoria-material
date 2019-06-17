@@ -64,7 +64,7 @@ class Piano extends React.Component {
                 width={containerWidth}
                 playNote={playNote}
                 stopNote={stopNote}
-                disabled={isLoading}
+                disabled={isLoading || this.props.isPlaying}
                 keyboardShortcuts={keyboardShortcuts}
                 {...this.props}
               />
