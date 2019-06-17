@@ -37,6 +37,9 @@ class Exercise extends React.Component {
 
     // When the user clicks "Send answer"
     answerWasSubmitted: false,
+
+    // Is midi playing (music on the staff), this is set in MusiSheet
+    isPlaying: false,
   }
 
   componentDidMount() {
@@ -147,6 +150,10 @@ class Exercise extends React.Component {
     })
   }
 
+  setIsPlaying = status => {
+    this.setState({ isPlaying: status })
+  }
+
   render() {
     if (!this.state.render) {
       return null
@@ -199,6 +206,8 @@ class Exercise extends React.Component {
               onlysound={this.props.onlySound}
               engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButton"}
+              isPlaying={this.state.isPlaying}
+              setIsPlaying={this.setIsPlaying}
             />
             <SelectionBar
               options={selectionOptions}

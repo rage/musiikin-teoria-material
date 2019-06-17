@@ -54,6 +54,9 @@ class PianoExercise extends React.Component {
     // notation, and a number "pitch", which is the note's pitch in the central
     // octave, meaning that pitches go from 0 (C) to 11 (B)
     notes: [],
+
+    // Is midi playing (music on the staff), this is set in MusiSheet
+    isPlaying: false,
   }
 
   componentDidMount() {
@@ -174,6 +177,10 @@ class PianoExercise extends React.Component {
 
   clearNotes = () => this.setState({ notes: [] })
 
+  setIsPlaying = status => {
+    this.setState({ isPlaying: status })
+  }
+
   render() {
     if (!this.state.render) {
       return null
@@ -209,6 +216,8 @@ class PianoExercise extends React.Component {
               onlysound={this.props.onlySound}
               engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButtonPiano"}
+              isPlaying={this.state.isPlaying}
+              setIsPlaying={this.setIsPlaying}
             />
             <div className="dropDown1">
               <Button
@@ -244,7 +253,10 @@ class PianoExercise extends React.Component {
             />
           </div>
           <Collapse in={this.state.checked}>
-            <Piano appendNote={this.appendNote} />
+            <Piano
+              appendNote={this.appendNote}
+              isPlaying={this.state.isPlaying}
+            />
           </Collapse>
         </Paper>
       </Loading>
