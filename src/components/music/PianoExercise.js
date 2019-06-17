@@ -141,6 +141,10 @@ class PianoExercise extends React.Component {
 
   appendNote = note => {
     const { notes } = this.state
+
+    //Add the same note only once
+    if (notes.map(n => n.notation).includes(note.notation)) return
+
     notes.push(note)
     this.setState({ notes })
   }
