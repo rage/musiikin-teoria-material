@@ -52,7 +52,7 @@ const getQuizId = type => {
     case "modes_sound":
       return "b36b9a72-8ee0-4b08-aad2-ed2d288049ef"
     case "piano_chords":
-      return ""
+      return "9b666692-7bbf-4e5f-9493-cd6c811acac0"
   }
 }
 
