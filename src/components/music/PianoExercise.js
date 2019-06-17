@@ -63,11 +63,10 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    const givenAnswer = [1, 3, 6]
-    const correctAnswer = [1, 3, 6]
-    //const correctAnswer = this.state.exerciseSet.exercises[
-    //  this.state.currentExerciseIndex
-    //]
+    const givenAnswer = this.state.notes.map(n => n.pitch)
+    const correctAnswer = this.props.exerciseKind.isTriadCorrect(
+      this.state.exerciseSet.exercises[this.state.currentExerciseIndex],
+    )
 
     const correct = this.isAnswerCorrect(givenAnswer, correctAnswer)
     const payload = this.props.exerciseKind.makePianoAnswerPayload(
@@ -93,6 +92,8 @@ class PianoExercise extends React.Component {
         },
         answerWasSubmitted: true,
       }))
+      // remove the following row when "Aloita alusta" nappi is implemented
+      this.nextExerciseSet()
     }
   }
 
@@ -119,6 +120,7 @@ class PianoExercise extends React.Component {
       popper: { open: false },
       answerWasSubmitted: false,
       givenAnswer: {},
+      notes: [],
     })
   }
 
@@ -134,6 +136,7 @@ class PianoExercise extends React.Component {
       popper: { open: false },
       answerWasSubmitted: false,
       givenAnswer: {},
+      notes: [],
     })
   }
 
