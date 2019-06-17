@@ -58,6 +58,17 @@ class PianoExercise extends React.Component {
 
   componentDidMount() {
     this.nextExerciseSet()
+    document.addEventListener("keydown", e => {
+      if (e.key === "Backspace") this.undoNote()
+      else if (e.key === "Delete") this.clearNotes()
+    })
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", e => {
+      if (e.key === "Backspace") this.undoNote()
+      else if (e.key === "Delete") this.clearNotes()
+    })
   }
 
   constructor(props) {
