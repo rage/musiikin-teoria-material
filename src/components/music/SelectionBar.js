@@ -112,6 +112,7 @@ class SelectionBar extends React.Component {
           answerWasWrong={this.props.answerWasWrong}
           nextExerciseSet={this.props.nextExerciseSet}
           onClick={this.onClick}
+          isPiano={false}
         />
       </Fragment>
     )

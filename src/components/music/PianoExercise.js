@@ -14,6 +14,7 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
 import Loading from "../Loading"
+import Chord from "./Chord"
 import Scale from "./Scale"
 import SubmitButton from "./SubmitButton"
 
@@ -206,7 +207,7 @@ class PianoExercise extends React.Component {
               }
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
-              engraverParams={new Scale().getEngraverParams()}
+              engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButtonPiano"}
             />
             <div className="dropDown1">
@@ -239,6 +240,7 @@ class PianoExercise extends React.Component {
               answerWasWrong={this.state.answerWasSubmitted}
               nextExerciseSet={this.nextExerciseSet}
               onClick={this.onSubmit}
+              isPiano={true}
             />
           </div>
           <Collapse in={this.state.checked}>
