@@ -92,6 +92,10 @@ export default class Chord {
     return answerTriad.asReadableString(answerRoot)
   }
 
+  getInstructionString() {
+    return "soinnun pohjasävel ja laatu"
+  }
+
   makeAnswerPayload(answer, correctAnswer, correct) {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
