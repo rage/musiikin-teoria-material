@@ -25,7 +25,7 @@ class CheckAnswerPopper extends React.Component {
               size="2x"
               style={{
                 position: "relative",
-                top: "-20px",
+                top: "-15px",
               }}
             />
           </CenterArrowIcon>
@@ -45,7 +45,7 @@ const MarginInPaper = styled.div`
 
 const CenterArrowIcon = styled.div`
   text-align: center;
-  height: 11.75px;
+  height: 10.5px;
 `
 
 CheckAnswerPopper.propTypes = {
