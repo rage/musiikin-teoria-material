@@ -129,6 +129,26 @@ export default class Scale {
     }
   }
 
+  makePianoAnswerPayload(
+    answerNotes,
+    correctAnswerPitches,
+    correctAnswerString,
+    correct,
+  ) {
+    return {
+      type: "piano " + this.usedMode,
+      answer: {
+        midiNumber: answerNotes.map(note => note.midiNumber),
+        pitch: answerNotes.map(note => note.pitch),
+      },
+      correctAnswer: {
+        string: correctAnswerString,
+        pitch: correctAnswerPitches,
+      },
+      correct,
+    }
+  }
+
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */
