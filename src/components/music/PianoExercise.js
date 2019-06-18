@@ -20,7 +20,7 @@ class PianoExercise extends React.Component {
   state = {
     render: false,
 
-    // For "wrong answer" or "can't send if empty score" popper
+    // For "wrong answer" or "input x notes" popper
     popper: {
       open: false,
       placement: undefined,
@@ -70,7 +70,7 @@ class PianoExercise extends React.Component {
     const { currentTarget } = clickEvent
 
     const minNotes = this.props.exerciseKind.getNoteLimits().min
-    // don't accept empty score as an answer
+    // don't accept a score with less then the minimum required amount of notes
     if (this.state.notes.length < minNotes) {
       this.setState({
         popper: {
