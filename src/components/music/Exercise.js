@@ -209,7 +209,7 @@ class Exercise extends React.Component {
               engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButton"}
               isPlaying={this.state.isPlaying}
-              setIsPlaying={this.setIsPlaying}
+              onPlayStatusUpdate={this.setIsPlaying}
             />
             <SelectionBar
               options={selectionOptions}
