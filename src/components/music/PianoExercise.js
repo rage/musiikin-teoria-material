@@ -1,7 +1,7 @@
-import React, { Fragment } from "react"
+import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import { Paper, Button, Icon, Divider, Typography } from "@material-ui/core"
+import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
@@ -80,7 +80,7 @@ class PianoExercise extends React.Component {
     }
 
     const givenAnswer = this.state.notes.map(n => n.pitch)
-    const correctAnswer = this.props.exerciseKind.isTriadCorrect(
+    const correctAnswer = this.props.exerciseKind.getAnswerAsNotes(
       this.state.exerciseSet.exercises[this.state.currentExerciseIndex],
     )
 

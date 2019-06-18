@@ -128,11 +128,11 @@ export default class Chord {
     }
   }
 
-  isTriadCorrect(exercise) {
+  getAnswerAsNotes(correctAnswer) {
     return [
-      exercise.pitch,
-      ...answerTriads[exercise.triad].intervals.map(
-        i => interval(notationRoots[exercise.root], ...i).pitch,
+      correctAnswer.pitch,
+      ...answerTriads[correctAnswer.triad].intervals.map(
+        i => interval(notationRoots[correctAnswer.root], ...i).pitch,
       ),
     ]
   }
