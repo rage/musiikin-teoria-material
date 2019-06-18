@@ -1,10 +1,10 @@
 import { notes } from "./roots"
 
-export const convertMidiNumberToNote = midiNumber => {
+export const convertMidiNumberToNote = (midiNumber, correctNotation) => {
   const { pitch, octave } = convertMidiNumberToPitch(midiNumber)
   const noteOptions = notes[pitch]
-  //select the first option for now
-  const selectedNote = noteOptions[0]
+  //select the option that is in the correct answer as well
+  const selectedNote = chooseFromNoteOptions(noteOptions, correctNotation)
   const noteInRightOctave = getNoteInRightOctave(selectedNote, octave)
   return { notation: noteInRightOctave, pitch }
 }
@@ -35,4 +35,12 @@ const getNoteInRightOctave = (note, octave) => {
       return note.toLowerCase() + "'"
   }
   return note
+}
+
+const chooseFromNoteOptions = (noteOptions, correctNotation) => {
+  for (let i = 0; i < noteOptions.length; i++) {
+    const noteOption = noteOptions[i]
+    if (correctNotation.includes(noteOption)) return noteOption
+  }
+  return noteOptions[0]
 }

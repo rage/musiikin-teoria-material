@@ -66,7 +66,8 @@ class SoundfontProvider extends React.Component {
       })
     })
     // here starts the logic to write the score
-    this.props.appendNote(convertMidiNumberToNote(midiNumber))
+    const correctNotation = this.props.currentExercise.notation.toUpperCase()
+    this.props.appendNote(convertMidiNumberToNote(midiNumber, correctNotation))
   }
 
   stopNote = midiNumber => {

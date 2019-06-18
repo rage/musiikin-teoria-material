@@ -239,6 +239,7 @@ class PianoExercise extends React.Component {
           <Piano
             appendNote={this.appendNote}
             isPlaying={this.state.isPlaying}
+            currentExercise={currentExercise}
           />
         </Paper>
       </Loading>
