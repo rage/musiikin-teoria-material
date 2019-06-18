@@ -1,6 +1,6 @@
 import { interval } from "../intervals"
-import { roots } from "../roots"
-import { triads } from "../chords"
+import { roots, ROOTS } from "../roots"
+import { triads, TRIADS } from "../chords"
 
 /*
   These are in no way a comprehensive collection of chords;
@@ -9,23 +9,23 @@ import { triads } from "../chords"
 */
 describe("Chords.notation()", () => {
   it("returns correct G sharp diminished chord", () => {
-    const gSharp = roots[11]
-    const diminishedTriad = triads[2]
+    const gSharp = roots[ROOTS.G_SHARP]
+    const diminishedTriad = triads[TRIADS.DIMINISHED]
     expect(diminishedTriad.notation(gSharp)).toBe("L:1/1\n[^GBd]")
   })
   it("returns correct E flat minor chord", () => {
-    const eFlat = roots[5]
-    const minorTriad = triads[1]
+    const eFlat = roots[ROOTS.E_FLAT]
+    const minorTriad = triads[TRIADS.MINOR]
     expect(minorTriad.notation(eFlat)).toBe("L:1/1\n[_E_G_B]")
   })
   it("returns correct A flat major chord", () => {
-    const aFlat = roots[12]
-    const majorTriad = triads[0]
+    const aFlat = roots[ROOTS.A_FLAT]
+    const majorTriad = triads[TRIADS.MAJOR]
     expect(majorTriad.notation(aFlat)).toBe("L:1/1\n[_Ac_e]")
   })
   it("returns correct B augmented chord", () => {
-    const b = roots[16]
-    const augmentedTriad = triads[3]
+    const b = roots[ROOTS.B]
+    const augmentedTriad = triads[TRIADS.AUGMENTED]
     expect(augmentedTriad.notation(b)).toBe("L:1/1\n[B^d^^f]")
   })
 })

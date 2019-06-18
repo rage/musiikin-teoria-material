@@ -31,6 +31,13 @@ class Chord {
   }
 }
 
+export const TRIADS = {
+  MAJOR: 0,
+  MINOR: 1,
+  DIMINISHED: 2,
+  AUGMENTED: 3,
+}
+
 export const triads = [
   new Chord(
     "Duuri",
