@@ -90,6 +90,10 @@ export default class Interval {
     )
   }
 
+  getInstructionString() {
+    return "intervalli ja laatu"
+  }
+
   makeAnswerPayload(answer, correctAnswer, correct) {
     const answerQualityLabel = qualities[answer.quality].label.toLowerCase()
     const answerIntervalLabel = intervalLabels[answer.interval].toLowerCase()

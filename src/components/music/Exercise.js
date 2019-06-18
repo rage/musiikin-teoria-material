@@ -7,6 +7,7 @@ import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
 import Loading from "../Loading"
+import ExerciseInstruction from "./ExerciseInstruction"
 
 class Exercise extends React.Component {
   state = {
@@ -201,6 +202,9 @@ class Exercise extends React.Component {
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper options={this.state.popper} />
         <Paper>
+          <ExerciseInstruction>
+            <>Tunnista {this.props.exerciseKind.getInstructionString()}</>
+          </ExerciseInstruction>
           <div className="overall-container">
             <MusicSheet
               notation={correctAnswer.notation}

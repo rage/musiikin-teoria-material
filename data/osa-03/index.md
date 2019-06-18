@@ -10,7 +10,7 @@ Soinnulla tarkoitetaan yleisesti enemmän kuin kahden sävelen soimista yhtä ai
 
 Termiä 'harmonia' käytetään soinnun synonyyminä, mutta sillä voidaan tarkoittaa myös soinnutusta (engl. harmony).
 
-<music-exercise name="Soinnun tunnistus" description="Tunnista soinnun pohjasävel ja laatu. Voit myös kuunnella soinnun nappia painamalla." type="chords" required=2></music-exercise>
+<music-exercise name="Soinnun tunnistus" description="Voit myös kuunnella soinnun nappia painamalla." type="chords" required=2></music-exercise>
 
 ## Kolmisoinnut
 

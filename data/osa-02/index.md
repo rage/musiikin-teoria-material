@@ -16,7 +16,7 @@ K:C
 
 Oktaavi-identiteetillä tarkoitetaan sitä, että kaikissa musiikkikulttuureissa oktaavin päässä toisistaan sijaitsevat sävelet aistitaan tietyllä tavoin samoina. Fysikaalisesti ilmiö perustuu siihen, että oktaavia korkeammalla olevalla sävelellä on kaksinkertainen taajuus. Länsimaisessa säveljärjestelmässä esim. a1 (ns. normaalisävel) on 440 Hz, a2 taas 880.
 
-<music-exercise name="Intervallin tunnistus" description="Tunnista intervalli ja laatu. Voit myös kuunnella intervallin nappia painamalla." type="intervals"></music-exercise>
+<music-exercise name="Intervallin tunnistus" description="Voit myös kuunnella intervallin nappia painamalla." type="intervals"></music-exercise>
 
 ## Intervallit nuottiviivastolla
 

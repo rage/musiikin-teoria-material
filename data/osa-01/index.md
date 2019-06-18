@@ -10,7 +10,7 @@ Asteikolla tarkoitetaan tiettyyn muotoon (yleensä asteittain nousevaan) järjes
 
 Asteikkokäsitteen syntyyn on vaikuttanut mm. tarve jollakin tavoin jäsentää olemassaolevaa säveltasomateriaalia. Jos musiikissa käytetään toistuvasti vain tiettyä osaa kaikista mahdollisista säveltasoista, on käytännöllistä jajärkevää luoda siitä abstraktio (järjestää säveltasot) ja antaa sille nimi.
 
-<music-exercise name="Asteikon tunnistus" description="Tunnista asteikon pohjasävel ja laatu. Voit myös kuunnella asteikon nappia painamalla." type="scales"></music-exercise>
+<music-exercise name="Asteikon tunnistus" description="Voit myös kuunnella asteikon nappia painamalla." type="scales"></music-exercise>
 
 Antiikin Kreikassa ja erityisesti Platonin kirjoituksissa asteikoilla katsottiin olevan voimakas yhteys ihmisen tunne-elämään (eetosoppi). Edelleenkin asteikot ovat musiikissa enemmän kuin pelkkiä 'järjestettyjä säveltasoja'. Monille asteikoille on tyypillistä, että yksi sävelistä on muita asteikon säveliä tärkeämpi, se myös aloittaa ja nimeää asteikon (esim. C-duuriasteikko). Tätä säveltä nimitetään toonikaksi tai toisinaan tonaaliseksi keskiöksi. Muillakin asteikon sävelillä on hierarkkisia eroavaisuuksia, esim. johtosävelisyys (puolisävelaskelsuhde) tonaaliseen keskiöön. Fryygisessä moodissa johtosävel on asteikon toinen sävel, duuriasteikoissa taas 7. sävel.
 

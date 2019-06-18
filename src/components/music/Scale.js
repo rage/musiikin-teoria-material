@@ -98,6 +98,10 @@ export default class Scale {
     )
   }
 
+  getInstructionString() {
+    return "asteikon pohjasävel ja laatu"
+  }
+
   makeAnswerPayload(answer, correctAnswer, correct) {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
