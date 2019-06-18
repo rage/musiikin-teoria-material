@@ -207,7 +207,7 @@ class PianoExercise extends React.Component {
               engraverParams={this.props.exerciseKind.getEngraverParams()}
               playButtonStyle={"playButtonPiano"}
               isPlaying={this.state.isPlaying}
-              setIsPlaying={this.setIsPlaying}
+              onPlayStatusUpdate={this.setIsPlaying}
             />
             <div className="dropDown1">
               <Button

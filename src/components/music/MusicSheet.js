@@ -84,11 +84,12 @@ class MusicSheet extends React.Component {
       : {}
 
     const midiListener = (element, event) => {
-      if (event.progress > 0) {
-        this.props.setIsPlaying(true)
+      const onPlayStatusUpdate = this.props.onPlayStatusUpdate
+      if (onPlayStatusUpdate && event.progress > 0) {
+        onPlayStatusUpdate(true)
       }
-      if (event.progress === 0) {
-        this.props.setIsPlaying(false)
+      if (onPlayStatusUpdate && event.progress === 0) {
+        onPlayStatusUpdate(false)
       }
     }
 
@@ -207,6 +208,7 @@ class MusicSheet extends React.Component {
 
 MusicSheet.propTypes = {
   notation: PropTypes.string.isRequired,
+  onPlayStatusUpdate: PropTypes.func,
   engraverParams: PropTypes.object.isRequired,
   playButtonStyle: PropTypes.string,
 }
