@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
-import { Popper, Paper } from "@material-ui/core"
+import { Popper, Paper, Typography } from "@material-ui/core"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSortDown } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
@@ -14,7 +14,9 @@ class CheckAnswerPopper extends React.Component {
       <Wrapper>
         <Popper open={open} anchorEl={anchorEl} placement={placement}>
           <Paper>
-            <MarginInPaper>{message}</MarginInPaper>
+            <MarginInPaper>
+              <Typography>{message}</Typography>
+            </MarginInPaper>
           </Paper>
           <CenterArrowIcon>
             <FontAwesomeIcon

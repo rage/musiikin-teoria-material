@@ -78,13 +78,13 @@ class Exercise extends React.Component {
       // pass correct answer only after the answer was sent; otherwise the
       // student could read the correct answer using React Developer Tools
       const message = (
-        <div>
+        <>
           Vastauksesi ei ollut oikein.
           <br />
           {"Kyseessä oli " +
             this.props.exerciseKind.readableAnswerString(correctAnswer) +
             "."}
-        </div>
+        </>
       )
       this.setState(oldState => ({
         popper: {

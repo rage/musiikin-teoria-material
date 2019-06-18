@@ -77,7 +77,7 @@ class PianoExercise extends React.Component {
           anchorEl: currentTarget,
           open: true,
           placement: "top",
-          message: <div>Syötä {minNotes} nuottia</div>,
+          message: <>Syötä {minNotes} nuottia</>,
         },
       })
       return
@@ -117,7 +117,7 @@ class PianoExercise extends React.Component {
           anchorEl: currentTarget,
           open: oldState.popper.placement !== "top" || !oldState.popper.open,
           placement: "top",
-          message: <div>Vastauksesi ei ollut oikein.</div>,
+          message: <>Vastauksesi ei ollut oikein.</>,
         },
         answerWasSubmitted: true,
       }))
