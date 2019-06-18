@@ -13,11 +13,12 @@ class PianoExercise extends React.Component {
   state = {
     render: false,
 
-    // For "wrong answer" popper
+    // For "wrong answer" or "input x notes" popper
     popper: {
       open: false,
       placement: undefined,
       anchorEl: undefined,
+      message: null,
     },
     showCorrectOnButton: false,
     checked: false,
@@ -60,10 +61,23 @@ class PianoExercise extends React.Component {
 
   /**
    * Method to call when submit answer button is pressed.
-   * @returns false if not all answers are selected, true if the answer was submitted
    */
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
+
+    const minNotes = this.props.exerciseKind.getNoteLimits().min
+    // don't accept a score with less then the minimum required amount of notes
+    if (this.state.notes.length < minNotes) {
+      this.setState({
+        popper: {
+          anchorEl: currentTarget,
+          open: true,
+          placement: "top",
+          message: <>Syötä {minNotes} nuottia</>,
+        },
+      })
+      return
+    }
 
     const givenAnswer = this.state.notes.map(n => n.pitch)
     const correctAnswer = this.props.exerciseKind.isTriadCorrect(
@@ -99,6 +113,7 @@ class PianoExercise extends React.Component {
           anchorEl: currentTarget,
           open: oldState.popper.placement !== "top" || !oldState.popper.open,
           placement: "top",
+          message: <>Vastauksesi ei ollut oikein.</>,
         },
         answerWasSubmitted: true,
       }))
@@ -153,11 +168,15 @@ class PianoExercise extends React.Component {
   appendNote = note => {
     const { notes } = this.state
 
+    if (notes.length > this.props.exerciseKind.getNoteLimits().max) {
+      return
+    }
+
     //Add the same note only once
     if (notes.map(n => n.notation).includes(note.notation)) return
 
     notes.push(note)
-    this.setState({ notes })
+    this.setState({ notes, popper: { open: false } })
   }
 
   undoNote = () => {

@@ -17,6 +17,7 @@ class Exercise extends React.Component {
       open: false,
       placement: undefined,
       anchorEl: undefined,
+      message: null,
     },
 
     // Answer given by student, parts are set in setAnswer.
@@ -52,7 +53,6 @@ class Exercise extends React.Component {
 
   /**
    * Method to call when submit answer button is pressed.
-   * @returns false if not all answers are selected, true if the answer was submitted
    */
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
@@ -78,11 +78,23 @@ class Exercise extends React.Component {
         this.nextExercise()
     } else {
       this.props.onIncorrect(payload)
+      // pass correct answer only after the answer was sent; otherwise the
+      // student could read the correct answer using React Developer Tools
+      const message = (
+        <>
+          Vastauksesi ei ollut oikein.
+          <br />
+          {"Kyseessä oli " +
+            this.props.exerciseKind.readableAnswerString(correctAnswer) +
+            "."}
+        </>
+      )
       this.setState(oldState => ({
         popper: {
           anchorEl: currentTarget,
           open: oldState.popper.placement !== "top" || !oldState.popper.open,
           placement: "top",
+          message,
         },
         answerWasSubmitted: true,
       }))
@@ -187,17 +199,7 @@ class Exercise extends React.Component {
 
     return (
       <Loading loading={!this.state.render}>
-        <CheckAnswerPopper
-          options={this.state.popper}
-          correctAnswer={
-            // pass correct answer only after the answer was sent; otherwise the
-            // student could read the correct answer using React Developer Tools
-            this.state.answerWasSubmitted
-              ? "Kyseessä oli " +
-                this.props.exerciseKind.readableAnswerString(correctAnswer)
-              : ""
-          }
-        />
+        <CheckAnswerPopper options={this.state.popper} />
         <Paper>
           <div className="overall-container">
             <MusicSheet
