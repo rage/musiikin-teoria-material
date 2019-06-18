@@ -20,7 +20,7 @@ describe("Chords.notation()", () => {
   })
   it("returns correct A flat major chord", () => {
     const aFlat = roots[ROOTS.A_FLAT]
-    const majorTriad = triads[TRIADS.MINOR]
+    const majorTriad = triads[TRIADS.MAJOR]
     expect(majorTriad.notation(aFlat)).toBe("L:1/1\n[_Ac_e]")
   })
   it("returns correct B augmented chord", () => {
