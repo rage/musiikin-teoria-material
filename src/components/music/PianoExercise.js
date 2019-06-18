@@ -51,6 +51,10 @@ class PianoExercise extends React.Component {
     isPlaying: false,
   }
 
+  componentDidMount() {
+    this.nextExerciseSet()
+  }
+
   constructor(props) {
     super(props)
   }
