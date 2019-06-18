@@ -1,15 +1,7 @@
 import React from "react"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
-import {
-  Paper,
-  Button,
-  ButtonGroup,
-  Icon,
-  Collapse,
-  Divider,
-  Typography,
-} from "@material-ui/core"
+import { Paper, Button, Icon, Divider, Typography } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
@@ -232,28 +224,22 @@ class PianoExercise extends React.Component {
             />
             <div className="dropDown1">
               <Button
+                disabled={!this.state.notes.length}
                 variant="outlined"
-                onClick={this.handleChange}
-                style={{
-                  width: 150,
-                  justifyContent: "space-between",
-                }}
+                onClick={this.undoNote}
               >
-                {this.state.checked ? "Piilota piano" : "Näytä piano"}
-                <Icon>
-                  {this.state.checked ? "expand_less" : "expand_more"}
-                </Icon>
+                <Icon>undo</Icon> &nbsp;Peruuta
               </Button>
             </div>
             <div className="dropDown2">
-              <ButtonGroup aria-label="Undo / Clear buttons">
-                <Button title="Peruuta" onClick={this.undoNote}>
-                  <Icon>undo</Icon>
-                </Button>
-                <Button title="Tyhjennä" onClick={this.clearNotes}>
-                  <Icon>delete</Icon>
-                </Button>
-              </ButtonGroup>
+              <Button
+                disabled={!this.state.notes.length}
+                variant="outlined"
+                title="Tyhjennä"
+                onClick={this.clearNotes}
+              >
+                <Icon>delete</Icon> Tyhjennä
+              </Button>
             </div>
             <SubmitButton
               showCorrectOnButton={this.state.showCorrectOnButton}
@@ -263,12 +249,10 @@ class PianoExercise extends React.Component {
               isPiano={true}
             />
           </div>
-          <Collapse in={this.state.checked}>
-            <Piano
-              appendNote={this.appendNote}
-              isPlaying={this.state.isPlaying}
-            />
-          </Collapse>
+          <Piano
+            appendNote={this.appendNote}
+            isPlaying={this.state.isPlaying}
+          />
         </Paper>
       </Loading>
     )
