@@ -55,6 +55,27 @@ export const notes = [
   ["B", "_C", "^^A"],
 ]
 
+// Indexes for roots below
+export const ROOTS = {
+  C: 0,
+  C_SHARP: 1,
+  D_FLAT: 2,
+  D: 3,
+  D_SHARP: 4,
+  E_FLAT: 5,
+  E: 6,
+  F: 7,
+  F_SHARP: 8,
+  G_FLAT: 9,
+  G: 10,
+  G_SHARP: 11,
+  A_FLAT: 12,
+  A: 13,
+  A_SHARP: 14,
+  B_FLAT: 15,
+  B: 16,
+}
+
 // available roots (doesn't include all theoretically possible roots)
 export const roots = [
   new Root(0, C, NATURAL, "C"), // C
