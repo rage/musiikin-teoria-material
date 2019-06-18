@@ -1,4 +1,4 @@
-# Musiikin teorian MOOC-kurssijärjestelmä 
+# Musiikinteorian MOOC-kurssijärjestelmä
 
 First half of summer 2019.
 

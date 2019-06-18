@@ -54,7 +54,7 @@ const SubHeading = styled.div`
 
 const Banner = () => (
   <BannerWrapper>
-    <Heading>Musiikin teoria</Heading>
+    <Heading>Musiikinteoria</Heading>
     <SubHeading>Mistä aineksista musiikki muodostuu?</SubHeading>
   </BannerWrapper>
 )
