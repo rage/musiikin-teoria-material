@@ -231,6 +231,7 @@ class PianoExercise extends React.Component {
               playButtonStyle={"playButtonPiano"}
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
+              isExercise
             />
             <div className="dropDown1">
               <Button
