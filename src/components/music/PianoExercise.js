@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import {
@@ -14,9 +14,8 @@ import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
 import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
 import Loading from "../Loading"
-import Chord from "./Chord"
-import Scale from "./Scale"
 import SubmitButton from "./SubmitButton"
+import ExerciseInstruction from "./ExerciseInstruction"
 
 class PianoExercise extends React.Component {
   state = {
@@ -207,13 +206,12 @@ class PianoExercise extends React.Component {
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper options={this.state.popper} />
         <Paper>
-          <br />
-          <Typography variant="subtitle1" align="center">
-            Muodosta pianon avulla <b>{currentExerciseAsString}</b>{" "}
-            kolmisointuna
-          </Typography>
-          <br />
-          <Divider light />
+          <ExerciseInstruction>
+            <>
+              Muodosta pianon avulla <b>{currentExerciseAsString}</b>{" "}
+              kolmisointuna
+            </>
+          </ExerciseInstruction>
           <div className="overall-container">
             <MusicSheet
               notation={
