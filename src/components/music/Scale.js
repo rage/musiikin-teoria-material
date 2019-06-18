@@ -142,4 +142,12 @@ export default class Scale {
       responsivewidth: 1250,
     }
   }
+
+  /**
+   * Returns the minimum and maximum notes allowed on the score;
+   * min and max are both inclusive.
+   */
+  getNoteLimits() {
+    return { min: 7, max: 7 }
+  }
 }

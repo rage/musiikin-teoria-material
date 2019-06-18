@@ -154,4 +154,12 @@ export default class Chord {
       responsivewidth: 750,
     }
   }
+
+  /**
+   * Returns the minimum and maximum notes allowed on the score;
+   * min and max are both inclusive.
+   */
+  getNoteLimits() {
+    return { min: 3, max: Number.MAX_SAFE_INTEGER }
+  }
 }
