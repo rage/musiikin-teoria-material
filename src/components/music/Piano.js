@@ -1,7 +1,6 @@
 import React from "react"
 import Dimensions from "react-dimensions"
 import { Piano as ReactPiano, MidiNumbers } from "react-piano"
-import { KeyboardShortcuts } from "../../util/music/piano"
 import SoundfontProvider from "./SoundfontProvider"
 import "react-piano/dist/styles.css"
 
@@ -28,12 +27,6 @@ const noteRange = {
   first: MidiNumbers.fromNote("c4"),
   last: MidiNumbers.fromNote("b5"),
 }
-
-const keyboardShortcuts = KeyboardShortcuts.create({
-  firstNote: noteRange.first,
-  lastNote: noteRange.last,
-  keyboardConfig: KeyboardShortcuts.TWO_ROWS,
-})
 
 class Piano extends React.Component {
   constructor(props) {
@@ -65,7 +58,6 @@ class Piano extends React.Component {
                 playNote={playNote}
                 stopNote={stopNote}
                 disabled={isLoading || this.props.isPlaying}
-                keyboardShortcuts={keyboardShortcuts}
                 {...this.props}
               />
             )}
