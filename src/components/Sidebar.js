@@ -99,8 +99,8 @@ var content2 = [
     path: "/",
   },
   {
-    title: "Kurssimateriaali",
-    path: "/materiaali",
+    title: "Osaamistavoitteet",
+    path: "/osaamistavoitteet",
   },
   { separator: true },
 ]
@@ -159,7 +159,7 @@ class Sidebar extends React.Component {
           </Button>
         </MenuExpanderWrapper>
         <SidebarContainer mobileMenuOpen={this.props.mobileMenuOpen}>
-          <Brand>Musiikin teoria</Brand>
+          <Brand>Musiikinteoria</Brand>
           <TreeViewContainer>
             <TreeView data={content} />
           </TreeViewContainer>
