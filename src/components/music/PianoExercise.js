@@ -80,14 +80,18 @@ class PianoExercise extends React.Component {
     }
 
     const givenAnswer = this.state.notes.map(n => n.pitch)
+    const currentExercise = this.state.exerciseSet.exercises[
+      this.state.currentExerciseIndex
+    ]
     const correctAnswer = this.props.exerciseKind.getAnswerAsNotes(
-      this.state.exerciseSet.exercises[this.state.currentExerciseIndex],
+      currentExercise,
     )
 
     const correct = this.isAnswerCorrect(givenAnswer, correctAnswer)
     const payload = this.props.exerciseKind.makePianoAnswerPayload(
-      givenAnswer,
+      this.state.notes,
       correctAnswer,
+      this.props.exerciseKind.readableAnswerString(currentExercise),
       correct,
     )
 

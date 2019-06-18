@@ -119,11 +119,22 @@ export default class Chord {
     }
   }
 
-  makePianoAnswerPayload(answer, correctAnswer, correct) {
+  makePianoAnswerPayload(
+    answerNotes,
+    correctAnswerPitches,
+    correctAnswerString,
+    correct,
+  ) {
     return {
       type: "piano chord",
-      answer,
-      correctAnswer,
+      answer: {
+        midiNumber: answerNotes.map(note => note.midiNumber),
+        pitch: answerNotes.map(note => note.pitch),
+      },
+      correctAnswer: {
+        string: correctAnswerString,
+        pitch: correctAnswerPitches,
+      },
       correct,
     }
   }

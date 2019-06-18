@@ -6,7 +6,7 @@ export const convertMidiNumberToNote = midiNumber => {
   //select the first option for now
   const selectedNote = noteOptions[0]
   const noteInRightOctave = getNoteInRightOctave(selectedNote, octave)
-  return { notation: noteInRightOctave, pitch }
+  return { notation: noteInRightOctave, pitch, midiNumber }
 }
 
 const convertMidiNumberToPitch = midiNumber => {
@@ -20,7 +20,7 @@ const convertMidiNumberToPitch = midiNumber => {
     pitch += 12
     octave -= 1
   }
-  return { pitch, octave }
+  return { pitch, octave, midiNumber }
 }
 
 const getNoteInRightOctave = (note, octave) => {
