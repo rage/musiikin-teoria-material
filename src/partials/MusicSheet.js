@@ -65,30 +65,28 @@ const NotesAndSoundMusicSheet = ({
  */
 const NotesMusicSheet = ({ engraverParams, ...other }) => {
   return (
-    <>
-      <MusicSheet
-        {...other}
-        renderNotes={true}
-        renderSound={false}
-        engraverParams={
-          engraverParams
-            ? engraverParams
-            : {
-                // default engraverParams
-                add_classes: false,
-                editable: false,
-                listener: null,
-                paddingbottom: 30,
-                paddingleft: 15,
-                paddingright: 50,
-                paddingtop: 15,
-                responsive: undefined,
-                scale: 1,
-                staffwidth: 740,
-              }
-        }
-      />
-    </>
+    <MusicSheet
+      {...other}
+      renderNotes={true}
+      renderSound={false}
+      engraverParams={
+        engraverParams
+          ? engraverParams
+          : {
+              // default engraverParams
+              add_classes: false,
+              editable: false,
+              listener: null,
+              paddingbottom: 30,
+              paddingleft: 15,
+              paddingright: 50,
+              paddingtop: 15,
+              responsive: undefined,
+              scale: 1,
+              staffwidth: 740,
+            }
+      }
+    />
   )
 }
 
