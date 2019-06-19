@@ -8,7 +8,6 @@ import {
   FIFTH,
   SIXTH,
   SEVENTH,
-  OCTAVE,
 } from "./intervals"
 /**
  * symmetric: true if ascending and descending scales contain the same intervals
