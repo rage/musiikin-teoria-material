@@ -8,6 +8,7 @@ import {
   FIFTH,
   SIXTH,
   SEVENTH,
+  OCTAVE,
 } from "./intervals"
 /**
  * symmetric: true if ascending and descending scales contain the same intervals
@@ -21,7 +22,14 @@ class Scale {
   }
 
   notation(root) {
-    return "L:1/4\n" + concatenate(root, [[PERFECT, UNISON], ...this.intervals])
+    return (
+      "L:1/4\n" +
+      concatenate(root, [
+        [PERFECT, UNISON],
+        ...this.intervals,
+        [PERFECT, OCTAVE],
+      ])
+    )
   }
 }
 
