@@ -1,5 +1,10 @@
+import React from "react"
 import { roots as notationRoots } from "../../util/music/roots"
-import { intervalLabels, availableIntervals } from "../../util/music/intervals"
+import {
+  intervalLabels,
+  availableIntervals,
+  concatenateNotes,
+} from "../../util/music/intervals"
 import { qualities } from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
@@ -133,10 +138,67 @@ export default class Interval {
       },
       correctAnswer: {
         string: correctAnswerString,
-        pitch: correctAnswerPitches,
       },
       correct,
     }
+  }
+
+  /**
+   * Check if the answer is correct for a Piano exercise.
+   * @param {*} pianoAnswerNotes Notes the student has pressed on piano
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    if (pianoAnswerNotes.length > 2) return false
+
+    // Number is one higher than index
+    const correctInterval = correctAnswer.interval + 1
+
+    const firstNote = pianoAnswerNotes[0].midiNumber
+    const secondNote = pianoAnswerNotes[1].midiNumber
+    const interval = secondNote - firstNote
+
+    // TODO Fix answer check, correctAnswer has index for intervalLabels..
+    console.log("correct", correctInterval, "was", interval)
+
+    return interval === correctInterval
+  }
+
+  /**
+   * Should the next note be added.
+   * @param {*} note Note given by piano
+   * @param {*} notes already added notes
+   */
+  shouldAddNote = (note, notes) => {
+    return (
+      notes.length < this.getNoteLimits().max &&
+      notes.filter(n => n.notation === note.notation).length < 2
+    )
+  }
+
+  /**
+   * Turn correct answer into an array of notes
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getAnswerAsNotes(correctAnswer) {
+    return [correctAnswer.pitch]
+  }
+
+  /**
+   * Form abc notation from the notes given by piano.
+   * @param {*} notes notes given by piano
+   */
+  getNotesAsNotation(notes) {
+    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+  }
+
+  getPianoInstructions = correctAnswer => {
+    const asString = this.readableAnswerString(correctAnswer)
+    return (
+      <>
+        Muodosta pianon avulla <b>{asString}</b> kahtena nuottina
+      </>
+    )
   }
 
   /**

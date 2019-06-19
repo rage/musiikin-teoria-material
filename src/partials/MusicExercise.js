@@ -12,7 +12,7 @@ import Scale from "../components/music/Scale"
  * In charge of routing user exercise type to implementing exercise
  * eg <music-exercise type="chords"> to ChordsExercise
  */
-const ExerciseRouter = ({ type, name, description, required }) => {
+const ExerciseRouter = ({ type, name, description, required, quizid }) => {
   const requiredAnswers = Number(required) || 10 // default is 10
   return (
     <MusicExerciseWrapper
@@ -20,7 +20,7 @@ const ExerciseRouter = ({ type, name, description, required }) => {
       name={name}
       description={description}
       requiredAnswers={requiredAnswers}
-      quizId={getQuizId(type)}
+      quizId={quizid ? quizid : getQuizId(type)}
     />
   )
 }
@@ -53,6 +53,10 @@ const getQuizId = type => {
       return "b36b9a72-8ee0-4b08-aad2-ed2d288049ef"
     case "piano_chords":
       return "9b666692-7bbf-4e5f-9493-cd6c811acac0"
+    case "piano_interval":
+    case "piano_scales":
+    case "piano_modes":
+      return ""
   }
 }
 
@@ -88,6 +92,10 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
           <li>scales, scales_notes, scales_sound</li>
           <li>modes, modes_notes, modes_sound</li>
         </ul>
+        <p>
+          You can add <i>piano_</i> to the start of the type to have piano
+          exercise.
+        </p>
       </>
     )
   }

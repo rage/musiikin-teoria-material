@@ -150,9 +150,10 @@ export default class Chord {
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
   isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    const answerNotes = pianoAnswerNotes.map(n => n.pitch)
     const correctAnswerNotes = this.getAnswerAsNotes(correctAnswer)
-    if (pianoAnswerNotes.length === correctAnswerNotes.length) {
-      return correctAnswerNotes.every(pitch => pianoAnswerNotes.includes(pitch))
+    if (answerNotes.length === correctAnswerNotes.length) {
+      return correctAnswerNotes.every(pitch => answerNotes.includes(pitch))
     }
     return false
   }
