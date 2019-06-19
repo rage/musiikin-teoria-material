@@ -15,7 +15,7 @@ const MusicSheetRouter = ({ onlynotes, onlysound, isExercise, ...other }) => {
     // If both are true or both are false, render both notes and sound
     return <NotesAndSoundMusicSheet indent={indent} {...other} />
   } else if (onlyNotes) {
-    return <NotesMusicSheet indent={indent} {...other} />
+    return <NotesMusicSheet {...other} />
   } else if (onlySound) {
     return <SoundMusicSheet indent={indent} {...other} />
   }
