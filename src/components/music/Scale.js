@@ -162,7 +162,7 @@ export default class Scale {
       paddingright: 18,
       paddingtop: 15,
       scale: 1.5,
-      staffwidth: 729,
+      staffwidth: 700,
       responsivewidth: 1250,
     }
   }
@@ -172,6 +172,6 @@ export default class Scale {
    * min and max are both inclusive.
    */
   getNoteLimits() {
-    return { min: 7, max: 7 }
+    return { min: 7, max: 8 }
   }
 }
