@@ -209,11 +209,6 @@ class PianoExercise extends React.Component {
           </ExerciseInstruction>
           <div className="overall-container">
             <MusicSheet
-              notation={
-                this.state.notes.length
-                  ? getNotesAsNotation(this.state.notes)
-                  : "L:1/1\nz"
-              }
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
               engraverParams={getEngraverParams()}
@@ -221,7 +216,13 @@ class PianoExercise extends React.Component {
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
               isExercise
-            />
+            >
+              {
+                this.state.notes.length
+                  ? getNotesAsNotation(this.state.notes)
+                  : "L:1/1\nz"
+              }
+            </MusicSheet>
             <div className="dropDown1">
               <Button
                 disabled={!this.state.notes.length}

@@ -207,7 +207,6 @@ class Exercise extends React.Component {
           </ExerciseInstruction>
           <div className="overall-container">
             <MusicSheet
-              notation={correctAnswer.notation}
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
               engraverParams={this.props.exerciseKind.getEngraverParams()}
@@ -215,7 +214,9 @@ class Exercise extends React.Component {
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
               isExercise
-            />
+            >
+              {correctAnswer.notation}
+            </MusicSheet>
             <SelectionBar
               options={selectionOptions}
               answerWasWrong={this.state.answerWasSubmitted}
