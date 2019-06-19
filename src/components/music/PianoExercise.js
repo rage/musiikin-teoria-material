@@ -224,6 +224,7 @@ class PianoExercise extends React.Component {
               playButtonStyle={"playButtonPiano"}
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
+              isExercise
             >
               {this.state.notes.length
                 ? "L:1/1\n[" +
