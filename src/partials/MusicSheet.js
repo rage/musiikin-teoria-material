@@ -5,7 +5,13 @@ import MusicSheet from "../components/music/MusicSheet"
 /**
  * In charge of routing <music-sheet> partial to components
  */
-const MusicSheetRouter = ({ onlynotes, onlysound, children, isExercise,  ...other }) => {
+const MusicSheetRouter = ({
+  onlynotes,
+  onlysound,
+  children,
+  isExercise,
+  ...other
+}) => {
   const onlyNotes = onlynotes // partials only allow lowercase props
   const onlySound = onlysound // partials only allow lowercase props
 
@@ -16,7 +22,7 @@ const MusicSheetRouter = ({ onlynotes, onlysound, children, isExercise,  ...othe
     return (
       <NotesAndSoundMusicSheet
         notation={childrenToNotation(children)}
-        indent={indent} 
+        indent={indent}
         {...other}
       />
     )
@@ -27,9 +33,10 @@ const MusicSheetRouter = ({ onlynotes, onlysound, children, isExercise,  ...othe
   } else if (onlySound) {
     return (
       <SoundMusicSheet
-        notation={childrenToNotation(children)} 
+        notation={childrenToNotation(children)}
         indent={indent}
-        {...other} />
+        {...other}
+      />
     )
   }
 }
