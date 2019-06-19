@@ -76,7 +76,8 @@ class SoundfontProvider extends React.Component {
         return
       }
       const audioNode = this.state.activeAudioNodes[midiNumber]
-      audioNode.stop()
+      // enforce a minumum playback duration when clicking a key very quickly
+      setTimeout(() => audioNode.stop(), 230)
       this.setState({
         activeAudioNodes: Object.assign({}, this.state.activeAudioNodes, {
           [midiNumber]: null,
