@@ -214,6 +214,7 @@ class Exercise extends React.Component {
               playButtonStyle={"playButton"}
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
+              isExercise
             />
             <SelectionBar
               options={selectionOptions}
