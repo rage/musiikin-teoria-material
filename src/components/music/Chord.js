@@ -164,7 +164,7 @@ export default class Chord {
    */
   shouldAddNote = (note, notes) => {
     return (
-      notes.length <= this.getNoteLimits().max &&
+      notes.length < this.getNoteLimits().max &&
       !notes.map(n => n.notation).includes(note.notation)
     )
   }
