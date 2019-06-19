@@ -3,7 +3,6 @@ import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
-import { concatenateNotes } from "../../util/music/intervals"
 import Piano from "./Piano"
 import Loading from "../Loading"
 import SubmitButton from "./SubmitButton"
@@ -65,7 +64,16 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    const minNotes = this.props.exerciseKind.getNoteLimits().min
+    // Funktioita ExerciseKind (Chord, Interval, Scale)
+    const {
+      getNoteLimits,
+      isPianoAnswerCorrect,
+      makePianoAnswerPayload,
+      getAnswerAsNotes,
+      readableAnswerString,
+    } = this.props.exerciseKind
+
+    const minNotes = getNoteLimits().min
     // don't accept a score with less then the minimum required amount of notes
     if (this.state.notes.length < minNotes) {
       this.setState({
@@ -83,15 +91,12 @@ class PianoExercise extends React.Component {
     const currentExercise = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
-    const correctAnswer = this.props.exerciseKind.getAnswerAsNotes(
-      currentExercise,
-    )
 
-    const correct = this.isAnswerCorrect(givenAnswer, correctAnswer)
-    const payload = this.props.exerciseKind.makePianoAnswerPayload(
+    const correct = isPianoAnswerCorrect(givenAnswer, currentExercise)
+    const payload = makePianoAnswerPayload(
       this.state.notes,
-      correctAnswer,
-      this.props.exerciseKind.readableAnswerString(currentExercise),
+      getAnswerAsNotes(currentExercise),
+      readableAnswerString(currentExercise),
       correct,
     )
 
@@ -122,16 +127,6 @@ class PianoExercise extends React.Component {
         answerWasSubmitted: true,
       }))
     }
-  }
-
-  /**
-   * Check that the given answer is correct
-   */
-  isAnswerCorrect = (givenAnswer, correctAnswer) => {
-    if (givenAnswer.length === correctAnswer.length) {
-      return correctAnswer.every(pitch => givenAnswer.includes(pitch))
-    }
-    return false
   }
 
   /**
@@ -171,13 +166,9 @@ class PianoExercise extends React.Component {
 
   appendNote = note => {
     const { notes } = this.state
+    const { shouldAddNote } = this.props.exerciseKind
 
-    if (notes.length > this.props.exerciseKind.getNoteLimits().max) {
-      return
-    }
-
-    //Add the same note only once
-    if (notes.map(n => n.notation).includes(note.notation)) return
+    if (!shouldAddNote(note, notes)) return
 
     notes.push(note)
     this.setState({ notes, popper: { open: false } })
@@ -202,32 +193,30 @@ class PianoExercise extends React.Component {
     const currentExercise = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
-    const currentExerciseAsString = this.props.exerciseKind.readableAnswerString(
-      currentExercise,
-    )
+
+    const {
+      getPianoInstructions,
+      getEngraverParams,
+      getNotesAsNotation,
+    } = this.props.exerciseKind
 
     return (
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper options={this.state.popper} />
         <Paper>
           <ExerciseInstruction>
-            <>
-              Muodosta pianon avulla <b>{currentExerciseAsString}</b>{" "}
-              kolmisointuna
-            </>
+            <>{getPianoInstructions(currentExercise)}</>
           </ExerciseInstruction>
           <div className="overall-container">
             <MusicSheet
               notation={
                 this.state.notes.length
-                  ? "L:1/1\n[" +
-                    concatenateNotes(this.state.notes.map(n => n.notation)) +
-                    "]"
+                  ? getNotesAsNotation(this.state.notes)
                   : "L:1/1\nz"
               }
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
-              engraverParams={this.props.exerciseKind.getEngraverParams()}
+              engraverParams={getEngraverParams()}
               playButtonStyle={"playButtonPiano"}
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}

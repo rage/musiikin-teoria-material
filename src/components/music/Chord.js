@@ -1,10 +1,11 @@
+import React from "react"
 import {
   roots as notationRoots,
   answerOptionsForRoots as answerRoots,
 } from "../../util/music/roots"
 import { triads as answerTriads } from "../../util/music/chords"
 import { randomIntArray } from "../../util/random"
-import { interval } from "../../util/music/intervals"
+import { interval, concatenateNotes } from "../../util/music/intervals"
 
 // Answer Keys
 const ROOT = "root",
@@ -143,6 +144,35 @@ export default class Chord {
     }
   }
 
+  /**
+   * Check if the answer is correct for a Piano exercise.
+   * @param {*} pianoAnswerNotes Notes the student has pressed on piano
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    const correctAnswerNotes = this.getAnswerAsNotes(correctAnswer)
+    if (pianoAnswerNotes.length === correctAnswerNotes.length) {
+      return correctAnswerNotes.every(pitch => pianoAnswerNotes.includes(pitch))
+    }
+    return false
+  }
+
+  /**
+   * Should the next note be added.
+   * @param {*} note Note given by piano
+   * @param {*} notes already added notes
+   */
+  shouldAddNote = (note, notes) => {
+    return (
+      notes.length <= this.getNoteLimits().max &&
+      !notes.map(n => n.notation).includes(note.notation)
+    )
+  }
+
+  /**
+   * Turn correct answer into an array of notes
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
   getAnswerAsNotes(correctAnswer) {
     return [
       correctAnswer.pitch,
@@ -150,6 +180,23 @@ export default class Chord {
         i => interval(notationRoots[correctAnswer.root], ...i).pitch,
       ),
     ]
+  }
+
+  /**
+   * Form abc notation from the notes given by piano.
+   * @param {*} notes notes given by piano
+   */
+  getNotesAsNotation(notes) {
+    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+  }
+
+  getPianoInstructions = correctAnswer => {
+    const asString = this.readableAnswerString(correctAnswer)
+    return (
+      <>
+        Muodosta pianon avulla <b>{asString}</b> kolmisointuna
+      </>
+    )
   }
 
   /**
