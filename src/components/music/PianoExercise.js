@@ -7,6 +7,7 @@ import Piano from "./Piano"
 import Loading from "../Loading"
 import SubmitButton from "./SubmitButton"
 import ExerciseInstruction from "./ExerciseInstruction"
+import styled from "styled-components"
 
 class PianoExercise extends React.Component {
   state = {
@@ -48,10 +49,20 @@ class PianoExercise extends React.Component {
 
     // Is midi playing (music on the staff), this is set in MusiSheet
     isPlaying: false,
+    windowWidth: undefined,
   }
 
   componentDidMount() {
     this.nextExerciseSet()
+    window.addEventListener("resize", () =>
+      this.setState({ windowWidth: window.innerWidth }),
+    )
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", () =>
+      this.setState({ windowWidth: window.innerWidth }),
+    )
   }
 
   constructor(props) {
@@ -200,6 +211,28 @@ class PianoExercise extends React.Component {
       getNotesAsNotation,
     } = this.props.exerciseKind
 
+    let piano
+
+    if (window.innerWidth > 1200) {
+      piano = (
+        <MarginInPaper>
+          <Piano
+            appendNote={this.appendNote}
+            isPlaying={this.state.isPlaying}
+            currentExercise={currentExercise}
+          />
+        </MarginInPaper>
+      )
+    } else {
+      piano = (
+        <Piano
+          appendNote={this.appendNote}
+          isPlaying={this.state.isPlaying}
+          currentExercise={currentExercise}
+        />
+      )
+    }
+
     return (
       <Loading loading={!this.state.render}>
         <CheckAnswerPopper options={this.state.popper} />
@@ -212,7 +245,7 @@ class PianoExercise extends React.Component {
               onlynotes={this.props.onlyNotes}
               onlysound={this.props.onlySound}
               engraverParams={getEngraverParams()}
-              playButtonStyle={"playButtonPiano"}
+              playButtonStyle={"playButton"}
               isPlaying={this.state.isPlaying}
               onPlayStatusUpdate={this.setIsPlaying}
               isExercise
@@ -248,15 +281,15 @@ class PianoExercise extends React.Component {
               isPiano={true}
             />
           </div>
-          <Piano
-            appendNote={this.appendNote}
-            isPlaying={this.state.isPlaying}
-            currentExercise={currentExercise}
-          />
+          {piano}
         </Paper>
       </Loading>
     )
   }
 }
+
+const MarginInPaper = styled.div`
+  padding: 1.5rem;
+`
 
 export default withSimpleErrorBoundary(PianoExercise)
