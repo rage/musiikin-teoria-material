@@ -145,6 +145,7 @@ export default class Interval {
       },
       correctAnswer: {
         string: correctAnswerString,
+        pitch: correctAnswerPitches,
       },
       correct,
     }
@@ -199,7 +200,11 @@ export default class Interval {
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
   getAnswerAsNotes(correctAnswer) {
-    return [correctAnswer.pitch]
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(correctRoot, quality, number)
+    return [correctRoot.pitch, correctInterval.pitch]
   }
 
   /**
