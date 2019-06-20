@@ -172,9 +172,12 @@ export const interval = (root, quality, number) => {
     if (note.includes(letter))
       notation = lowercaseLetter ? note.toLowerCase() : note
 
-  notation = compound ? raiseOctave(notation) : notation
+  if (compound) {
+    notation = raiseOctave(notation)
+    pitchJump += notes.length
+  }
 
-  return { notation, pitch }
+  return { notation, pitch, pitchJump }
 }
 
 /**
