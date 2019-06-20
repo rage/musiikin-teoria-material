@@ -17,3 +17,6 @@ Asteikko koostuu nuoteista. Nuotit ovat kivoja. Musiikki on hauskaa. Tanssitaan 
 <music-exercise name="Kirkkosävellajin tunnistus" type="modes"></music-exercise>
 <music-exercise name="Kirkkosävellajin tunnistus" type="modes_notes"></music-exercise>
 <music-exercise name="Kirkkosävellajin tunnistus" type="modes_sound"></music-exercise>
+
+<music-exercise name="Asteikkojen kirjoitus" type="piano_scales"></music-exercise>
+<music-exercise name="Kirkkosävellajien kirjoitus" type="piano_modes"></music-exercise>
