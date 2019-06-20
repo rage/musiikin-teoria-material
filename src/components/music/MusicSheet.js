@@ -61,10 +61,6 @@ class MusicSheet extends React.Component {
       ? {
           /* Engraver parameters */
           ...this.props.engraverParams,
-          paddingleft:
-            windowWidth < 800 ? 15 : this.props.engraverParams.paddingleft,
-          paddingright:
-            windowWidth < 800 ? 10 : this.props.engraverParams.paddingright,
           /* Parser parameters */
           oneSvgPerLine: false,
           scrollHorizontal: false,
@@ -76,10 +72,6 @@ class MusicSheet extends React.Component {
           hint_measures: false,
           print: false,
           stop_on_warning: false,
-          responsive:
-            windowWidth < this.props.engraverParams.responsivewidth
-              ? "resize"
-              : undefined,
         }
       : {}
 
@@ -151,7 +143,6 @@ class MusicSheet extends React.Component {
     return (
       <div
         id={"midi-" + this.state.id}
-        className="staffContainer"
         ref={input => {
           this.notes = input
         }}

@@ -158,12 +158,12 @@ export default class Scale {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 8,
+      paddingleft: 18,
       paddingright: 18,
       paddingtop: 15,
       scale: 1.5,
-      staffwidth: 700,
-      responsivewidth: 1250,
+      staffwidth: 500,
+      responsive: "resize",
     }
   }
 

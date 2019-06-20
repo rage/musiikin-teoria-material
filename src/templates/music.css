@@ -35,17 +35,6 @@
   .emptyPlayButton {
     display: none;
   }
-
-  .staffContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-content: flex-start;
-  }
-
-  .staffContainer {
-    width: 100%;
-  }
 }
 
 /* Use hardcoded margins on desktop environments */
