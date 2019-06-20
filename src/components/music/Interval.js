@@ -158,21 +158,26 @@ export default class Interval {
   isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
     if (pianoAnswerNotes.length > 2) return false
 
+    // Sort so that root note is first
     pianoAnswerNotes.sort((one, two) => one.midiNumber - two.midiNumber)
 
+    // Get midiNumbers of the answer to get pitchJump
     const firstMidiNumber = pianoAnswerNotes[0].midiNumber
     const secondMidiNumber = pianoAnswerNotes[1].midiNumber
     const enteredPitchJump = Math.abs(secondMidiNumber - firstMidiNumber)
+
+    // Get root for the lower note
     const firstNote = convertMidiNumberToNote(firstMidiNumber, "")
     const root = notationRoots.find(r => r.pitch === firstNote.pitch)
 
+    // Get correct information from the generated answer
     const correctRoot = notationRoots[correctAnswer.root]
     const quality = qualities[correctAnswer.quality]
     const number = correctAnswer.interval + 1 // Number is one higher than index
     const correctInterval = interval(root, quality, number)
 
     return (
-      correctRoot.label === root.label &&
+      correctRoot.pitch === root.pitch &&
       enteredPitchJump === correctInterval.pitchJump
     )
   }
