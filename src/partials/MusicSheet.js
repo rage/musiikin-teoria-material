@@ -17,18 +17,36 @@ const MusicSheetRouter = ({
 
   const indent = isExercise ? null : <p style={{ textIndent: 50 }} />
 
+  const defaultEngraverParams = {
+    add_classes: false,
+    editable: false,
+    listener: null,
+    paddingbottom: 30,
+    paddingleft: 0,
+    paddingright: 0,
+    paddingtop: 15,
+    responsive: "resize",
+    scale: 1,
+    staffwidth: 700,
+  }
+
   if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
     // If both are true or both are false, render both notes and sound
     return (
       <NotesAndSoundMusicSheet
         notation={childrenToNotation(children)}
+        defaultEngraverParams={defaultEngraverParams}
         indent={indent}
         {...other}
       />
     )
   } else if (onlyNotes) {
     return (
-      <NotesMusicSheet notation={childrenToNotation(children)} {...other} />
+      <NotesMusicSheet
+        notation={childrenToNotation(children)}
+        defaultEngraverParams={defaultEngraverParams}
+        {...other}
+      />
     )
   } else if (onlySound) {
     return (
@@ -50,6 +68,7 @@ const childrenToNotation = children => {
  */
 const NotesAndSoundMusicSheet = ({
   engraverParams,
+  defaultEngraverParams,
   playButtonStyle,
   indent,
   ...other
@@ -60,23 +79,7 @@ const NotesAndSoundMusicSheet = ({
         {...other}
         renderNotes={true}
         renderSound={true}
-        engraverParams={
-          engraverParams
-            ? engraverParams
-            : {
-                // default engraverParams
-                add_classes: false,
-                editable: false,
-                listener: null,
-                paddingbottom: 30,
-                paddingleft: 15,
-                paddingright: 50,
-                paddingtop: 15,
-                responsive: undefined,
-                scale: 1,
-                staffwidth: 740,
-              }
-        }
+        engraverParams={engraverParams ? engraverParams : defaultEngraverParams}
         playButtonStyle={playButtonStyle ? playButtonStyle : "playButtonSheet"} // default playButtonStyle
       />
       {indent}
@@ -87,29 +90,17 @@ const NotesAndSoundMusicSheet = ({
 /**
  * Renders notes
  */
-const NotesMusicSheet = ({ engraverParams, ...other }) => {
+const NotesMusicSheet = ({
+  engraverParams,
+  defaultEngraverParams,
+  ...other
+}) => {
   return (
     <MusicSheet
       {...other}
       renderNotes={true}
       renderSound={false}
-      engraverParams={
-        engraverParams
-          ? engraverParams
-          : {
-              // default engraverParams
-              add_classes: false,
-              editable: false,
-              listener: null,
-              paddingbottom: 30,
-              paddingleft: 15,
-              paddingright: 50,
-              paddingtop: 15,
-              responsive: undefined,
-              scale: 1,
-              staffwidth: 740,
-            }
-      }
+      engraverParams={engraverParams ? engraverParams : defaultEngraverParams}
     />
   )
 }
