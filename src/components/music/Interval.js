@@ -1,5 +1,12 @@
+import React from "react"
 import { roots as notationRoots } from "../../util/music/roots"
-import { intervalLabels, availableIntervals } from "../../util/music/intervals"
+import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
+import {
+  interval,
+  intervalLabels,
+  availableIntervals,
+  concatenateNotes,
+} from "../../util/music/intervals"
 import { qualities } from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
@@ -25,6 +32,7 @@ const generateCorrectAnswers = howMany => {
     const notation = interval.notation(notationRoots[correctRoot])
 
     return {
+      root: correctRoot, // Generated answers have root
       interval: correctInterval,
       quality: correctQuality,
       notation,
@@ -84,6 +92,10 @@ export default class Interval {
    */
   readableAnswerString(answer) {
     return (
+      // Generated answers have root
+      (typeof answer.root === "number"
+        ? notationRoots[answer.root].label + " "
+        : "") +
       qualities[answer.quality].label.toLowerCase() +
       " " +
       intervalLabels[answer.interval]
@@ -133,10 +145,78 @@ export default class Interval {
       },
       correctAnswer: {
         string: correctAnswerString,
-        pitch: correctAnswerPitches,
       },
       correct,
     }
+  }
+
+  /**
+   * Check if the answer is correct for a Piano exercise.
+   * @param {*} pianoAnswerNotes Notes the student has pressed on piano
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    if (pianoAnswerNotes.length > 2) return false
+
+    // Sort so that root note is first
+    pianoAnswerNotes.sort((one, two) => one.midiNumber - two.midiNumber)
+
+    // Get midiNumbers of the answer to get pitchJump
+    const firstMidiNumber = pianoAnswerNotes[0].midiNumber
+    const secondMidiNumber = pianoAnswerNotes[1].midiNumber
+    const enteredPitchJump = Math.abs(secondMidiNumber - firstMidiNumber)
+
+    // Get root for the lower note
+    const firstNote = convertMidiNumberToNote(firstMidiNumber, "")
+    const root = notationRoots.find(r => r.pitch === firstNote.pitch)
+
+    // Get correct information from the generated answer
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(root, quality, number)
+
+    return (
+      correctRoot.pitch === root.pitch &&
+      enteredPitchJump === correctInterval.pitchJump
+    )
+  }
+
+  /**
+   * Should the next note be added.
+   * @param {*} note Note given by piano
+   * @param {*} notes already added notes
+   */
+  shouldAddNote = (note, notes) => {
+    return (
+      notes.length < this.getNoteLimits().max &&
+      notes.filter(n => n.notation === note.notation).length < 2
+    )
+  }
+
+  /**
+   * Turn correct answer into an array of notes
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getAnswerAsNotes(correctAnswer) {
+    return [correctAnswer.pitch]
+  }
+
+  /**
+   * Form abc notation from the notes given by piano.
+   * @param {*} notes notes given by piano
+   */
+  getNotesAsNotation(notes) {
+    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+  }
+
+  getPianoInstructions = correctAnswer => {
+    const asString = this.readableAnswerString(correctAnswer)
+    return (
+      <>
+        Muodosta pianon avulla <b>{asString}</b> kahtena nuottina
+      </>
+    )
   }
 
   /**

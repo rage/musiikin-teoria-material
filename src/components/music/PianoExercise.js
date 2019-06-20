@@ -98,7 +98,7 @@ class PianoExercise extends React.Component {
       return
     }
 
-    const givenAnswer = this.state.notes.map(n => n.pitch)
+    const givenAnswer = this.state.notes
     const currentExercise = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
