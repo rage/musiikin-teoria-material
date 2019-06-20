@@ -172,9 +172,12 @@ export default class Interval {
 
     // Get correct information from the generated answer
     const correctRoot = notationRoots[correctAnswer.root]
-    const quality = qualities[correctAnswer.quality]
+    const quality = qualities[correctAnswer.quality].name
     const number = correctAnswer.interval + 1 // Number is one higher than index
     const correctInterval = interval(root, quality, number)
+
+    console.log("given", enteredPitchJump, root)
+    console.log("correct", correctInterval, correctRoot, "q,n", quality, number)
 
     return (
       correctRoot.pitch === root.pitch &&
