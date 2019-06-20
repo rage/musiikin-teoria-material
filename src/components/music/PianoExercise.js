@@ -217,11 +217,9 @@ class PianoExercise extends React.Component {
               onPlayStatusUpdate={this.setIsPlaying}
               isExercise
             >
-              {
-                this.state.notes.length
-                  ? getNotesAsNotation(this.state.notes)
-                  : "L:1/1\nz"
-              }
+              {this.state.notes.length
+                ? getNotesAsNotation(this.state.notes)
+                : "L:1/1\nz"}
             </MusicSheet>
             <div className="dropDown1">
               <Button
