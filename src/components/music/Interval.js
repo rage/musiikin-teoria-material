@@ -88,7 +88,7 @@ export default class Interval {
   /**
    * Get user readable string of the answer.
    * @param {*} answer {interval: 0, quality: 0}
-   * @returns "perfekti Kvintti"
+   * @returns "puhdas kvintti"
    */
   readableAnswerString(answer) {
     return (
@@ -98,7 +98,7 @@ export default class Interval {
         : "") +
       qualities[answer.quality].label.toLowerCase() +
       " " +
-      intervalLabels[answer.interval]
+      intervalLabels[answer.interval].toLowerCase()
     )
   }
 
@@ -212,9 +212,13 @@ export default class Interval {
 
   getPianoInstructions = correctAnswer => {
     const asString = this.readableAnswerString(correctAnswer)
+    const slicePoint = asString.indexOf(" ")
+    const root = asString.slice(0, slicePoint)
+    const interval = asString.slice(slicePoint, asString.length)
     return (
       <>
-        Muodosta pianon avulla <b>{asString}</b> kahtena nuottina
+        Muodosta pianon avulla <b>{interval}</b>, jonka pohjasävel on{" "}
+        <b>{root}</b>
       </>
     )
   }
