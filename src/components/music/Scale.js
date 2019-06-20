@@ -161,6 +161,7 @@ export default class Scale {
       paddingleft: 15,
       paddingright: 15,
       paddingtop: 15,
+      scale: 1.5,
       staffwidth: 450,
       responsive: "resize",
     }
