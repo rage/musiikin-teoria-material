@@ -1,6 +1,8 @@
 import React from "react"
 import { roots as notationRoots } from "../../util/music/roots"
+import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
 import {
+  interval,
   intervalLabels,
   availableIntervals,
   concatenateNotes,
@@ -30,6 +32,7 @@ const generateCorrectAnswers = howMany => {
     const notation = interval.notation(notationRoots[correctRoot])
 
     return {
+      root: correctRoot, // Generated answers have root
       interval: correctInterval,
       quality: correctQuality,
       notation,
@@ -89,6 +92,10 @@ export default class Interval {
    */
   readableAnswerString(answer) {
     return (
+      // Generated answers have root
+      (typeof answer.root === "number"
+        ? notationRoots[answer.root].label + " "
+        : "") +
       qualities[answer.quality].label.toLowerCase() +
       " " +
       intervalLabels[answer.interval]
@@ -151,17 +158,23 @@ export default class Interval {
   isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
     if (pianoAnswerNotes.length > 2) return false
 
-    // Number is one higher than index
-    const correctInterval = correctAnswer.interval + 1
+    pianoAnswerNotes.sort((one, two) => one.midiNumber - two.midiNumber)
 
-    const firstNote = pianoAnswerNotes[0].midiNumber
-    const secondNote = pianoAnswerNotes[1].midiNumber
-    const interval = secondNote - firstNote
+    const firstMidiNumber = pianoAnswerNotes[0].midiNumber
+    const secondMidiNumber = pianoAnswerNotes[1].midiNumber
+    const enteredPitchJump = Math.abs(secondMidiNumber - firstMidiNumber)
+    const firstNote = convertMidiNumberToNote(firstMidiNumber, "")
+    const root = notationRoots.find(r => r.pitch === firstNote.pitch)
 
-    // TODO Fix answer check, correctAnswer has index for intervalLabels..
-    console.log("correct", correctInterval, "was", interval)
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality]
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(root, quality, number)
 
-    return interval === correctInterval
+    return (
+      correctRoot.label === root.label &&
+      enteredPitchJump === correctInterval.pitchJump
+    )
   }
 
   /**
