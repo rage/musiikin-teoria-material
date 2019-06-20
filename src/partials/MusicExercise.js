@@ -53,10 +53,12 @@ const getQuizId = type => {
       return "b36b9a72-8ee0-4b08-aad2-ed2d288049ef"
     case "piano_chords":
       return "9b666692-7bbf-4e5f-9493-cd6c811acac0"
-    case "piano_interval":
+    case "piano_intervals":
+      return "9fdf83f2-7f4f-4c97-be6a-d3563c57fee0"
     case "piano_scales":
+      return "a6a7ffd3-84b6-499a-9c60-dc4db3460fd3"
     case "piano_modes":
-      return ""
+      return "a83cd173-85f8-4f82-adc3-de64d4e9f5b7"
   }
 }
 
