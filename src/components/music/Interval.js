@@ -238,7 +238,7 @@ export default class Interval {
       paddingtop: 15,
       scale: 2,
       staffwidth: 224,
-      responsivewidth: 750,
+      responsive: undefined,
     }
   }
 

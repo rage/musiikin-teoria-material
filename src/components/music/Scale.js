@@ -158,12 +158,12 @@ export default class Scale {
       editable: false,
       listener: null,
       paddingbottom: 1,
-      paddingleft: 8,
-      paddingright: 18,
+      paddingleft: 15,
+      paddingright: 15,
       paddingtop: 15,
-      scale: 1.5,
-      staffwidth: 700,
-      responsivewidth: 1250,
+      scale: 1, // scale is now only being placeholder for build to succeed in server side. It does not affect rendering, due to resize being set to true in responsive.
+      staffwidth: 450,
+      responsive: "resize",
     }
   }
 
