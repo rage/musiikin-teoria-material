@@ -1,8 +1,12 @@
+import React from "react"
 import {
   roots as notationRoots,
   answerOptionsForRoots as answerRoots,
 } from "../../util/music/roots"
 import { modes, scales } from "../../util/music/scales"
+import { concatenateNotes, interval } from "../../util/music/intervals"
+import { PERFECT } from "../../util/music/qualities"
+import { OCTAVE } from "../../util/music/intervals"
 import { randomIntArray } from "../../util/random"
 
 // Answer Keys
@@ -88,7 +92,7 @@ export default class Scale {
    * @param {*} answer {root: 0, scale: 0}
    * @returns "C major"
    */
-  readableAnswerString(answer) {
+  readableAnswerString = answer => {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
       : answerRoots[answer.root].label
@@ -129,12 +133,12 @@ export default class Scale {
     }
   }
 
-  makePianoAnswerPayload(
+  makePianoAnswerPayload = (
     answerNotes,
-    correctAnswerPitches,
+    correctAnswerNotes,
     correctAnswerString,
     correct,
-  ) {
+  ) => {
     return {
       type: "piano " + this.usedMode,
       answer: {
@@ -143,10 +147,76 @@ export default class Scale {
       },
       correctAnswer: {
         string: correctAnswerString,
-        pitch: correctAnswerPitches,
+        pitch: correctAnswerNotes.map(note => note.pitch),
+        pitchJump: correctAnswerNotes.map(note => note.pitchJump),
       },
       correct,
     }
+  }
+
+  /**
+   * Check if the answer is correct for a Piano exercise.
+   * @param {*} pianoAnswerNotes Notes the student has pressed on piano
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    const correctAnswerNotes = this.getAnswerAsNotes(correctAnswer)
+    // accepted even if the root isn't repeated one octave higher at the end
+    if (
+      pianoAnswerNotes[0].pitch === correctAnswer.pitch &&
+      pianoAnswerNotes.length <= correctAnswerNotes.length
+    ) {
+      for (let i = 1; i < pianoAnswerNotes.length; i++) {
+        if (
+          pianoAnswerNotes[i].midiNumber - pianoAnswerNotes[0].midiNumber !==
+          correctAnswerNotes[i].pitchJump
+        ) {
+          return false
+        }
+      }
+      return true
+    }
+    return false
+  }
+
+  /**
+   * Turn correct answer into an array of notes with
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getAnswerAsNotes = correctAnswer => {
+    // the first empty object is the root, which we don't need
+    return [
+      {},
+      ...[...this.scales[correctAnswer.scale].intervals, [PERFECT, OCTAVE]].map(
+        i => interval(notationRoots[correctAnswer.root], ...i),
+      ),
+    ]
+  }
+
+  /**
+   * Should the next note be added.
+   * @param {*} note Note given by piano
+   * @param {*} notes already added notes
+   */
+  shouldAddNote = (note, notes) => {
+    return notes.length < this.getNoteLimits().max
+  }
+
+  /**
+   * Form abc notation from the notes given by piano.
+   * @param {*} notes notes given by piano
+   */
+  getNotesAsNotation(notes) {
+    return "L:1/4\n" + concatenateNotes(notes.map(n => n.notation))
+  }
+
+  getPianoInstructions = correctAnswer => {
+    const asString = this.readableAnswerString(correctAnswer)
+    return (
+      <>
+        Muodosta pianon avulla <b>{asString}</b> nousevana asteikkona
+      </>
+    )
   }
 
   /**
