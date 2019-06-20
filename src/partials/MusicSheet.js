@@ -17,19 +17,6 @@ const MusicSheetRouter = ({
 
   const indent = isExercise ? null : <p style={{ textIndent: 50 }} />
 
-  const defaultEngraverParams = {
-    add_classes: false,
-    editable: false,
-    listener: null,
-    paddingbottom: 30,
-    paddingleft: 0,
-    paddingright: 0,
-    paddingtop: 15,
-    responsive: "resize",
-    scale: 1,
-    staffwidth: 700,
-  }
-
   if ((onlySound && onlyNotes) || (!onlySound && !onlyNotes)) {
     // If both are true or both are false, render both notes and sound
     return (
@@ -63,12 +50,24 @@ const childrenToNotation = children => {
   return Array.isArray(children) ? children.join("") : children
 }
 
+const defaultEngraverParams = {
+  add_classes: false,
+  editable: false,
+  listener: null,
+  paddingbottom: 30,
+  paddingleft: 0,
+  paddingright: 0,
+  paddingtop: 15,
+  responsive: "resize",
+  scale: 1,
+  staffwidth: 700,
+}
+
 /**
  * Renders both notes and play button
  */
 const NotesAndSoundMusicSheet = ({
   engraverParams,
-  defaultEngraverParams,
   playButtonStyle,
   indent,
   ...other
@@ -90,11 +89,7 @@ const NotesAndSoundMusicSheet = ({
 /**
  * Renders notes
  */
-const NotesMusicSheet = ({
-  engraverParams,
-  defaultEngraverParams,
-  ...other
-}) => {
+const NotesMusicSheet = ({ engraverParams, ...other }) => {
   return (
     <MusicSheet
       {...other}
