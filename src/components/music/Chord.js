@@ -184,6 +184,17 @@ export default class Chord {
   }
 
   /**
+   * Returns an array of correct notations to be used when writing on the score.
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getNotationForMidi = correctAnswer => [
+    correctAnswer.root.notation,
+    ...answerTriads[correctAnswer.triad].intervals.map(
+      i => interval(notationRoots[correctAnswer.root], ...i).notation,
+    ),
+  ]
+
+  /**
    * Form abc notation from the notes given by piano.
    * @param {*} notes notes given by piano
    */

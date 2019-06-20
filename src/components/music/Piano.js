@@ -51,7 +51,6 @@ class Piano extends React.Component {
             appendNote={this.props.appendNote}
             hostname={soundfontHostname}
             audioContext={this.state.audioContext}
-            currentExercise={this.props.currentExercise}
             render={({ isLoading, playNote, stopNote }) => (
               <ReactPiano
                 noteRange={noteRange}
