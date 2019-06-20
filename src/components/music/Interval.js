@@ -176,9 +176,6 @@ export default class Interval {
     const number = correctAnswer.interval + 1 // Number is one higher than index
     const correctInterval = interval(root, quality, number)
 
-    console.log("given", enteredPitchJump, root)
-    console.log("correct", correctInterval, correctRoot, "q,n", quality, number)
-
     return (
       correctRoot.pitch === root.pitch &&
       enteredPitchJump === correctInterval.pitchJump
