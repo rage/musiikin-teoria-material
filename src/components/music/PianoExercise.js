@@ -3,6 +3,7 @@ import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
 import Piano from "./Piano"
 import Loading from "../Loading"
 import SubmitButton from "./SubmitButton"
@@ -175,9 +176,19 @@ class PianoExercise extends React.Component {
 
   handleChange = () => this.setState({ checked: !this.state.checked })
 
-  appendNote = note => {
+  appendNote = midiNumber => {
     const { notes } = this.state
-    const { shouldAddNote } = this.props.exerciseKind
+    const { shouldAddNote, getNotationForMidi } = this.props.exerciseKind
+
+    const currentExercise = this.state.exerciseSet.exercises[
+      this.state.currentExerciseIndex
+    ]
+
+    const notationForMidi = getNotationForMidi(currentExercise)
+    const note = convertMidiNumberToNote(
+      midiNumber,
+      notationForMidi.map(n => n.toUpperCase()),
+    )
 
     if (!shouldAddNote(note, notes)) return
 
@@ -225,11 +236,7 @@ class PianoExercise extends React.Component {
       )
     } else {
       piano = (
-        <Piano
-          appendNote={this.appendNote}
-          isPlaying={this.state.isPlaying}
-          currentExercise={currentExercise}
-        />
+        <Piano appendNote={this.appendNote} isPlaying={this.state.isPlaying} />
       )
     }
 

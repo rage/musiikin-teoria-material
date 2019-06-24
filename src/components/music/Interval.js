@@ -208,6 +208,18 @@ export default class Interval {
   }
 
   /**
+   * Returns an array of correct notations to be used when writing on the score.
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getNotationForMidi = correctAnswer => {
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(correctRoot, quality, number)
+    return [correctRoot.notation, correctInterval.notation]
+  }
+
+  /**
    * Form abc notation from the notes given by piano.
    * @param {*} notes notes given by piano
    */

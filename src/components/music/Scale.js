@@ -6,7 +6,7 @@ import {
 import { modes, scales } from "../../util/music/scales"
 import { concatenateNotes, interval } from "../../util/music/intervals"
 import { PERFECT } from "../../util/music/qualities"
-import { OCTAVE } from "../../util/music/intervals"
+import { UNISON, OCTAVE } from "../../util/music/intervals"
 import { randomIntArray } from "../../util/random"
 
 // Answer Keys
@@ -186,12 +186,18 @@ export default class Scale {
   getAnswerAsNotes = correctAnswer => {
     // the first empty object is the root, which we don't need
     return [
-      {},
-      ...[...this.scales[correctAnswer.scale].intervals, [PERFECT, OCTAVE]].map(
-        i => interval(notationRoots[correctAnswer.root], ...i),
-      ),
-    ]
+      [PERFECT, UNISON],
+      ...this.scales[correctAnswer.scale].intervals,
+      [PERFECT, OCTAVE],
+    ].map(i => interval(notationRoots[correctAnswer.root], ...i))
   }
+
+  /**
+   * Returns an array of correct notations to be used when writing on the score.
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getNotationForMidi = correctAnswer =>
+    this.getAnswerAsNotes(correctAnswer).map(note => note.notation)
 
   /**
    * Should the next note be added.

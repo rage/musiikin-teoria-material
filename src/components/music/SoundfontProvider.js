@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Soundfont from "soundfont-player"
-import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
 
 // from https://codesandbox.io/s/7wq15pm1n1
 
@@ -66,8 +65,7 @@ class SoundfontProvider extends React.Component {
       })
     })
     // here starts the logic to write the score
-    const correctNotation = this.props.currentExercise.notation.toUpperCase()
-    this.props.appendNote(convertMidiNumberToNote(midiNumber, correctNotation))
+    this.props.appendNote(midiNumber)
   }
 
   stopNote = midiNumber => {
