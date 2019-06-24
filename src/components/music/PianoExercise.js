@@ -263,7 +263,7 @@ class PianoExercise extends React.Component {
             </MusicSheet>
             <div className="dropDown1">
               <Button
-                disabled={!this.state.notes.length}
+                disabled={!this.state.notes.length || this.state.isPlaying}
                 variant="outlined"
                 onClick={this.undoNote}
               >
@@ -272,7 +272,7 @@ class PianoExercise extends React.Component {
             </div>
             <div className="dropDown2">
               <Button
-                disabled={!this.state.notes.length}
+                disabled={!this.state.notes.length || this.state.isPlaying}
                 variant="outlined"
                 title="Tyhjennä"
                 onClick={this.clearNotes}
