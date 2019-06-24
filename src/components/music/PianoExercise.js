@@ -76,6 +76,8 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
+    this.setState({ isPlaying: false })
+
     // Funktioita ExerciseKind (Chord, Interval, Scale)
     const {
       getNoteLimits,
