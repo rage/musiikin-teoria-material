@@ -15,7 +15,7 @@ class SoundfontProvider extends React.Component {
 
   static defaultProps = {
     instrumentName: "acoustic_grand_piano",
-    format: "mp3",
+    format: "ogg",
     soundfont: "MusyngKite",
   }
 
@@ -46,7 +46,7 @@ class SoundfontProvider extends React.Component {
       format: this.props.format,
       soundfont: this.props.soundfont,
       nameToUrl: (name, soundfont, format) => {
-        return `${this.props.hostname}/${soundfont}/${name}-${format}.js`
+        return `${this.props.hostname}/${name}-${format}.js`
       },
     }).then(instrument => {
       this.setState({
