@@ -188,7 +188,7 @@ export default class Chord {
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
   getNotationForMidi = correctAnswer => [
-    correctAnswer.root.notation,
+    notationRoots[correctAnswer.root].notation,
     ...answerTriads[correctAnswer.triad].intervals.map(
       i => interval(notationRoots[correctAnswer.root], ...i).notation,
     ),
