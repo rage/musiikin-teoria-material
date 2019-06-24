@@ -20,7 +20,10 @@ class Interval {
   notation(root) {
     return (
       "L:1/1\n[" +
-      concatenate(root, [[PERFECT, UNISON], [this.quality.name, this.number]]) +
+      concatenateIntervals(root, [
+        [PERFECT, UNISON],
+        [this.quality.name, this.number],
+      ]) +
       "]"
     )
   }
@@ -194,7 +197,7 @@ export const interval = (root, quality, number) => {
  * @param {*} root Root note from which the intervals will be built
  * @param {*} intervals Desired notes, expressed as intervals from the root
  */
-export const concatenate = (root, intervals) =>
+export const concatenateIntervals = (root, intervals) =>
   concatenateNotes(intervals.map(i => interval(root, ...i).notation))
 
 export const concatenateNotes = notes => {
