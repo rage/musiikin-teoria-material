@@ -21,7 +21,7 @@ class Provider extends React.Component {
 
 const DimensionsProvider = Dimensions()(Provider)
 
-const soundfontHostname = "https://d1pzp51pvbm36p.cloudfront.net"
+const soundfontHostname = ""
 
 const noteRange = {
   first: MidiNumbers.fromNote("c4"),
