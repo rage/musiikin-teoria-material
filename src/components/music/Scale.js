@@ -218,9 +218,28 @@ export default class Scale {
 
   getPianoInstructions = correctAnswer => {
     const asString = this.readableAnswerString(correctAnswer)
+    const firstSpace = asString.indexOf(" ")
+    const root = asString.slice(0, firstSpace)
+
+    const qualityAndScale = asString.slice(firstSpace + 1, asString.length)
+    const secondSpace = qualityAndScale.indexOf(" ")
+    let quality = ""
+    let scale = qualityAndScale
+
+    if (secondSpace !== -1) {
+      quality = qualityAndScale.slice(0, secondSpace) + " "
+      scale = qualityAndScale.slice(secondSpace + 1, qualityAndScale.length)
+    }
     return (
       <>
-        Muodosta pianon avulla <b>{asString}</b> nousevana asteikkona
+        Muodosta pianon avulla{" "}
+        <b>
+          {quality}
+          {root}
+          {"-"}
+          {scale}
+        </b>{" "}
+        nousevana asteikkona
       </>
     )
   }
