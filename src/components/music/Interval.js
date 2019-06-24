@@ -1,6 +1,5 @@
 import React from "react"
 import { roots as notationRoots } from "../../util/music/roots"
-import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
 import {
   interval,
   intervalLabels,
@@ -157,30 +156,23 @@ export default class Interval {
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
   isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
-    if (pianoAnswerNotes.length > 2) return false
+    if (pianoAnswerNotes.length !== 2) return false
 
-    // Sort so that root note is first
-    pianoAnswerNotes.sort((one, two) => one.midiNumber - two.midiNumber)
-
-    // Get midiNumbers of the answer to get pitchJump
-    const firstMidiNumber = pianoAnswerNotes[0].midiNumber
-    const secondMidiNumber = pianoAnswerNotes[1].midiNumber
-    const enteredPitchJump = Math.abs(secondMidiNumber - firstMidiNumber)
-
-    // Get root for the lower note
-    const firstNote = convertMidiNumberToNote(firstMidiNumber, "")
-    const root = notationRoots.find(r => r.pitch === firstNote.pitch)
+    const enteredPitchJump = Math.abs(
+      pianoAnswerNotes[1].midiNumber - pianoAnswerNotes[0].midiNumber,
+    )
 
     // Get correct information from the generated answer
     const correctRoot = notationRoots[correctAnswer.root]
     const quality = qualities[correctAnswer.quality].name
     const number = correctAnswer.interval + 1 // Number is one higher than index
-    const correctInterval = interval(root, quality, number)
+    const correctInterval = interval(correctRoot, quality, number)
 
-    return (
-      correctRoot.pitch === root.pitch &&
-      enteredPitchJump === correctInterval.pitchJump
-    )
+    const correctPitches = [correctRoot.pitch, correctInterval.pitch]
+    for (const note of pianoAnswerNotes)
+      if (!correctPitches.includes(note.pitch)) return false
+
+    return enteredPitchJump === Math.abs(correctInterval.pitchJump)
   }
 
   /**
