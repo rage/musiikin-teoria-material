@@ -53,6 +53,7 @@ class Piano extends React.Component {
             audioContext={this.state.audioContext}
             render={({ isLoading, playNote, stopNote }) => (
               <ReactPiano
+                className={"react-piano"}
                 noteRange={noteRange}
                 width={containerWidth}
                 playNote={playNote}
