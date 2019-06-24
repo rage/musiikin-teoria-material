@@ -157,6 +157,7 @@ class PianoExercise extends React.Component {
       answerWasSubmitted: false,
       givenAnswer: {},
       notes: [],
+      isPlaying: false,
     })
   }
 
