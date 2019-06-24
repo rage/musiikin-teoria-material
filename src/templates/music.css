@@ -44,6 +44,10 @@
   .emptyPlayButton {
     display: none;
   }
+
+  .playButtonSheet {
+    text-align: center;
+  }
 }
 
 /* Use hardcoded margins on desktop environments */
@@ -96,6 +100,12 @@
   }
 
   .playButtonSheet {
+    text-align: left;
+    position: relative;
+    top: -77px;
+  }
+
+  .playButtonMaterial {
     text-align: center;
   }
 }
