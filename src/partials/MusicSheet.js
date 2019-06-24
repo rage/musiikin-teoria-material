@@ -50,40 +50,63 @@ const childrenToNotation = children => {
   return Array.isArray(children) ? children.join("") : children
 }
 
-const defaultEngraverParams = {
-  add_classes: false,
-  editable: false,
-  listener: null,
-  paddingbottom: 30,
-  paddingleft: 0,
-  paddingright: 0,
-  paddingtop: 15,
-  responsive: "resize",
-  scale: 1,
-  staffwidth: 700,
+const defaultEngraverParams = windowWidth => {
+  return {
+    add_classes: false,
+    editable: false,
+    listener: null,
+    paddingbottom: 0,
+    paddingleft: windowWidth >= 1200 ? 50 : 0,
+    paddingright: 0,
+    paddingtop: 15,
+    responsive: "resize",
+    scale: 1,
+    staffwidth: 700,
+  }
 }
 
 /**
  * Renders both notes and play button
  */
-const NotesAndSoundMusicSheet = ({
-  engraverParams,
-  playButtonStyle,
-  indent,
-  ...other
-}) => {
-  return (
-    <>
-      <MusicSheet
-        {...other}
-        renderNotes={true}
-        renderSound={true}
-        engraverParams={engraverParams ? engraverParams : defaultEngraverParams}
-        playButtonStyle={playButtonStyle ? playButtonStyle : "playButtonSheet"} // default playButtonStyle
-      />
-      {indent}
-    </>
-  )
+class NotesAndSoundMusicSheet extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { windowWidth: undefined }
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", () =>
+      this.setState({ windowWidth: window.innerWidth }),
+    )
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", () =>
+      this.setState({ windowWidth: window.innerWidth }),
+    )
+  }
+
+  render() {
+    const { engraverParams, playButtonStyle, indent, ...other } = this.props
+
+    const windowWidth = this.state.windowWidth || window.innerWidth
+    return (
+      <>
+        <MusicSheet
+          {...other}
+          renderNotes={true}
+          renderSound={true}
+          engraverParams={
+            engraverParams ? engraverParams : defaultEngraverParams(windowWidth)
+          }
+          playButtonStyle={
+            playButtonStyle ? playButtonStyle : "playButtonSheet"
+          } // default playButtonStyle
+        />
+        {windowWidth < 1200 && indent}
+      </>
+    )
+  }
 }
 
 /**
@@ -95,7 +118,7 @@ const NotesMusicSheet = ({ engraverParams, ...other }) => {
       {...other}
       renderNotes={true}
       renderSound={false}
-      engraverParams={engraverParams ? engraverParams : defaultEngraverParams}
+      engraverParams={engraverParams ? engraverParams : defaultEngraverParams()}
     />
   )
 }
@@ -110,7 +133,9 @@ const SoundMusicSheet = ({ playButtonStyle, indent, ...other }) => {
         {...other}
         renderNotes={false}
         renderSound={true}
-        playButtonStyle={playButtonStyle ? playButtonStyle : "playButtonSheet"} // default playButtonStyle
+        playButtonStyle={
+          playButtonStyle ? playButtonStyle : "playButtonMaterial"
+        } // default playButtonStyle
       />
       {indent}
     </>
