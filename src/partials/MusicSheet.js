@@ -75,6 +75,7 @@ class NotesAndSoundMusicSheet extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({ windowWidth: window.innerWidth })
     window.addEventListener("resize", () =>
       this.setState({ windowWidth: window.innerWidth }),
     )
@@ -87,9 +88,13 @@ class NotesAndSoundMusicSheet extends React.Component {
   }
 
   render() {
-    const { engraverParams, playButtonStyle, indent, ...other } = this.props
+    const windowWidth = this.state.windowWidth
 
-    const windowWidth = this.state.windowWidth || window.innerWidth
+    if (!windowWidth) {
+      return null
+    }
+
+    const { engraverParams, playButtonStyle, indent, ...other } = this.props
     return (
       <>
         <MusicSheet
