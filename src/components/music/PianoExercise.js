@@ -227,19 +227,27 @@ class PianoExercise extends React.Component {
 
     let piano
 
+    const answerMidiNotes = this.state.answerWasSubmitted
+      ? [] /* TODO correct answer as midi numbers */
+      : []
+
     if (window.innerWidth > 1200) {
       piano = (
         <MarginInPaper>
           <Piano
             appendNote={this.appendNote}
             isPlaying={this.state.isPlaying}
-            currentExercise={currentExercise}
+            showNotes={answerMidiNotes}
           />
         </MarginInPaper>
       )
     } else {
       piano = (
-        <Piano appendNote={this.appendNote} isPlaying={this.state.isPlaying} />
+        <Piano
+          appendNote={this.appendNote}
+          isPlaying={this.state.isPlaying}
+          showNotes={answerMidiNotes}
+        />
       )
     }
 
