@@ -193,13 +193,6 @@ export default class Scale {
   }
 
   /**
-   * Returns an array of correct notations to be used when writing on the score.
-   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
-   */
-  getNotationForMidi = correctAnswer =>
-    this.getAnswerAsNotes(correctAnswer).map(note => note.notation)
-
-  /**
    * Should the next note be added.
    * @param {*} note Note given by piano
    * @param {*} notes already added notes

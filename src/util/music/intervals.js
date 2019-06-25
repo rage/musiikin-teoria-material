@@ -111,14 +111,48 @@ export const raiseOctave = input => {
   return output
 }
 
+/**
+ * Takes as argument a String in abc notation and returns a String in abc
+ * notation corresponding to the input notation lowered an octave.
+ * Please note that the input notation must not contain any header.
+ *
+ * For example:
+ *    lowerOctave("_B, g'^F") returns "_B, g^F,"
+ *
+ * @param {*} input A String in abc notation
+ */
+export const lowerOctave = input => {
+  let output = ""
+  for (let i = 0; i < input.length; i++) {
+    if (input.charAt(i).match(/[a-g]/)) {
+      if (input.charAt(i + 1) && input.charAt(i + 1) === "'") {
+        output += input.charAt(i++)
+      } else {
+        output += input.charAt(i).toUpperCase()
+      }
+    } else if (input.charAt(i).match(/[A-G]/)) {
+      output += input.charAt(i) + ","
+    } else {
+      output += input.charAt(i)
+    }
+  }
+  return output
+}
+
 // pitchJumps assume PERFECT and MAJOR quality
 const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
 
 /**
  * Returns an object with:
- * "notation": a String corresponding to abc notation for adding an interval on
- *             top of the given root;
- * "pitch": the corresponding pitch, from 0 to 11.
+ * "notation": a String corresponding to abc notation for building an interval
+ *             on top of the given root;
+ * "zeroNotation": a String corresponding to abc notation for building an
+ *                 interval on top of the given root, and moving the resulting
+ *                 note to the central octave;
+ * "pitch": the corresponding pitch in the central octave, from 0 to 11;
+ * "pitchJump": number of semitones between the root pitch and the pitch of the
+ *              note of the built interval;
+ * "midiNumber": the corresponding midi number, needed for piano playback.
  *
  * For example:
  *    root = roots[0] // C
@@ -133,18 +167,17 @@ export const interval = (root, quality, number) => {
   // When the interval is an octave or bigger (compound interval), first make
   // the simple interval (less than an octave), later raise it one octave
   let compound = false
+  let octavesToRaise = 0
   if (number > SEVENTH) {
     number -= letters.length
     compound = true
+    octavesToRaise++
   }
 
   // How many letters the letter jumps to go to
   const letterJump = number - 1
 
   const letter = letters[(root.letter + letterJump) % letters.length]
-  // abc notation uses lowercase for the higher octave, i.e. the 5th octave in
-  // scientific pitch notation
-  const lowercaseLetter = root.letter + letterJump >= letters.length
 
   // How many semitones the pitch jumps
   let pitchJump = pitchJumps[letterJump]
@@ -171,22 +204,41 @@ export const interval = (root, quality, number) => {
   (like perfect third or minor fourth)
   for now only 1 -> 14 intervals are supported
   */
-  let notation = ""
   const pitch = (root.pitch + pitchJump + notes.length) % notes.length
+  if (root.pitch + pitchJump >= notes.length) {
+    octavesToRaise++
+  } else if (root.pitch + pitchJump < 0) {
+    // needed for diminished unison
+    octavesToRaise--
+  }
+
+  let notation = ""
   for (const note of notes[pitch])
-    if (note.includes(letter))
-      notation = lowercaseLetter ? note.toLowerCase() : note
+    if (note.toUpperCase().includes(letter)) {
+      notation = note
+    }
+  // notation in the central octave
+  const zeroNotation = notation
+
+  // needed for diminished unison
+  while (octavesToRaise < 0) {
+    notation = lowerOctave(notation)
+    octavesToRaise++
+  }
+
+  while (octavesToRaise > 0) {
+    notation = raiseOctave(notation)
+    octavesToRaise--
+  }
 
   if (compound) {
-    notation = raiseOctave(notation)
     pitchJump += notes.length
   }
 
   // Midi number 60 = middle C
-  // This approach only works for two octaves
-  const midiNumber = pitch - pitchJump >= 0 ? pitch + 60 : pitch + 72
+  const midiNumber = root.pitch + pitchJump + 60
 
-  return { notation, pitch, pitchJump, midiNumber }
+  return { notation, zeroNotation, pitch, pitchJump, midiNumber }
 }
 
 /**

@@ -1,12 +1,13 @@
 import React from "react"
 import { roots as notationRoots } from "../../util/music/roots"
 import {
+  UNISON,
   interval,
   intervalLabels,
   availableIntervals,
   concatenateNotes,
 } from "../../util/music/intervals"
-import { allQualities as qualities } from "../../util/music/qualities"
+import { PERFECT, allQualities as qualities } from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
 
@@ -132,7 +133,7 @@ export default class Interval {
 
   makePianoAnswerPayload(
     answerNotes,
-    correctAnswerPitches,
+    correctAnswerNotes,
     correctAnswerString,
     correct,
   ) {
@@ -144,7 +145,7 @@ export default class Interval {
       },
       correctAnswer: {
         string: correctAnswerString,
-        pitch: correctAnswerPitches,
+        pitch: correctAnswerNotes.map(n => n.pitch),
       },
       correct,
     }
@@ -163,16 +164,13 @@ export default class Interval {
     )
 
     // Get correct information from the generated answer
-    const correctRoot = notationRoots[correctAnswer.root]
-    const quality = qualities[correctAnswer.quality].name
-    const number = correctAnswer.interval + 1 // Number is one higher than index
-    const correctInterval = interval(correctRoot, quality, number)
+    const correctNotes = this.getAnswerAsNotes(correctAnswer)
+    const correctPitches = correctNotes.map(n => n.pitch)
 
-    const correctPitches = [correctRoot.pitch, correctInterval.pitch]
     for (const note of pianoAnswerNotes)
       if (!correctPitches.includes(note.pitch)) return false
 
-    return enteredPitchJump === Math.abs(correctInterval.pitchJump)
+    return enteredPitchJump === Math.abs(correctNotes[1].pitchJump)
   }
 
   /**
@@ -195,20 +193,9 @@ export default class Interval {
     const correctRoot = notationRoots[correctAnswer.root]
     const quality = qualities[correctAnswer.quality].name
     const number = correctAnswer.interval + 1 // Number is one higher than index
-    const correctInterval = interval(correctRoot, quality, number)
-    return [correctRoot.pitch, correctInterval.pitch]
-  }
-
-  /**
-   * Returns an array of correct notations to be used when writing on the score.
-   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
-   */
-  getNotationForMidi = correctAnswer => {
-    const correctRoot = notationRoots[correctAnswer.root]
-    const quality = qualities[correctAnswer.quality].name
-    const number = correctAnswer.interval + 1 // Number is one higher than index
-    const correctInterval = interval(correctRoot, quality, number)
-    return [correctRoot.notation, correctInterval.notation]
+    return [[PERFECT, UNISON], [quality, number]].map(i =>
+      interval(correctRoot, ...i),
+    )
   }
 
   /**
