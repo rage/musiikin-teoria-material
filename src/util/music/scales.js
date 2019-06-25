@@ -1,4 +1,4 @@
-import { concatenate } from "./intervals"
+import { concatenateIntervals } from "./intervals"
 import { DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED } from "./qualities"
 import {
   UNISON,
@@ -24,7 +24,7 @@ class Scale {
   notation(root) {
     return (
       "L:1/4\n" +
-      concatenate(root, [
+      concatenateIntervals(root, [
         [PERFECT, UNISON],
         ...this.intervals,
         [PERFECT, OCTAVE],

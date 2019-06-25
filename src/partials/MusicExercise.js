@@ -80,7 +80,7 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
   onCorrectAnswer,
   onIncorrectAnswer,
 ) => {
-  const wantedType = type ? type : "chords"
+  const wantedType = type ? type : ""
 
   const exerciseKind = getExerciseKindByType(wantedType)
 

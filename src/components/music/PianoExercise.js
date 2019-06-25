@@ -77,6 +77,8 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
+    this.setState({ isPlaying: false })
+
     // Functions from ExerciseKind (Chord, Interval, Scale)
     const {
       getNoteLimits,
@@ -156,6 +158,7 @@ class PianoExercise extends React.Component {
       answerWasSubmitted: false,
       givenAnswer: {},
       notes: [],
+      isPlaying: false,
     })
   }
 
@@ -230,19 +233,27 @@ class PianoExercise extends React.Component {
 
     let piano
 
+    const answerMidiNotes = this.state.answerWasSubmitted
+      ? [] /* TODO correct answer as midi numbers */
+      : []
+
     if (window.innerWidth > 1200) {
       piano = (
         <MarginInPaper>
           <Piano
             appendNote={this.appendNote}
             isPlaying={this.state.isPlaying}
-            currentExercise={currentExercise}
+            showNotes={answerMidiNotes}
           />
         </MarginInPaper>
       )
     } else {
       piano = (
-        <Piano appendNote={this.appendNote} isPlaying={this.state.isPlaying} />
+        <Piano
+          appendNote={this.appendNote}
+          isPlaying={this.state.isPlaying}
+          showNotes={answerMidiNotes}
+        />
       )
     }
 

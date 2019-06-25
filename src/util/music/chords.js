@@ -1,6 +1,6 @@
 import { DIMINISHED, MINOR, MAJOR, PERFECT, AUGMENTED } from "./qualities"
 import {
-  concatenate,
+  concatenateIntervals,
   UNISON,
   SECOND,
   THIRD,
@@ -21,7 +21,7 @@ class Chord {
   notation(root) {
     return (
       "L:1/1\n[" +
-      concatenate(root, [[PERFECT, UNISON], ...this.intervals]) +
+      concatenateIntervals(root, [[PERFECT, UNISON], ...this.intervals]) +
       "]"
     )
   }
