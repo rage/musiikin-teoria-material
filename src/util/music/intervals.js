@@ -9,8 +9,6 @@ import {
 } from "./qualities"
 import { letters, notes } from "./roots"
 
-import { randomInt } from "../random"
-
 class Interval {
   constructor(quality, number) {
     this.quality = quality

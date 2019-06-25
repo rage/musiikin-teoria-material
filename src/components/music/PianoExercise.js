@@ -181,6 +181,10 @@ class PianoExercise extends React.Component {
   handleChange = () => this.setState({ checked: !this.state.checked })
 
   appendNote = midiNumber => {
+    if (this.state.answerWasSubmitted) {
+      return // Don't add notes that display correct answer
+    }
+
     const { notes } = this.state
     const { shouldAddNote, getAnswerAsNotes } = this.props.exerciseKind
 
@@ -228,13 +232,14 @@ class PianoExercise extends React.Component {
     const {
       getPianoInstructions,
       getEngraverParams,
+      getAnswerAsNotes,
       getNotesAsNotation,
     } = this.props.exerciseKind
 
     let piano
 
     const answerMidiNotes = this.state.answerWasSubmitted
-      ? [] /* TODO correct answer as midi numbers */
+      ? getAnswerAsNotes(currentExercise).map(note => note.midiNumber)
       : []
 
     if (window.innerWidth > 1200) {
@@ -280,7 +285,11 @@ class PianoExercise extends React.Component {
             </MusicSheet>
             <div className="dropDown1">
               <Button
-                disabled={!this.state.notes.length || this.state.isPlaying}
+                disabled={
+                  !this.state.notes.length ||
+                  this.state.isPlaying ||
+                  this.state.answerWasSubmitted
+                }
                 variant="outlined"
                 onClick={this.undoNote}
               >
@@ -289,7 +298,11 @@ class PianoExercise extends React.Component {
             </div>
             <div className="dropDown2">
               <Button
-                disabled={!this.state.notes.length || this.state.isPlaying}
+                disabled={
+                  !this.state.notes.length ||
+                  this.state.isPlaying ||
+                  this.state.answerWasSubmitted
+                }
                 variant="outlined"
                 title="Tyhjennä"
                 onClick={this.clearNotes}
