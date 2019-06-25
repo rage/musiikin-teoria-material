@@ -44,6 +44,11 @@ class Piano extends React.Component {
   }
 
   render() {
+    const showNotes =
+      this.props.showNotes && this.props.showNotes.length
+        ? this.props.showNotes
+        : undefined
+
     return (
       <DimensionsProvider>
         {({ containerWidth, containerHeight }) => (
@@ -54,6 +59,7 @@ class Piano extends React.Component {
             render={({ isLoading, playNote, stopNote }) => (
               <ReactPiano
                 className={"react-piano"}
+                activeNotes={showNotes}
                 noteRange={noteRange}
                 width={containerWidth}
                 playNote={playNote}
