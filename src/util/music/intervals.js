@@ -180,6 +180,8 @@ export const interval = (root, quality, number) => {
     pitchJump += notes.length
   }
 
+  // Midi number 60 = middle C
+  // This approach only works for two octaves
   const midiNumber = pitch - pitchJump >= 0 ? pitch + 60 : pitch + 72
 
   return { notation, pitch, pitchJump, midiNumber }
