@@ -180,7 +180,9 @@ export const interval = (root, quality, number) => {
     pitchJump += notes.length
   }
 
-  return { notation, pitch, pitchJump }
+  const midiNumber = pitch - pitchJump >= 0 ? pitch + 60 : pitch + 72
+
+  return { notation, pitch, pitchJump, midiNumber }
 }
 
 /**
