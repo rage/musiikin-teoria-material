@@ -5,9 +5,14 @@ import {
   interval,
   intervalLabels,
   availableIntervals,
+  simpleIntervals,
   concatenateNotes,
 } from "../../util/music/intervals"
-import { PERFECT, allQualities as qualities } from "../../util/music/qualities"
+import {
+  PERFECT,
+  allQualities,
+  simpleQualities,
+} from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
 
@@ -20,12 +25,12 @@ const INTERVAL = "interval",
  * @param {*} howMany How many exercises to generate
  * @returns [{interval: 5, quality: 4, notation: "<abc notation>"}]
  */
-const generateCorrectAnswers = howMany => {
+const generateCorrectAnswers = (howMany, intervals, qualities) => {
   const correctRoots = randomIntArray(0, notationRoots.length, howMany)
-  const correctIntervals = randomIntArray(0, availableIntervals.length, howMany)
+  const correctIntervals = randomIntArray(0, intervals.length, howMany)
 
   return correctRoots.map((correctRoot, index) => {
-    const interval = availableIntervals[correctIntervals[index]]
+    const interval = intervals[correctIntervals[index]]
     const correctInterval = interval.number - 1 // Number is one higher than index
     const correctQuality = qualities.indexOf(interval.quality)
 
@@ -41,6 +46,13 @@ const generateCorrectAnswers = howMany => {
 }
 
 export default class Interval {
+  constructor(useSimple) {
+    this.qualities = useSimple === "simple" ? simpleQualities : allQualities
+    this.intervals =
+      useSimple === "simple" ? simpleIntervals : availableIntervals
+    this.usedSimple = useSimple
+  }
+
   generateExerciseSet(howMany) {
     const exerciseSet = {
       answerKeys: [INTERVAL, QUALITY],
@@ -48,13 +60,17 @@ export default class Interval {
         interval: intervalLabels.map(label => {
           return { label: label }
         }),
-        quality: qualities,
+        quality: this.qualities,
       },
       answerLabels: {
         interval: "Intervalli",
         quality: "Laatu",
       },
-      exercises: generateCorrectAnswers(howMany),
+      exercises: generateCorrectAnswers(
+        howMany,
+        this.intervals,
+        this.qualities,
+      ),
     }
 
     return exerciseSet
@@ -96,7 +112,7 @@ export default class Interval {
       (typeof answer.root === "number"
         ? notationRoots[answer.root].label + " "
         : "") +
-      qualities[answer.quality].label.toLowerCase() +
+      this.qualities[answer.quality].label.toLowerCase() +
       " " +
       intervalLabels[answer.interval].toLowerCase()
     )
@@ -107,10 +123,12 @@ export default class Interval {
   }
 
   makeAnswerPayload(answer, correctAnswer, correct) {
-    const answerQualityLabel = qualities[answer.quality].label.toLowerCase()
+    const answerQualityLabel = this.qualities[
+      answer.quality
+    ].label.toLowerCase()
     const answerIntervalLabel = intervalLabels[answer.interval].toLowerCase()
 
-    const correctAnswerQualityLabel = qualities[
+    const correctAnswerQualityLabel = this.qualities[
       correctAnswer.quality
     ].label.toLowerCase()
     const correctAnswerIntervalLabel = intervalLabels[
@@ -118,7 +136,7 @@ export default class Interval {
     ].toLowerCase()
 
     return {
-      type: "interval",
+      type: "interval " + this.usedSimple,
       answer: {
         quality: answerQualityLabel,
         interval: answerIntervalLabel,
@@ -138,7 +156,7 @@ export default class Interval {
     correct,
   ) {
     return {
-      type: "piano interval",
+      type: "piano interval " + this.usedSimple,
       answer: {
         midiNumber: answerNotes.map(note => note.midiNumber),
         pitch: answerNotes.map(note => note.pitch),
@@ -191,7 +209,7 @@ export default class Interval {
    */
   getAnswerAsNotes(correctAnswer) {
     const correctRoot = notationRoots[correctAnswer.root]
-    const quality = qualities[correctAnswer.quality].name
+    const quality = this.qualities[correctAnswer.quality].name
     const number = correctAnswer.interval + 1 // Number is one higher than index
     return [[PERFECT, UNISON], [quality, number]].map(i =>
       interval(correctRoot, ...i),
