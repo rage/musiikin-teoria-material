@@ -13,10 +13,16 @@ export const DIMINISHED = "dim",
   PERFECT = "perf",
   AUGMENTED = "aug"
 
-export const qualities = [
+export const allQualities = [
   new Quality("Vähennetty", DIMINISHED),
   new Quality("Pieni", MINOR),
   new Quality("Suuri", MAJOR),
   new Quality("Puhdas", PERFECT),
   new Quality("Ylinouseva", AUGMENTED),
+]
+
+export const simpleQualities = [
+  new Quality("Pieni", MINOR),
+  new Quality("Suuri", MAJOR),
+  new Quality("Puhdas", PERFECT),
 ]

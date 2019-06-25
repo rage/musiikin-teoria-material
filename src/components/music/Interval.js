@@ -7,7 +7,7 @@ import {
   availableIntervals,
   concatenateNotes,
 } from "../../util/music/intervals"
-import { PERFECT, qualities } from "../../util/music/qualities"
+import { PERFECT, allQualities as qualities } from "../../util/music/qualities"
 
 import { randomIntArray } from "../../util/random"
 

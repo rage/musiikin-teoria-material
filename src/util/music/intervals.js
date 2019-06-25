@@ -1,5 +1,6 @@
 import {
-  qualities,
+  allQualities,
+  simpleQualities,
   DIMINISHED,
   MINOR,
   MAJOR,
@@ -69,7 +70,7 @@ export const intervalsForQualities = {
   aug: [UNISON, SECOND, FOURTH, FIFTH, OCTAVE],
 }
 
-const makeAllIntervals = () => {
+const makeIntervals = qualities => {
   const all = []
   qualities.forEach(quality =>
     intervalsForQualities[quality.name].forEach(number => {
@@ -79,8 +80,9 @@ const makeAllIntervals = () => {
   return all
 }
 
-export const availableIntervals = makeAllIntervals()
+export const availableIntervals = makeIntervals(allQualities)
 
+export const simpleIntervals = makeIntervals(simpleQualities)
 /**
  * Takes as argument a String in abc notation and returns a String in abc
  * notation corresponding to the input notation raised an octave higher.
