@@ -50,27 +50,29 @@ class Piano extends React.Component {
         : undefined
 
     return (
-      <DimensionsProvider>
-        {({ containerWidth, containerHeight }) => (
-          <SoundfontProvider
-            appendNote={this.props.appendNote}
-            hostname={soundfontHostname}
-            audioContext={this.state.audioContext}
-            render={({ isLoading, playNote, stopNote }) => (
-              <ReactPiano
-                className={"react-piano"}
-                activeNotes={showNotes}
-                noteRange={noteRange}
-                width={containerWidth}
-                playNote={playNote}
-                stopNote={stopNote}
-                disabled={isLoading || this.props.isPlaying}
-                {...this.props}
-              />
-            )}
-          />
-        )}
-      </DimensionsProvider>
+      <div style={showNotes ? { pointerEvents: "none" } : {}}>
+        <DimensionsProvider>
+          {({ containerWidth, containerHeight }) => (
+            <SoundfontProvider
+              appendNote={this.props.appendNote}
+              hostname={soundfontHostname}
+              audioContext={this.state.audioContext}
+              render={({ isLoading, playNote, stopNote }) => (
+                <ReactPiano
+                  className={"react-piano"}
+                  activeNotes={showNotes}
+                  noteRange={noteRange}
+                  width={containerWidth}
+                  playNote={playNote}
+                  stopNote={stopNote}
+                  disabled={isLoading || this.props.isPlaying}
+                  {...this.props}
+                />
+              )}
+            />
+          )}
+        </DimensionsProvider>
+      </div>
     )
   }
 }
