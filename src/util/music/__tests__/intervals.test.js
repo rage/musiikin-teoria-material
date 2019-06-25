@@ -1,6 +1,6 @@
 import { interval, intervalsForQualities } from "../intervals"
 import { roots, ROOTS } from "../roots"
-import { qualities } from "../qualities"
+import { allQualities as qualities } from "../qualities"
 
 /*
   These are in no way a comprehensive collection of intervals;
