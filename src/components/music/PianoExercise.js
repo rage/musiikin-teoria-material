@@ -3,6 +3,7 @@ import MusicSheet from "../../partials/MusicSheet"
 import CheckAnswerPopper from "./CheckAnswerPopper"
 import { Paper, Button, Icon } from "@material-ui/core"
 import withSimpleErrorBoundary from "../../util/withSimpleErrorBoundary"
+import { notes as notesByPitch } from "../../util/music/roots"
 import { convertMidiNumberToNote } from "../../util/music/pianoToNotation"
 import Piano from "./Piano"
 import Loading from "../Loading"
@@ -76,7 +77,7 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    // Funktioita ExerciseKind (Chord, Interval, Scale)
+    // Functions from ExerciseKind (Chord, Interval, Scale)
     const {
       getNoteLimits,
       isPianoAnswerCorrect,
@@ -178,17 +179,22 @@ class PianoExercise extends React.Component {
 
   appendNote = midiNumber => {
     const { notes } = this.state
-    const { shouldAddNote, getNotationForMidi } = this.props.exerciseKind
+    const { shouldAddNote, getAnswerAsNotes } = this.props.exerciseKind
 
     const currentExercise = this.state.exerciseSet.exercises[
       this.state.currentExerciseIndex
     ]
 
-    const notationForMidi = getNotationForMidi(currentExercise)
-    const note = convertMidiNumberToNote(
-      midiNumber,
-      notationForMidi.map(n => n.toUpperCase()),
-    )
+    // here decide how to write each of the 12 notes to the score
+    // for example, should we write D# or Eb
+    const notesForMidi = getAnswerAsNotes(currentExercise)
+    const noteOptions = []
+    // set the correct notation for the notes in the correct answer
+    notesForMidi.forEach(note => (noteOptions[note.pitch] = note.zeroNotation))
+    // set the default choice for the notes not in the correct answer
+    for (let i = 0; i < notesByPitch.length; i++)
+      if (!noteOptions[i]) noteOptions[i] = notesByPitch[i][0]
+    const note = convertMidiNumberToNote(midiNumber, noteOptions)
 
     if (!shouldAddNote(note, notes)) return
 

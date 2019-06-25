@@ -41,7 +41,7 @@ export const letters = ["C", "D", "E", "F", "G", "A", "B"]
 // Represents notes in abc notation,
 // Grouped by pitch (elements in same row produce same sound)
 export const notes = [
-  ["C", "^B", "__D"],
+  ["C", "^B,", "__D"],
   ["_D", "^C", "^^B"],
   ["D", "^^C", "__E"],
   ["_E", "^D", "__F"],
@@ -52,7 +52,7 @@ export const notes = [
   ["_A", "^G"],
   ["A", "^^G", "__B"],
   ["_B", "^A", "__C"],
-  ["B", "_C", "^^A"],
+  ["B", "_c", "^^A"],
 ]
 
 // Indexes for roots below

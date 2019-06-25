@@ -1,46 +1,38 @@
+import { lowerOctave, raiseOctave } from "./intervals"
 import { notes } from "./roots"
 
-export const convertMidiNumberToNote = (midiNumber, correctNotation) => {
+export const convertMidiNumberToNote = (midiNumber, noteOptions) => {
   const { pitch, octave } = convertMidiNumberToPitch(midiNumber)
-  const noteOptions = notes[pitch]
-  //select the option that is in the correct answer as well
-  const selectedNote = chooseFromNoteOptions(noteOptions, correctNotation)
+  // select the option that is in the correct answer as well
+  const selectedNote = noteOptions[pitch]
   const noteInRightOctave = getNoteInRightOctave(selectedNote, octave)
   return { notation: noteInRightOctave, pitch, midiNumber }
 }
 
 const convertMidiNumberToPitch = midiNumber => {
-  let pitch = midiNumber - 60 //midi number 60 = middle c
-  let octave = 1 // middle octave
-  while (pitch > 11) {
-    pitch -= 12
-    octave += 1
+  let pitch = midiNumber - 60 // midi number 60 = middle c
+  let octave = 0 // middle octave
+  while (pitch >= notes.length) {
+    pitch -= notes.length
+    octave++
   }
+  // needed only if piano range is changed
   while (pitch < 0) {
-    pitch += 12
-    octave -= 1
+    pitch += notes.length
+    octave--
   }
   return { pitch, octave, midiNumber }
 }
 
-const getNoteInRightOctave = (note, octave) => {
-  switch (octave) {
-    case 0:
-      return note + ","
-    case 1:
-      return note
-    case 2:
-      return note.toLowerCase()
-    case 3:
-      return note.toLowerCase() + "'"
+const getNoteInRightOctave = (notation, octave) => {
+  while (octave > 0) {
+    notation = raiseOctave(notation)
+    octave--
   }
-  return note
-}
-
-const chooseFromNoteOptions = (noteOptions, correctNotation) => {
-  for (let i = 0; i < noteOptions.length; i++) {
-    const noteOption = noteOptions[i]
-    if (correctNotation.includes(noteOption)) return noteOption
+  // needed only if piano range is changed
+  while (octave < 0) {
+    notation = lowerOctave(notation)
+    octave++
   }
-  return noteOptions[0]
+  return notation
 }

@@ -5,7 +5,8 @@ import {
 } from "../../util/music/roots"
 import { triads as answerTriads } from "../../util/music/chords"
 import { randomIntArray } from "../../util/random"
-import { interval, concatenateNotes } from "../../util/music/intervals"
+import { UNISON, interval, concatenateNotes } from "../../util/music/intervals"
+import { PERFECT } from "../../util/music/qualities"
 
 // Answer Keys
 const ROOT = "root",
@@ -126,7 +127,7 @@ export default class Chord {
 
   makePianoAnswerPayload(
     answerNotes,
-    correctAnswerPitches,
+    correctAnswerNotes,
     correctAnswerString,
     correct,
   ) {
@@ -138,7 +139,7 @@ export default class Chord {
       },
       correctAnswer: {
         string: correctAnswerString,
-        pitch: correctAnswerPitches,
+        pitch: correctAnswerNotes.map(n => n.pitch),
       },
       correct,
     }
@@ -153,7 +154,7 @@ export default class Chord {
     const answerNotes = pianoAnswerNotes.map(n => n.pitch)
     const correctAnswerNotes = this.getAnswerAsNotes(correctAnswer)
     if (answerNotes.length === correctAnswerNotes.length) {
-      return correctAnswerNotes.every(pitch => answerNotes.includes(pitch))
+      return correctAnswerNotes.every(note => answerNotes.includes(note.pitch))
     }
     return false
   }
@@ -176,23 +177,10 @@ export default class Chord {
    */
   getAnswerAsNotes(correctAnswer) {
     return [
-      correctAnswer.pitch,
-      ...answerTriads[correctAnswer.triad].intervals.map(
-        i => interval(notationRoots[correctAnswer.root], ...i).pitch,
-      ),
-    ]
+      [PERFECT, UNISON],
+      ...answerTriads[correctAnswer.triad].intervals,
+    ].map(i => interval(notationRoots[correctAnswer.root], ...i))
   }
-
-  /**
-   * Returns an array of correct notations to be used when writing on the score.
-   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
-   */
-  getNotationForMidi = correctAnswer => [
-    notationRoots[correctAnswer.root].notation,
-    ...answerTriads[correctAnswer.triad].intervals.map(
-      i => interval(notationRoots[correctAnswer.root], ...i).notation,
-    ),
-  ]
 
   /**
    * Form abc notation from the notes given by piano.
