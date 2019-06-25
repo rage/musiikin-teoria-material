@@ -1,6 +1,21 @@
 import { lowerOctave, raiseOctave } from "./intervals"
 import { notes } from "./roots"
 
+/**
+ * Returns a note corresponding to the given midiNumber, according to the
+ * notation options given as noteOptions.
+ * The returned note is an object with:
+ * "notation": a String corresponding to abc notation of the note;
+ * "pitch": the corresponding pitch in the central octave, from 0 to 11;
+ * "midiNumber": same as the input parameter midiNumber.
+ *
+ * @param {*} midiNumber Midi number (absolute pitch) of the desired note
+ * @param {*} noteOptions String array of size 12, in which each element is the
+ *                        desired notation (in the central octave) for the
+ *                        corresponding pitch, meaning that pitch is the index
+ *                        of the array (for example noteOptions[0] contains the
+ *                        desired notation for C)
+ */
 export const convertMidiNumberToNote = (midiNumber, noteOptions) => {
   const { pitch, octave } = convertMidiNumberToPitch(midiNumber)
   // select the option that is in the correct answer as well

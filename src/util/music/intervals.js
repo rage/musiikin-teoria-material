@@ -142,9 +142,15 @@ const pitchJumps = [0, 2, 4, 5, 7, 9, 11]
 
 /**
  * Returns an object with:
- * "notation": a String corresponding to abc notation for adding an interval on
- *             top of the given root;
- * "pitch": the corresponding pitch, from 0 to 11.
+ * "notation": a String corresponding to abc notation for building an interval
+ *             on top of the given root;
+ * "zeroNotation": a String corresponding to abc notation for building an
+ *                 interval on top of the given root, and moving the resulting
+ *                 note to the central octave;
+ * "pitch": the corresponding pitch in the central octave, from 0 to 11;
+ * "pitchJump": number of semitones between the root pitch and the pitch of the
+ *              note of the built interval;
+ * "midiNumber": the corresponding midi number, needed for piano playback.
  *
  * For example:
  *    root = roots[0] // C
@@ -209,7 +215,7 @@ export const interval = (root, quality, number) => {
     if (note.toUpperCase().includes(letter)) {
       notation = note
     }
-  // notation if the note was in the central octave
+  // notation in the central octave
   const zeroNotation = notation
 
   // needed for diminished unison
@@ -227,7 +233,10 @@ export const interval = (root, quality, number) => {
     pitchJump += notes.length
   }
 
-  return { notation, zeroNotation, pitch, pitchJump }
+  // Midi number 60 = middle C
+  const midiNumber = root.pitch + pitchJump + 60
+
+  return { notation, zeroNotation, pitch, pitchJump, midiNumber }
 }
 
 /**
