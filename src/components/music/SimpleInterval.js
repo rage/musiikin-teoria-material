@@ -1,0 +1,246 @@
+import React from "react"
+import { roots as notationRoots } from "../../util/music/roots"
+// TODO swap to simpler list of intervals
+import {
+  interval,
+  intervalLabels,
+  availableIntervals,
+  concatenateNotes,
+} from "../../util/music/intervals"
+import { qualities } from "../../util/music/qualities"
+
+import { randomIntArray } from "../../util/random"
+
+// Answer Keys
+const INTERVAL = "interval"
+
+/**
+ * Private method, generate a number of correct answers.
+ * @param {*} howMany How many exercises to generate
+ * @returns [{interval: 5, quality: 4, notation: "<abc notation>"}]
+ */
+const generateCorrectAnswers = howMany => {
+  const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+  const correctIntervals = randomIntArray(0, availableIntervals.length, howMany)
+
+  return correctRoots.map((correctRoot, index) => {
+    const interval = availableIntervals[correctIntervals[index]]
+    const correctInterval = interval.number - 1 // Number is one higher than index
+    const correctQuality = qualities.indexOf(interval.quality)
+
+    const notation = interval.notation(notationRoots[correctRoot])
+
+    return {
+      root: correctRoot, // Generated answers have root
+      interval: correctInterval,
+      notation,
+    }
+  })
+}
+
+export default class Interval {
+  generateExerciseSet(howMany) {
+    const exerciseSet = {
+      answerKeys: [INTERVAL],
+      answerOptions: {
+        interval: [], // TODO Add array with labels
+      },
+      answerLabels: {
+        interval: "Intervalli",
+      },
+      exercises: generateCorrectAnswers(howMany),
+    }
+
+    return exerciseSet
+  }
+
+  /**
+   * Get answerKeys that were same in both answer and correctAnswer.
+   * @param {*} answer {interval: 5, quality: 3}
+   * @param {*} correctAnswer {interval: 5, quality: 2}
+   * @returns ["interval"]
+   */
+  getCorrectAnswerKeys(answer, correctAnswer) {
+    if (!answer || typeof answer.interval !== "number" || !correctAnswer)
+      return []
+
+    const correctAnswerKeys = []
+
+    if (answer.interval === correctAnswer.interval)
+      correctAnswerKeys.push(INTERVAL)
+
+    return correctAnswerKeys
+  }
+
+  /**
+   * Get user readable string of the answer.
+   * @param {*} answer {interval: 0, quality: 0}
+   * @returns "puhdas kvintti"
+   */
+  readableAnswerString(answer) {
+    return "" // TODO Create
+  }
+
+  getInstructionString() {
+    return "intervalli" // TODO change
+  }
+
+  makeAnswerPayload(answer, correctAnswer, correct) {
+    // TODO Change
+
+    const answerQualityLabel = qualities[answer.quality].label.toLowerCase()
+    const answerIntervalLabel = intervalLabels[answer.interval].toLowerCase()
+    const correctAnswerQualityLabel = qualities[
+      correctAnswer.quality
+    ].label.toLowerCase()
+    const correctAnswerIntervalLabel = intervalLabels[
+      correctAnswer.interval
+    ].toLowerCase()
+    return {
+      type: "interval simple",
+      answer: {
+        quality: answerQualityLabel,
+        interval: answerIntervalLabel,
+      },
+      correctAnswer: {
+        quality: correctAnswerQualityLabel,
+        interval: correctAnswerIntervalLabel,
+      },
+      correct,
+    }
+  }
+
+  makePianoAnswerPayload(
+    answerNotes,
+    correctAnswerPitches,
+    correctAnswerString,
+    correct,
+  ) {
+    return {
+      type: "piano interval simple",
+      answer: {
+        midiNumber: answerNotes.map(note => note.midiNumber),
+        pitch: answerNotes.map(note => note.pitch),
+      },
+      correctAnswer: {
+        string: correctAnswerString,
+        pitch: correctAnswerPitches,
+      },
+      correct,
+    }
+  }
+
+  /**
+   * Check if the answer is correct for a Piano exercise.
+   * @param {*} pianoAnswerNotes Notes the student has pressed on piano
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  isPianoAnswerCorrect = (pianoAnswerNotes, correctAnswer) => {
+    if (pianoAnswerNotes.length !== 2) return false
+
+    const enteredPitchJump = Math.abs(
+      pianoAnswerNotes[1].midiNumber - pianoAnswerNotes[0].midiNumber,
+    )
+
+    // TODO check that it is correct
+
+    // Get correct information from the generated answer
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(correctRoot, quality, number)
+
+    const correctPitches = [correctRoot.pitch, correctInterval.pitch]
+    for (const note of pianoAnswerNotes)
+      if (!correctPitches.includes(note.pitch)) return false
+
+    return enteredPitchJump === Math.abs(correctInterval.pitchJump)
+  }
+
+  /**
+   * Should the next note be added.
+   * @param {*} note Note given by piano
+   * @param {*} notes already added notes
+   */
+  shouldAddNote = (note, notes) => {
+    return (
+      notes.length < this.getNoteLimits().max &&
+      notes.filter(n => n.notation === note.notation).length < 2
+    )
+  }
+
+  /**
+   * Turn correct answer into an array of notes
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getAnswerAsNotes(correctAnswer) {
+    // TODO check that it is correct
+
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(correctRoot, quality, number)
+    return [correctRoot.pitch, correctInterval.pitch]
+  }
+
+  /**
+   * Returns an array of correct notations to be used when writing on the score.
+   * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
+   */
+  getNotationForMidi = correctAnswer => {
+    // TODO check that it is correct
+
+    const correctRoot = notationRoots[correctAnswer.root]
+    const quality = qualities[correctAnswer.quality].name
+    const number = correctAnswer.interval + 1 // Number is one higher than index
+    const correctInterval = interval(correctRoot, quality, number)
+    return [correctRoot.notation, correctInterval.notation]
+  }
+
+  /**
+   * Form abc notation from the notes given by piano.
+   * @param {*} notes notes given by piano
+   */
+  getNotesAsNotation(notes) {
+    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+  }
+
+  getPianoInstructions = correctAnswer => {
+    const asString = this.readableAnswerString(correctAnswer)
+    const slicePoint = asString.indexOf(" ")
+    const root = asString.slice(0, slicePoint)
+    const interval = asString.slice(slicePoint, asString.length)
+    return (
+      <>
+        Muodosta pianon avulla <b>{interval}</b>, jonka pohjasävel on{" "}
+        <b>{root}</b>
+      </>
+    )
+  }
+
+  /**
+   * Get engraverParams for MusicSheet to display this exercise kind.
+   */
+  getEngraverParams() {
+    return {
+      add_classes: false,
+      editable: false,
+      listener: null,
+      paddingbottom: 1,
+      paddingleft: 262,
+      paddingright: 278,
+      paddingtop: 15,
+      scale: 2,
+      staffwidth: 224,
+      responsive: undefined,
+    }
+  }
+
+  /**
+   * Returns the minimum and maximum notes allowed on the score;
+   * min and max are both inclusive.
+   */
+  getNoteLimits() {
+    return { min: 2, max: Number.MAX_SAFE_INTEGER }
+  }
+}
