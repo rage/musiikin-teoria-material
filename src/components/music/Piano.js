@@ -54,6 +54,7 @@ class Piano extends React.Component {
         <DimensionsProvider>
           {({ containerWidth, containerHeight }) => (
             <SoundfontProvider
+              disabled={showNotes}
               appendNote={this.props.appendNote}
               hostname={soundfontHostname}
               audioContext={this.state.audioContext}
