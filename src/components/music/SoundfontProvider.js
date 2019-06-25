@@ -11,6 +11,7 @@ class SoundfontProvider extends React.Component {
     format: PropTypes.oneOf(["mp3", "ogg"]),
     soundfont: PropTypes.oneOf(["MusyngKite", "FluidR3_GM"]),
     render: PropTypes.func,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -56,6 +57,9 @@ class SoundfontProvider extends React.Component {
   }
 
   playNote = midiNumber => {
+    if (this.props.disabled) {
+      return
+    }
     this.props.audioContext.resume().then(() => {
       const audioNode = this.state.instrument.play(midiNumber)
       this.setState({
