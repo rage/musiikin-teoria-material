@@ -18,4 +18,6 @@ Intervalli on kahden nuotin etäisyys. Intervallit ovat kivoja. Musiikki on haus
 
 <music-exercise name="Intervallin tunnistus" type="intervals_notes"></music-exercise>
 
+<music-exercise name="Intervallin tunnistus kuuntelemalla" type="intervals_sound"></music-exercise>
+
 <music-exercise name="Intervallin kirjoitus" type="piano_intervals"></music-exercise>
