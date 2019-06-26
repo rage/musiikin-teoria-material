@@ -15,10 +15,11 @@ import {
  * in which case parameter intervals should contain only ascending intervals
  */
 class Scale {
-  constructor(label, intervals, symmetric) {
+  constructor(label, intervals, symmetric, formattingFunction) {
     this.label = label
     this.intervals = intervals
     this.symmetric = symmetric
+    this.formattingFunction = formattingFunction
   }
 
   notation(root) {
@@ -30,6 +31,10 @@ class Scale {
         [PERFECT, OCTAVE],
       ])
     )
+  }
+
+  asReadableString(root) {
+    return this.formattingFunction(root.label, this.label)
   }
 }
 
@@ -45,6 +50,7 @@ export const scales = [
       [MAJOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Luonnollinen molli",
@@ -57,6 +63,12 @@ export const scales = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) =>
+      scale.split(" ")[0].toLowerCase() +
+      " " +
+      root +
+      "-" +
+      scale.split(" ")[1],
   ),
   new Scale(
     "Harmoninen molli",
@@ -69,6 +81,12 @@ export const scales = [
       [MAJOR, SEVENTH],
     ],
     true,
+    (root, scale) =>
+      scale.split(" ")[0].toLowerCase() +
+      " " +
+      root +
+      "-" +
+      scale.split(" ")[1],
   ),
   new Scale(
     "Melodinen molli",
@@ -81,6 +99,12 @@ export const scales = [
       [MAJOR, SEVENTH],
     ],
     false,
+    (root, scale) =>
+      scale.split(" ")[0].toLowerCase() +
+      " " +
+      root +
+      "-" +
+      scale.split(" ")[1],
   ),
 ]
 
@@ -96,6 +120,7 @@ export const modes = [
       [MAJOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Doorinen",
@@ -108,6 +133,7 @@ export const modes = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Fryyginen",
@@ -120,6 +146,7 @@ export const modes = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Lyydinen",
@@ -132,6 +159,7 @@ export const modes = [
       [MAJOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Miksolyydinen",
@@ -144,6 +172,7 @@ export const modes = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Aiolinen",
@@ -156,6 +185,7 @@ export const modes = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
   new Scale(
     "Lokrinen",
@@ -168,5 +198,6 @@ export const modes = [
       [MINOR, SEVENTH],
     ],
     true,
+    (root, scale) => root + "-" + scale.toLowerCase(),
   ),
 ]

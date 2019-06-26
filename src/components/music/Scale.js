@@ -93,13 +93,12 @@ export default class Scale {
    * @returns "C major"
    */
   readableAnswerString = answer => {
-    const answerPitchLabel = answer.pitch // Generated answers have pitch
-      ? notationRoots[answer.root].label
-      : answerRoots[answer.root].label
+    const answerRoot = answer.pitch // Generated answers have pitch
+      ? notationRoots[answer.root]
+      : answerRoots[answer.root]
+    const answerChord = this.scales[answer.scale]
 
-    return (
-      answerPitchLabel + " " + this.scales[answer.scale].label.toLowerCase()
-    )
+    return answerChord.asReadableString(answerRoot)
   }
 
   getInstructionString() {
@@ -211,28 +210,9 @@ export default class Scale {
 
   getPianoInstructions = correctAnswer => {
     const asString = this.readableAnswerString(correctAnswer)
-    const firstSpace = asString.indexOf(" ")
-    const root = asString.slice(0, firstSpace)
-
-    const qualityAndScale = asString.slice(firstSpace + 1, asString.length)
-    const secondSpace = qualityAndScale.indexOf(" ")
-    let quality = ""
-    let scale = qualityAndScale
-
-    if (secondSpace !== -1) {
-      quality = qualityAndScale.slice(0, secondSpace) + " "
-      scale = qualityAndScale.slice(secondSpace + 1, qualityAndScale.length)
-    }
     return (
       <>
-        Muodosta pianon avulla{" "}
-        <b>
-          {quality}
-          {root}
-          {"-"}
-          {scale}
-        </b>{" "}
-        nousevana asteikkona
+        Muodosta pianon avulla <b>{asString}</b> nousevana asteikkona
       </>
     )
   }

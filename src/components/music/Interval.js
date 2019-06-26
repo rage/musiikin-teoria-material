@@ -106,12 +106,22 @@ export default class Interval {
    * @param {*} answer {interval: 0, quality: 0}
    * @returns "puhdas kvintti"
    */
-  readableAnswerString = answer => {
-    return (
+  readableAnswerString = (answer, root) => {
+    // Root is needed for giving instructions in piano exercise,
+    // but not when giving the correct answer in other exercise types
+    let string = ""
+    if (root) {
+      string +=
+        typeof answer.root === "number"
+          ? notationRoots[answer.root].label + " "
+          : ""
+    }
+    string +=
       this.qualities[answer.quality].label.toLowerCase() +
       " " +
       intervalLabels[answer.interval].toLowerCase()
-    )
+
+    return string
   }
 
   getInstructionString() {
@@ -221,7 +231,7 @@ export default class Interval {
   }
 
   getPianoInstructions = correctAnswer => {
-    const asString = this.readableAnswerString(correctAnswer)
+    const asString = this.readableAnswerString(correctAnswer, true)
     const slicePoint = asString.indexOf(" ")
     const root = asString.slice(0, slicePoint)
     const interval = asString.slice(slicePoint, asString.length)
