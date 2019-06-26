@@ -65,6 +65,8 @@ const getQuizId = type => {
 const getExerciseKindByType = type => {
   if (type.includes("chord")) {
     return new Chord()
+  } else if (type.includes("intervals_sound")) {
+    return new Interval("simple")
   } else if (type.includes("interval")) {
     return new Interval()
   } else if (type.includes("scale")) {
