@@ -232,7 +232,6 @@ export default class Interval {
 
   getPianoInstructions = correctAnswer => {
     const asString = this.readableAnswerString(correctAnswer, true)
-    console.log("s", asString)
     const slicePoint = asString.indexOf(" ")
     const root = asString.slice(0, slicePoint)
     const interval = asString.slice(slicePoint, asString.length)
