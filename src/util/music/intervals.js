@@ -254,9 +254,9 @@ export const interval = (root, quality, number) => {
  * @param {*} intervals Desired notes, expressed as intervals from the root
  */
 export const concatenateIntervals = (root, intervals) =>
-  concatenateNotes(intervals.map(i => interval(root, ...i).notation))
+  concatenateNotation(intervals.map(i => interval(root, ...i).notation))
 
-export const concatenateNotes = notes => {
+export const concatenateNotation = notes => {
   const prevAccidentals = new Set([])
   return notes
     .map(note => {

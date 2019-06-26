@@ -6,7 +6,7 @@ import {
   intervalLabels,
   availableIntervals,
   simpleIntervals,
-  concatenateNotes,
+  concatenateNotation,
 } from "../../util/music/intervals"
 import {
   PERFECT,
@@ -227,7 +227,7 @@ export default class Interval {
    * @param {*} notes notes given by piano
    */
   getNotesAsNotation = notes => {
-    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+    return "L:1/1\n[" + concatenateNotation(notes.map(n => n.notation)) + "]"
   }
 
   getPianoInstructions = correctAnswer => {

@@ -4,7 +4,7 @@ import {
   answerOptionsForRoots as answerRoots,
 } from "../../util/music/roots"
 import { modes, scales } from "../../util/music/scales"
-import { concatenateNotes, interval } from "../../util/music/intervals"
+import { concatenateNotation, interval } from "../../util/music/intervals"
 import { PERFECT } from "../../util/music/qualities"
 import { UNISON, OCTAVE } from "../../util/music/intervals"
 import { randomIntArray } from "../../util/random"
@@ -205,7 +205,7 @@ export default class Scale {
    * @param {*} notes notes given by piano
    */
   getNotesAsNotation(notes) {
-    return "L:1/4\n" + concatenateNotes(notes.map(n => n.notation))
+    return "L:1/4\n" + concatenateNotation(notes.map(n => n.notation))
   }
 
   getPianoInstructions = correctAnswer => {
