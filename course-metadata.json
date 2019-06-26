@@ -2,7 +2,7 @@
   "@context": "http://schema.org",
   "@type": "Course",
   "name": "Musiikinteoria",
-  "description": "Helsingin yliopiston kaikille avoin verkkokurssi, joka opettaa miten internet toimii. Opit miten tietokoneet, puhelimet ja palvelimet keskustelevat verkon yli. Mitä ovat reitittimet ja kytkimet?.",
+  "description": "Helsingin yliopiston kaikille avoin verkkokurssi, joka opettaa musiikin teorian perusteet. Mitä ovat sävelet? Minkälaisia musikaalisia rakenteita ovat intervallit, soinnut tai asteikot?",
   "provider": {
     "@type": "Organization",
     "name": "MOOC.fi",
