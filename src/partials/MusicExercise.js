@@ -63,7 +63,9 @@ const getQuizId = type => {
 }
 
 const getExerciseKindByType = type => {
-  if (type.includes("chord")) {
+  if (type.includes("chords_inversions")) {
+    return new Chord(true)
+  } else if (type.includes("chord")) {
     return new Chord()
   } else if (type.includes("intervals_sound")) {
     return new Interval("simple")
@@ -91,7 +93,10 @@ const createExerciseRenderingFunction = (type, requiredAnswers) => (
       <>
         <p>Incorrect exercise type {"'" + type + "'"}, implemented types:</p>
         <ul>
-          <li>chords, chords_notes, chords_sound</li>
+          <li>
+            chords, chords_notes, chords_sound, chords_inversions,
+            chords_inversions_notes, chords_inversions_sound,
+          </li>
           <li>intervals, intervals_notes, intervals_sound</li>
           <li>scales, scales_notes, scales_sound</li>
           <li>modes, modes_notes, modes_sound</li>

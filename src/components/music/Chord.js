@@ -5,7 +5,11 @@ import {
 } from "../../util/music/roots"
 import { triads as answerTriads } from "../../util/music/chords"
 import { randomIntArray } from "../../util/random"
-import { UNISON, interval, concatenateNotes } from "../../util/music/intervals"
+import {
+  UNISON,
+  interval,
+  concatenateNotation,
+} from "../../util/music/intervals"
 import { PERFECT } from "../../util/music/qualities"
 
 // Answer Keys
@@ -17,9 +21,12 @@ const ROOT = "root",
  * @param {*} howMany How many exercises to generate
  * @returns [{root: 5, triad: 4, notation: "<abc notation>"}]
  */
-const generateCorrectAnswers = howMany => {
+const generateCorrectAnswers = (howMany, withInversions) => {
   const correctRoots = randomIntArray(0, notationRoots.length, howMany)
   const correctTriads = randomIntArray(0, answerTriads.length, howMany)
+  const inversions = withInversions
+    ? randomIntArray(0, answerTriads[0].intervals.length + 1, howMany)
+    : new Array(howMany).fill(0)
 
   return correctRoots.map((root, i) => {
     const triad = correctTriads[i]
@@ -27,12 +34,19 @@ const generateCorrectAnswers = howMany => {
       root: root,
       pitch: notationRoots[root].pitch, // Generated answers have pitch
       triad: triad,
-      notation: answerTriads[triad].notation(notationRoots[root]),
+      notation: answerTriads[triad].notation(
+        notationRoots[root],
+        inversions[i],
+      ),
     }
   })
 }
 
 export default class Chord {
+  constructor(withInversions) {
+    this.withInversions = withInversions
+  }
+
   generateExerciseSet(howMany) {
     const exerciseSet = {
       answerKeys: [ROOT, TRIAD],
@@ -44,7 +58,7 @@ export default class Chord {
         root: "Pohjasävel",
         triad: "Laatu",
       },
-      exercises: generateCorrectAnswers(howMany),
+      exercises: generateCorrectAnswers(howMany, this.withInversions),
     }
 
     return exerciseSet
@@ -187,7 +201,7 @@ export default class Chord {
    * @param {*} notes notes given by piano
    */
   getNotesAsNotation(notes) {
-    return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
+    return "L:1/1\n[" + concatenateNotation(notes.map(n => n.notation)) + "]"
   }
 
   getPianoInstructions = correctAnswer => {
