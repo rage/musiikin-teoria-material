@@ -26,7 +26,7 @@ const ExerciseRouter = ({ type, name, description, required, quizid }) => {
 }
 
 const getQuizId = type => {
-  switch (type ? type : "chords") {
+  switch (type ? type : "") {
     case "chords":
       return "abdbe74f-88db-43c2-8ff2-e32e5973bfd4"
     case "chords_notes":
