@@ -25,6 +25,9 @@ class Chord {
     const intervalsNotations = [[PERFECT, UNISON], ...this.intervals].map(
       i => interval(root, ...i).notation,
     )
+    // create two subarrays from intervalsNotations: one from index 0
+    // (inclusive) to index inversion (exclusive), the other from index
+    // inversion (inclusive) to the end of the array
     const toBeRaised = intervalsNotations.slice(0, inversion)
     const ready = intervalsNotations.slice(inversion)
 
