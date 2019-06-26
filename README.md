@@ -4,8 +4,8 @@ First half of summer 2019.
 
 ## Documentation
 
-[Exercise State Diagram](https://raw.githubusercontent.com/rage/musiikin-teoria-material/master/documentation/IMG_0087.jpg)
-[React Component Architecture Diagram](https://raw.githubusercontent.com/rage/musiikin-teoria-material/master/documentation/IMG_0088.jpg)
+- [Exercise State Diagram](https://raw.githubusercontent.com/rage/musiikin-teoria-material/master/documentation/IMG_0087.jpg)  
+- [React Component Architecture Diagram](https://raw.githubusercontent.com/rage/musiikin-teoria-material/master/documentation/IMG_0088.jpg)  
 
 ## Development environment
 
@@ -30,6 +30,8 @@ Custom markdown components are located in `src/partials`
 ## Authors
 
 Material template created by [Henrik Nygren](https://github.com/nygrenh) and [Antti Leinonen](https://github.com/Redande).
+
+Music related material extensions created by [Andrea La Mantia](https://github.com/nigoshh), [Risto Lahtela](https://github.com/Rsl1122), [Vanamo Piiranen](https://github.com/Vanamo) and [Wenlei Dai](https://github.com/rescawen).
 
 # License
 
