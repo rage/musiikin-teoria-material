@@ -53,7 +53,7 @@ export default class Interval {
     this.usedSimple = useSimple
   }
 
-  generateExerciseSet(howMany) {
+  generateExerciseSet = howMany => {
     const exerciseSet = {
       answerKeys: [INTERVAL, QUALITY],
       answerOptions: {
@@ -82,7 +82,7 @@ export default class Interval {
    * @param {*} correctAnswer {interval: 5, quality: 2}
    * @returns ["interval"]
    */
-  getCorrectAnswerKeys(answer, correctAnswer) {
+  getCorrectAnswerKeys = (answer, correctAnswer) => {
     if (
       !answer ||
       typeof answer.interval !== "number" ||
@@ -106,12 +106,8 @@ export default class Interval {
    * @param {*} answer {interval: 0, quality: 0}
    * @returns "puhdas kvintti"
    */
-  readableAnswerString(answer) {
+  readableAnswerString = answer => {
     return (
-      // Generated answers have root
-      (typeof answer.root === "number"
-        ? notationRoots[answer.root].label + " "
-        : "") +
       this.qualities[answer.quality].label.toLowerCase() +
       " " +
       intervalLabels[answer.interval].toLowerCase()
@@ -122,7 +118,7 @@ export default class Interval {
     return "intervalli ja laatu"
   }
 
-  makeAnswerPayload(answer, correctAnswer, correct) {
+  makeAnswerPayload = (answer, correctAnswer, correct) => {
     const answerQualityLabel = this.qualities[
       answer.quality
     ].label.toLowerCase()
@@ -149,12 +145,12 @@ export default class Interval {
     }
   }
 
-  makePianoAnswerPayload(
+  makePianoAnswerPayload = (
     answerNotes,
     correctAnswerNotes,
     correctAnswerString,
     correct,
-  ) {
+  ) => {
     return {
       type: "piano interval " + this.usedSimple,
       answer: {
@@ -207,7 +203,7 @@ export default class Interval {
    * Turn correct answer into an array of notes
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
-  getAnswerAsNotes(correctAnswer) {
+  getAnswerAsNotes = correctAnswer => {
     const correctRoot = notationRoots[correctAnswer.root]
     const quality = this.qualities[correctAnswer.quality].name
     const number = correctAnswer.interval + 1 // Number is one higher than index
@@ -220,7 +216,7 @@ export default class Interval {
    * Form abc notation from the notes given by piano.
    * @param {*} notes notes given by piano
    */
-  getNotesAsNotation(notes) {
+  getNotesAsNotation = notes => {
     return "L:1/1\n[" + concatenateNotes(notes.map(n => n.notation)) + "]"
   }
 
@@ -240,7 +236,7 @@ export default class Interval {
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */
-  getEngraverParams() {
+  getEngraverParams = () => {
     return {
       add_classes: false,
       editable: false,
@@ -259,7 +255,7 @@ export default class Interval {
    * Returns the minimum and maximum notes allowed on the score;
    * min and max are both inclusive.
    */
-  getNoteLimits() {
+  getNoteLimits = () => {
     return { min: 2, max: Number.MAX_SAFE_INTEGER }
   }
 }
