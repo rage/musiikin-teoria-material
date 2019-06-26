@@ -51,7 +51,6 @@ export default class Interval {
     this.intervals =
       useSimple === "simple" ? simpleIntervals : availableIntervals
     this.usedSimple = useSimple
-    console.log("q", this.qualities)
   }
 
   generateExerciseSet = howMany => {
