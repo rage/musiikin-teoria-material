@@ -5,6 +5,7 @@ import MusicExerciseWrapper from "../components/music/MusicExerciseWrapper"
 import Exercise from "../components/music/Exercise"
 import PianoExercise from "../components/music/PianoExercise"
 import Chord from "../components/music/Chord"
+import RootlessChord from "../components/music/RootlessChord"
 import Interval from "../components/music/Interval"
 import Scale from "../components/music/Scale"
 
@@ -65,6 +66,8 @@ const getQuizId = type => {
 const getExerciseKindByType = type => {
   if (type.includes("chords_inversions")) {
     return new Chord(true)
+  } else if (type.includes("chords_sound")) {
+    return new RootlessChord()
   } else if (type.includes("chord")) {
     return new Chord()
   } else if (type.includes("intervals_sound")) {
