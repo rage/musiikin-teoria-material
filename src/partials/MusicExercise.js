@@ -64,8 +64,10 @@ const getQuizId = type => {
 }
 
 const getExerciseKindByType = type => {
-  if (type.includes("chords_inversions")) {
-    return new Chord(true)
+  if (type.includes("amazing_chords")) {
+    return new Chord("amazing")
+  } else if (type.includes("chords_inversions")) {
+    return new Chord("triads", true)
   } else if (type.includes("chords_sound")) {
     return new RootlessChord()
   } else if (type.includes("chord")) {

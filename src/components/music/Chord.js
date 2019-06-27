@@ -3,7 +3,7 @@ import {
   roots as notationRoots,
   answerOptionsForRoots as answerRoots,
 } from "../../util/music/roots"
-import { triads as answerTriads } from "../../util/music/chords"
+import { triads, amazingChords } from "../../util/music/chords"
 import { randomIntArray } from "../../util/random"
 import {
   UNISON,
@@ -14,51 +14,53 @@ import { PERFECT } from "../../util/music/qualities"
 
 // Answer Keys
 export const ROOT = "root",
-  TRIAD = "triad"
-
-/**
- * Private method, generate a number of correct answers.
- * @param {*} howMany How many exercises to generate
- * @returns [{root: 5, triad: 4, notation: "<abc notation>"}]
- */
-export const generateCorrectAnswers = (howMany, withInversions) => {
-  const correctRoots = randomIntArray(0, notationRoots.length, howMany)
-  const correctTriads = randomIntArray(0, answerTriads.length, howMany)
-  const inversions = withInversions
-    ? randomIntArray(0, answerTriads[0].intervals.length + 1, howMany)
-    : new Array(howMany).fill(0)
-
-  return correctRoots.map((root, i) => {
-    const triad = correctTriads[i]
-    return {
-      root: root,
-      pitch: notationRoots[root].pitch, // Generated answers have pitch
-      triad: triad,
-      notation: answerTriads[triad].notation(
-        notationRoots[root],
-        inversions[i],
-      ),
-    }
-  })
-}
+  CHORD = "chord"
 
 export default class Chord {
-  constructor(withInversions) {
+  constructor(chords, withInversions) {
+    this.answerChords = chords === "amazing" ? amazingChords : triads
     this.withInversions = withInversions
+  }
+
+  /**
+   * Private method, generate a number of correct answers.
+   * @param {*} howMany How many exercises to generate
+   * @returns [{root: 5, chord: 4, notation: "<abc notation>"}]
+   */
+  generateCorrectAnswers = howMany => {
+    const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+    const correctChords = randomIntArray(0, this.answerChords.length, howMany)
+    // assuming all chords in answerChords have the same amount of intervals
+    const inversions = this.withInversions
+      ? randomIntArray(0, this.answerChords[0].intervals.length + 1, howMany)
+      : new Array(howMany).fill(0)
+
+    return correctRoots.map((root, i) => {
+      const chord = correctChords[i]
+      return {
+        root: root,
+        pitch: notationRoots[root].pitch, // Generated answers have pitch
+        chord: chord,
+        notation: this.answerChords[chord].notation(
+          notationRoots[root],
+          inversions[i],
+        ),
+      }
+    })
   }
 
   generateExerciseSet = howMany => {
     const exerciseSet = {
-      answerKeys: [ROOT, TRIAD],
+      answerKeys: [ROOT, CHORD],
       answerOptions: {
         root: answerRoots,
-        triad: answerTriads,
+        chord: this.answerChords,
       },
       answerLabels: {
         root: "Pohjasävel",
-        triad: "Laatu",
+        chord: "Laatu",
       },
-      exercises: generateCorrectAnswers(howMany, this.withInversions),
+      exercises: this.generateCorrectAnswers(howMany, this.withInversions),
     }
 
     return exerciseSet
@@ -66,15 +68,15 @@ export default class Chord {
 
   /**
    * Get answerKeys that were same in both answer and correctAnswer.
-   * @param {*} answer {root: 5, triad: 3}
-   * @param {*} correctAnswer {root: 5, triad: 2}
+   * @param {*} answer {root: 5, chord: 3}
+   * @param {*} correctAnswer {root: 5, chord: 2}
    * @returns ["root"]
    */
   getCorrectAnswerKeys = (answer, correctAnswer) => {
     if (
       !answer ||
       typeof answer.root !== "number" ||
-      typeof answer.triad !== "number" ||
+      typeof answer.chord !== "number" ||
       !correctAnswer
     )
       return []
@@ -89,23 +91,23 @@ export default class Chord {
       : answerRoots[correctAnswer.root].pitch
 
     if (answerPitch === correctAnswerPitch) correctAnswerKeys.push(ROOT)
-    if (answer.triad === correctAnswer.triad) correctAnswerKeys.push(TRIAD)
+    if (answer.chord === correctAnswer.chord) correctAnswerKeys.push(CHORD)
 
     return correctAnswerKeys
   }
 
   /**
    * Get user readable string of the answer.
-   * @param {*} answer {root: 0, triad: 0}
+   * @param {*} answer {root: 0, chord: 0}
    * @returns "C major"
    */
   readableAnswerString = answer => {
     const answerRoot = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root]
       : answerRoots[answer.root]
-    const answerTriad = answerTriads[answer.triad]
+    const answerChord = this.answerChords[answer.chord]
 
-    return answerTriad.asReadableString(answerRoot)
+    return answerChord.asReadableString(answerRoot)
   }
 
   getInstructionString = () => "soinnun pohjasävel ja laatu"
@@ -114,24 +116,24 @@ export default class Chord {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
       : answerRoots[answer.root].label
-    const answerTriadLabel = answerTriads[answer.triad].label.toLowerCase()
+    const answerChordLabel = this.answerChords[answer.chord].label.toLowerCase()
 
     const correctAnswerPitchLabel = correctAnswer.pitch // Generated answers have pitch
       ? notationRoots[correctAnswer.root].label
       : answerRoots[correctAnswer.root].label
-    const correctAnswerTriadLabel = answerTriads[
-      correctAnswer.triad
+    const correctAnswerChordLabel = this.answerChords[
+      correctAnswer.chord
     ].label.toLowerCase()
 
     return {
       type: "chord",
       answer: {
         root: answerPitchLabel,
-        triad: answerTriadLabel,
+        chord: answerChordLabel,
       },
       correctAnswer: {
         root: correctAnswerPitchLabel,
-        triad: correctAnswerTriadLabel,
+        chord: correctAnswerChordLabel,
       },
       correct,
     }
@@ -190,7 +192,7 @@ export default class Chord {
   getAnswerAsNotes = correctAnswer => {
     return [
       [PERFECT, UNISON],
-      ...answerTriads[correctAnswer.triad].intervals,
+      ...this.answerChords[correctAnswer.chord].intervals,
     ].map(i => interval(notationRoots[correctAnswer.root], ...i))
   }
 
