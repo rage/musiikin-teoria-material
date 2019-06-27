@@ -101,9 +101,7 @@ export default class Scale {
     return answerChord.asReadableString(answerRoot)
   }
 
-  getInstructionString() {
-    return "asteikon pohjasävel ja laatu"
-  }
+  getInstructionString = () => "asteikon pohjasävel ja laatu"
 
   makeAnswerPayload = (answer, correctAnswer, correct) => {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
