@@ -69,7 +69,7 @@ class SoundfontProvider extends React.Component {
       })
     })
     // here starts the logic to write the score
-    this.props.appendNote(midiNumber)
+    if (this.props.appendNote) this.props.appendNote(midiNumber)
   }
 
   stopNote = midiNumber => {
