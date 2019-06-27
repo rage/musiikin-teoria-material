@@ -20,37 +20,37 @@ import { randomIntArray } from "../../util/random"
 const INTERVAL = "interval",
   QUALITY = "quality"
 
-/**
- * Private method, generate a number of correct answers.
- * @param {*} howMany How many exercises to generate
- * @returns [{interval: 5, quality: 4, notation: "<abc notation>"}]
- */
-const generateCorrectAnswers = (howMany, intervals, qualities) => {
-  const correctRoots = randomIntArray(0, notationRoots.length, howMany)
-  const correctIntervals = randomIntArray(0, intervals.length, howMany)
-
-  return correctRoots.map((correctRoot, index) => {
-    const interval = intervals[correctIntervals[index]]
-    const correctInterval = interval.number - 1 // Number is one higher than index
-    const correctQuality = qualities.indexOf(interval.quality)
-
-    const notation = interval.notation(notationRoots[correctRoot])
-
-    return {
-      root: correctRoot, // Generated answers have root
-      interval: correctInterval,
-      quality: correctQuality,
-      notation,
-    }
-  })
-}
-
 export default class Interval {
   constructor(useSimple) {
     this.qualities = useSimple === "simple" ? simpleQualities : allQualities
     this.intervals =
       useSimple === "simple" ? simpleIntervals : availableIntervals
     this.usedSimple = useSimple
+  }
+
+  /**
+   * Private method, generate a number of correct answers.
+   * @param {*} howMany How many exercises to generate
+   * @returns [{interval: 5, quality: 4, notation: "<abc notation>"}]
+   */
+  generateCorrectAnswers = howMany => {
+    const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+    const correctIntervals = randomIntArray(0, this.intervals.length, howMany)
+
+    return correctRoots.map((correctRoot, index) => {
+      const interval = this.intervals[correctIntervals[index]]
+      const correctInterval = interval.number - 1 // Number is one higher than index
+      const correctQuality = this.qualities.indexOf(interval.quality)
+
+      const notation = interval.notation(notationRoots[correctRoot])
+
+      return {
+        root: correctRoot, // Generated answers have root
+        interval: correctInterval,
+        quality: correctQuality,
+        notation,
+      }
+    })
   }
 
   generateExerciseSet = howMany => {
@@ -66,11 +66,7 @@ export default class Interval {
         interval: "Intervalli",
         quality: "Laatu",
       },
-      exercises: generateCorrectAnswers(
-        howMany,
-        this.intervals,
-        this.qualities,
-      ),
+      exercises: this.generateCorrectAnswers(howMany),
     }
 
     return exerciseSet

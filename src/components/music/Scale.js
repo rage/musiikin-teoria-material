@@ -13,31 +13,31 @@ import { randomIntArray } from "../../util/random"
 const ROOT = "root",
   SCALE = "scale"
 
-/**
- * Private method, generate a number of correct answers.
- * @param {*} howMany How many exercises to generate
- * @returns [{root: 5, scale: 4, notation: "<abc notation>"}]
- */
-const generateCorrectAnswers = (howMany, scales) => {
-  const correctRoots = randomIntArray(0, notationRoots.length, howMany)
-  const correctScales = randomIntArray(0, scales.length, howMany)
-
-  return correctRoots.map((root, i) => {
-    const correctScale = correctScales[i]
-    const notation = scales[correctScale].notation(notationRoots[root])
-    return {
-      root: root,
-      pitch: notationRoots[root].pitch, // Generated answers have pitch
-      scale: correctScale,
-      notation: notation,
-    }
-  })
-}
-
 export default class Scale {
   constructor(useModes) {
     this.scales = useModes === "modes" ? modes : scales
     this.usedMode = useModes
+  }
+
+  /**
+   * Private method, generate a number of correct answers.
+   * @param {*} howMany How many exercises to generate
+   * @returns [{root: 5, scale: 4, notation: "<abc notation>"}]
+   */
+  generateCorrectAnswers = howMany => {
+    const correctRoots = randomIntArray(0, notationRoots.length, howMany)
+    const correctScales = randomIntArray(0, this.scales.length, howMany)
+
+    return correctRoots.map((root, i) => {
+      const correctScale = correctScales[i]
+      const notation = this.scales[correctScale].notation(notationRoots[root])
+      return {
+        root: root,
+        pitch: notationRoots[root].pitch, // Generated answers have pitch
+        scale: correctScale,
+        notation: notation,
+      }
+    })
   }
 
   generateExerciseSet = howMany => {
@@ -51,7 +51,7 @@ export default class Scale {
         root: "Pohjasävel",
         scale: "Laatu",
       },
-      exercises: generateCorrectAnswers(howMany, this.scales),
+      exercises: this.generateCorrectAnswers(howMany),
     }
 
     return exerciseSet
