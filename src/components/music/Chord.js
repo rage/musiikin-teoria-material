@@ -47,7 +47,7 @@ export default class Chord {
     this.withInversions = withInversions
   }
 
-  generateExerciseSet(howMany) {
+  generateExerciseSet = howMany => {
     const exerciseSet = {
       answerKeys: [ROOT, TRIAD],
       answerOptions: {
@@ -70,7 +70,7 @@ export default class Chord {
    * @param {*} correctAnswer {root: 5, triad: 2}
    * @returns ["root"]
    */
-  getCorrectAnswerKeys(answer, correctAnswer) {
+  getCorrectAnswerKeys = (answer, correctAnswer) => {
     if (
       !answer ||
       typeof answer.root !== "number" ||
@@ -99,7 +99,7 @@ export default class Chord {
    * @param {*} answer {root: 0, triad: 0}
    * @returns "C major"
    */
-  readableAnswerString(answer) {
+  readableAnswerString = answer => {
     const answerRoot = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root]
       : answerRoots[answer.root]
@@ -108,11 +108,9 @@ export default class Chord {
     return answerTriad.asReadableString(answerRoot)
   }
 
-  getInstructionString() {
-    return "soinnun pohjasävel ja laatu"
-  }
+  getInstructionString = () => "soinnun pohjasävel ja laatu"
 
-  makeAnswerPayload(answer, correctAnswer, correct) {
+  makeAnswerPayload = (answer, correctAnswer, correct) => {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
       : answerRoots[answer.root].label
@@ -139,12 +137,12 @@ export default class Chord {
     }
   }
 
-  makePianoAnswerPayload(
+  makePianoAnswerPayload = (
     answerNotes,
     correctAnswerNotes,
     correctAnswerString,
     correct,
-  ) {
+  ) => {
     return {
       type: "piano chord",
       answer: {
@@ -189,7 +187,7 @@ export default class Chord {
    * Turn correct answer into an array of notes
    * @param {*} correctAnswer Correct answer (from generateCorrectAnswers)
    */
-  getAnswerAsNotes(correctAnswer) {
+  getAnswerAsNotes = correctAnswer => {
     return [
       [PERFECT, UNISON],
       ...answerTriads[correctAnswer.triad].intervals,
@@ -200,7 +198,7 @@ export default class Chord {
    * Form abc notation from the notes given by piano.
    * @param {*} notes notes given by piano
    */
-  getNotesAsNotation(notes) {
+  getNotesAsNotation = notes => {
     return "L:1/1\n[" + concatenateNotation(notes.map(n => n.notation)) + "]"
   }
 
@@ -216,7 +214,7 @@ export default class Chord {
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */
-  getEngraverParams() {
+  getEngraverParams = () => {
     return {
       add_classes: false,
       editable: false,
@@ -235,7 +233,7 @@ export default class Chord {
    * Returns the minimum and maximum notes allowed on the score;
    * min and max are both inclusive.
    */
-  getNoteLimits() {
+  getNoteLimits = () => {
     return { min: 3, max: Number.MAX_SAFE_INTEGER }
   }
 }

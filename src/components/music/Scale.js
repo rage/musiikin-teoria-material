@@ -40,7 +40,7 @@ export default class Scale {
     this.usedMode = useModes
   }
 
-  generateExerciseSet(howMany) {
+  generateExerciseSet = howMany => {
     const exerciseSet = {
       answerKeys: [ROOT, SCALE],
       answerOptions: {
@@ -63,7 +63,7 @@ export default class Scale {
    * @param {*} correctAnswer {root: 5, scale: 2}
    * @returns ["root"]
    */
-  getCorrectAnswerKeys(answer, correctAnswer) {
+  getCorrectAnswerKeys = (answer, correctAnswer) => {
     if (
       !answer ||
       typeof answer.root !== "number" ||
@@ -101,11 +101,9 @@ export default class Scale {
     return answerChord.asReadableString(answerRoot)
   }
 
-  getInstructionString() {
-    return "asteikon pohjasävel ja laatu"
-  }
+  getInstructionString = () => "asteikon pohjasävel ja laatu"
 
-  makeAnswerPayload(answer, correctAnswer, correct) {
+  makeAnswerPayload = (answer, correctAnswer, correct) => {
     const answerPitchLabel = answer.pitch // Generated answers have pitch
       ? notationRoots[answer.root].label
       : answerRoots[answer.root].label
@@ -204,7 +202,7 @@ export default class Scale {
    * Form abc notation from the notes given by piano.
    * @param {*} notes notes given by piano
    */
-  getNotesAsNotation(notes) {
+  getNotesAsNotation = notes => {
     return "L:1/4\n" + concatenateNotation(notes.map(n => n.notation))
   }
 
@@ -220,7 +218,7 @@ export default class Scale {
   /**
    * Get engraverParams for MusicSheet to display this exercise kind.
    */
-  getEngraverParams() {
+  getEngraverParams = () => {
     return {
       add_classes: false,
       editable: false,
@@ -239,7 +237,7 @@ export default class Scale {
    * Returns the minimum and maximum notes allowed on the score;
    * min and max are both inclusive.
    */
-  getNoteLimits() {
+  getNoteLimits = () => {
     return { min: 7, max: 8 }
   }
 }

@@ -124,9 +124,7 @@ export default class Interval {
     return string
   }
 
-  getInstructionString() {
-    return "intervalli ja laatu"
-  }
+  getInstructionString = () => "intervalli ja laatu"
 
   makeAnswerPayload = (answer, correctAnswer, correct) => {
     const answerQualityLabel = this.qualities[
