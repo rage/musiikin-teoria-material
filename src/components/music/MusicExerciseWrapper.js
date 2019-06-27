@@ -354,7 +354,10 @@ class MusicExerciseWrapper extends React.Component {
                 {!this.context.loggedIn
                   ? "Et saa tekemistäsi tehtävistä pisteitä ennen kuin kirjaudut sisään."
                   : !this.state.quizItemId
-                  ? "Tapahtui virhe tehtävän tietojen lataamisessa palvelimelta. Ole hyvä ja lataa sivu uudelleen, jos haluat saada tehtävästä pisteitä."
+                  ? "Tapahtui virhe tehtävän tietojen lataamisessa palvelimelta. " +
+                    (this.props.quizId
+                      ? "Ole hyvä ja lataa sivu uudelleen, jos haluat saada tehtävästä pisteitä."
+                      : "(quizid-parametria ei ole määritelty)")
                   : ""}
               </Typography>
               {this.props.description && <p>{this.props.description}</p>}
