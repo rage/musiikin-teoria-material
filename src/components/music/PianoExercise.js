@@ -139,7 +139,9 @@ class PianoExercise extends React.Component {
           open: oldState.popper.placement !== "top" || !oldState.popper.open,
           placement: "top",
           message: (
-            <>Vastauksesi ei ollut oikein. Oikea vastaus näkyy pianolla.</>
+            <>
+              Vastauksesi ei ollut oikein. <br /> Oikea vastaus näkyy pianolla.
+            </>
           ),
         },
         answerWasSubmitted: true,
