@@ -120,7 +120,7 @@ class PianoExercise extends React.Component {
       if (
         this.state.currentExerciseIndex + 1 <
         this.state.exerciseSet.exercises.length
-      )
+      ) {
         setTimeout(() => {
           // Show checkmark
           this.setState({ showCorrectOnButton: true })
@@ -129,7 +129,8 @@ class PianoExercise extends React.Component {
             this.setState({ showCorrectOnButton: false })
           }, 1000)
         }, 100)
-      this.nextExercise()
+        this.nextExercise()
+      }
     } else {
       this.props.onIncorrect(payload)
       this.setState(oldState => ({
