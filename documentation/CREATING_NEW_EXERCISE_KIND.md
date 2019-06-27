@@ -15,7 +15,7 @@ When implementing a new exercise kind, you will need to perform the additions fr
 
 ## MusicExercise-partial
 
-Everything begins in [`MusicExercise`-partial](https://github.com/rage/musiikin-teoria-material/blob/master/src/partials/MusicExercise.js), 
+Everything begins in [`MusicExercise`-partial](https://github.com/rage/musiikin-teoria-material/blob/master/src/partials/MusicExercise.js),
 that is responsible for turning `<music-exercise>`-tags inside .md files into the exercises.
 
 The partial is given `type` String via props (Example `"scales"` or `"piano_chords_sound"`).
@@ -46,7 +46,7 @@ Examples of implemented exercise kinds:
 
 #### `generateExerciseSet(howMany)`
 
-**What:** Generates new exercise answers.
+Generates a new set of answers to the exercise, which will be used to display the exercises to the user one by one.
 
 Parameter | Description
 -- | --
@@ -70,10 +70,10 @@ Returns
 
 #### `shouldAddNote(note, notes)`
 
-**What:** Check if piano should add a note (called after a piano key is pressed)
+Check if piano should add a note (called after a piano key is pressed). Used when e.g. the user is not allowed to add more of same note to the exercise.
 
 Parameter | Description
--- | --  
+-- | --
 `note` | New note the user has entered `{midiNumber, pitch, notation}`
 `notes` | Array of notes the user has entered `{midiNumber, pitch, notation}`
 
@@ -81,29 +81,29 @@ Returns a boolean
 
 #### `getCorrectAnswerKeys(answer, correctAnswer)`
 
-**What:** Check if an answer is correct
+Return answer keys (For example `"root"`) that are correct in answer as an array. See [generateExerciseSet](#generateexercisesethowmany) method (`answerKeys`)
 
 Parameter | Description
 -- | --
-`answer`| Object that contains indexes the user selected (eg `{option1: 0, option2: 1}`.   
-`correctAnswer` | [generated answer](#generateexercisesethowmany)  
+`answer`| Object that contains indexes the user selected (eg `{option1: 0, option2: 1}`.
+`correctAnswer` | [generated answer](#generateexercisesethowmany)
 
 Returns Array of answerKeys that were correct (Example `["option1", "option2"])
 
 #### `isPianoAnswerCorrect(pianoAnswerNotes, correctAnswer)`
 
-**What:** Check if given piano answer is correct
+Check if given piano answer is correct
 
 Parameter | Description
 -- | --
 `pianoAnswerNotes`| Array of notes the user has entered `{midiNumber, pitch, notation}`
-`correctAnswer` | [generated answer](#generateexercisesethowmany)  
+`correctAnswer` | [generated answer](#generateexercisesethowmany)
 
 Returns boolean (is it correct)
 
 #### `readableAnswerString(answer)`
 
-**What:** Turns an answer object into user readable string
+Turns an answer object into user readable string
 
 Parameter | Description
 -- | --
@@ -113,48 +113,48 @@ Returns String the user can read, displayed for piano and note exercises
 
 #### `getInstructionString()`
 
-**What:** Gives part of an instruction string for note exercises.
+Gives part of an instruction string for note exercises.
 
 Returns a String
 
 #### `makeAnswerPayload(answer, correctAnswer, correct)`
 
-**What:** Turns given parameters into a single object that will be sent to backend inside `textData`
+Turns given parameters into a single object that will be sent to backend inside `textData`
 
 Parameter | Description
 -- | --
-`answer`| Object that contains indexes the user selected (eg `{option1: 0, option2: 1}`.   
-`correctAnswer` | [generated answer](#generateexercisesethowmany)  
-`correct` | boolean, was the answer correct 
+`answer`| Object that contains indexes the user selected (eg `{option1: 0, option2: 1}`.
+`correctAnswer` | [generated answer](#generateexercisesethowmany)
+`correct` | boolean, was the answer correct
 
 Returns object with enough information for about answer and the correct answer
 
 #### `makePianoAnswerPayload(answerNotes, correctAnswerPitches, correctAnswerString, correct)`
 
-**What:** Turns given parameters into a single object that will be sent to backend inside `textData`
+Turns given parameters into a single object that will be sent to backend inside `textData`
 
 Parameter | Description
 -- | --
 `answerNotes`| Array of notes the user has entered `{midiNumber, pitch, notation}`
 `correctAnswerNotes` | [generated answer](#generateexercisesethowmany) in format given by `getAnswerAsNotes`-method
 `correctAnswerString` | [generated answer](#generateexercisesethowmany) as a String
-`correct` | boolean, was the answer correct 
+`correct` | boolean, was the answer correct
 
 Returns object with enough information for about answer and the correct answer
 
 #### `getNotationForMidi(correctAnswer)`
 
-**What:** Turn a generated answer into abc notation to write on score
+Turn a generated answer into abc notation to write on score
 
 Parameter | Description
--- | --  
-`correctAnswer` | [generated answer](#generateexercisesethowmany)  
+-- | --
+`correctAnswer` | [generated answer](#generateexercisesethowmany)
 
 Returns abc notation
 
 #### `getNotesAsNotation(notes)`
 
-**What:** Turns notes entered by user (`{midiNumber, pitch, notation}`) to abc notation
+Turns notes entered by user (`{midiNumber, pitch, notation}`) to abc notation
 
 Parameter | Description
 -- | --
@@ -164,22 +164,22 @@ Returns abc notation
 
 #### `getPianoInstructions(correctAnswer)`
 
-**What:** Instructions for piano exercise of this kind
+Instructions for piano exercise of this kind
 
 Parameter | Description
--- | --  
-`correctAnswer` | [generated answer](#generateexercisesethowmany)  
+-- | --
+`correctAnswer` | [generated answer](#generateexercisesethowmany)
 
 Returns String or JSX
 
 #### `getEngraverParams()`
 
-**What:** Get paramters for rendering music sheet for this exercise
+Get paramters for rendering music sheet for this exercise
 
 Returns object with parameters found in [abcjs documentation](https://github.com/paulrosen/abcjs/blob/master/docs/api.md)
 
 #### `getNoteLimits()`
 
-**What:** Minimun and maximum for piano exercise entry
+Minimun and maximum for piano exercise entry. The number of notes has to be within these bounds to be allowed for submitting.
 
 Returns `{min, max}`
