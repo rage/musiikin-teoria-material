@@ -142,15 +142,14 @@ Parameter | Description
 
 Returns object with enough information for about answer and the correct answer
 
-#### `getNotationForMidi(correctAnswer)`
+#### `getAnswerAsNotes(correctAnswer)`
 
-Turn a generated answer into abc notation to write on score
-
+Turn a generated answer into inerval objects (Returned by `/util/music/intervals#interval`)
 Parameter | Description
 -- | --
 `correctAnswer` | [generated answer](#generateexercisesethowmany)
 
-Returns abc notation
+Returns an array of interval objects `[{pitch, pitchJump, midiNumber, notation}]`
 
 #### `getNotesAsNotation(notes)`
 
