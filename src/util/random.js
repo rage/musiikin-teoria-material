@@ -1,12 +1,10 @@
-// from MDN; min is inclusive, max exclusive
-
 /**
- * Returns a random integer from the given range. Taken from MDN:
+ * Returns a random integer from the given range.
+ * Adapted from MDN:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#Getting_a_random_integer_between_two_values
  *
- * It returns the shuffled array (note that it is the original array, only the
- * elements have been shuffled).
- *
- * @param {*} array The array that will be shuffled in place
+ * @param {*} min The minimum value of the range (inclusive)
+ * @param {*} max The maximum value of the range (exclusive)
  */
 export const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min)) + min
