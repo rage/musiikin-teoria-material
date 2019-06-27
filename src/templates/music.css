@@ -60,7 +60,7 @@
   .overall-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: unset;
+    justify-content: space-between;
     align-content: unset;
   }
 
@@ -95,12 +95,14 @@
   .submitButton {
     order: 4;
     margin-left: 116px;
+    margin-right: 20px;
     margin-top: 20px;
   }
 
   .submitButtonPiano {
     order: 4;
     margin-left: 150px;
+    margin-right: 20px;
     margin-top: 20px;
   }
 
