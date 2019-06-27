@@ -108,6 +108,7 @@ kovakoodattu quizid, jonka voi korvata quizid parametrilla." required=5></music-
 Parametri | Sopivat arvot | Selitys
 -- | -- | --
 `notes` | Esim `"0 1 2 3 4"` | String jossa numeroita 0-23 välilyönnillä erotettuina esim `0`=C1, `12`=C2, `23`=H2
+`playable` | `true`/`false` | Sallii pianon soittamisen hiirellä jos `notes` parametria ei anneta.
 
 ### Esimerkkejä
 
@@ -131,4 +132,10 @@ C-asteikko
 
 ```
 <piano notes="0 1 2 3 4"></piano>
+```
+
+<piano playable=true></piano>
+
+```
+<piano playable=true></piano>
 ```
