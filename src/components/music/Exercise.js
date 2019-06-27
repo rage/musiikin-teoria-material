@@ -71,35 +71,44 @@ class Exercise extends React.Component {
     )
 
     if (correct) {
-      this.props.onCorrect(payload)
-      if (
-        this.state.currentExerciseIndex + 1 <
-        this.state.exerciseSet.exercises.length
-      )
-        this.nextExercise()
+      this.onCorrectAnswer(payload)
     } else {
-      this.props.onIncorrect(payload)
-      // pass correct answer only after the answer was sent; otherwise the
-      // student could read the correct answer using React Developer Tools
-      const message = (
-        <>
-          Vastauksesi ei ollut oikein.
-          <br />
-          {"Kyseessä oli " +
-            this.props.exerciseKind.readableAnswerString(correctAnswer) +
-            "."}
-        </>
-      )
-      this.setState(oldState => ({
-        popper: {
-          anchorEl: currentTarget,
-          open: oldState.popper.placement !== "top" || !oldState.popper.open,
-          placement: "top",
-          message,
-        },
-        answerWasSubmitted: true,
-      }))
+      this.onIncorrectAnswer(payload, correctAnswer, currentTarget)
     }
+  }
+
+  onCorrectAnswer = payload => {
+    this.props.onCorrect(payload)
+    if (
+      this.state.currentExerciseIndex + 1 <
+      this.state.exerciseSet.exercises.length
+    ) {
+      this.nextExercise()
+    }
+  }
+
+  onIncorrectAnswer = (payload, correctAnswer, currentTarget) => {
+    this.props.onIncorrect(payload)
+
+    const message = (
+      <>
+        Vastauksesi ei ollut oikein.
+        <br />
+        {"Kyseessä oli " +
+          this.props.exerciseKind.readableAnswerString(correctAnswer) +
+          "."}
+      </>
+    )
+
+    this.setState(oldState => ({
+      popper: {
+        anchorEl: currentTarget,
+        open: oldState.popper.placement !== "top" || !oldState.popper.open,
+        placement: "top",
+        message,
+      },
+      answerWasSubmitted: true,
+    }))
   }
 
   /**
