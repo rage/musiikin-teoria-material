@@ -38,6 +38,13 @@ class Scale {
   }
 }
 
+export const SCALES = {
+  MAJOR: 0,
+  NATURAL_MINOR: 1,
+  HARMONIC_MINOR: 2,
+  MELODIC_MINOR: 3,
+}
+
 export const scales = [
   new Scale(
     "Duuri",
@@ -107,6 +114,16 @@ export const scales = [
       scale.split(" ")[1],
   ),
 ]
+
+export const MODES = {
+  IONIAN: 0,
+  DORIAN: 1,
+  PHRYGIAN: 2,
+  LYDIAN: 3,
+  MIXOLYDIAN: 4,
+  AEOLIAN: 5,
+  LOCRIAN: 6,
+}
 
 export const modes = [
   new Scale(
