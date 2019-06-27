@@ -2,6 +2,7 @@ import React from "react"
 import Dimensions from "react-dimensions"
 import { Piano as ReactPiano, MidiNumbers } from "react-piano"
 import SoundfontProvider from "./SoundfontProvider"
+import KeyboardShortcuts from "./KeyboardShortcuts"
 import "react-piano/dist/styles.css"
 
 // from https://codesandbox.io/s/7wq15pm1n1
@@ -67,6 +68,16 @@ class Piano extends React.Component {
                   playNote={playNote}
                   stopNote={stopNote}
                   disabled={isLoading || this.props.isPlaying}
+                  keyboardShortcuts={
+                    this.props.showNotes ===
+                    0 /* Easter egg that allows playing piano */
+                      ? KeyboardShortcuts.create({
+                          firstNote: noteRange.first,
+                          lastNote: noteRange.last,
+                          keyboardConfig: KeyboardShortcuts.TWO_ROWS,
+                        })
+                      : undefined
+                  }
                   {...this.props}
                 />
               )}
