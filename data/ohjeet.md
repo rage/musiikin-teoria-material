@@ -14,6 +14,7 @@ Partiaali | Kuvaus
 -- | --
 `<music-sheet>` | Lisää materiaalin keskelle nuotiston
 `<music-exercise>` | Lisää materiaaliin tehtävän
+`<piano>` | Lisää materiaalin keskelle pianon kuvan
 
 ## Music Sheet
 
@@ -100,4 +101,34 @@ Parametri | Sopivat arvot | Selitys
 ```
 <music-exercise type="intervals" name="Esimerkki" description="Tältä näyttää kuvaus, tälle tehtävälle on
 kovakoodattu quizid, jonka voi korvata quizid parametrilla." required=5></music-exercise>
+```
+
+## Piano
+
+Parametri | Sopivat arvot | Selitys
+-- | -- | --
+`notes` | Esim `"0 1 2 3 4"` | String jossa numeroita 0-23 välilyönnillä erotettuina esim `0`=C1, `12`=C2, `23`=H2
+
+### Esimerkkejä
+
+<piano notes="0 12 23"></piano>
+
+```
+<piano notes="0 12 23"></piano>
+```
+
+C-asteikko
+
+<piano notes="0 2 4 5 7 9 11"></piano>
+
+```
+C-asteikko
+
+<piano notes="0 2 4 5 7 9 11"></piano>
+```
+
+<piano notes="0 1 2 3 4"></piano>
+
+```
+<piano notes="0 1 2 3 4"></piano>
 ```

@@ -39,6 +39,7 @@ import CrowdSorcerer from "./CrowdSorcerer"
 import Banner from "../components/Banner"
 import MusicSheet from "./MusicSheet"
 import MusicExercise from "./MusicExercise"
+import Piano from "./Piano"
 
 import {
   Table,
@@ -78,6 +79,7 @@ const mapping = {
   "registration-link": RegistrationLink,
   "music-sheet": MusicSheet,
   "music-exercise": MusicExercise,
+  piano: Piano,
   banner: Banner,
   notice: Notice,
   crowdsorcerer: CrowdSorcerer,
