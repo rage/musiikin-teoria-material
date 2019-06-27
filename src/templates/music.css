@@ -52,6 +52,11 @@
 
 /* Use hardcoded margins on desktop environments */
 @media only screen and (min-width: 1200px) {
+  .material-piano {
+    margin-left: 5rem;
+    margin-right: 5rem;
+  }
+
   .overall-container {
     display: flex;
     flex-wrap: wrap;

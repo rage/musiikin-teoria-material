@@ -13,7 +13,11 @@ const Piano = props => {
     ? []
     : [0]
 
-  return <PianoComponent showNotes={midi} />
+  return (
+    <div className="material-piano">
+      <PianoComponent showNotes={midi} />
+    </div>
+  )
 }
 
 export default Piano
