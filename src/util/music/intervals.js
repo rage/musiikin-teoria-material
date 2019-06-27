@@ -37,7 +37,13 @@ export const UNISON = 1,
   FIFTH = 5,
   SIXTH = 6,
   SEVENTH = 7,
-  OCTAVE = 8
+  OCTAVE = 8,
+  NINTH = 9,
+  TENTH = 10,
+  ELEVENTH = 11,
+  TWELFTH = 12,
+  THIRTEENTH = 13,
+  FOURTEENTH = 14
 
 export const intervalLabels = [
   "Priimi",
