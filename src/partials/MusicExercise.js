@@ -64,18 +64,14 @@ const getQuizId = type => {
 }
 
 const getExerciseKindByType = type => {
-  if (type.includes("amazing_chords")) {
-    return new Chord("amazing")
-  } else if (type.includes("chords_inversions")) {
-    return new Chord("triads", true)
-  } else if (type.includes("chords_sound")) {
-    return new RootlessChord()
-  } else if (type.includes("chord")) {
-    return new Chord()
-  } else if (type.includes("intervals_sound")) {
-    return new Interval("simple")
+  if (type.includes("chord")) {
+    const inversions = type.includes("inversions")
+    const chords = type.includes("amazing") ? "amazing" : "triads"
+    return type.includes("sound")
+      ? new RootlessChord(chords, inversions)
+      : new Chord(chords, inversions)
   } else if (type.includes("interval")) {
-    return new Interval()
+    return type.includes("sound") ? new Interval("simple") : new Interval()
   } else if (type.includes("scale")) {
     return new Scale("scales")
   } else if (type.includes("mode")) {
