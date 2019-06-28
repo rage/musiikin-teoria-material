@@ -28,7 +28,7 @@ Parametri | Sopivat arvot | Selitys
 -- | -- | --
 `onlysound` | `true`/`false` | Näyttää ainoastaan play-napin materiaalissa
 `onlynotes`| `true`/`false` | Näyttää ainoastaan nuotiston materiaalissa
-`notation` | abc-notaatiota | Mitä nuotteja kirjoitetaan. `notation` sijoitetaan `<music-sheet>` tagin sisälle
+`notation` | abc-notaatiota | Mitä nuotteja kirjoitetaan. `notation` sijoitetaan `<music-sheet>` tagin sisälle. **Huom** Älä lopeta notaatiota taukoon (`z`). Jos haluat loppuun tauon voit lisätä nuottiviivaston lopetusmerkin `|]` tauon jälkeen (`...z|]`).
 
 ### Esimerkkejä
 

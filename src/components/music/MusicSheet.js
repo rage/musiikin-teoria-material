@@ -76,7 +76,7 @@ class MusicSheet extends React.Component {
       : {}
 
     const midiListener = (element, event) => {
-      const onPlayStatusUpdate = this.props.onPlayStatusUpdate
+      const onPlayStatusUpdate = this.onPlaying
       if (onPlayStatusUpdate && event.progress > 0) {
         onPlayStatusUpdate(true)
       }
@@ -157,7 +157,8 @@ class MusicSheet extends React.Component {
     // MidiSoundContext is used to load the piano sound
     return (
       <MidiSoundContext.Consumer>
-        {value => {
+        {context => {
+          this.onPlaying = context.onPlaying
           return (
             <>
               <div
@@ -168,13 +169,13 @@ class MusicSheet extends React.Component {
                 style={{ display: "none" }}
               />
               <div className={playButtonStyle}>
-                {!value.soundLoaded ? (
+                {!context.soundLoaded ? (
                   <CircularProgress variant="indeterminate" />
                 ) : (
                   <Fab
                     size="small"
                     color="primary"
-                    onClick={() => this.onPlay()}
+                    onClick={() => this.onPlay(context)}
                   >
                     <PlayArrowIcon fontSize="small" />
                   </Fab>
@@ -187,13 +188,17 @@ class MusicSheet extends React.Component {
     )
   }
 
-  onPlay() {
+  onPlay = context => {
+    if (this.props.notation.endsWith("z")) {
+      return
+    }
+
     const orig = document
       .querySelector("#" + this.state.id)
       .querySelector(".abcjs-inline-midi")
-    this.props.isPlaying
-      ? this.state.abcjsMidi.midi.restartPlaying()
-      : this.state.abcjsMidi.midi.startPlaying(orig)
+
+    this.state.abcjsMidi.midi.stopPlaying()
+    this.state.abcjsMidi.midi.startPlaying(orig)
   }
 }
 
