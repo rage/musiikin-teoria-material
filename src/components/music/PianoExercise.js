@@ -145,6 +145,7 @@ class PianoExercise extends React.Component {
           ),
         },
         answerWasSubmitted: true,
+        isPlaying: false,
       }))
     }
   }
@@ -180,6 +181,7 @@ class PianoExercise extends React.Component {
       answerWasSubmitted: false,
       givenAnswer: {},
       notes: [],
+      isPlaying: false,
     })
   }
 

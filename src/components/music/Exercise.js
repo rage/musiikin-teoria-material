@@ -108,6 +108,7 @@ class Exercise extends React.Component {
         message,
       },
       answerWasSubmitted: true,
+      isPlaying: false,
     }))
   }
 
@@ -154,6 +155,7 @@ class Exercise extends React.Component {
       popper: { open: false },
       answerWasSubmitted: false,
       givenAnswer: {},
+      isPlaying: false,
     })
   }
 
@@ -169,6 +171,7 @@ class Exercise extends React.Component {
       popper: { open: false },
       answerWasSubmitted: false,
       givenAnswer: {},
+      isPlaying: false,
     })
   }
 
