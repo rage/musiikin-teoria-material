@@ -11,7 +11,9 @@ import {
   SIXTH,
   SEVENTH,
   OCTAVE,
+  TENTH,
 } from "./intervals"
+import { randomInt } from "../random"
 
 class Chord {
   constructor(label, intervals, formattingFunction) {
@@ -22,6 +24,9 @@ class Chord {
 
   // inversion can range from 0 to this.intervals.size (both inclusive)
   notation(root, inversion = 0) {
+    if (inversion < 0 || inversion > this.intervals.size) {
+      inversion = randomInt(0, this.intervals.size + 1)
+    }
     const intervalsNotations = [[PERFECT, UNISON], ...this.intervals].map(
       i => interval(root, ...i).notation,
     )
@@ -70,5 +75,23 @@ export const triads = [
     "Ylinouseva",
     [[MAJOR, THIRD], [AUGMENTED, FIFTH]],
     (root, triad) => triad.toLowerCase() + " " + root,
+  ),
+]
+
+export const amazingChords = [
+  new Chord(
+    "Brad the Falcon",
+    [[PERFECT, FOURTH], [PERFECT, FIFTH], [MAJOR, TENTH]],
+    (root, chord) => root + " " + chord,
+  ),
+  new Chord(
+    "Jim the Purple",
+    [[MAJOR, THIRD], [MINOR, SEVENTH], [MINOR, TENTH]],
+    (root, chord) => root + " " + chord,
+  ),
+  new Chord(
+    "Claude the Bussy",
+    [[MINOR, SECOND], [PERFECT, FOURTH], [PERFECT, OCTAVE]],
+    (root, chord) => root + " " + chord,
   ),
 ]
