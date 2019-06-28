@@ -189,7 +189,12 @@ class MusicSheet extends React.Component {
   }
 
   onPlay = context => {
+    if (context.isPlaying) {
+      this.state.abcjsMidi.midi.stopPlaying()
+    }
+
     if (this.props.notation.endsWith("z")) {
+      context.onPlaying(false)
       return
     }
 
@@ -197,7 +202,6 @@ class MusicSheet extends React.Component {
       .querySelector("#" + this.state.id)
       .querySelector(".abcjs-inline-midi")
 
-    this.state.abcjsMidi.midi.stopPlaying()
     this.state.abcjsMidi.midi.startPlaying(orig)
   }
 }
