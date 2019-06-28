@@ -55,8 +55,6 @@ class SelectionBar extends React.Component {
   }
 
   render() {
-    const dropDownClassList = ["dropDown1", "dropDown2"]
-
     const borderColorForOption = option => {
       if (option.answerIsCorrect === null) {
         const warnAboutUnset =
@@ -91,6 +89,12 @@ class SelectionBar extends React.Component {
       ) : (
         <FontAwesomeIcon size="lg" icon={incorrect} style={{ color: "red" }} />
       )
+    }
+
+    let dropDownClassList = ["dropDown1", "dropDown2"]
+
+    if (this.props.options.length === 1) {
+      dropDownClassList = ["dropDownSingle"]
     }
 
     return (
