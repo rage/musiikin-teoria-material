@@ -193,6 +193,10 @@ class MusicSheet extends React.Component {
       this.state.abcjsMidi.midi.stopPlaying()
     }
 
+    // Notation that only has z does not produce sound
+    // If it is allowed to isPlaying will get stuck to true
+    // This is because midiListener doesn't get called for empty
+    // sounds.
     if (this.props.notation.endsWith("z")) {
       context.onPlaying(false)
       return
