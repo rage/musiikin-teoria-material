@@ -1,6 +1,6 @@
 ---
-path: '/osa-03'
-title: 'Osa 3: Soinnut'
+path: "/osa-03"
+title: "Osa 3: Soinnut"
 overview: true
 ---
 
@@ -13,4 +13,5 @@ Sointu on monia säveliä. Soinnut ovat kivoja. Musiikki on hauskaa. Tanssitaan 
 <music-exercise name="Soinnun tunnistus" description="Voit myös kuunnella soinnun nappia painamalla." type="amazing_chords"></music-exercise>
 <music-exercise name="Soinnun tunnistus" type="chords_notes"></music-exercise>
 <music-exercise name="Soinnun tunnistus kuuntelemalla" type="chords_sound"></music-exercise>
+<music-exercise name="Soinnun tunnistus kuuntelemalla"  description="Tämä voi olla hyvin vaikeaa!" type="amazing_chords_sound"></music-exercise>
 <music-exercise name="Soinnun kirjoitus" type="piano_chords" required=2></music-exercise>

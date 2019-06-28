@@ -1,15 +1,14 @@
-import { triads as answerChords } from "../../util/music/chords"
 import Chord, { CHORD } from "./Chord"
 
 export default class RootlessChord extends Chord {
-  constructor(withInversions) {
-    super(withInversions)
+  constructor(chords, withInversions) {
+    super(chords, withInversions)
   }
 
   generateExerciseSet = howMany => {
     const exerciseSet = {
       answerKeys: [CHORD],
-      answerOptions: { chord: answerChords },
+      answerOptions: { chord: this.answerChords },
       answerLabels: { chord: "Laatu" },
       exercises: this.generateCorrectAnswers(howMany, this.withInversions),
     }
@@ -35,9 +34,9 @@ export default class RootlessChord extends Chord {
   getInstructionString = () => "soinnun laatu"
 
   makeAnswerPayload = (answer, correctAnswer, correct) => {
-    const answerChordLabel = answerChords[answer.chord].label.toLowerCase()
+    const answerChordLabel = this.answerChords[answer.chord].label.toLowerCase()
 
-    const correctAnswerChordLabel = answerChords[
+    const correctAnswerChordLabel = this.answerChords[
       correctAnswer.chord
     ].label.toLowerCase()
 
