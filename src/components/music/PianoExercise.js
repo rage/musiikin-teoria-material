@@ -10,6 +10,7 @@ import Loading from "../Loading"
 import SubmitButton from "./SubmitButton"
 import ExerciseInstruction from "./ExerciseInstruction"
 import styled from "styled-components"
+import { MidiSoundContext } from "../../contexes/MidiSoundContext"
 
 class PianoExercise extends React.Component {
   state = {
@@ -49,8 +50,6 @@ class PianoExercise extends React.Component {
     // octave, meaning that pitches go from 0 (C) to 11 (B)
     notes: [],
 
-    // Is midi playing (music on the staff), this is set in MusiSheet
-    isPlaying: false,
     windowWidth: undefined,
   }
 
@@ -77,7 +76,7 @@ class PianoExercise extends React.Component {
   onSubmit = clickEvent => {
     const { currentTarget } = clickEvent
 
-    this.setState({ isPlaying: false })
+    if (this.onPlaying) this.onPlaying(false)
 
     // Functions from ExerciseKind (Chord, Interval, Scale)
     const {
@@ -145,7 +144,6 @@ class PianoExercise extends React.Component {
           ),
         },
         answerWasSubmitted: true,
-        isPlaying: false,
       }))
     }
   }
@@ -164,7 +162,6 @@ class PianoExercise extends React.Component {
       answerWasSubmitted: false,
       givenAnswer: {},
       notes: [],
-      isPlaying: false,
     })
   }
 
@@ -181,7 +178,6 @@ class PianoExercise extends React.Component {
       answerWasSubmitted: false,
       givenAnswer: {},
       notes: [],
-      isPlaying: false,
     })
   }
 
@@ -224,8 +220,26 @@ class PianoExercise extends React.Component {
 
   clearNotes = () => this.setState({ notes: [] })
 
-  setIsPlaying = status => {
-    this.setState({ isPlaying: status })
+  renderPiano = (isPlaying, answerMidiNotes) => {
+    if (window.innerWidth > 1200) {
+      return (
+        <MarginInPaper>
+          <Piano
+            appendNote={this.appendNote}
+            isPlaying={isPlaying}
+            showNotes={answerMidiNotes}
+          />
+        </MarginInPaper>
+      )
+    } else {
+      return (
+        <Piano
+          appendNote={this.appendNote}
+          isPlaying={isPlaying}
+          showNotes={answerMidiNotes}
+        />
+      )
+    }
   }
 
   render() {
@@ -243,90 +257,75 @@ class PianoExercise extends React.Component {
       getNotesAsNotation,
     } = this.props.exerciseKind
 
-    let piano
-
     const answerMidiNotes = this.state.answerWasSubmitted
       ? getAnswerAsNotes(currentExercise).map(note => note.midiNumber)
       : []
 
-    if (window.innerWidth > 1200) {
-      piano = (
-        <MarginInPaper>
-          <Piano
-            appendNote={this.appendNote}
-            isPlaying={this.state.isPlaying}
-            showNotes={answerMidiNotes}
-          />
-        </MarginInPaper>
-      )
-    } else {
-      piano = (
-        <Piano
-          appendNote={this.appendNote}
-          isPlaying={this.state.isPlaying}
-          showNotes={answerMidiNotes}
-        />
-      )
-    }
-
     return (
       <Loading loading={!this.state.render}>
-        <CheckAnswerPopper options={this.state.popper} />
-        <Paper>
-          <ExerciseInstruction>
-            <>{getPianoInstructions(currentExercise)}</>
-          </ExerciseInstruction>
-          <div className="overall-container">
-            <MusicSheet
-              onlynotes={this.props.onlyNotes}
-              onlysound={this.props.onlySound}
-              engraverParams={getEngraverParams()}
-              playButtonStyle={"playButton"}
-              isPlaying={this.state.isPlaying}
-              onPlayStatusUpdate={this.setIsPlaying}
-              isExercise
-            >
-              {this.state.notes.length
-                ? getNotesAsNotation(this.state.notes)
-                : "L:1/1\nz"}
-            </MusicSheet>
-            <div className="dropDown1">
-              <Button
-                disabled={
-                  !this.state.notes.length ||
-                  this.state.isPlaying ||
-                  this.state.answerWasSubmitted
-                }
-                variant="outlined"
-                onClick={this.undoNote}
-              >
-                <Icon>undo</Icon> &nbsp;Peruuta
-              </Button>
-            </div>
-            <div className="dropDown2">
-              <Button
-                disabled={
-                  !this.state.notes.length ||
-                  this.state.isPlaying ||
-                  this.state.answerWasSubmitted
-                }
-                variant="outlined"
-                title="Tyhjennä"
-                onClick={this.clearNotes}
-              >
-                <Icon>delete</Icon> Tyhjennä
-              </Button>
-            </div>
-            <SubmitButton
-              showCorrectOnButton={this.state.showCorrectOnButton}
-              answerWasWrong={this.state.answerWasSubmitted}
-              nextExerciseSet={this.nextExerciseSet}
-              onClick={this.onSubmit}
-              isPiano={true}
-            />
-          </div>
-          {piano}
-        </Paper>
+        <MidiSoundContext.Consumer>
+          {context => {
+            this.onPlaying = context.onPlaying
+            return (
+              <>
+                <CheckAnswerPopper options={this.state.popper} />
+                <Paper>
+                  <ExerciseInstruction>
+                    <>{getPianoInstructions(currentExercise)}</>
+                  </ExerciseInstruction>
+                  <div className="overall-container">
+                    <MusicSheet
+                      onlynotes={this.props.onlyNotes}
+                      onlysound={this.props.onlySound}
+                      engraverParams={getEngraverParams()}
+                      playButtonStyle={"playButton"}
+                      isExercise
+                    >
+                      {this.state.notes.length
+                        ? getNotesAsNotation(this.state.notes)
+                        : "L:1/1\nz"}
+                    </MusicSheet>
+                    <div className="dropDown1">
+                      <Button
+                        disabled={
+                          !this.state.notes.length ||
+                          context.isPlaying ||
+                          this.state.answerWasSubmitted
+                        }
+                        variant="outlined"
+                        onClick={this.undoNote}
+                      >
+                        <Icon>undo</Icon> &nbsp;Peruuta
+                      </Button>
+                    </div>
+                    <div className="dropDown2">
+                      <Button
+                        disabled={
+                          !this.state.notes.length ||
+                          context.isPlaying ||
+                          this.state.answerWasSubmitted
+                        }
+                        variant="outlined"
+                        title="Tyhjennä"
+                        onClick={this.clearNotes}
+                      >
+                        <Icon>delete</Icon> Tyhjennä
+                      </Button>
+                    </div>
+                    <SubmitButton
+                      showCorrectOnButton={this.state.showCorrectOnButton}
+                      answerWasWrong={this.state.answerWasSubmitted}
+                      nextExerciseSet={this.nextExerciseSet}
+                      onClick={this.onSubmit}
+                      isPiano={true}
+                    />
+                  </div>
+                  {this.renderPiano(context.isPlaying, answerMidiNotes)}
+                </Paper>
+              </>
+            )
+          }}
+        </MidiSoundContext.Consumer>
       </Loading>
     )
   }

@@ -7,6 +7,7 @@ export class MidiSoundContextProvider extends React.Component {
     super(props)
     this.state = {
       soundLoaded: false,
+      isPlaying: false,
     }
   }
 
@@ -59,10 +60,18 @@ export class MidiSoundContextProvider extends React.Component {
     )
   }
 
+  onPlaying = isPlaying => {
+    this.setState({ isPlaying: isPlaying })
+  }
+
   render() {
     return (
       <MidiSoundContext.Provider
-        value={{ soundLoaded: this.state.soundLoaded }}
+        value={{
+          soundLoaded: this.state.soundLoaded,
+          isPlaying: this.state.isPlaying,
+          onPlaying: this.onPlaying,
+        }}
       >
         {this.state.render && this.renderEmptyMidi()}
         {this.props.children}

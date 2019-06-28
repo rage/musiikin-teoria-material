@@ -8,6 +8,7 @@ import CheckAnswerPopper from "./CheckAnswerPopper"
 import SelectionBar from "./SelectionBar"
 import Loading from "../Loading"
 import ExerciseInstruction from "./ExerciseInstruction"
+import { MidiSoundContext } from "../../contexes/MidiSoundContext"
 
 class Exercise extends React.Component {
   state = {
@@ -69,6 +70,8 @@ class Exercise extends React.Component {
       correctAnswer,
       correct,
     )
+
+    if (this.onPlaying) this.onPlaying(false)
 
     if (correct) {
       this.onCorrectAnswer(payload)
@@ -212,31 +215,42 @@ class Exercise extends React.Component {
 
     return (
       <Loading loading={!this.state.render}>
-        <CheckAnswerPopper options={this.state.popper} />
-        <Paper>
-          <ExerciseInstruction>
-            <>Tunnista {this.props.exerciseKind.getInstructionString()}</>
-          </ExerciseInstruction>
-          <div className="overall-container">
-            <MusicSheet
-              onlynotes={this.props.onlyNotes}
-              onlysound={this.props.onlySound}
-              engraverParams={this.props.exerciseKind.getEngraverParams()}
-              playButtonStyle={"playButton"}
-              isPlaying={this.state.isPlaying}
-              onPlayStatusUpdate={this.setIsPlaying}
-              isExercise
-            >
-              {correctAnswer.notation}
-            </MusicSheet>
-            <SelectionBar
-              options={selectionOptions}
-              answerWasWrong={this.state.answerWasSubmitted}
-              nextExerciseSet={this.nextExerciseSet}
-              onSubmit={this.onSubmit}
-            />
-          </div>
-        </Paper>
+        <MidiSoundContext.Consumer>
+          {context => {
+            this.onPlaying = context.onPlaying
+            return (
+              <>
+                <CheckAnswerPopper options={this.state.popper} />
+                <Paper>
+                  <ExerciseInstruction>
+                    <>
+                      Tunnista {this.props.exerciseKind.getInstructionString()}
+                    </>
+                  </ExerciseInstruction>
+                  <div className="overall-container">
+                    <MusicSheet
+                      onlynotes={this.props.onlyNotes}
+                      onlysound={this.props.onlySound}
+                      engraverParams={this.props.exerciseKind.getEngraverParams()}
+                      playButtonStyle={"playButton"}
+                      isPlaying={this.state.isPlaying}
+                      onPlayStatusUpdate={this.setIsPlaying}
+                      isExercise
+                    >
+                      {correctAnswer.notation}
+                    </MusicSheet>
+                    <SelectionBar
+                      options={selectionOptions}
+                      answerWasWrong={this.state.answerWasSubmitted}
+                      nextExerciseSet={this.nextExerciseSet}
+                      onSubmit={this.onSubmit}
+                    />
+                  </div>
+                </Paper>
+              </>
+            )
+          }}
+        </MidiSoundContext.Consumer>
       </Loading>
     )
   }
